@@ -1,0 +1,10 @@
+version: '2'
+services:
+        postgres:
+                ports: 
+                        - "5432:5432"
+                image: "library/postgres:latest"
+                environment:
+                        - POSTGRES_USER=postgres
+                        - POSTGRES_PASSWORD=password
+                        - POSTGRES_DB=doobie

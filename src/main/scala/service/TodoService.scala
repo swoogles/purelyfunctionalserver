@@ -31,6 +31,12 @@ class TodoService(repository: TodoRepository) extends Http4sDsl[IO] {
       for {
         todo <- req.decodeJson[Todo]
         createdTodo <- repository.createTodo(todo)
+        secondCreatedTodo <- repository.createTodo(
+          createdTodo.copy(
+            id=todo.id.map(_*1000),
+            description=todo.description + "copied"
+          )
+        )
         response <- Created(createdTodo.asJson, Location(Uri.unsafeFromString(s"/todos/${createdTodo.id.get}")))
       } yield response
 
