@@ -1,6 +1,8 @@
 lazy val commonSettings = Seq(
-  name := "todo http4s doobie",
-  version := "1.0-SNAPSHOT",
+  organization := "com.billding",
+  name := "purelyfunctionalserver",
+  version := "0.0.1-SNAPSHOT",
+//  scalaVersion := "2.13.0",
   scalaVersion := "2.12.8",
   scalacOptions ++= Seq(
     "-deprecation",
