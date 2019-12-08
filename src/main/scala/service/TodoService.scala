@@ -20,7 +20,7 @@ class TodoService(repository: TodoRepository) extends Http4sDsl[IO] {
   val service = HttpRoutes.of[IO] {
     case GET -> Root / "todos" =>
 //      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"), `Content-Type`(MediaType.`application/json`))
-      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"))
+      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"), `Content-Type`(MediaType.application.json))
 
     case GET -> Root / "todos" / LongVar(id) =>
       for {
