@@ -1,17 +1,16 @@
-package service
+package repository
 
 import cats.Applicative
 import cats.effect.Sync
 import cats.implicits._
-import io.circe.{Decoder, Encoder, HCursor, Json}
 import io.circe.generic.semiauto._
-import org.http4s._
-import org.http4s.implicits._
-import org.http4s.{EntityDecoder, EntityEncoder, Method, Request, Uri}
-import org.http4s.client.Client
-import org.http4s.client.dsl.Http4sClientDsl
+import io.circe.{Decoder, Encoder}
 import org.http4s.Method._
 import org.http4s.circe._
+import org.http4s.client.Client
+import org.http4s.client.dsl.Http4sClientDsl
+import org.http4s.implicits._
+import org.http4s.{EntityDecoder, EntityEncoder}
 
 trait Jokes[F[_]]{
   def get: F[Jokes.Joke]
