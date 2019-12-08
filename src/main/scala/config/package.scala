@@ -13,6 +13,9 @@ package object config {
     import pureconfig._
     import pureconfig.generic.auto._
 
+    // TODO Manage this via environment variables
+    // Heroku provides them in this format:
+    // DATABASE_URL:         postgres://qmhxdoddwnnxxf:08629a4539f1d422eaa411d98cdd044411726505b6c3a7e56e796d60777073a5@ec2-107-22-211-248.compute-1.amazonaws.com:5432/da3c6qh0l04kkb
     def load(configFile: String = "application.conf"): IO[Config] = {
       IO {
         loadConfig[Config](ConfigFactory.load(configFile))
