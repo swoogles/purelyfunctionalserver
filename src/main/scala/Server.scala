@@ -1,3 +1,5 @@
+import java.util.concurrent.Executors
+
 import cats.effect.{ExitCode, IO}
 import config.{Config, DatabaseConfig, ServerConfig}
 import db.Database
@@ -13,8 +15,11 @@ import repository.TodoRepository
 import service.TodoService
 
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.ExecutionContext
 
 object Server extends IOApp with Http4sDsl[IO] {
+  implicit val ec = ExecutionContext .fromExecutor(Executors.newFixedThreadPool(10))
+
   val fallBackConfig = Config(
     ServerConfig("localhost",8080),
     DatabaseConfig("org.postgresql.Driver", "jdbc:postgresql:doobie", "postgres", "password")
@@ -24,7 +29,7 @@ object Server extends IOApp with Http4sDsl[IO] {
       configAttempt <- Stream.attemptEval(Config.load())
       config = configAttempt.getOrElse(fallBackConfig) // TODO Get from environment, *then* from config file
 //      config <- Stream.eval(Config.load())
-      transactor <- Stream.resource(Database.transactor(config.database))
+      transactor <- Stream.resource(Database.transactor(config.database)(ec))
       _ <- Stream.eval(Database.initialize(transactor))
       service = new TodoService(new TodoRepository(transactor)).service
       httpApp = Router(
