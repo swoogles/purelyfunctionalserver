@@ -12,6 +12,7 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, WordSpec}
 import repository.TodoRepository
 
+/*
 class TodoServiceSpec extends WordSpec with MockFactory with Matchers {
   private val repository = stub[TodoRepository]
 
@@ -110,3 +111,5 @@ class TodoServiceSpec extends WordSpec with MockFactory with Matchers {
     service.orNotFound(request).unsafeRunSync()
   }
 }
+
+ */

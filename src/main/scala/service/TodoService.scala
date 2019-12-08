@@ -2,7 +2,7 @@ package service
 
 import cats.effect.IO
 import model.{Importance, Todo, TodoNotFoundError}
-import org.http4s.{HttpService, MediaType, Uri}
+import org.http4s.{HttpRoutes, HttpService, MediaType, Uri}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.circe._
 import repository.TodoRepository
@@ -17,9 +17,10 @@ class TodoService(repository: TodoRepository) extends Http4sDsl[IO] {
 
   private implicit val decodeImportance: Decoder[Importance] = Decoder.decodeString.map[Importance](Importance.unsafeFromString)
 
-  val service = HttpService[IO] {
+  val service = HttpRoutes.of[IO] {
     case GET -> Root / "todos" =>
-      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"), `Content-Type`(MediaType.`application/json`))
+//      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"), `Content-Type`(MediaType.`application/json`))
+      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"))
 
     case GET -> Root / "todos" / LongVar(id) =>
       for {
