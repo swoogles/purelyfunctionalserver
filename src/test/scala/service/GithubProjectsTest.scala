@@ -4,6 +4,7 @@ import java.time.Instant
 
 import cats.effect.IO
 import fs2.Stream
+import io.circe
 import io.circe.Json
 import io.circe.literal._
 import model.{High, Low, Medium, Todo}
@@ -14,7 +15,7 @@ import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, WordSpec}
 import org.scalatest._
 import io.circe.parser.decode
-import repository.Github.{Author, Commit, Tree}
+import repository.Github.{Author, Commit, Payload, Repo, Tree, UserActivityEvent}
 import io.circe.generic.auto._
 
 class GithubProjectsTest extends WordSpec with MockFactory with Matchers {
@@ -24,7 +25,7 @@ class GithubProjectsTest extends WordSpec with MockFactory with Matchers {
   "GithubProjects" should {
     "decode an author" in {
 
-      val decodeResult = decode[Author](
+      val decodeResult: Either[circe.Error, Author] = decode[Author](
       """
       {
         "name": "swoogles",
@@ -223,11 +224,1121 @@ class GithubProjectsTest extends WordSpec with MockFactory with Matchers {
         Author(
           "swoogles",
           "bill.frasure@gmail.com",
-          Instant.parse("2019-12-03T10:58:59Z")
+          Some(Instant.parse("2019-12-03T10:58:59Z"))
         ),
         "Better styling & sample scenes") ,
         "https://github.com/swoogles/TrafficSimulation/commit/42024c49fe1b7269ff22b80d8e8477562a44b870"
       ) shouldBe parseResult.right.get
+    }
+    "parse a repo" in {
+      decode[Repo](
+      """
+        |    {
+        |      "id": 226618655,
+        |      "name": "swoogles/purelyfunctionalserver",
+        |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+        |    }
+        | """.stripMargin
+      ).right.get shouldBe Repo("swoogles/purelyfunctionalserver")
+    }
+    "parse a List[Commit]" in {
+
+      decode[List[Commit]](
+      """
+        |      [
+        |        {
+        |          "sha": "e40a5f155bd3014543b47ba3e51995815f4d6b54",
+        |          "author": {
+        |            "email": "bill.frasure@gmail.com",
+        |            "name": "swoogles"
+        |          },
+        |          "message": "Get the most minimal Github API working :D We are off to the races\nAlthough I desperately needed the template to get started, the types are actually starting to click now",
+        |          "distinct": true,
+        |          "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver/commits/e40a5f155bd3014543b47ba3e51995815f4d6b54"
+        |        }
+        |      ]
+        |""".stripMargin
+      ).right.get shouldBe List(Commit(Author("swoogles", "bill.frasure@gmail.com"), "Get the most minimal Github API working :D We are off to the races\nAlthough I desperately needed the template to get started, the types are actually starting to click now"))
+    }
+
+    "parse a bit of recent user activity" in {
+      decode[UserActivityEvent](
+      """
+        |  {
+        |    "id": "11037476065",
+        |    "type": "PushEvent",
+        |    "actor": {
+        |      "id": 2054940,
+        |      "login": "swoogles",
+        |      "display_login": "swoogles",
+        |      "gravatar_id": "",
+        |      "url": "https://api.github.com/users/swoogles",
+        |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+        |    },
+        |    "repo": {
+        |      "id": 226618655,
+        |      "name": "swoogles/purelyfunctionalserver",
+        |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+        |    },
+        |    "payload": {
+        |      "push_id": 4369278436,
+        |      "size": 1,
+        |      "distinct_size": 1,
+        |      "ref": "refs/heads/master",
+        |      "head": "e40a5f155bd3014543b47ba3e51995815f4d6b54",
+        |      "before": "bc76ea6378d75dc796f9213a5d6f9e07a9ffa4c3",
+        |      "commits": [
+        |        {
+        |          "sha": "e40a5f155bd3014543b47ba3e51995815f4d6b54",
+        |          "author": {
+        |            "email": "bill.frasure@gmail.com",
+        |            "name": "swoogles"
+        |          },
+        |          "message": "Get the most minimal Github API working :D We are off to the races\nAlthough I desperately needed the template to get started, the types are actually starting to click now",
+        |          "distinct": true,
+        |          "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver/commits/e40a5f155bd3014543b47ba3e51995815f4d6b54"
+        |        }
+        |      ]
+        |    },
+        |    "public": true,
+        |    "created_at": "2019-12-08T06:19:42Z"
+        |  }
+        |
+        |
+        |""".stripMargin
+      ).right.get shouldBe UserActivityEvent(Repo("swoogles/purelyfunctionalserver"), Payload(Some(List(Commit(Author("swoogles", "bill.frasure@gmail.com"), "Get the most minimal Github API working :D We are off to the races\nAlthough I desperately needed the template to get started, the types are actually starting to click now")))))
+    }
+    "parse a all recent user activity" in {
+      decode[List[UserActivityEvent]](
+        """
+          |[
+          |  {
+          |    "id": "11037476065",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226618655,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "push_id": 4369278436,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "e40a5f155bd3014543b47ba3e51995815f4d6b54",
+          |      "before": "bc76ea6378d75dc796f9213a5d6f9e07a9ffa4c3",
+          |      "commits": [
+          |        {
+          |          "sha": "e40a5f155bd3014543b47ba3e51995815f4d6b54",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Get the most minimal Github API working :D We are off to the races\nAlthough I desperately needed the template to get started, the types are actually starting to click now",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver/commits/e40a5f155bd3014543b47ba3e51995815f4d6b54"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-08T06:19:42Z"
+          |  },
+          |  {
+          |    "id": "11037396350",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226618655,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "push_id": 4369224570,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "bc76ea6378d75dc796f9213a5d6f9e07a9ffa4c3",
+          |      "before": "8a3bcd31f94c7ce23ac9e6bc91133769478b211b",
+          |      "commits": [
+          |        {
+          |          "sha": "bc76ea6378d75dc796f9213a5d6f9e07a9ffa4c3",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Maaaaybe get things deployed to heroku and connected to their DB",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver/commits/bc76ea6378d75dc796f9213a5d6f9e07a9ffa4c3"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-08T05:29:16Z"
+          |  },
+          |  {
+          |    "id": "11037381099",
+          |    "type": "CreateEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226618655,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "ref": "master",
+          |      "ref_type": "branch",
+          |      "master_branch": "master",
+          |      "description": null,
+          |      "pusher_type": "user"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-08T05:19:49Z"
+          |  },
+          |  {
+          |    "id": "11037380016",
+          |    "type": "CreateEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226618655,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "ref": null,
+          |      "ref_type": "repository",
+          |      "master_branch": "master",
+          |      "description": null,
+          |      "pusher_type": "user"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-08T05:19:12Z"
+          |  },
+          |  {
+          |    "id": "11025684743",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226214131,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "push_id": 4362660433,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "94f358878cf94f13afc6cfbe9bd70dd94f07143c",
+          |      "before": "6a9c51365e8c0abda4f9bab49fc75da027e004a2",
+          |      "commits": [
+          |        {
+          |          "sha": "94f358878cf94f13afc6cfbe9bd70dd94f07143c",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Trying to turn IO into F[_] to get things compiling. Really flailing here.",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver/commits/94f358878cf94f13afc6cfbe9bd70dd94f07143c"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-06T03:36:09Z"
+          |  },
+          |  {
+          |    "id": "11025535277",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226214131,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "push_id": 4362575543,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "6a9c51365e8c0abda4f9bab49fc75da027e004a2",
+          |      "before": "29b4de03b1fc9cf72b09759aff9d900f123bb3a4",
+          |      "commits": [
+          |        {
+          |          "sha": "6a9c51365e8c0abda4f9bab49fc75da027e004a2",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "All kinds of flailing towards Doobie",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver/commits/6a9c51365e8c0abda4f9bab49fc75da027e004a2"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-06T03:01:05Z"
+          |  },
+          |  {
+          |    "id": "11025168224",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226214131,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "push_id": 4362373413,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "29b4de03b1fc9cf72b09759aff9d900f123bb3a4",
+          |      "before": "c2603249c671853d85251f65f6438b81bc0b77e6",
+          |      "commits": [
+          |        {
+          |          "sha": "29b4de03b1fc9cf72b09759aff9d900f123bb3a4",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Consult PORT environment variable during Blaze startup",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver/commits/29b4de03b1fc9cf72b09759aff9d900f123bb3a4"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-06T01:37:45Z"
+          |  },
+          |  {
+          |    "id": "11024904361",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226214131,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "push_id": 4362229120,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "c2603249c671853d85251f65f6438b81bc0b77e6",
+          |      "before": "ef8b8b12210d0323ebc2a73ec870e0e73afe06b7",
+          |      "commits": [
+          |        {
+          |          "sha": "c2603249c671853d85251f65f6438b81bc0b77e6",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Commit build.properties files. whoops",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver/commits/c2603249c671853d85251f65f6438b81bc0b77e6"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-06T00:38:00Z"
+          |  },
+          |  {
+          |    "id": "11024896073",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226214131,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "push_id": 4362224580,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "ef8b8b12210d0323ebc2a73ec870e0e73afe06b7",
+          |      "before": "de34449ac3230fe2035248ce102b6479df0a84d6",
+          |      "commits": [
+          |        {
+          |          "sha": "ef8b8b12210d0323ebc2a73ec870e0e73afe06b7",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Add Procfile",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver/commits/ef8b8b12210d0323ebc2a73ec870e0e73afe06b7"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-06T00:36:10Z"
+          |  },
+          |  {
+          |    "id": "11024884979",
+          |    "type": "CreateEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226214131,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "ref": "master",
+          |      "ref_type": "branch",
+          |      "master_branch": "master",
+          |      "description": "I want to really exercise ZIO/Cats here.",
+          |      "pusher_type": "user"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-06T00:33:38Z"
+          |  },
+          |  {
+          |    "id": "11024883650",
+          |    "type": "CreateEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 226214131,
+          |      "name": "swoogles/purelyfunctionalserver",
+          |      "url": "https://api.github.com/repos/swoogles/purelyfunctionalserver"
+          |    },
+          |    "payload": {
+          |      "ref": null,
+          |      "ref_type": "repository",
+          |      "master_branch": "master",
+          |      "description": "I want to really exercise ZIO/Cats here.",
+          |      "pusher_type": "user"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-06T00:33:21Z"
+          |  },
+          |  {
+          |    "id": "11001786519",
+          |    "type": "WatchEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 173121216,
+          |      "name": "zio/zio-kafka",
+          |      "url": "https://api.github.com/repos/zio/zio-kafka"
+          |    },
+          |    "payload": {
+          |      "action": "started"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-03T17:07:48Z",
+          |    "org": {
+          |      "id": 49655448,
+          |      "login": "zio",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/orgs/zio",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/49655448?"
+          |    }
+          |  },
+          |  {
+          |    "id": "10995352510",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 89831403,
+          |      "name": "swoogles/TrafficSimulation",
+          |      "url": "https://api.github.com/repos/swoogles/TrafficSimulation"
+          |    },
+          |    "payload": {
+          |      "push_id": 4346787201,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "42024c49fe1b7269ff22b80d8e8477562a44b870",
+          |      "before": "b7867927838450bfe1c9d5bfb0365fe3e2bfbeaf",
+          |      "commits": [
+          |        {
+          |          "sha": "42024c49fe1b7269ff22b80d8e8477562a44b870",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Better styling & sample scenes",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/TrafficSimulation/commits/42024c49fe1b7269ff22b80d8e8477562a44b870"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-03T02:53:14Z"
+          |  },
+          |  {
+          |    "id": "10995215534",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 89831403,
+          |      "name": "swoogles/TrafficSimulation",
+          |      "url": "https://api.github.com/repos/swoogles/TrafficSimulation"
+          |    },
+          |    "payload": {
+          |      "push_id": 4346715860,
+          |      "size": 3,
+          |      "distinct_size": 3,
+          |      "ref": "refs/heads/master",
+          |      "head": "b7867927838450bfe1c9d5bfb0365fe3e2bfbeaf",
+          |      "before": "94d8ea8143ac6b9b4b14bbf9425e9d7ebebc49e6",
+          |      "commits": [
+          |        {
+          |          "sha": "7333e92aa8437ef8c996e848328c93f588b122a1",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": " #time 20m Fix DT control.",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/TrafficSimulation/commits/7333e92aa8437ef8c996e848328c93f588b122a1"
+          |        },
+          |        {
+          |          "sha": "962b73ca53df3e58143883c3e847283ab6e083e7",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Work on getting the cars to be a reasonable side. Still very confusing.",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/TrafficSimulation/commits/962b73ca53df3e58143883c3e847283ab6e083e7"
+          |        },
+          |        {
+          |          "sha": "b7867927838450bfe1c9d5bfb0365fe3e2bfbeaf",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Start fixing Sample scenes to be more informative",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/TrafficSimulation/commits/b7867927838450bfe1c9d5bfb0365fe3e2bfbeaf"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-03T02:25:11Z"
+          |  },
+          |  {
+          |    "id": "10984985749",
+          |    "type": "WatchEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 192378390,
+          |      "name": "Clover-Group/zio-template.g8",
+          |      "url": "https://api.github.com/repos/Clover-Group/zio-template.g8"
+          |    },
+          |    "payload": {
+          |      "action": "started"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-02T00:24:11Z",
+          |    "org": {
+          |      "id": 42359892,
+          |      "login": "Clover-Group",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/orgs/Clover-Group",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/42359892?"
+          |    }
+          |  },
+          |  {
+          |    "id": "10984922627",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 179774781,
+          |      "name": "swoogles/bionicBodyFitness",
+          |      "url": "https://api.github.com/repos/swoogles/bionicBodyFitness"
+          |    },
+          |    "payload": {
+          |      "push_id": 4341402852,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "4815d73e9f568d9f79d309c1fc50760f329ed588",
+          |      "before": "c71bae93d2026530375d69d3246236495a324206",
+          |      "commits": [
+          |        {
+          |          "sha": "4815d73e9f568d9f79d309c1fc50760f329ed588",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Update credits to BilldingSoftware",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/bionicBodyFitness/commits/4815d73e9f568d9f79d309c1fc50760f329ed588"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-02T00:01:28Z"
+          |  },
+          |  {
+          |    "id": "10984639791",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 224943367,
+          |      "name": "swoogles/CbTrailMapsDataConversion",
+          |      "url": "https://api.github.com/repos/swoogles/CbTrailMapsDataConversion"
+          |    },
+          |    "payload": {
+          |      "push_id": 4341224174,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "7c6cb6c843c1dabe8cc77ae4b17b493590db0cdc",
+          |      "before": "2c93676ee533bfc80b6560f7e9d93d02287538b6",
+          |      "commits": [
+          |        {
+          |          "sha": "7c6cb6c843c1dabe8cc77ae4b17b493590db0cdc",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "#10m Give output files correct GPX extension",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/CbTrailMapsDataConversion/commits/7c6cb6c843c1dabe8cc77ae4b17b493590db0cdc"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-01T22:13:47Z"
+          |  },
+          |  {
+          |    "id": "10981709449",
+          |    "type": "WatchEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 76488267,
+          |      "name": "jenetics/jpx",
+          |      "url": "https://api.github.com/repos/jenetics/jpx"
+          |    },
+          |    "payload": {
+          |      "action": "started"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-12-01T00:19:34Z"
+          |  },
+          |  {
+          |    "id": "10981526005",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 224943367,
+          |      "name": "swoogles/CbTrailMapsDataConversion",
+          |      "url": "https://api.github.com/repos/swoogles/CbTrailMapsDataConversion"
+          |    },
+          |    "payload": {
+          |      "push_id": 4339234626,
+          |      "size": 2,
+          |      "distinct_size": 2,
+          |      "ref": "refs/heads/master",
+          |      "head": "2c93676ee533bfc80b6560f7e9d93d02287538b6",
+          |      "before": "e3f5f067d8f83f33185d90adb7caa291986eea8a",
+          |      "commits": [
+          |        {
+          |          "sha": "ffb4129fb43d870a67bfc00e10bee2f926d43c16",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "NOT-BILLABLE #time 15m #comment Rip out extra crud",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/CbTrailMapsDataConversion/commits/ffb4129fb43d870a67bfc00e10bee2f926d43c16"
+          |        },
+          |        {
+          |          "sha": "2c93676ee533bfc80b6560f7e9d93d02287538b6",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "NOT-BILLABLE #time 10m #comment Better ZIO structuring",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/CbTrailMapsDataConversion/commits/2c93676ee533bfc80b6560f7e9d93d02287538b6"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-30T22:36:11Z"
+          |  },
+          |  {
+          |    "id": "10979055973",
+          |    "type": "CreateEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 224943367,
+          |      "name": "swoogles/CbTrailMapsDataConversion",
+          |      "url": "https://api.github.com/repos/swoogles/CbTrailMapsDataConversion"
+          |    },
+          |    "payload": {
+          |      "ref": "master",
+          |      "ref_type": "branch",
+          |      "master_branch": "master",
+          |      "description": "One-off project to help Daniel's dog get his trail completion record",
+          |      "pusher_type": "user"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-30T01:25:09Z"
+          |  },
+          |  {
+          |    "id": "10979055429",
+          |    "type": "CreateEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 224943367,
+          |      "name": "swoogles/CbTrailMapsDataConversion",
+          |      "url": "https://api.github.com/repos/swoogles/CbTrailMapsDataConversion"
+          |    },
+          |    "payload": {
+          |      "ref": null,
+          |      "ref_type": "repository",
+          |      "master_branch": "master",
+          |      "description": "One-off project to help Daniel's dog get his trail completion record",
+          |      "pusher_type": "user"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-30T01:24:51Z"
+          |  },
+          |  {
+          |    "id": "10962583454",
+          |    "type": "WatchEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 48071068,
+          |      "name": "zamblauskas/scala-csv-parser",
+          |      "url": "https://api.github.com/repos/zamblauskas/scala-csv-parser"
+          |    },
+          |    "payload": {
+          |      "action": "started"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-27T17:34:25Z"
+          |  },
+          |  {
+          |    "id": "10926345025",
+          |    "type": "WatchEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 82961926,
+          |      "name": "oyvindberg/ScalablyTyped",
+          |      "url": "https://api.github.com/repos/oyvindberg/ScalablyTyped"
+          |    },
+          |    "payload": {
+          |      "action": "started"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-22T14:32:22Z"
+          |  },
+          |  {
+          |    "id": "10899048714",
+          |    "type": "WatchEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 165534369,
+          |      "name": "tindzk/seed",
+          |      "url": "https://api.github.com/repos/tindzk/seed"
+          |    },
+          |    "payload": {
+          |      "action": "started"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-19T17:24:18Z"
+          |  },
+          |  {
+          |    "id": "10881923067",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 222054189,
+          |      "name": "swoogles/InteractiveLogo",
+          |      "url": "https://api.github.com/repos/swoogles/InteractiveLogo"
+          |    },
+          |    "payload": {
+          |      "push_id": 4285107926,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "d2adf7b75576b594ae630b1d875ab9c174942757",
+          |      "before": "0996cdae57297218299c34b4a1b6c2ebc2bb1732",
+          |      "commits": [
+          |        {
+          |          "sha": "d2adf7b75576b594ae630b1d875ab9c174942757",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Good mixture of appearing and sliding logo pieces :)",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/InteractiveLogo/commits/d2adf7b75576b594ae630b1d875ab9c174942757"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-17T20:50:06Z"
+          |  },
+          |  {
+          |    "id": "10879276183",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 222054189,
+          |      "name": "swoogles/InteractiveLogo",
+          |      "url": "https://api.github.com/repos/swoogles/InteractiveLogo"
+          |    },
+          |    "payload": {
+          |      "push_id": 4283396979,
+          |      "size": 4,
+          |      "distinct_size": 4,
+          |      "ref": "refs/heads/master",
+          |      "head": "0996cdae57297218299c34b4a1b6c2ebc2bb1732",
+          |      "before": "2146c1ad48e87e0d70008801f78be43920167508",
+          |      "commits": [
+          |        {
+          |          "sha": "13e92ffc80caebf090b2706ccf92fab06643f7df",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Create function for targetting specific sections",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/InteractiveLogo/commits/13e92ffc80caebf090b2706ccf92fab06643f7df"
+          |        },
+          |        {
+          |          "sha": "29690bb5f6579bb57414babb727288d1f53f3b6d",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Reveal light side elements 1 per second",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/InteractiveLogo/commits/29690bb5f6579bb57414babb727288d1f53f3b6d"
+          |        },
+          |        {
+          |          "sha": "09c0ff1b24c928b7270cce0192054fbe6860b566",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Reveal everything but the counterspaces :D",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/InteractiveLogo/commits/09c0ff1b24c928b7270cce0192054fbe6860b566"
+          |        },
+          |        {
+          |          "sha": "0996cdae57297218299c34b4a1b6c2ebc2bb1732",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "First tinkering with moving the svg sections",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/InteractiveLogo/commits/0996cdae57297218299c34b4a1b6c2ebc2bb1732"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-17T00:06:04Z"
+          |  },
+          |  {
+          |    "id": "10876963006",
+          |    "type": "CreateEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 222054189,
+          |      "name": "swoogles/InteractiveLogo",
+          |      "url": "https://api.github.com/repos/swoogles/InteractiveLogo"
+          |    },
+          |    "payload": {
+          |      "ref": "master",
+          |      "ref_type": "branch",
+          |      "master_branch": "master",
+          |      "description": "Exploring what's possible with my logo",
+          |      "pusher_type": "user"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-16T05:55:30Z"
+          |  },
+          |  {
+          |    "id": "10876962534",
+          |    "type": "CreateEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 222054189,
+          |      "name": "swoogles/InteractiveLogo",
+          |      "url": "https://api.github.com/repos/swoogles/InteractiveLogo"
+          |    },
+          |    "payload": {
+          |      "ref": null,
+          |      "ref_type": "repository",
+          |      "master_branch": "master",
+          |      "description": "Exploring what's possible with my logo",
+          |      "pusher_type": "user"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-16T05:55:15Z"
+          |  },
+          |  {
+          |    "id": "10834879419",
+          |    "type": "WatchEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 20490280,
+          |      "name": "krasserm/streamz",
+          |      "url": "https://api.github.com/repos/krasserm/streamz"
+          |    },
+          |    "payload": {
+          |      "action": "started"
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-11T15:52:51Z"
+          |  },
+          |  {
+          |    "id": "10829926130",
+          |    "type": "PushEvent",
+          |    "actor": {
+          |      "id": 2054940,
+          |      "login": "swoogles",
+          |      "display_login": "swoogles",
+          |      "gravatar_id": "",
+          |      "url": "https://api.github.com/users/swoogles",
+          |      "avatar_url": "https://avatars.githubusercontent.com/u/2054940?"
+          |    },
+          |    "repo": {
+          |      "id": 89831403,
+          |      "name": "swoogles/TrafficSimulation",
+          |      "url": "https://api.github.com/repos/swoogles/TrafficSimulation"
+          |    },
+          |    "payload": {
+          |      "push_id": 4257153525,
+          |      "size": 1,
+          |      "distinct_size": 1,
+          |      "ref": "refs/heads/master",
+          |      "head": "94d8ea8143ac6b9b4b14bbf9425e9d7ebebc49e6",
+          |      "before": "727cb84ba70d93a69feb92ae7925778410ae2a8f",
+          |      "commits": [
+          |        {
+          |          "sha": "94d8ea8143ac6b9b4b14bbf9425e9d7ebebc49e6",
+          |          "author": {
+          |            "email": "bill.frasure@gmail.com",
+          |            "name": "swoogles"
+          |          },
+          |          "message": "Increase DT. Simple way to improve performance.",
+          |          "distinct": true,
+          |          "url": "https://api.github.com/repos/swoogles/TrafficSimulation/commits/94d8ea8143ac6b9b4b14bbf9425e9d7ebebc49e6"
+          |        }
+          |      ]
+          |    },
+          |    "public": true,
+          |    "created_at": "2019-11-11T02:18:29Z"
+          |  }
+          |]
+          |""".stripMargin
+      ) match {
+        case Left(failure) => fail(failure.getMessage)
+        case Right(successfulParse) => println("passing with no real assertions")
+      }
     }
   }
 

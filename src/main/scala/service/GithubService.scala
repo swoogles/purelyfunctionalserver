@@ -16,6 +16,10 @@ class GithubService(repository: Github[IO]) extends Http4sDsl[IO] {
       //      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"), `Content-Type`(MediaType.`application/json`))
       Ok(Stream("[") ++ Stream.eval(repository.get(user, repoName).map(_.asJson.noSpaces)) ++ Stream("]"), `Content-Type`(MediaType.application.json))
 
+    case GET -> Root / "user" / user  =>
+      //      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"), `Content-Type`(MediaType.`application/json`))
+      Ok(Stream("[") ++ Stream.eval(repository.getUsersRecentActivity(user).map(_.asJson.noSpaces)) ++ Stream("]"), `Content-Type`(MediaType.application.json))
+
   }
 
 }

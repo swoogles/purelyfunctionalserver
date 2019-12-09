@@ -21,16 +21,19 @@ import java.time.Instant
 // import java.time.Instant
 
 
-trait Github[F[_]]{
+trait Github[F[_]] {
   def get(userName: String, repoName: String): F[Github.Tree]
+
+  def getUsersRecentActivity(userName: String): F[List[Github.UserActivityEvent]]
 }
 
 object Github {
   def apply[F[_]](implicit ev: Github[F]): Github[F] = ev
 
-  final case class Author(name: String, email: String, date: Instant)
+  final case class Author(name: String, email: String, date: Option[Instant] = None)
 
   object Author {
+    // TODO Bring in circe-java8 module to avoid needing these
     implicit val encodeInstant: Encoder[Instant] = Encoder.encodeString.contramap[Instant](_.toString)
     // encodeInstant: io.circe.Encoder[java.time.Instant] = io.circe.Encoder$$anon$1@661d3b8e
 
@@ -52,6 +55,22 @@ object Github {
 
   }
 
+  final case class Repo(name: String)
+  final case class Payload(commits: Option[List[Commit]])
+  final case class UserActivityEvent(repo: Repo, payload: Payload)
+  object  UserActivityEvent{
+
+    implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, UserActivityEvent] =
+      jsonOf
+    implicit def commitEntityEncoder[F[_]: Applicative]: EntityEncoder[F, UserActivityEvent] =
+      jsonEncoderOf
+
+    implicit def listCommitEntityDecoder[F[_]: Sync]: EntityDecoder[F, List[UserActivityEvent]] =
+      jsonOf
+    implicit def listCommitEntityEncoder[F[_]: Applicative]: EntityEncoder[F, List[UserActivityEvent]] =
+      jsonEncoderOf
+  }
+
   final case class GithubError(e: Throwable) extends RuntimeException
 
   def impl[F[_]: Sync](C: Client[F]): Github[F] = new Github[F]{
@@ -62,6 +81,14 @@ object Github {
       val parameterisedUri = s"https://api.github.com/repos/$userName/$repoName/commits/master"
       C.expect[Github.Tree](GET(Uri.unsafeFromString(parameterisedUri)))
         .adaptError{ case t => GithubError(t)} // Prevent Client Json Decoding Failure Leaking
+    }
+
+    def getUsersRecentActivity(userName: String): F[List[Github.UserActivityEvent]] = {
+      val parameterisedUri = s"https://api.github.com/users/$userName/events/public"
+      C.expect[List[Github.UserActivityEvent]](GET(Uri.unsafeFromString(parameterisedUri)))
+        .adaptError{ case t =>
+          println("error:" + t)
+          GithubError(t)} // Prevent Client Json Decoding Failure Leaking
     }
   }
 }
