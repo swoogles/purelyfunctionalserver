@@ -1,49 +1,65 @@
 import java.net.URI
 import java.sql.Connection
 
-import cats.effect.IO
+import cats.effect.{Sync}
 import com.typesafe.config.ConfigFactory
-import pureconfig.error.ConfigReaderException
+import config.ConfigData
+import org.http4s.client.Client
+import org.http4s.client.dsl.Http4sClientDsl
+import pureconfig.error.{ConfigReaderException, ConfigReaderFailures}
+import repository.Github
+
+// TODO Make this polymorphic on F[_]
 
 package object config {
+  trait Config[F[_]] {
+    def load(configFile: String = "application.conf"): F[ConfigData]
+    def loadDatabaseEnvironmentVariables(): F[config.DatabaseConfig]
+  }
   case class ServerConfig(host: String ,port: Int)
 
   case class DatabaseConfig(driver: String, url: String, user: String, password: String)
 
-  case class Config(server: ServerConfig, database: DatabaseConfig)
+  case class ConfigData(server: ServerConfig, database: DatabaseConfig)
 
   object Config {
     import pureconfig._
+    def apply[F[_]](implicit ev: Config[F]): Config[F] = ev
     import pureconfig.generic.auto._
 
     // TODO Manage this via environment variables
     // Heroku provides them in this format:
     // DATABASE_URL:         postgres://qmhxdoddwnnxxf:08629a4539f1d422eaa411d98cdd044411726505b6c3a7e56e796d60777073a5@ec2-107-22-211-248.compute-1.amazonaws.com:5432/da3c6qh0l04kkb
-    def load(configFile: String = "application.conf"): IO[Config] = {
-      IO {
-        loadConfig[Config](ConfigFactory.load(configFile))
-      }.flatMap {
-        case Left(e) => IO.raiseError[Config](new ConfigReaderException[Config](e))
-        case Right(config) => IO.pure(config)
+    def impl[F[_]: Sync](
+                          raiseError: ( ConfigReaderFailures) => F[ConfigData],
+                          pure: (ConfigData) =>F[ConfigData],
+                          pureDatabaseConfig: (DatabaseConfig) =>F[DatabaseConfig],
+                          raiseErrorForDatabaseConfig: ( NullPointerException) => F[DatabaseConfig]
+                        ): Config[F] = new Config[F] {
+
+      def load(configFile: String = "application.conf"): F[ConfigData] = {
+
+        loadConfig[ConfigData](ConfigFactory.load(configFile))
+          match {
+            case Left(e) => raiseError(e)
+            case Right(config) => pure(config)
+          }
       }
-    }
 
-    import java.net.URISyntaxException
-    import java.sql.DriverManager
-    import java.sql.SQLException
+      import java.sql.DriverManager
 
 
-    private def getConnection = {
-    }
-
-    def loadDatabaseEnvironmentVariables(): IO[DatabaseConfig] = IO {
-      val dbUri = new URI(System.getenv("DATABASE_URL"))
-      val username = dbUri.getUserInfo.split(":")(0)
-      val password = dbUri.getUserInfo.split(":")(1)
-      val dbUrl = "jdbc:postgresql://" + dbUri.getHost + ':' + dbUri.getPort + dbUri.getPath + "?sslmode=require"
-      DriverManager.getConnection(dbUrl, username, password)
-//      DatabaseConfig("org.postgresql.Driver", "jdbc:postgresql:doobie", "postgres", "password")
-      DatabaseConfig("org.postgresql.Driver", dbUrl, username, password)
+      def loadDatabaseEnvironmentVariables(): F[DatabaseConfig] = {
+        try {
+          val dbUri = new URI(System.getenv("DATABASE_URL"))
+          val username = dbUri.getUserInfo.split(":")(0)
+          val password = dbUri.getUserInfo.split(":")(1)
+          val dbUrl = "jdbc:postgresql://" + dbUri.getHost + ':' + dbUri.getPort + dbUri.getPath + "?sslmode=require"
+          DriverManager.getConnection(dbUrl, username, password)
+          //      DatabaseConfig("org.postgresql.Driver", "jdbc:postgresql:doobie", "postgres", "password")
+          pureDatabaseConfig(DatabaseConfig("org.postgresql.Driver", dbUrl, username, password))
+        } catch { case nullPointerException: NullPointerException => raiseErrorForDatabaseConfig(nullPointerException)}
+      }
     }
   }
 }

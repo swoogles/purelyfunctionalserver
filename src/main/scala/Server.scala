@@ -1,7 +1,7 @@
 import java.util.concurrent.Executors
 
 import cats.effect.{ExitCode, IO}
-import config.{Config, DatabaseConfig, ServerConfig}
+import config.{Config, ConfigData, DatabaseConfig, ServerConfig}
 import db.Database
 import fs2.Stream
 import cats.effect.{ExitCode, IO, IOApp}
@@ -12,6 +12,7 @@ import org.http4s.implicits._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.server.Router
 import org.http4s.server.blaze.{BlazeBuilder, BlazeServerBuilder}
+import pureconfig.error.ConfigReaderException
 import repository.{Github, TodoRepository}
 import service.{GithubService, TodoService}
 
@@ -28,18 +29,25 @@ object Server extends IOApp with Http4sDsl[IO] {
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
     for {
-      herokuDbConfigAttempt <- Stream.attemptEval(Config.loadDatabaseEnvironmentVariables())
-      configAttempt <- Stream.attemptEval(Config.load())
+      configImpl <- Stream.eval(IO {
+        Config.impl[IO](
+          (ex) => IO.raiseError[ConfigData](new ConfigReaderException[ConfigData](ex)),
+          IO.pure,
+          IO.pure,
+          (ex) => IO.raiseError[DatabaseConfig](ex))
+      }
+      )
+      herokuDbConfigAttempt <- Stream.attemptEval(configImpl.loadDatabaseEnvironmentVariables())
+      configAttempt <- Stream.attemptEval(configImpl.load())
       config = herokuDbConfigAttempt.getOrElse(configAttempt.map(_.database).getOrElse(fallBackConfig))
-//      config <- Stream.eval(Config.load())
       transactor <- Stream.resource(Database.transactor(config)(ec))
       client <- BlazeClientBuilder[IO](global).stream
       _ <- Stream.eval(Database.initialize(transactor))
       service = new TodoService(new TodoRepository(transactor)).service
       githubService = new GithubService(Github.impl[IO](client)).service
       httpApp = Router(
-        "/" -> service
-        , "/github" -> githubService
+        "/" -> service,
+        "/github" -> githubService
       ).orNotFound
       exitCode <- BlazeServerBuilder[IO]
 //        .bindHttp(config.server.port, config.server.host)
