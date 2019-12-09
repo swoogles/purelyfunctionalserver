@@ -30,6 +30,10 @@ lazy val ScalaTestVersion = "3.0.5"
 
 lazy val ScalaMockVersion = "4.1.0"
 
+lazy val uTestVersion = "0.7.1"
+
+testFrameworks += new TestFramework("utest.runner.Framework")
+
 lazy val root = (project in file("."))
   .configs(IntegrationTest)
   .settings(
@@ -62,5 +66,7 @@ lazy val root = (project in file("."))
 
       "org.scalatest"         %% "scalatest"            % ScalaTestVersion  % "it,test",
       "org.scalamock"         %% "scalamock"            % ScalaMockVersion  % "test",
+      "com.lihaoyi"           %% "utest"                % uTestVersion % "test"
+
 )
 ).enablePlugins(JavaServerAppPackaging)

@@ -1,0 +1,234 @@
+package service
+
+import java.time.Instant
+
+import cats.effect.IO
+import fs2.Stream
+import io.circe.Json
+import io.circe.literal._
+import model.{High, Low, Medium, Todo}
+import org.http4s.circe._
+import org.http4s.dsl.io._
+import org.http4s.{Request, Response, Status, Uri}
+import org.scalamock.scalatest.MockFactory
+import org.scalatest.{Matchers, WordSpec}
+import org.scalatest._
+import io.circe.parser.decode
+import repository.Github.{Author, Commit, Tree}
+import io.circe.generic.auto._
+
+class GithubProjectsTest extends WordSpec with MockFactory with Matchers {
+
+  import repository.Github.Author.decodeInstant
+
+  "GithubProjects" should {
+    "decode an author" in {
+
+      val decodeResult = decode[Author](
+      """
+      {
+        "name": "swoogles",
+        "email": "bill.frasure@gmail.com",
+        "date": "2019-12-03T10:58:59Z"
+      }
+      """
+      )
+      println(decodeResult)
+    }
+    "create a branch" in {
+      val id = 1
+      val todo = Todo(None, "my todo", Low)
+      //      val response = serve(Request[IO](POST, uri("/todos")).withBody(createJson).unsafeRunSync())
+      //      response.status shouldBe Status.Created
+      val parseResult =
+      decode[Tree](
+        """
+{
+  "sha": "42024c49fe1b7269ff22b80d8e8477562a44b870",
+  "node_id": "MDY6Q29tbWl0ODk4MzE0MDM6NDIwMjRjNDlmZTFiNzI2OWZmMjJiODBkOGU4NDc3NTYyYTQ0Yjg3MA==",
+  "commit": {
+    "author": {
+      "name": "swoogles",
+      "email": "bill.frasure@gmail.com",
+      "date": "2019-12-03T10:58:59Z"
+    },
+    "committer": {
+      "name": "swoogles",
+      "email": "bill.frasure@gmail.com",
+      "date": "2019-12-03T10:58:59Z"
+    },
+    "message": "Better styling & sample scenes",
+    "tree": {
+      "sha": "5b321eb9725521ca2fa3ccf2397a11b3582e0999",
+      "url": "https://api.github.com/repos/swoogles/TrafficSimulation/git/trees/5b321eb9725521ca2fa3ccf2397a11b3582e0999"
+    },
+    "url": "https://api.github.com/repos/swoogles/TrafficSimulation/git/commits/42024c49fe1b7269ff22b80d8e8477562a44b870",
+    "comment_count": 0,
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    }
+  },
+  "url": "https://api.github.com/repos/swoogles/TrafficSimulation/commits/42024c49fe1b7269ff22b80d8e8477562a44b870",
+  "html_url": "https://github.com/swoogles/TrafficSimulation/commit/42024c49fe1b7269ff22b80d8e8477562a44b870",
+  "comments_url": "https://api.github.com/repos/swoogles/TrafficSimulation/commits/42024c49fe1b7269ff22b80d8e8477562a44b870/comments",
+  "author": {
+    "login": "swoogles",
+    "id": 2054940,
+    "node_id": "MDQ6VXNlcjIwNTQ5NDA=",
+    "avatar_url": "https://avatars2.githubusercontent.com/u/2054940?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/swoogles",
+    "html_url": "https://github.com/swoogles",
+    "followers_url": "https://api.github.com/users/swoogles/followers",
+    "following_url": "https://api.github.com/users/swoogles/following{/other_user}",
+    "gists_url": "https://api.github.com/users/swoogles/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/swoogles/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/swoogles/subscriptions",
+    "organizations_url": "https://api.github.com/users/swoogles/orgs",
+    "repos_url": "https://api.github.com/users/swoogles/repos",
+    "events_url": "https://api.github.com/users/swoogles/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/swoogles/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "swoogles",
+    "id": 2054940,
+    "node_id": "MDQ6VXNlcjIwNTQ5NDA=",
+    "avatar_url": "https://avatars2.githubusercontent.com/u/2054940?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/swoogles",
+    "html_url": "https://github.com/swoogles",
+    "followers_url": "https://api.github.com/users/swoogles/followers",
+    "following_url": "https://api.github.com/users/swoogles/following{/other_user}",
+    "gists_url": "https://api.github.com/users/swoogles/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/swoogles/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/swoogles/subscriptions",
+    "organizations_url": "https://api.github.com/users/swoogles/orgs",
+    "repos_url": "https://api.github.com/users/swoogles/repos",
+    "events_url": "https://api.github.com/users/swoogles/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/swoogles/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "b7867927838450bfe1c9d5bfb0365fe3e2bfbeaf",
+      "url": "https://api.github.com/repos/swoogles/TrafficSimulation/commits/b7867927838450bfe1c9d5bfb0365fe3e2bfbeaf",
+      "html_url": "https://github.com/swoogles/TrafficSimulation/commit/b7867927838450bfe1c9d5bfb0365fe3e2bfbeaf"
+    }
+  ],
+  "stats": {
+    "total": 52,
+    "additions": 28,
+    "deletions": 24
+  },
+  "files": [
+    {
+      "sha": "91bcdb0f439098e9076bf26ce3d700e72e18ae03",
+      "filename": "index.html",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/swoogles/TrafficSimulation/blob/42024c49fe1b7269ff22b80d8e8477562a44b870/index.html",
+      "raw_url": "https://github.com/swoogles/TrafficSimulation/raw/42024c49fe1b7269ff22b80d8e8477562a44b870/index.html",
+      "contents_url": "https://api.github.com/repos/swoogles/TrafficSimulation/contents/index.html?ref=42024c49fe1b7269ff22b80d8e8477562a44b870",
+      "patch": "@@ -8,7 +8,7 @@\n </head>\n <body>\n <!-- Include Scala.js compiled code -->\n-<p> Page that should be displaying traffic...</p>\n+<h2 style=\"text-align: center\"> Embouteillage Traffic Simulator </h2>\n <hr>\n <div id=\"svg-container\">\n </div>"
+    },
+    {
+      "sha": "cb1f98e8b162c5142ac395679c5bf05f2ae472c4",
+      "filename": "src/main/scala/com/billding/Client.scala",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 5,
+      "changes": 6,
+      "blob_url": "https://github.com/swoogles/TrafficSimulation/blob/42024c49fe1b7269ff22b80d8e8477562a44b870/src/main/scala/com/billding/Client.scala",
+      "raw_url": "https://github.com/swoogles/TrafficSimulation/raw/42024c49fe1b7269ff22b80d8e8477562a44b870/src/main/scala/com/billding/Client.scala",
+      "contents_url": "https://api.github.com/repos/swoogles/TrafficSimulation/contents/src/main/scala/com/billding/Client.scala?ref=42024c49fe1b7269ff22b80d8e8477562a44b870",
+      "patch": "@@ -89,10 +89,6 @@ object Client {\n     println(\"DT: \" + DT)\n     val controlsContainer = dom.document.getElementById(\"controls-container\")\n     controlsContainer.appendChild(controlElements.createLayout())\n-\n-    val canvasHeight = 300 // TODO Ugh. I don't understand how this ripples through my program :(\n-    val canvasWidth = 1500\n-\n     val svgContainerAttempt: Option[Element] = Option(dom.document.getElementById(\"svg-container\"))\n     svgContainerAttempt match {\n       case Some(svgContainer) => setupSvgAndButtonResponses(svgContainer)\n@@ -106,7 +102,7 @@ object Client {\n     println(\"svgContainer height: \" + svgContainer.clientHeight)\n     println(\"svgContainer width: \" + svgContainer.clientWidth)\n     val windowLocal: Rx[Window] = Rx {\n-      new Window(sceneVar(), svgContainer.clientWidth / 5, svgContainer.clientWidth)\n+      new Window(sceneVar(), svgContainer.clientWidth / 8, svgContainer.clientWidth)\n     }\n \n     windowLocal.trigger {"
+    },
+    {
+      "sha": "2821cc45a17bcc0f531585a909559bb99b888cbd",
+      "filename": "src/main/scala/com/billding/ControlElements.scala",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/swoogles/TrafficSimulation/blob/42024c49fe1b7269ff22b80d8e8477562a44b870/src/main/scala/com/billding/ControlElements.scala",
+      "raw_url": "https://github.com/swoogles/TrafficSimulation/raw/42024c49fe1b7269ff22b80d8e8477562a44b870/src/main/scala/com/billding/ControlElements.scala",
+      "contents_url": "https://api.github.com/repos/swoogles/TrafficSimulation/contents/src/main/scala/com/billding/ControlElements.scala?ref=42024c49fe1b7269ff22b80d8e8477562a44b870",
+      "patch": "@@ -35,7 +35,7 @@ case class ControlElements(buttonBehaviors: ButtonBehaviors) {\n \n        */\n //      dangerButton(\"Disrupt the flow\", buttonBehaviors.toggleDisrupt),\n-      dangerButton(\"Disrupt the flow\", buttonBehaviors.toggleDisruptExisting)\n+      dangerButton(\"Make 1 car brake\", buttonBehaviors.toggleDisruptExisting)\n     ).render\n \n   val sliders ="
+    },
+    {
+      "sha": "24bcb9ee73d9fee6d2a6d69827619d5b44c8b5c1",
+      "filename": "src/main/scala/com/billding/OutterStyles.scala",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 0,
+      "changes": 8,
+      "blob_url": "https://github.com/swoogles/TrafficSimulation/blob/42024c49fe1b7269ff22b80d8e8477562a44b870/src/main/scala/com/billding/OutterStyles.scala",
+      "raw_url": "https://github.com/swoogles/TrafficSimulation/raw/42024c49fe1b7269ff22b80d8e8477562a44b870/src/main/scala/com/billding/OutterStyles.scala",
+      "contents_url": "https://api.github.com/repos/swoogles/TrafficSimulation/contents/src/main/scala/com/billding/OutterStyles.scala?ref=42024c49fe1b7269ff22b80d8e8477562a44b870",
+      "patch": "@@ -15,6 +15,14 @@ object OutterStyles {\n   object TrafficStyles extends StyleSheet.Inline {\n     import dsl._\n \n+    /* Unsuccessful attempt at styling the header\n+    val headerStyling = style(\n+      addClassName(\"header-title\"),\n+        textAlign.center\n+    )\n+\n+     */\n+\n     val blue: Color = c\"#0000FF\"\n     val green = c\"#00FF00\"\n "
+    },
+    {
+      "sha": "0a75f22b07ecc78f950684e19f07925c9803741c",
+      "filename": "src/main/scala/com/billding/SampleSceneCreation.scala",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 8,
+      "changes": 16,
+      "blob_url": "https://github.com/swoogles/TrafficSimulation/blob/42024c49fe1b7269ff22b80d8e8477562a44b870/src/main/scala/com/billding/SampleSceneCreation.scala",
+      "raw_url": "https://github.com/swoogles/TrafficSimulation/raw/42024c49fe1b7269ff22b80d8e8477562a44b870/src/main/scala/com/billding/SampleSceneCreation.scala",
+      "contents_url": "https://api.github.com/repos/swoogles/TrafficSimulation/contents/src/main/scala/com/billding/SampleSceneCreation.scala?ref=42024c49fe1b7269ff22b80d8e8477562a44b870",
+      "patch": "@@ -30,13 +30,13 @@ class SampleSceneCreation(endingSpatial: Spatial)(implicit val DT: Time) {\n     NamedScene(\n       \"group encountering a stopped vehicle\",\n       createWithVehicles(\n-        Seconds(3.5),\n+        Seconds(3),\n         List(\n-          simplerVehicle(100, 0.1),\n-          simplerVehicle(60, 100),\n-          simplerVehicle(45, 100),\n-          simplerVehicle(30, 100),\n-          simplerVehicle(15, 100)\n+          simplerVehicle(90, 0.1),\n+          simplerVehicle(55, 100),\n+          simplerVehicle(40, 100),\n+          simplerVehicle(25, 100),\n+          simplerVehicle(10, 100)\n         )\n       )\n     )\n@@ -63,7 +63,7 @@ class SampleSceneCreation(endingSpatial: Spatial)(implicit val DT: Time) {\n     NamedScene(\n       \"multiple stopped groups getting back up to speed\",\n       createWithVehicles(\n-        Seconds(3),\n+        Seconds(4),\n         List(\n           simplerVehicle(125, 0),\n           simplerVehicle(120, 0),\n@@ -98,7 +98,7 @@ class SampleSceneCreation(endingSpatial: Spatial)(implicit val DT: Time) {\n \n   private def createWithVehicles(sourceTiming: Time, vehicles: List[PilotedVehicle]): Scene = {\n \n-    val speedLimit: Velocity = KilometersPerHour(65)\n+    val speedLimit: Velocity = KilometersPerHour(45) // TODO Connect this to Car Speed Control.\n     val originSpatial = Spatial((0, 0, 0, Kilometers))\n     val endingSpatial = Spatial((0.5, 0, 0, Kilometers))\n     val canvasDimensions: (Length, Length) = (Kilometers(.25), Kilometers(.5))"
+    },
+    {
+      "sha": "3c02a26833d16a365b98a2847d9d6e3e5dcb1694",
+      "filename": "src/main/scala/com/billding/svgRendering/SpatialCanvas.scala",
+      "status": "modified",
+      "additions": 1,
+      "deletions": 1,
+      "changes": 2,
+      "blob_url": "https://github.com/swoogles/TrafficSimulation/blob/42024c49fe1b7269ff22b80d8e8477562a44b870/src/main/scala/com/billding/svgRendering/SpatialCanvas.scala",
+      "raw_url": "https://github.com/swoogles/TrafficSimulation/raw/42024c49fe1b7269ff22b80d8e8477562a44b870/src/main/scala/com/billding/svgRendering/SpatialCanvas.scala",
+      "contents_url": "https://api.github.com/repos/swoogles/TrafficSimulation/contents/src/main/scala/com/billding/svgRendering/SpatialCanvas.scala?ref=42024c49fe1b7269ff22b80d8e8477562a44b870",
+      "patch": "@@ -17,6 +17,6 @@ case class SpatialCanvas(\n                           pixelWidth: Int\n ) {\n   // Still not thrilled about this arbitrary multiplication\n-  val heightDistancePerPixel: Distance = height / (pixelHeight * 3)\n+  val heightDistancePerPixel: Distance = height / (pixelHeight * 5)\n   val widthDistancePerPixel: Distance = width / (pixelWidth * 3)\n }"
+    },
+    {
+      "sha": "be63cb387731841f37933400b13fb6ad83f21fef",
+      "filename": "target/scala-2.12/traffic-fastopt.js",
+      "status": "modified",
+      "additions": 8,
+      "deletions": 8,
+      "changes": 16,
+      "blob_url": "https://github.com/swoogles/TrafficSimulation/blob/42024c49fe1b7269ff22b80d8e8477562a44b870/target/scala-2.12/traffic-fastopt.js",
+      "raw_url": "https://github.com/swoogles/TrafficSimulation/raw/42024c49fe1b7269ff22b80d8e8477562a44b870/target/scala-2.12/traffic-fastopt.js",
+      "contents_url": "https://api.github.com/repos/swoogles/TrafficSimulation/contents/target/scala-2.12/traffic-fastopt.js?ref=42024c49fe1b7269ff22b80d8e8477562a44b870",
+      "patch": "@@ -3317,7 +3317,7 @@ $c_Lcom_billding_Client$.prototype.setupSvgAndButtonResponses__Lorg_scalajs_dom_\n       var rxOwnerCtx$macro$2 = $as_Lrx_Ctx$Owner(rxOwnerCtx$macro$2$2);\n       var rxDataCtx$macro$1 = $as_Lrx_Ctx$Data(rxDataCtx$macro$1$2);\n       var this$7 = $m_Lcom_billding_Client$().sceneVar$1;\n-      return new $c_Lcom_billding_Window().init___Lcom_billding_traffic_Scene__I__I__Lrx_Ctx$Owner__Lcom_billding_physics_SpatialFor($as_Lcom_billding_traffic_Scene($f_Lrx_Rx__apply__Lrx_Ctx$Data__O(this$7, rxDataCtx$macro$1)), (($uI(svgContainer$1.clientWidth) / 5) | 0), $uI(svgContainer$1.clientWidth), rxOwnerCtx$macro$2, $m_Lcom_billding_Client$().spatialForPilotedVehicle$1)\n+      return new $c_Lcom_billding_Window().init___Lcom_billding_traffic_Scene__I__I__Lrx_Ctx$Owner__Lcom_billding_physics_SpatialFor($as_Lcom_billding_traffic_Scene($f_Lrx_Rx__apply__Lrx_Ctx$Data__O(this$7, rxDataCtx$macro$1)), (($uI(svgContainer$1.clientWidth) / 8) | 0), $uI(svgContainer$1.clientWidth), rxOwnerCtx$macro$2, $m_Lcom_billding_Client$().spatialForPilotedVehicle$1)\n     })\n   })(this, svgContainer)), $m_Lscaladget_tools_JsRxTags$().ctx$1);\n   var thunk = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$2$1, svgContainer$2, windowLocal$1) {\n@@ -3454,10 +3454,10 @@ $c_Lcom_billding_SampleSceneCreation.prototype.init___Lcom_billding_physics_Spat\n   };\n   this.emptyScene$1 = new $c_Lcom_billding_NamedScene().init___T__Lcom_billding_traffic_Scene(\"Empty Scene\", this.createWithVehicles__p1__Lsquants_time_Time__sci_List__Lcom_billding_traffic_Scene(jsx$1, result));\n   var this$6 = $m_Lsquants_time_Seconds$();\n-  var num$1 = $m_s_math_Numeric$DoubleIsFractional$();\n-  var jsx$2 = $m_Lsquants_time_Time$().apply__O__Lsquants_time_TimeUnit__s_math_Numeric__Lsquants_time_Time(3.5, this$6, num$1);\n+  var num$1 = $m_s_math_Numeric$IntIsIntegral$();\n+  var jsx$2 = $m_Lsquants_time_Time$().apply__O__Lsquants_time_TimeUnit__s_math_Numeric__Lsquants_time_Time(3, this$6, num$1);\n   $m_sci_List$();\n-  var array$1 = [this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(100.0, 0.1), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(60.0, 100.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(45.0, 100.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(30.0, 100.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(15.0, 100.0)];\n+  var array$1 = [this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(90.0, 0.1), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(55.0, 100.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(40.0, 100.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(25.0, 100.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(10.0, 100.0)];\n   var i$1 = (((-1) + $uI(array$1.length)) | 0);\n   var result$1 = $m_sci_Nil$();\n   while ((i$1 >= 0)) {\n@@ -3485,7 +3485,7 @@ $c_Lcom_billding_SampleSceneCreation.prototype.init___Lcom_billding_physics_Spat\n   this.scene2$1 = new $c_Lcom_billding_NamedScene().init___T__Lcom_billding_traffic_Scene(\"stopped group getting back up to speed\", this.createWithVehicles__p1__Lsquants_time_Time__sci_List__Lcom_billding_traffic_Scene(jsx$3, result$2));\n   var this$16 = $m_Lsquants_time_Seconds$();\n   var num$3 = $m_s_math_Numeric$IntIsIntegral$();\n-  var jsx$4 = $m_Lsquants_time_Time$().apply__O__Lsquants_time_TimeUnit__s_math_Numeric__Lsquants_time_Time(3, this$16, num$3);\n+  var jsx$4 = $m_Lsquants_time_Time$().apply__O__Lsquants_time_TimeUnit__s_math_Numeric__Lsquants_time_Time(4, this$16, num$3);\n   $m_sci_List$();\n   var array$3 = [this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(125.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(120.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(115.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(110.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(105.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(100.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(95.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(90.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(60.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(55.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(50.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(45.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(40.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(35.0, 0.0), this.simplerVehicle__p1__D__D__Lcom_billding_traffic_PilotedVehicle(30.0, 0.0)];\n   var i$3 = (((-1) + $uI(array$3.length)) | 0);\n@@ -3518,7 +3518,7 @@ $c_Lcom_billding_SampleSceneCreation.prototype.init___Lcom_billding_physics_Spat\n $c_Lcom_billding_SampleSceneCreation.prototype.createWithVehicles__p1__Lsquants_time_Time__sci_List__Lcom_billding_traffic_Scene = (function(sourceTiming, vehicles) {\n   var this$1 = $m_Lsquants_motion_KilometersPerHour$();\n   var num = $m_s_math_Numeric$IntIsIntegral$();\n-  var speedLimit = $m_Lsquants_motion_Velocity$().apply__O__Lsquants_motion_VelocityUnit__s_math_Numeric__Lsquants_motion_Velocity(65, this$1, num);\n+  var speedLimit = $m_Lsquants_motion_Velocity$().apply__O__Lsquants_motion_VelocityUnit__s_math_Numeric__Lsquants_motion_Velocity(45, this$1, num);\n   var this$2 = $m_Lcom_billding_physics_Spatial$();\n   var _4 = $m_Lsquants_space_Kilometers$();\n   var vIn = this$2.ZERO$undVELOCITY$1;\n@@ -30342,7 +30342,7 @@ $c_Lcom_billding_ControlElements.prototype.init___Lcom_billding_ButtonBehaviors\n   var e$1 = $m_Lcom_billding_OutterStyles$().normalButton$1.apply__O__O__O(\"Reset the scene!\", buttonBehaviors.initiateSceneReset$1);\n   var jsx$2 = new $c_Lscalatags_LowPriorityImplicits$bindNode().init___Lscalatags_LowPriorityImplicits__Lorg_scalajs_dom_raw_Node(this$7, e$1);\n   var this$8 = $m_Lscalatags_JsDom$all$();\n-  var e$3 = $m_Lcom_billding_OutterStyles$().dangerButton$1.apply__O__O__O(\"Disrupt the flow\", buttonBehaviors.toggleDisruptExisting$1);\n+  var e$3 = $m_Lcom_billding_OutterStyles$().dangerButton$1.apply__O__O__O(\"Make 1 car brake\", buttonBehaviors.toggleDisruptExisting$1);\n   var array$1 = [jsx$3, jsx$2, new $c_Lscalatags_LowPriorityImplicits$bindNode().init___Lscalatags_LowPriorityImplicits__Lorg_scalajs_dom_raw_Node(this$8, e$3)];\n   this.buttons$1 = jsx$4.apply__sc_Seq__Lscalatags_JsDom$TypedTag(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1)).render__Lorg_scalajs_dom_raw_Element();\n   var this$11 = $m_Lscalatags_JsDom$all$();\n@@ -30962,7 +30962,7 @@ $c_Lcom_billding_svgRendering_SpatialCanvas.prototype.init___Lsquants_space_Leng\n   this.width$1 = width;\n   this.pixelHeight$1 = pixelHeight;\n   this.pixelWidth$1 = pixelWidth;\n-  var that = $imul(3, pixelHeight);\n+  var that = $imul(5, pixelHeight);\n   this.heightDistancePerPixel$1 = $as_Lsquants_space_Length(height.divide__D__Lsquants_Quantity(that));\n   var that$1 = $imul(3, pixelWidth);\n   this.widthDistancePerPixel$1 = $as_Lsquants_space_Length(width.divide__D__Lsquants_Quantity(that$1));"
+    }
+  ]
+}
+        """
+      )
+      parseResult.left.foreach(println)
+      println(parseResult)
+      Tree(
+        "42024c49fe1b7269ff22b80d8e8477562a44b870",
+      Commit(
+        Author(
+          "swoogles",
+          "bill.frasure@gmail.com",
+          Instant.parse("2019-12-03T10:58:59Z")
+        ),
+        "Better styling & sample scenes") ,
+        "https://github.com/swoogles/TrafficSimulation/commit/42024c49fe1b7269ff22b80d8e8477562a44b870"
+      ) shouldBe parseResult.right.get
+    }
+  }
+
+}
