@@ -24,7 +24,7 @@ import java.time.Instant
 trait Github[F[_]] {
   def get(userName: String, repoName: String): F[Github.Tree]
 
-  def getUsersRecentActivity(userName: String): F[List[Github.UserActivityEvent]]
+  def getUsersRecentActivity(userName: String): F[List[Github.RepoActivity]]
 }
 
 object Github {
@@ -43,6 +43,7 @@ object Github {
 
   }
 
+
   final case class Repo(name: String)
   final case class Payload(commits: Option[List[Commit]])
   final case class UserActivityEvent(repo: Repo, payload: Payload, created_at: Instant)
@@ -59,6 +60,20 @@ object Github {
       jsonEncoderOf
   }
 
+  final case class RepoActivity(repo: Repo, commits: List[Commit])
+  object  RepoActivity{
+
+    implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, RepoActivity] =
+      jsonOf
+    implicit def commitEntityEncoder[F[_]: Applicative]: EntityEncoder[F, RepoActivity] =
+      jsonEncoderOf
+
+    implicit def listCommitEntityDecoder[F[_]: Sync]: EntityDecoder[F, List[RepoActivity]] =
+      jsonOf
+    implicit def listCommitEntityEncoder[F[_]: Applicative]: EntityEncoder[F, List[RepoActivity]] =
+      jsonEncoderOf
+  }
+
   final case class GithubError(e: Throwable) extends RuntimeException
 
   def impl[F[_]: Sync](C: Client[F]): Github[F] = new Github[F]{
@@ -71,9 +86,22 @@ object Github {
         .adaptError{ case t => GithubError(t)} // Prevent Client Json Decoding Failure Leaking
     }
 
-    def getUsersRecentActivity(userName: String): F[List[Github.UserActivityEvent]] = {
+    def getUsersRecentActivity(userName: String): F[List[Github.RepoActivity]] = {
       val parameterisedUri = s"https://api.github.com/users/$userName/events/public"
       C.expect[List[Github.UserActivityEvent]](GET(Uri.unsafeFromString(parameterisedUri)))
+        .map{ userActivityEvents =>
+          val repoActivity: Map[Repo, List[UserActivityEvent]] = userActivityEvents.groupBy( _.repo )
+          val mapResults: Map[Repo, List[Commit]] =
+            repoActivity.map {
+              case (repo, groupedEvents) => (repo, groupedEvents.flatMap(_.payload.commits).flatten)
+            }
+          val result: List[RepoActivity] =
+            mapResults.map{
+              case (repo, commits) => RepoActivity(repo, commits)
+            }.filter(_.commits.nonEmpty)
+              .toList
+          result
+          }
         .adaptError{ case t =>
           println("error:" + t)
           GithubError(t)} // Prevent Client Json Decoding Failure Leaking
