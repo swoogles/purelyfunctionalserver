@@ -57,6 +57,7 @@ lazy val root = (project in file("."))
       "io.circe"              %% "circe-generic"        % CirceVersion,
       "io.circe"              %% "circe-literal"        % CirceVersion      % "it,test",
       "io.circe"              %% "circe-optics"         % CirceVersion      % "it",
+      "io.circe"              %% "circe-java8"          % CirceVersion,
       "com.pauldijou" %% "jwt-core" % "4.2.0",
       "com.pauldijou" %% "jwt-circe" % "4.2.0",
 

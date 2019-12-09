@@ -20,8 +20,6 @@ import io.circe.generic.auto._
 
 class GithubProjectsTest extends WordSpec with MockFactory with Matchers {
 
-  import repository.Github.Author.decodeInstant
-
   "GithubProjects" should {
     "decode an author" in {
 

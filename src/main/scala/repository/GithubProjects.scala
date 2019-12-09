@@ -32,18 +32,6 @@ object Github {
 
   final case class Author(name: String, email: String, date: Option[Instant] = None)
 
-  object Author {
-    // TODO Bring in circe-java8 module to avoid needing these
-    implicit val encodeInstant: Encoder[Instant] = Encoder.encodeString.contramap[Instant](_.toString)
-    // encodeInstant: io.circe.Encoder[java.time.Instant] = io.circe.Encoder$$anon$1@661d3b8e
-
-    implicit val decodeInstant: Decoder[Instant] = Decoder.decodeString.emap { str =>
-//      Either.catchNonFatal(Instant.parse(str)).leftMap(t => "Instant")
-      try {
-        Right(Instant.parse(str))
-      } catch {case ex: DateTimeParseException => Left("Failed to parse: " + str)}
-    }
-  }
   final case class Commit(author: Author, message: String)
   final case class Tree(sha: String, commit: Commit, html_url: String)
   object Tree {
