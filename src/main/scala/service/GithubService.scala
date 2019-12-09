@@ -7,13 +7,14 @@ import repository.Github
 import io.circe.syntax._
 import fs2.Stream
 import org.http4s.headers.{Location, `Content-Type`}
+import io.circe.generic.auto._
 
 class GithubService(repository: Github[IO]) extends Http4sDsl[IO] {
 
   val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
-    case GET -> Root / "traffic" =>
+    case GET -> Root / "user" / user / "repoName" / repoName  =>
       //      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"), `Content-Type`(MediaType.`application/json`))
-      Ok(Stream("[") ++ Stream.eval(repository.get.map(_.asJson.noSpaces)) ++ Stream("]"), `Content-Type`(MediaType.application.json))
+      Ok(Stream("[") ++ Stream.eval(repository.get(user, repoName).map(_.asJson.noSpaces)) ++ Stream("]"), `Content-Type`(MediaType.application.json))
 
   }
 
