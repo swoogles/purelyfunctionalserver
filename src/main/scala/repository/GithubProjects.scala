@@ -41,8 +41,8 @@ object Github {
       } catch {case ex: DateTimeParseException => Left("Failed to parse: " + str)}
     }
   }
-  final case class Commit(author: Author)
-  final case class Tree(sha: String, commit: Commit)
+  final case class Commit(author: Author, message: String)
+  final case class Tree(sha: String, commit: Commit, html_url: String)
   object Tree {
 
     implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, Tree] =
