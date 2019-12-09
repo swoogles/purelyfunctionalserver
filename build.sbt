@@ -20,7 +20,7 @@ lazy val H2Version = "1.4.197"
 
 lazy val FlywayVersion = "5.2.4"
 
-lazy val CirceVersion = "0.9.3"
+lazy val CirceVersion = "0.11.0" // Options and java-8 modules are preventing me from further upgrades
 
 lazy val PureConfigVersion = "0.10.2"
 

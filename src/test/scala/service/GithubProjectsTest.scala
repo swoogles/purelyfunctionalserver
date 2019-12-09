@@ -304,7 +304,7 @@ class GithubProjectsTest extends WordSpec with MockFactory with Matchers {
         |
         |
         |""".stripMargin
-      ).right.get shouldBe UserActivityEvent(Repo("swoogles/purelyfunctionalserver"), Payload(Some(List(Commit(Author("swoogles", "bill.frasure@gmail.com"), "Get the most minimal Github API working :D We are off to the races\nAlthough I desperately needed the template to get started, the types are actually starting to click now")))))
+      ).right.get shouldBe UserActivityEvent(Repo("swoogles/purelyfunctionalserver"), Payload(Some(List(Commit(Author("swoogles", "bill.frasure@gmail.com"), "Get the most minimal Github API working :D We are off to the races\nAlthough I desperately needed the template to get started, the types are actually starting to click now")))), Instant.parse("2019-12-08T06:19:42Z"))
     }
     "parse a all recent user activity" in {
       decode[List[UserActivityEvent]](

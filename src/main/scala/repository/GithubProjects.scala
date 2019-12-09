@@ -45,7 +45,7 @@ object Github {
 
   final case class Repo(name: String)
   final case class Payload(commits: Option[List[Commit]])
-  final case class UserActivityEvent(repo: Repo, payload: Payload)
+  final case class UserActivityEvent(repo: Repo, payload: Payload, created_at: Instant)
   object  UserActivityEvent{
 
     implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, UserActivityEvent] =
