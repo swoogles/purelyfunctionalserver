@@ -1,11 +1,10 @@
 import java.util.concurrent.Executors
 
-import cats.effect.{ExitCode, IO}
+import cats.effect.{ExitCode, IO, IOApp, Timer}
 import zio.interop.catz._
 import config.{Config, ConfigData, DatabaseConfig, ServerConfig}
 import db.Database
 import fs2.Stream
-import cats.effect.{ExitCode, IO, IOApp}
 import cats.implicits._
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.server.blaze._
@@ -22,6 +21,9 @@ import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.ExecutionContext
 //import scala.concurrent.ExecutionContext.global
 import scala.util.Properties
+import scala.concurrent.duration.{FiniteDuration, TimeUnit}
+import cats.effect.{IO, Timer, Clock}
+import scala.concurrent.duration._
 
 object Server extends IOApp with Http4sDsl[IO] {
   implicit val ec = ExecutionContext .fromExecutor(Executors.newFixedThreadPool(10))
@@ -55,6 +57,7 @@ object Server extends IOApp with Http4sDsl[IO] {
         "/" -> service,
         "/github" -> githubService
       ).orNotFound
+      _ <- Stream.eval(IO { println("hi")} *> IO.sleep(5.seconds))
       exitCode <- BlazeServerBuilder[IO]
 //        .bindHttp(config.server.port, config.server.host)
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
