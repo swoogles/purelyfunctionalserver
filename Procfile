@@ -1,1 +1,1 @@
-web: ./target/universal/stage/bin/purelyfunctionalserver
+web: ./target/universal/stage/bin/server

@@ -1,6 +1,6 @@
-import java.util.concurrent.Executors
+import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
-import cats.effect.{ExitCode, IO, IOApp, Timer}
+import cats.effect.{ContextShift, ExitCode, IO, IOApp, Timer}
 import zio.interop.catz._
 import config.{Config, ConfigData, DatabaseConfig, ServerConfig}
 import db.Database
@@ -24,13 +24,33 @@ import scala.util.Properties
 import scala.concurrent.duration.{FiniteDuration, TimeUnit}
 import cats.effect.{IO, Timer, Clock}
 import scala.concurrent.duration._
+import java.util.concurrent.ScheduledExecutorService
 
 object Server extends IOApp with Http4sDsl[IO] {
   implicit val ec = ExecutionContext .fromExecutor(Executors.newFixedThreadPool(10))
+  val delayedExecutor = new ScheduledThreadPoolExecutor(1)
   implicit val runtime: Runtime[ZEnv] = new DefaultRuntime {}
+
+
+  val ecOne = ExecutionContext.fromExecutor(Executors.newSingleThreadExecutor())
+  val ecTwo = ExecutionContext.fromExecutor(Executors.newSingleThreadExecutor())
+
+  val csOne: ContextShift[IO] = IO.contextShift(ecOne)
+  val csTwo: ContextShift[IO] = IO.contextShift(ecTwo)
 
   val fallBackConfig =
     DatabaseConfig("org.postgresql.Driver", "jdbc:postgresql:doobie", "postgres", "password")
+
+  def sleep(timespan: FiniteDuration): IO[Unit] =
+    IO.cancelable { cb =>
+      val tick = new Runnable {
+        def run() = ec.execute(new Runnable {
+          def run() = cb(Right(()))
+        })
+      }
+      val f = delayedExecutor.schedule(tick, timespan.length, timespan.unit)
+      IO(f.cancel(false))
+    }
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
     for {
@@ -57,7 +77,10 @@ object Server extends IOApp with Http4sDsl[IO] {
         "/" -> service,
         "/github" -> githubService
       ).orNotFound
-      _ <- Stream.eval(IO { println("hi")} *> IO.sleep(5.seconds))
+      _ <- Stream.eval(sleep(5.seconds))
+      _ <- Stream.eval(IO.shift(ecOne))
+      _ <- Stream.eval(IO { println("hi")} *> IO.sleep(5.seconds) *> IO { println("delayed print ")})
+      _ <- Stream.eval(IO.shift(ecTwo))
       exitCode <- BlazeServerBuilder[IO]
 //        .bindHttp(config.server.port, config.server.host)
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
