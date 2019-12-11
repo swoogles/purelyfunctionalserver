@@ -46,7 +46,7 @@ object Server extends IOApp with Http4sDsl[IO] {
       transactor <- Stream.resource(Database.transactor(config)(ec))
       client <- BlazeClientBuilder[IO](global).stream
       _ <- Stream.eval(Database.initialize(transactor))
-      service = new TodoService(new TodoRepository(transactor)).service
+      service = new TodoService[IO](new TodoRepository[IO](transactor)).service
       githubService = {
 //        new GithubService(Github.impl[ZIO](client)).service
         new GithubService(Github.impl[IO](client)).service

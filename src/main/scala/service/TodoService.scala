@@ -1,6 +1,6 @@
 package service
 
-import cats.effect.IO
+import cats.effect.{IO, Sync}
 import model.{Importance, Todo, TodoNotFoundError}
 import org.http4s.{HttpRoutes, HttpService, MediaType, Uri}
 import org.http4s.dsl.Http4sDsl
@@ -12,7 +12,7 @@ import fs2.Stream
 import io.circe.{Decoder, Encoder}
 import org.http4s.headers.{Location, `Content-Type`}
 
-class TodoService(repository: TodoRepository) extends Http4sDsl[IO] {
+class TodoService[F[_]: Sync](repository: TodoRepository[F]) extends Http4sDsl[IO] {
   private implicit val encodeImportance: Encoder[Importance] = Encoder.encodeString.contramap[Importance](_.value)
 
   private implicit val decodeImportance: Decoder[Importance] = Decoder.decodeString.map[Importance](Importance.unsafeFromString)
