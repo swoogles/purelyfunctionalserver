@@ -32,6 +32,8 @@ lazy val ScalaMockVersion = "4.1.0"
 
 lazy val uTestVersion = "0.7.1"
 
+lazy val zioVersion = "1.0.0-RC17"
+
 testFrameworks += new TestFramework("utest.runner.Framework")
 
 lazy val root = (project in file("."))
@@ -67,7 +69,9 @@ lazy val root = (project in file("."))
 
       "org.scalatest"         %% "scalatest"            % ScalaTestVersion  % "it,test",
       "org.scalamock"         %% "scalamock"            % ScalaMockVersion  % "test",
-      "com.lihaoyi"           %% "utest"                % uTestVersion % "test"
+      "com.lihaoyi"           %% "utest"                % uTestVersion % "test",
+      "dev.zio"               %% "zio"                  % zioVersion,
+      "dev.zio"               %% "zio-interop-cats"     % "2.0.0.0-RC10"
 
 )
 ).enablePlugins(JavaServerAppPackaging)

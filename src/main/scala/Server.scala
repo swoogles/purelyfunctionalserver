@@ -1,6 +1,7 @@
 import java.util.concurrent.Executors
 
 import cats.effect.{ExitCode, IO}
+import zio.interop.catz._
 import config.{Config, ConfigData, DatabaseConfig, ServerConfig}
 import db.Database
 import fs2.Stream
@@ -15,6 +16,7 @@ import org.http4s.server.blaze.{BlazeBuilder, BlazeServerBuilder}
 import pureconfig.error.ConfigReaderException
 import repository.{Github, TodoRepository}
 import service.{GithubService, TodoService}
+import zio.{DefaultRuntime, Runtime, ZEnv, ZIO}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.ExecutionContext
@@ -23,6 +25,7 @@ import scala.util.Properties
 
 object Server extends IOApp with Http4sDsl[IO] {
   implicit val ec = ExecutionContext .fromExecutor(Executors.newFixedThreadPool(10))
+  implicit val runtime: Runtime[ZEnv] = new DefaultRuntime {}
 
   val fallBackConfig =
     DatabaseConfig("org.postgresql.Driver", "jdbc:postgresql:doobie", "postgres", "password")
@@ -44,7 +47,10 @@ object Server extends IOApp with Http4sDsl[IO] {
       client <- BlazeClientBuilder[IO](global).stream
       _ <- Stream.eval(Database.initialize(transactor))
       service = new TodoService(new TodoRepository(transactor)).service
-      githubService = new GithubService(Github.impl[IO](client)).service
+      githubService = {
+//        new GithubService(Github.impl[ZIO](client)).service
+        new GithubService(Github.impl[IO](client)).service
+      }
       httpApp = Router(
         "/" -> service,
         "/github" -> githubService
