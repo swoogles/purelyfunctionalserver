@@ -1,6 +1,6 @@
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
-import cats.effect.{ContextShift, ExitCode, IO, IOApp, Timer}
+import cats.effect.{ContextShift, ExitCode, IO, IOApp, Sync, Timer}
 import zio.interop.catz._
 import config.{Config, ConfigData, DatabaseConfig, ServerConfig}
 import db.Database
@@ -13,8 +13,8 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.server.Router
 import org.http4s.server.blaze.{BlazeBuilder, BlazeServerBuilder}
 import pureconfig.error.ConfigReaderException
-import repository.{Github, TodoRepository}
-import service.{GithubService, TodoService}
+import repository.{ExerciseLogic, ExerciseRepository, ExerciseRepositoryImpl, Github, TodoRepository}
+import service.{ExerciseService, GithubService, TodoService}
 import zio.{DefaultRuntime, Runtime, ZEnv, ZIO}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -51,6 +51,8 @@ object Server extends IOApp with Http4sDsl[IO] {
       val f = delayedExecutor.schedule(tick, timespan.length, timespan.unit)
       IO(f.cancel(false))
     }
+//  implicit val sync: Sync[IO] = IO[Unit]
+//  , clock
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
     for {
@@ -65,22 +67,33 @@ object Server extends IOApp with Http4sDsl[IO] {
       herokuDbConfigAttempt <- Stream.attemptEval(configImpl.loadDatabaseEnvironmentVariables())
       configAttempt <- Stream.attemptEval(configImpl.load())
       config = herokuDbConfigAttempt.getOrElse(configAttempt.map(_.database).getOrElse(fallBackConfig))
+      clock: Clock[IO] = timer.clock
       transactor <- Stream.resource(Database.transactor(config)(ec))
       client <- BlazeClientBuilder[IO](global).stream
       _ <- Stream.eval(Database.initialize(transactor))
       service = new TodoService[IO](new TodoRepository[IO](transactor)).service
+      exerciseService = {
+        implicit val  implicitClock: Clock[IO] = clock
+
+        (new ExerciseService[IO](
+        new ExerciseLogic[IO](
+          new ExerciseRepositoryImpl[IO](transactor)
+        )
+      )).service
+      }
       githubService = {
 //        new GithubService(Github.impl[ZIO](client)).service
         new GithubService(Github.impl[IO](client)).service
       }
       httpApp = Router(
         "/" -> service,
-        "/github" -> githubService
+        "/github" -> githubService,
+        "/exercises" -> exerciseService
       ).orNotFound
-      _ <- Stream.eval(sleep(5.seconds))
-      _ <- Stream.eval(IO.shift(ecOne))
-      _ <- Stream.eval(IO { println("hi")} *> IO.sleep(5.seconds) *> IO { println("delayed print ")})
-      _ <- Stream.eval(IO.shift(ecTwo))
+//      _ <- Stream.eval(sleep(5.seconds))
+//      _ <- Stream.eval(IO.shift(ecOne))
+//      _ <- Stream.eval(IO { println("hi")} *> IO.sleep(5.seconds) *> IO { println("delayed print ")})
+//      _ <- Stream.eval(IO.shift(ecTwo))
       exitCode <- BlazeServerBuilder[IO]
 //        .bindHttp(config.server.port, config.server.host)
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")

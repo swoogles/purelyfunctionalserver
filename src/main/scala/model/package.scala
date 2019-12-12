@@ -1,3 +1,5 @@
+import java.time.LocalDate
+
 package object model {
   abstract sealed class Importance(val value: String)
   case object High extends Importance("high")
@@ -15,4 +17,8 @@ package object model {
   case class Todo(id: Option[Long], description: String, importance: Importance)
 
   case object TodoNotFoundError
+
+  case class DailyQuantizedExercise(id: Option[Long], name: String, day: LocalDate, count: Int)
+
+  case object ExerciseNotFoundError
 }
