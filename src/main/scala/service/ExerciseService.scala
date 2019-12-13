@@ -66,7 +66,10 @@ class ExerciseService[F[_]: ConcurrentEffect](
         newExercise <- req.decodeJson[DailyQuantizedExercise]
         wrappedResult <- exerciseLogic.createOrUpdate(newExercise) map {
           case Right(successfullyCreatedExercise) =>
-            Created(successfullyCreatedExercise.asJson, Location(Uri.unsafeFromString(s"/exercises/${successfullyCreatedExercise.id.get}")))
+            Created(
+              successfullyCreatedExercise.asJson,
+              Location(Uri.unsafeFromString(s"/exercises/${successfullyCreatedExercise.id.get}"))
+            )
           case Left(illegalStateException) => InternalServerError("We failed you.")
         }
         bigResult <- wrappedResult

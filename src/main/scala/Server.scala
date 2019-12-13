@@ -25,6 +25,7 @@ import scala.concurrent.duration.{FiniteDuration, TimeUnit}
 import cats.effect.{IO, Timer, Clock}
 import scala.concurrent.duration._
 import java.util.concurrent.ScheduledExecutorService
+import org.http4s.server.middleware._
 
 object Server extends IOApp with Http4sDsl[IO] {
   implicit val ec = ExecutionContext .fromExecutor(Executors.newFixedThreadPool(10))
@@ -94,10 +95,11 @@ object Server extends IOApp with Http4sDsl[IO] {
 //      _ <- Stream.eval(IO.shift(ecOne))
 //      _ <- Stream.eval(IO { println("hi")} *> IO.sleep(5.seconds) *> IO { println("delayed print ")})
 //      _ <- Stream.eval(IO.shift(ecTwo))
+      corsApp = CORS(httpApp) // allow quadsets.netlify.com
       exitCode <- BlazeServerBuilder[IO]
 //        .bindHttp(config.server.port, config.server.host)
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
-        .withHttpApp(httpApp)
+        .withHttpApp(corsApp)
         .serve
     } yield exitCode
   }

@@ -75,12 +75,16 @@ class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends Exe
    */
 
   def updateQuantizedExercise(exercise: DailyQuantizedExercise, reps: Int): IO[Either[ExerciseNotFoundError.type, DailyQuantizedExercise]] = {
-    sql"UPDATE daily_quantized_exercises SET count = ${exercise.count + reps}".update.run.transact(transactor).map { affectedRows =>
-      if (affectedRows == 1) {
-        Right(exercise.copy(count = exercise.count + reps))
-      } else {
-        Left(ExerciseNotFoundError)
+    sql"UPDATE daily_quantized_exercises SET count = ${exercise.count + reps}"
+      .update
+      .run
+      .transact(transactor)
+      .map { affectedRows =>
+        if (affectedRows == 1) {
+          Right(exercise.copy(count = exercise.count + reps))
+        } else {
+          Left(ExerciseNotFoundError)
+        }
       }
-    }
   }
 }
