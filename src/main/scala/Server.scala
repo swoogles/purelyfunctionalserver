@@ -95,7 +95,12 @@ object Server extends IOApp with Http4sDsl[IO] {
 //      _ <- Stream.eval(IO.shift(ecOne))
 //      _ <- Stream.eval(IO { println("hi")} *> IO.sleep(5.seconds) *> IO { println("delayed print ")})
 //      _ <- Stream.eval(IO.shift(ecTwo))
-      corsApp = CORS(httpApp) // allow quadsets.netlify.com
+      originConfig = CORSConfig(
+        anyOrigin = false,
+        allowedOrigins = Set("quadsets.netlify.com"),
+        allowCredentials = false,
+        maxAge = 1.day.toSeconds)
+      corsApp = CORS(httpApp, originConfig) // allow
       exitCode <- BlazeServerBuilder[IO]
 //        .bindHttp(config.server.port, config.server.host)
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
