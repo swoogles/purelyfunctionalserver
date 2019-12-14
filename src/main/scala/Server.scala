@@ -1,6 +1,6 @@
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
-import cats.effect.{ContextShift, ExitCode, IO, IOApp, Sync, Timer}
+import cats.effect.{ContextShift, ExitCode, Fiber, IO, IOApp, Sync, Timer}
 import zio.interop.catz._
 import config.{Config, ConfigData, DatabaseConfig, ServerConfig}
 import db.Database
@@ -26,6 +26,15 @@ import cats.effect.{IO, Timer, Clock}
 import scala.concurrent.duration._
 import java.util.concurrent.ScheduledExecutorService
 import org.http4s.server.middleware._
+
+object RepeatShit {
+  def infiniteIO(id: Int)(implicit cs: ContextShift[IO]): IO[Fiber[IO, Unit]] = {
+    def repeat: IO[Unit] = IO(println(id)).flatMap(_ => IO.shift *> repeat)
+
+    repeat.start
+  }
+
+}
 
 object Server extends IOApp with Http4sDsl[IO] {
   implicit val ec = ExecutionContext .fromExecutor(Executors.newFixedThreadPool(10))
@@ -100,11 +109,13 @@ object Server extends IOApp with Http4sDsl[IO] {
         allowedOrigins = Set("quadsets.netlify.com"),
         allowCredentials = false,
         maxAge = 1.day.toSeconds)
-      corsApp = CORS(httpApp, originConfig) // allow
-      exitCode <- BlazeServerBuilder[IO]
+      corsApp = CORS(httpApp, originConfig) // TODO Use this eventually
+
+      _ <- Stream.eval(RepeatShit.infiniteIO(0))
+        exitCode <- BlazeServerBuilder[IO]
 //        .bindHttp(config.server.port, config.server.host)
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
-        .withHttpApp(corsApp)
+        .withHttpApp(httpApp)
         .serve
     } yield exitCode
   }
