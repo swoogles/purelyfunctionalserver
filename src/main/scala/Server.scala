@@ -28,8 +28,8 @@ import java.util.concurrent.ScheduledExecutorService
 import org.http4s.server.middleware._
 
 object RepeatShit {
-  def infiniteIO(id: Int)(implicit cs: ContextShift[IO]): IO[Fiber[IO, Unit]] = {
-    def repeat: IO[Unit] = IO(println(id)).flatMap(_ => IO.shift *> repeat)
+  def infiniteIO(id: Int)(implicit cs: ContextShift[IO], timer: Timer[IO]): IO[Fiber[IO, Unit]] = {
+    def repeat: IO[Unit] = IO(println(id)).flatMap(_ => IO.shift *> IO.sleep(5.seconds) *> repeat)
 
     repeat.start
   }
