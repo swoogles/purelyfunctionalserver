@@ -29,11 +29,14 @@ import org.http4s.server.middleware._
 
 object RepeatShit {
   def infiniteIO(id: Int)(implicit cs: ContextShift[IO], timer: Timer[IO]): IO[Fiber[IO, Unit]] = {
-    def repeat: IO[Unit] = IO(println(id)).flatMap(_ => IO.shift *> IO.sleep(5.seconds) *> repeat)
-
+    def repeat: IO[Unit] = IO(println("I should periodically retrieve Github info!")).flatMap(_ => IO.shift *> IO.sleep(15.minutes) *> repeat)
     repeat.start
   }
 
+  def infiniteWeatherCheck(implicit cs: ContextShift[IO], timer: Timer[IO]): IO[Fiber[IO, Unit]] = {
+    def repeat: IO[Unit] = IO(println("I should get the weather data every few minutes.")).flatMap(_ => IO.shift *> IO.sleep(10.minutes) *> repeat)
+    repeat.start
+  }
 }
 
 object Server extends IOApp with Http4sDsl[IO] {
@@ -82,17 +85,14 @@ object Server extends IOApp with Http4sDsl[IO] {
       client <- BlazeClientBuilder[IO](global).stream
       _ <- Stream.eval(Database.initialize(transactor))
       service = new TodoService[IO](new TodoRepository[IO](transactor)).service
-      exerciseService = {
-        implicit val  implicitClock: Clock[IO] = clock
-
-        (new ExerciseService[IO](
+      exerciseService =
+      new ExerciseService[IO](
         new ExerciseLogic[IO](
           new ExerciseRepositoryImpl[IO](transactor)
         )
-      )).service
-      }
+      ).service
+
       githubService = {
-//        new GithubService(Github.impl[ZIO](client)).service
         new GithubService(Github.impl[IO](client)).service
       }
       httpApp = Router(
@@ -100,10 +100,6 @@ object Server extends IOApp with Http4sDsl[IO] {
         "/github" -> githubService,
         "/exercises" -> exerciseService
       ).orNotFound
-//      _ <- Stream.eval(sleep(5.seconds))
-//      _ <- Stream.eval(IO.shift(ecOne))
-//      _ <- Stream.eval(IO { println("hi")} *> IO.sleep(5.seconds) *> IO { println("delayed print ")})
-//      _ <- Stream.eval(IO.shift(ecTwo))
       originConfig = CORSConfig(
         anyOrigin = false,
         allowedOrigins = Set("quadsets.netlify.com"),
@@ -112,6 +108,7 @@ object Server extends IOApp with Http4sDsl[IO] {
       corsApp = CORS(httpApp, originConfig) // TODO Use this eventually
 
       _ <- Stream.eval(RepeatShit.infiniteIO(0))
+      _ <- Stream.eval(RepeatShit.infiniteWeatherCheck)
         exitCode <- BlazeServerBuilder[IO]
 //        .bindHttp(config.server.port, config.server.host)
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
