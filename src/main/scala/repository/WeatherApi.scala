@@ -31,12 +31,13 @@ case class ForeCast (
                       currently: DataPoint,
                       hourly:     TimePeriodData,
                       daily:     TimePeriodData,
-//                      location:  String
+                      location:  Option[String]
                     )
 
 case class GpsCoordinates(
                          latitude: Double,
-                         longitude: Double
+                         longitude: Double,
+                         locationName: String
                          )
 
 trait WeatherApi[F[_]] {
@@ -58,7 +59,9 @@ object WeatherApi {
 
     def get(gpsCoordinates: GpsCoordinates): F[ForeCast] = {
       val parameterisedUri = s"https://api.darksky.net/forecast/" + DARK_SKY_TOKEN + s"/${gpsCoordinates.latitude},${gpsCoordinates.longitude}"
+      println("parameterisedUri: " + parameterisedUri)
       C.expect[ForeCast](GET(Uri.unsafeFromString(parameterisedUri)))
+        .map( forecastWithoutLocationName => forecastWithoutLocationName.copy(location = Some(gpsCoordinates.locationName)))
         .adaptError { case t =>
           println("error: " + t)
           WeatherError(t) } // Prevent Client Json Decoding Failure Leaking

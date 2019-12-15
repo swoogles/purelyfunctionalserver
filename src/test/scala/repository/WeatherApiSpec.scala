@@ -30,7 +30,7 @@ class WeatherApiSpec extends WordSpec with MockFactory with Matchers {
       for {
         client <- BlazeClientBuilder[IO](global).stream
         weatherApi = WeatherApi.impl[IO](client)
-        weatherResult <- Stream.eval(weatherApi.get(GpsCoordinates(38.8697, -106.9878)))
+        weatherResult <- Stream.eval(weatherApi.get(GpsCoordinates(38.8697, -106.9878, "CrestedButte")))
       } yield {
         weatherResult
       }
