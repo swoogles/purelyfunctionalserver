@@ -1,6 +1,6 @@
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
-import cats.effect.{ContextShift, ExitCode, Fiber, IOApp}
+import cats.effect.{Clock, ContextShift, ExitCode, IO, IOApp}
 import cats.implicits._
 import config.{Config, ConfigData, DatabaseConfig}
 import db.Database
@@ -10,6 +10,7 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.implicits._
 import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
+import org.http4s.server.middleware._
 import pureconfig.error.ConfigReaderException
 import repository._
 import service.{ExerciseService, GithubService, TodoService, WeatherService}
@@ -17,14 +18,11 @@ import zio.{DefaultRuntime, Runtime, ZEnv}
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
-import cats.effect.{Clock, IO, Timer}
-import org.http4s.server.middleware._
-
-import scala.concurrent.duration.{FiniteDuration, _}
+import scala.concurrent.duration._
 import scala.util.Properties
 
 object Server extends IOApp with Http4sDsl[IO] {
-  implicit val ec = ExecutionContext .fromExecutor(Executors.newFixedThreadPool(10))
+  implicit val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(10))
   val delayedExecutor = new ScheduledThreadPoolExecutor(1)
   implicit val runtime: Runtime[ZEnv] = new DefaultRuntime {}
 
@@ -38,16 +36,10 @@ object Server extends IOApp with Http4sDsl[IO] {
   val fallBackConfig =
     DatabaseConfig("org.postgresql.Driver", "jdbc:postgresql:doobie", "postgres", "password")
 
-  def sleep(timespan: FiniteDuration): IO[Unit] =
-    IO.cancelable { cb =>
-      val tick = new Runnable {
-        def run() = ec.execute(new Runnable {
-          def run() = cb(Right(()))
-        })
-      }
-      val f = delayedExecutor.schedule(tick, timespan.length, timespan.unit)
-      IO(f.cancel(false))
-    }
+  override def run(args: List[String]): IO[ExitCode] =
+    stream(args, IO {
+      println("shutting down")
+    }).compile.drain.as(ExitCode.Success)
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
     for {
@@ -93,13 +85,10 @@ object Server extends IOApp with Http4sDsl[IO] {
 
       _ <- Stream.eval(RepeatShit.infiniteIO(0))
       _ <- Stream.eval(RepeatShit.infiniteWeatherCheck)
-        exitCode <- BlazeServerBuilder[IO]
+      exitCode <- BlazeServerBuilder[IO]
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
         .withHttpApp(httpApp)
         .serve
     } yield exitCode
   }
-
-  override def run(args: List[String]): IO[ExitCode] =
-    stream(args, IO {println("shutting down")}).compile.drain.as(ExitCode.Success)
 }
