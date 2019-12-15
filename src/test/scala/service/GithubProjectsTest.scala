@@ -2,18 +2,10 @@ package service
 
 import java.time.Instant
 
-import cats.effect.IO
-import fs2.Stream
 import io.circe
-import io.circe.Json
-import io.circe.literal._
 import model.{High, Low, Medium, Todo}
-import org.http4s.circe._
-import org.http4s.dsl.io._
-import org.http4s.{Request, Response, Status, Uri}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, WordSpec}
-import org.scalatest._
 import io.circe.parser.decode
 import repository.Github.{Author, Commit, Payload, Repo, Tree, UserActivityEvent}
 import io.circe.generic.auto._

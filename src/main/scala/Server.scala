@@ -13,7 +13,7 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.server.Router
 import org.http4s.server.blaze.{BlazeBuilder, BlazeServerBuilder}
 import pureconfig.error.ConfigReaderException
-import repository.{ExerciseLogic, ExerciseRepository, ExerciseRepositoryImpl, Github, TodoRepository}
+import repository.{ExerciseLogic, ExerciseRepository, ExerciseRepositoryImpl, Github, TodoRepository, WeatherApi}
 import service.{ExerciseService, GithubService, TodoService}
 import zio.{DefaultRuntime, Runtime, ZEnv, ZIO}
 
@@ -95,6 +95,7 @@ object Server extends IOApp with Http4sDsl[IO] {
       githubService = {
         new GithubService(Github.impl[IO](client)).service
       }
+      weatherService = WeatherApi.impl[IO](client)
       httpApp = Router(
         "/" -> service,
         "/github" -> githubService,
