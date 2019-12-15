@@ -1,5 +1,4 @@
 package repository
-import java.time.format.DateTimeParseException
 
 import cats.Applicative
 import cats.effect.Sync
@@ -10,15 +9,6 @@ import org.http4s.circe._
 import org.http4s.client.Client
 import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.{EntityDecoder, EntityEncoder, Uri}
-import cats.syntax.either._
-import repository.Github.Tree
-// import cats.syntax.either._
-
-import io.circe.{ Decoder, Encoder }
-// import io.circe.{Decoder, Encoder}
-
-import java.time.Instant
-// import java.time.Instant
 
 case class TimePeriodData(
                            summary: String, // This isn't handling some symbols, like '<'
@@ -26,22 +16,21 @@ case class TimePeriodData(
 )
 
 case class DataPoint(
-// ApparentTemperature float64
- temperature: Double
-// Summary             string
-// CloudCover          float64
-// PrecipIntensity     float64
-// PrecipProbability   float64
-// WindSpeed           float64
-// Time                int64
-
+                      apparentTemperature: Double,
+                      temperature: Double,
+                      summary: String,
+                      cloudCover: Double,
+                      precipIntensity: Double,
+                      precipProbability: Double,
+                      windSpeed: Double,
+                      time: Long
                     )
 
 case class ForeCast (
                       timezone:  String,
                       currently: DataPoint,
-//                      hourly:     TimePeriodData,
-//                      daily:     TimePeriodData,
+                      hourly:     TimePeriodData,
+                      daily:     TimePeriodData,
 //                      location:  String
                     )
 
