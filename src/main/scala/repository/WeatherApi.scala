@@ -1,6 +1,5 @@
 package repository
 
-import cats.Applicative
 import cats.effect.Sync
 import cats.implicits._
 import io.circe.generic.auto._
@@ -8,7 +7,7 @@ import org.http4s.Method._
 import org.http4s.circe._
 import org.http4s.client.Client
 import org.http4s.client.dsl.Http4sClientDsl
-import org.http4s.{EntityDecoder, EntityEncoder, Uri}
+import org.http4s.{EntityDecoder, Uri}
 
 case class TimePeriodData(
                            summary: String, // This isn't handling some symbols, like '<'
@@ -56,8 +55,6 @@ object WeatherApi {
   final case class WeatherError(e: Throwable) extends RuntimeException
   implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, ForeCast] =
     jsonOf
-  implicit def commitEntityEncoder[F[_]: Applicative]: EntityEncoder[F, ForeCast] =
-    jsonEncoderOf
 
   def impl[F[_] : Sync](C: Client[F]): WeatherApi[F] = new WeatherApi[F] {
     val dsl = new Http4sClientDsl[F] {}
