@@ -1,7 +1,5 @@
 package db
 
-import java.util.concurrent.Executors
-
 import cats.effect.{Blocker, IO, Resource}
 import config.DatabaseConfig
 import doobie.hikari.HikariTransactor

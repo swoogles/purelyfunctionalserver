@@ -1,15 +1,7 @@
 import java.net.URI
-import java.sql.Connection
-
-import cats.effect.{Sync}
+import cats.effect.Sync
 import com.typesafe.config.ConfigFactory
-import config.ConfigData
-import org.http4s.client.Client
-import org.http4s.client.dsl.Http4sClientDsl
-import pureconfig.error.{ConfigReaderException, ConfigReaderFailures}
-import repository.Github
-
-// TODO Make this polymorphic on F[_]
+import pureconfig.error.ConfigReaderFailures
 
 package object config {
   trait Config[F[_]] {
@@ -38,11 +30,7 @@ package object config {
                         ): Config[F] = new Config[F] {
 
       def load(configFile: String = "application.conf"): F[ConfigData] = {
-//        loadConfig in package pureconfig is deprecated (since 0.12.0): Use `ConfigSourc e.fromConfig(conf).load[Config]` instead
-
-
         ConfigSource.fromConfig(ConfigFactory.load(configFile)).load[ConfigData]
-//        loadConfig[ConfigData]()
           match {
             case Left(e) => raiseError(e)
             case Right(config) => pure(config)
@@ -50,7 +38,6 @@ package object config {
       }
 
       import java.sql.DriverManager
-
 
       def loadDatabaseEnvironmentVariables(): F[DatabaseConfig] = {
         try {

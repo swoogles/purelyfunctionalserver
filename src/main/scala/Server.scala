@@ -1,31 +1,27 @@
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
-import cats.effect.{ContextShift, ExitCode, Fiber, IO, IOApp, Sync, Timer}
-import zio.interop.catz._
-import config.{Config, ConfigData, DatabaseConfig, ServerConfig}
+import cats.effect.{ContextShift, ExitCode, Fiber, IOApp}
+import cats.implicits._
+import config.{Config, ConfigData, DatabaseConfig}
 import db.Database
 import fs2.Stream
-import cats.implicits._
 import org.http4s.client.blaze.BlazeClientBuilder
-import org.http4s.server.blaze._
-import org.http4s.implicits._
 import org.http4s.dsl.Http4sDsl
+import org.http4s.implicits._
 import org.http4s.server.Router
-import org.http4s.server.blaze.{BlazeBuilder, BlazeServerBuilder}
+import org.http4s.server.blaze.BlazeServerBuilder
 import pureconfig.error.ConfigReaderException
-import repository.{ExerciseLogic, ExerciseRepository, ExerciseRepositoryImpl, Github, TodoRepository, WeatherApi}
+import repository._
 import service.{ExerciseService, GithubService, TodoService, WeatherService}
-import zio.{DefaultRuntime, Runtime, ZEnv, ZIO}
+import zio.{DefaultRuntime, Runtime, ZEnv}
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.ExecutionContext
-//import scala.concurrent.ExecutionContext.global
-import scala.util.Properties
-import scala.concurrent.duration.{FiniteDuration, TimeUnit}
-import cats.effect.{IO, Timer, Clock}
-import scala.concurrent.duration._
-import java.util.concurrent.ScheduledExecutorService
+import scala.concurrent.ExecutionContext.Implicits.global
+import cats.effect.{Clock, IO, Timer}
 import org.http4s.server.middleware._
+
+import scala.concurrent.duration.{FiniteDuration, _}
+import scala.util.Properties
 
 object RepeatShit {
   def infiniteIO(id: Int)(implicit cs: ContextShift[IO], timer: Timer[IO]): IO[Fiber[IO, Unit]] = {
@@ -64,8 +60,6 @@ object Server extends IOApp with Http4sDsl[IO] {
       val f = delayedExecutor.schedule(tick, timespan.length, timespan.unit)
       IO(f.cancel(false))
     }
-//  implicit val sync: Sync[IO] = IO[Unit]
-//  , clock
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
     for {
@@ -112,7 +106,6 @@ object Server extends IOApp with Http4sDsl[IO] {
       _ <- Stream.eval(RepeatShit.infiniteIO(0))
       _ <- Stream.eval(RepeatShit.infiniteWeatherCheck)
         exitCode <- BlazeServerBuilder[IO]
-//        .bindHttp(config.server.port, config.server.host)
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
         .withHttpApp(httpApp)
         .serve

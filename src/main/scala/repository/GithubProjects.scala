@@ -1,7 +1,5 @@
 package repository
 
-import java.time.format.DateTimeParseException
-
 import cats.Applicative
 import cats.effect.Sync
 import cats.implicits._
@@ -11,15 +9,7 @@ import org.http4s.circe._
 import org.http4s.client.Client
 import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.{EntityDecoder, EntityEncoder, Uri}
-import cats.syntax.either._
-// import cats.syntax.either._
-
-import io.circe.{ Decoder, Encoder }
-// import io.circe.{Decoder, Encoder}
-
 import java.time.Instant
-// import java.time.Instant
-
 
 trait Github[F[_]] {
   def get(userName: String, repoName: String): F[Github.Tree]

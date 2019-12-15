@@ -1,25 +1,23 @@
 package service
 
-import java.time.{Instant, LocalDate, ZoneId}
+import java.time.ZoneId
 
-import cats.effect.{Clock, ConcurrentEffect, IO, Sync}
+import cats.effect.{Clock, ConcurrentEffect, IO}
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
-import io.circe.{Decoder, Encoder}
-import model.{DailyQuantizedExercise, Importance, Todo, TodoNotFoundError}
+import model.DailyQuantizedExercise
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Location, `Content-Type`}
-import org.http4s.{HttpRoutes, MediaType, Response, Uri}
-import repository.{ExerciseLogic, TodoRepository}
+import org.http4s.{HttpRoutes, MediaType, Uri}
+import repository.ExerciseLogic
 
 import scala.concurrent.duration.MILLISECONDS
 
 class ExerciseService[F[_]: ConcurrentEffect](
                                                   exerciseLogic: ExerciseLogic[F]
                                                 )(implicit
-//                                                  sync: Sync[F],
                                                   clock: Clock[IO] // TODO Why can't this be F?
 ) extends Http4sDsl[IO] {
 
@@ -95,10 +93,4 @@ class ExerciseService[F[_]: ConcurrentEffect](
        */
   }
 
-  private def todoResult(result: Either[TodoNotFoundError.type, Todo]) = {
-    result match {
-      case Left(TodoNotFoundError) => NotFound()
-      case Right(todo) => Ok(todo.asJson)
-    }
-  }
 }

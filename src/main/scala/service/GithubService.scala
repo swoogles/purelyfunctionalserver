@@ -1,13 +1,13 @@
 package service
 
-import cats.effect.{Sync}
-import org.http4s.{HttpRoutes, HttpService, MediaType, Uri}
-import org.http4s.dsl.Http4sDsl
-import repository.Github
-import io.circe.syntax._
+import cats.effect.Sync
 import fs2.Stream
-import org.http4s.headers.{Location, `Content-Type`}
 import io.circe.generic.auto._
+import io.circe.syntax._
+import org.http4s.dsl.Http4sDsl
+import org.http4s.headers.`Content-Type`
+import org.http4s.{HttpRoutes, MediaType}
+import repository.Github
 
 class GithubService[F[_]: Sync](repository: Github[F]) extends Http4sDsl[F] {
 
