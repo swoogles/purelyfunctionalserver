@@ -42,6 +42,7 @@ case class GpsCoordinates(
 object GpsCoordinates {
   object resorts {
     val Breckenridge: GpsCoordinates = GpsCoordinates(39.473219, -106.078417, "Breckenridge")
+    val CrestedButte: GpsCoordinates = GpsCoordinates(38.8697, -106.9878, "CrestedButte")
   }
 }
 
@@ -64,6 +65,7 @@ object WeatherApi {
     import dsl._
 
     def get(gpsCoordinates: GpsCoordinates): F[ForeCast] = {
+      println("token: " + DARK_SKY_TOKEN)
       val parameterisedUri = s"https://api.darksky.net/forecast/" + DARK_SKY_TOKEN + s"/${gpsCoordinates.latitude},${gpsCoordinates.longitude}"
       C.expect[ForeCast](GET(Uri.unsafeFromString(parameterisedUri)))
         .map( forecastWithoutLocationName => forecastWithoutLocationName.copy(location = Some(gpsCoordinates.locationName)))

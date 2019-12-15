@@ -14,7 +14,7 @@ import org.http4s.server.Router
 import org.http4s.server.blaze.{BlazeBuilder, BlazeServerBuilder}
 import pureconfig.error.ConfigReaderException
 import repository.{ExerciseLogic, ExerciseRepository, ExerciseRepositoryImpl, Github, TodoRepository, WeatherApi}
-import service.{ExerciseService, GithubService, TodoService}
+import service.{ExerciseService, GithubService, TodoService, WeatherService}
 import zio.{DefaultRuntime, Runtime, ZEnv, ZIO}
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -95,11 +95,12 @@ object Server extends IOApp with Http4sDsl[IO] {
       githubService = {
         new GithubService(Github.impl[IO](client)).service
       }
-      weatherService = WeatherApi.impl[IO](client)
+      weatherService = new WeatherService[IO](WeatherApi.impl[IO](client)).service
       httpApp = Router(
         "/" -> service,
         "/github" -> githubService,
-        "/exercises" -> exerciseService
+        "/exercises" -> exerciseService,
+        "/weather" -> weatherService,
       ).orNotFound
       originConfig = CORSConfig(
         anyOrigin = false,

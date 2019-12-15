@@ -20,10 +20,10 @@ class WeatherService[F[_]: Sync](weatherApi: WeatherApi[F]) extends Http4sDsl[F]
     jsonEncoderOf
 
   val service: HttpRoutes[F] = HttpRoutes.of[F] {
-    case GET -> Root / "weather" =>
+    case GET -> Root =>
       Ok(
         Stream.eval(
-          weatherApi.get(GpsCoordinates.resorts.Breckenridge)
+          weatherApi.get(GpsCoordinates.resorts.CrestedButte)
         ).map(_.asJson.noSpaces)
         ,
         `Content-Type`(MediaType.application.json)
