@@ -39,11 +39,17 @@ case class GpsCoordinates(
                          longitude: Double,
                          locationName: String
                          )
+object GpsCoordinates {
+  object resorts {
+    val Breckenridge: GpsCoordinates = GpsCoordinates(39.473219, -106.078417, "Breckenridge")
+  }
+}
 
 trait WeatherApi[F[_]] {
     def get(gpsCoordinates: GpsCoordinates): F[ForeCast]
 }
 object WeatherApi {
+  // TODO Put this in a better spot, that will error out predictably
   val DARK_SKY_TOKEN: String = System.getenv("DARK_SKY_TOKEN")
 
   final case class WeatherError(e: Throwable) extends RuntimeException
@@ -59,7 +65,6 @@ object WeatherApi {
 
     def get(gpsCoordinates: GpsCoordinates): F[ForeCast] = {
       val parameterisedUri = s"https://api.darksky.net/forecast/" + DARK_SKY_TOKEN + s"/${gpsCoordinates.latitude},${gpsCoordinates.longitude}"
-      println("parameterisedUri: " + parameterisedUri)
       C.expect[ForeCast](GET(Uri.unsafeFromString(parameterisedUri)))
         .map( forecastWithoutLocationName => forecastWithoutLocationName.copy(location = Some(gpsCoordinates.locationName)))
         .adaptError { case t =>

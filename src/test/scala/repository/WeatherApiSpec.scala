@@ -1,18 +1,11 @@
 package repository
 
-import java.time.Instant
 import java.util.concurrent.Executors
 import fs2.Stream
 
 import cats.effect.{ContextShift, IO, Timer}
-import io.circe
-import model.{High, Low, Medium, Todo}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, WordSpec}
-import io.circe.parser.decode
-import repository.Github.{Author, Commit, Payload, Repo, Tree, UserActivityEvent}
-import io.circe.generic.auto._
-import org.http4s.client.Client
 import org.http4s.client.blaze.BlazeClientBuilder
 
 import scala.concurrent.ExecutionContext
@@ -25,7 +18,7 @@ class WeatherApiSpec extends WordSpec with MockFactory with Matchers {
   implicit val csOne: ContextShift[IO] = IO.contextShift(ecOne)
 //  implicit val ioEffect = IOTests.ioEffectDefaults
   "WeatherApi" should {
-    "get weather data" in {
+    "get weather data from Crested butte" in {
       val weatherOperations: Stream[IO, ForeCast] =
       for {
         client <- BlazeClientBuilder[IO](global).stream
@@ -34,6 +27,19 @@ class WeatherApiSpec extends WordSpec with MockFactory with Matchers {
       } yield {
         weatherResult
       }
+      val result = weatherOperations.compile.toVector.unsafeRunSync()
+      println("Result: " + result)
+
+    }
+    "get weather data from Breckenridge" in {
+      val weatherOperations: Stream[IO, ForeCast] =
+        for {
+          client <- BlazeClientBuilder[IO](global).stream
+          weatherApi = WeatherApi.impl[IO](client)
+          weatherResult <- Stream.eval(weatherApi.get(GpsCoordinates.resorts.Breckenridge))
+        } yield {
+          weatherResult
+        }
       val result = weatherOperations.compile.toVector.unsafeRunSync()
       println("Result: " + result)
 
