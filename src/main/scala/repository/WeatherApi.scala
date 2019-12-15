@@ -11,6 +11,7 @@ import org.http4s.client.Client
 import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.{EntityDecoder, EntityEncoder, Uri}
 import cats.syntax.either._
+import repository.Github.Tree
 // import cats.syntax.either._
 
 import io.circe.{ Decoder, Encoder }
@@ -26,7 +27,7 @@ case class TimePeriodData(
 
 case class DataPoint(
 // ApparentTemperature float64
-// Temperature         float64
+ temperature: Double
 // Summary             string
 // CloudCover          float64
 // PrecipIntensity     float64
@@ -39,9 +40,9 @@ case class DataPoint(
 case class ForeCast (
                       timezone:  String,
                       currently: DataPoint,
-                      hourly:     TimePeriodData,
-                      daily:     TimePeriodData,
-                      location:  String
+//                      hourly:     TimePeriodData,
+//                      daily:     TimePeriodData,
+//                      location:  String
                     )
 
 case class GpsCoordinates(
@@ -50,22 +51,28 @@ case class GpsCoordinates(
                          )
 
 trait WeatherApi[F[_]] {
-    def get(gpsCoordinates: GpsCoordinates): F[String]
+    def get(gpsCoordinates: GpsCoordinates): F[ForeCast]
 }
 object WeatherApi {
   val DARK_SKY_TOKEN: String = System.getenv("DARK_SKY_TOKEN")
 
   final case class WeatherError(e: Throwable) extends RuntimeException
+  implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, ForeCast] =
+    jsonOf
+  implicit def commitEntityEncoder[F[_]: Applicative]: EntityEncoder[F, ForeCast] =
+    jsonEncoderOf
 
   def impl[F[_] : Sync](C: Client[F]): WeatherApi[F] = new WeatherApi[F] {
     val dsl = new Http4sClientDsl[F] {}
 
     import dsl._
 
-    def get(gpsCoordinates: GpsCoordinates): F[String] = {
+    def get(gpsCoordinates: GpsCoordinates): F[ForeCast] = {
       val parameterisedUri = s"https://api.darksky.net/forecast/" + DARK_SKY_TOKEN + s"/${gpsCoordinates.latitude},${gpsCoordinates.longitude}"
-      C.expect[String](GET(Uri.unsafeFromString(parameterisedUri)))
-        .adaptError { case t => WeatherError(t) } // Prevent Client Json Decoding Failure Leaking
+      C.expect[ForeCast](GET(Uri.unsafeFromString(parameterisedUri)))
+        .adaptError { case t =>
+          println("error: " + t)
+          WeatherError(t) } // Prevent Client Json Decoding Failure Leaking
     }
   }
 }

@@ -26,7 +26,7 @@ class WeatherApiSpec extends WordSpec with MockFactory with Matchers {
 //  implicit val ioEffect = IOTests.ioEffectDefaults
   "WeatherApi" should {
     "get weather data" in {
-      val weatherOperations: Stream[IO, String] =
+      val weatherOperations: Stream[IO, ForeCast] =
       for {
         client <- BlazeClientBuilder[IO](global).stream
         weatherApi = WeatherApi.impl[IO](client)
