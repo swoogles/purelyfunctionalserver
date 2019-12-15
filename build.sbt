@@ -22,7 +22,7 @@ lazy val FlywayVersion = "5.2.4"
 
 lazy val CirceVersion = "0.11.0" // Options and java-8 modules are preventing me from further upgrades
 
-lazy val PureConfigVersion = "0.10.2"
+lazy val PureConfigVersion = "0.12.1"
 
 lazy val LogbackVersion = "1.2.3"
 

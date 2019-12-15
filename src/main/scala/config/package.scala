@@ -38,8 +38,11 @@ package object config {
                         ): Config[F] = new Config[F] {
 
       def load(configFile: String = "application.conf"): F[ConfigData] = {
+//        loadConfig in package pureconfig is deprecated (since 0.12.0): Use `ConfigSourc e.fromConfig(conf).load[Config]` instead
 
-        loadConfig[ConfigData](ConfigFactory.load(configFile))
+
+        ConfigSource.fromConfig(ConfigFactory.load(configFile)).load[ConfigData]
+//        loadConfig[ConfigData]()
           match {
             case Left(e) => raiseError(e)
             case Right(config) => pure(config)
