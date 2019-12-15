@@ -1,6 +1,6 @@
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
-import cats.effect.{Clock, ContextShift, ExitCode, IO, IOApp}
+import cats.effect.{Clock, ExitCode, IO, IOApp}
 import cats.implicits._
 import config.{Config, ConfigData, DatabaseConfig}
 import db.Database
@@ -26,12 +26,6 @@ object Server extends IOApp with Http4sDsl[IO] {
   val delayedExecutor = new ScheduledThreadPoolExecutor(1)
   implicit val runtime: Runtime[ZEnv] = new DefaultRuntime {}
 
-
-  val ecOne = ExecutionContext.fromExecutor(Executors.newSingleThreadExecutor())
-  val ecTwo = ExecutionContext.fromExecutor(Executors.newSingleThreadExecutor())
-
-  val csOne: ContextShift[IO] = IO.contextShift(ecOne)
-  val csTwo: ContextShift[IO] = IO.contextShift(ecTwo)
 
   val fallBackConfig =
     DatabaseConfig("org.postgresql.Driver", "jdbc:postgresql:doobie", "postgres", "password")
