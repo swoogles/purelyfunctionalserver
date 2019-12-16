@@ -3,11 +3,25 @@ package billding
 import java.time.{LocalDate, ZoneId}
 
 import scala.concurrent.ExecutionContext.global
+import java.time.{LocalDate, ZoneId}
 
+import org.scalajs.dom
+import dom.{Event, document}
+import io.circe.{Decoder, Encoder}
+import io.circe._
+import io.circe.generic.semiauto._
+import io.circe.syntax._
+import io.circe.generic.JsonCodec
+import sttp.client.{BodySerializer, FetchBackend, Response, StringBody}
+import sttp.client.circe._
+import sttp.model.MediaType
+
+import scala.concurrent.ExecutionContext.global
 
 case class DailyQuantizedExercise(id: Option[Long], name: String, day: String, count: Int)
 
 object ApiInteractions {
+  import sttp.client._
   //  implicit val fooDecoder: Decoder[Foo] = deriveDecoder
   //  implicit val fooEncoder: Encoder[DailyQuantizedExercise] =
   //    Encoder.forProduct4("id", "name", "day", "count")
@@ -32,7 +46,9 @@ object ApiInteractions {
   def postQuadSets(count: Int) = {
     val exercise = DailyQuantizedExercise(id = Some(1), name = "QuadSets", day = LocalDate.now(ZoneId.of("UTC")).toString, count = count)
 
-    val constructedUri = uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
+    val constructedUri =
+      uri"https://purelyfunctionalserver.herokuapp.com/exercises"
+//      uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
     println("uri: " + constructedUri)
     val request = basicRequest
       .body(exercise)
