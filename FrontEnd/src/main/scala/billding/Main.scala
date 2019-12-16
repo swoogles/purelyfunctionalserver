@@ -4,10 +4,25 @@ import java.time.{LocalDate, ZoneId}
 
 import scala.concurrent.ExecutionContext.global
 
+import java.time.{LocalDate, ZoneId}
+
+import org.scalajs.dom
+import dom.{Event, document}
+import io.circe.{Decoder, Encoder}
+import io.circe._
+import io.circe.generic.semiauto._
+import io.circe.syntax._
+import io.circe.generic.JsonCodec
+import sttp.client.circe._
+import sttp.model.MediaType
+
+import scala.concurrent.ExecutionContext.global
+
 
 case class DailyQuantizedExercise(id: Option[Long], name: String, day: String, count: Int)
 
 object ApiInteractions {
+  import sttp.client._
   //  implicit val fooDecoder: Decoder[Foo] = deriveDecoder
   //  implicit val fooEncoder: Encoder[DailyQuantizedExercise] =
   //    Encoder.forProduct4("id", "name", "day", "count")
