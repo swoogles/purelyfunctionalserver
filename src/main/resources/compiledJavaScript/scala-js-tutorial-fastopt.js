@@ -2489,7 +2489,12 @@ $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
   var x$2 = (function(arg1$2) {
     $m_Lbillding_ApiInteractions$().safelyPostQuadSets__I__V($m_Lbillding_Main$().count$1)
   });
-  qual$1.addEventListener("click", x$2)
+  qual$1.addEventListener("click", x$2);
+  var qual$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("reset_reps");
+  var x$5 = (function(arg1$2$1) {
+    $m_Lbillding_ApiInteractions$().safelyPostQuadSets__I__V($m_Lbillding_Main$().count$1)
+  });
+  qual$2.addEventListener("click", x$5)
 });
 $c_Lbillding_Main$.prototype.toggleColor__V = (function() {
   var thiz = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.getAttribute("style"));

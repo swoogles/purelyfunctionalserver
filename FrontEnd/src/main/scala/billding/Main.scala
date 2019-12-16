@@ -4,9 +4,24 @@ import java.time.{LocalDate, ZoneId}
 
 import scala.concurrent.ExecutionContext.global
 
+import java.time.{LocalDate, ZoneId}
+
+import org.scalajs.dom
+import dom.{Event, document}
+import io.circe.{Decoder, Encoder}
+import io.circe._
+import io.circe.generic.semiauto._
+import io.circe.syntax._
+import io.circe.generic.JsonCodec
+import sttp.client.circe._
+import sttp.model.MediaType
+
+import scala.concurrent.ExecutionContext.global
+
 case class DailyQuantizedExercise(id: Option[Long], name: String, day: String, count: Int)
 
 object ApiInteractions {
+  import sttp.client._
   //  implicit val fooDecoder: Decoder[Foo] = deriveDecoder
   //  implicit val fooEncoder: Encoder[DailyQuantizedExercise] =
   //    Encoder.forProduct4("id", "name", "day", "count")
@@ -27,6 +42,19 @@ object ApiInteractions {
 
   implicit val backend = FetchBackend()
   implicit val ec = global
+
+  def resetReps() = {
+    Main.count = 0
+  }
+
+
+  def safeResetReps() = {
+    val confirmed = org.scalajs.dom.window.confirm(s"Are you sure you want to reset the count?")
+    if (confirmed)
+      resetReps
+    else
+      println("I won't throw away those sweet reps!")
+  }
 
   def safelyPostQuadSets(count: Int) = {
     val confirmed = org.scalajs.dom.window.confirm(s"Are you sure you want to submit $count quadsets?")
@@ -89,6 +117,9 @@ object Main {
     document.getElementById("counter").innerHTML = count.toString
     dom.window.setInterval(() => toggleColor(), 10000)
     document.getElementById("submit_quad_sets")
+      .addEventListener("click", (event: Event) => ApiInteractions.safelyPostQuadSets(count))
+
+    document.getElementById("reset_reps")
       .addEventListener("click", (event: Event) => ApiInteractions.safelyPostQuadSets(count))
 
   }
