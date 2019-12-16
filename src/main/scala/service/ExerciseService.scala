@@ -68,7 +68,10 @@ class ExerciseService[F[_]: ConcurrentEffect](
               successfullyCreatedExercise.asJson,
               Location(Uri.unsafeFromString(s"/exercises/${successfullyCreatedExercise.id.get}"))
             )
-          case Left(illegalStateException) => InternalServerError("We failed you.")
+          case Left(illegalStateException) => {
+            print("IllegalStateException wihle posting exercise: " + illegalStateException.getMessage)
+            InternalServerError("We failed you.")
+          }
         }
         bigResult <- wrappedResult
       }

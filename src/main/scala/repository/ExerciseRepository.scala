@@ -3,11 +3,10 @@ package repository
 import java.time.LocalDate
 
 import cats.effect.{IO, Sync}
-import doobie._
 import doobie.implicits._
 import doobie.util.transactor.Transactor
 import fs2.Stream
-import model.{DailyQuantizedExercise, Importance, Todo, ExerciseNotFoundError}
+import model.{DailyQuantizedExercise, ExerciseNotFoundError}
 
 trait ExerciseRepository[F[_]] {
   // TODO Push F throughout the rest of this file
@@ -75,7 +74,7 @@ class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends Exe
    */
 
   def updateQuantizedExercise(exercise: DailyQuantizedExercise, reps: Int): IO[Either[ExerciseNotFoundError.type, DailyQuantizedExercise]] = {
-    sql"UPDATE daily_quantized_exercises SET count = ${exercise.count + reps}"
+    sql"UPDATE daily_quantized_exercises SET count = ${exercise.count + reps} WHERE day = ${exercise.day} AND name = ${exercise.name}"
       .update
       .run
       .transact(transactor)

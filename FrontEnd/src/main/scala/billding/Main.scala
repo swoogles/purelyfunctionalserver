@@ -19,7 +19,7 @@ object ApiInteractions {
          |  "name" : "${p.name}",
          |  "day" : "${p.day}",
          |  "count" : ${p.count}
-         |  """.stripMargin
+         |}  """.stripMargin
     StringBody(serialized, "UTF-8", Some(MediaType.ApplicationJson))
   }
 
@@ -32,6 +32,8 @@ object ApiInteractions {
   def postQuadSets(count: Int) = {
     val exercise = DailyQuantizedExercise(id = Some(1), name = "QuadSets", day = LocalDate.now(ZoneId.of("UTC")).toString, count = count)
 
+    val constructedUri = uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
+    println("uri: " + constructedUri)
     val request = basicRequest
       .body(
         exercise
@@ -40,11 +42,12 @@ object ApiInteractions {
         //                  "day" -> exercise.day.toString,
         //                  "count" -> exercise.count)
       )
-      .post(uri"https://purelyfunctionalserver.herokuapp.com/exercises")
+      .post(constructedUri)
 
 
+    println("About to make a request: " + request)
     for {
-      response <- request.send()
+      response: Response[Either[String, String]] <- request.send()
     } {
       println(response.body)
       println(response.headers)
