@@ -11,6 +11,7 @@ import org.http4s.implicits._
 import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.server.middleware._
+import org.http4s.server.staticcontent.{FileService, fileService}
 import pureconfig.error.ConfigReaderException
 import repository._
 import service._
@@ -66,9 +67,11 @@ object Server extends IOApp with Http4sDsl[IO] {
       }
       weatherService = new WeatherService[IO](WeatherApi.impl[IO](client)).service
       homePageService = new HomePageService[IO](blocker).routes
+      resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
 
       httpApp = Router(
         "/" -> homePageService,
+        "/resources" -> resourceService,
         "/todo" -> todoService,
         "/github" -> githubService,
         "/exercises" -> exerciseService,
