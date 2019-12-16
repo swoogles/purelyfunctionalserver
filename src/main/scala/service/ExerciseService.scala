@@ -65,7 +65,7 @@ class ExerciseService[F[_]: ConcurrentEffect](
         wrappedResult <- exerciseLogic.createOrUpdate(newExercise) map {
           case Right(successfullyCreatedExercise) =>
             Created(
-              successfullyCreatedExercise.asJson,
+              successfullyCreatedExercise.count.toString,
               Location(Uri.unsafeFromString(s"/exercises/${successfullyCreatedExercise.id.get}"))
             )
           case Left(illegalStateException) => {

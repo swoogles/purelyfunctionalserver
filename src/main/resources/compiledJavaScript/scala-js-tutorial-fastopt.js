@@ -2393,14 +2393,43 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
   this$13.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(response$2) {
       var response = $as_Lsttp_client_Response(response$2);
-      var x$2 = response.body$1;
-      var this$15 = $m_s_Console$();
-      var this$16 = $as_Ljava_io_PrintStream(this$15.outVar$2.v$1);
-      this$16.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
-      var x$3 = response.headers$1;
-      var this$18 = $m_s_Console$();
-      var this$19 = $as_Ljava_io_PrintStream(this$18.outVar$2.v$1);
-      this$19.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
+      var x1 = $as_s_util_Either(response.body$1);
+      if ((x1 instanceof $c_s_util_Right)) {
+        var x2 = $as_s_util_Right(x1);
+        var jsonBody = $as_T(x2.value$2);
+        var x$2 = ("jsonBody: " + jsonBody);
+        var this$15 = $m_s_Console$();
+        var this$16 = $as_Ljava_io_PrintStream(this$15.outVar$2.v$1);
+        this$16.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+        var this$18 = new $c_sci_StringOps().init___T(jsonBody);
+        var this$20 = $m_jl_Integer$();
+        var $$this = this$18.repr$1;
+        var x$3 = ("jsonBody.toInt: " + this$20.parseInt__T__I__I($$this, 10));
+        var this$22 = $m_s_Console$();
+        var this$23 = $as_Ljava_io_PrintStream(this$22.outVar$2.v$1);
+        this$23.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
+        var jsx$1 = $m_Lbillding_Main$();
+        var this$25 = new $c_sci_StringOps().init___T(jsonBody);
+        var this$27 = $m_jl_Integer$();
+        var $$this$1 = this$25.repr$1;
+        jsx$1.dailyTotal$1 = this$27.parseInt__T__I__I($$this$1, 10);
+        var this$29 = $m_s_Console$();
+        var this$30 = $as_Ljava_io_PrintStream(this$29.outVar$2.v$1);
+        this$30.java$lang$JSConsoleBasedPrintStream$$printString__T__V("Resetting current count after successful submission\n");
+        $m_Lbillding_Main$().count$1 = 0;
+        var jsx$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
+        var this$31 = $m_Lbillding_Main$().count$1;
+        jsx$2.innerHTML = ("" + this$31);
+        var jsx$3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("daily_total");
+        var this$33 = $m_Lbillding_Main$().dailyTotal$1;
+        jsx$3.innerHTML = ("" + this$33)
+      } else {
+        throw new $c_s_MatchError().init___O(x1)
+      };
+      var x$4 = response.headers$1;
+      var this$36 = $m_s_Console$();
+      var this$37 = $as_Ljava_io_PrintStream(this$36.outVar$2.v$1);
+      this$37.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$4 + "\n"));
       return "hi"
     })
   })(this)), this.ec$1)
@@ -2422,7 +2451,8 @@ function $m_Lbillding_ApiInteractions$() {
 /** @constructor */
 function $c_Lbillding_Main$() {
   $c_O.call(this);
-  this.count$1 = 0
+  this.count$1 = 0;
+  this.dailyTotal$1 = 0
 }
 $c_Lbillding_Main$.prototype = new $h_O();
 $c_Lbillding_Main$.prototype.constructor = $c_Lbillding_Main$;
@@ -2433,6 +2463,7 @@ function $h_Lbillding_Main$() {
 $h_Lbillding_Main$.prototype = $c_Lbillding_Main$.prototype;
 $c_Lbillding_Main$.prototype.init___ = (function() {
   this.count$1 = 0;
+  this.dailyTotal$1 = 0;
   return this
 });
 $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
@@ -31516,24 +31547,24 @@ $c_jl_StringBuffer.prototype.init___I = (function(capacity) {
   $c_jl_StringBuffer.prototype.init___jl_StringBuilder.call(this, new $c_jl_StringBuilder().init___I(capacity));
   return this
 });
+$c_jl_StringBuffer.prototype.length__I = (function() {
+  return this.builder$1.length__I()
+});
 $c_jl_StringBuffer.prototype.append__T__jl_StringBuffer = (function(str) {
   var this$1 = this.builder$1;
   this$1.java$lang$StringBuilder$$content$f = (("" + this$1.java$lang$StringBuilder$$content$f) + str);
   return this
 });
-$c_jl_StringBuffer.prototype.length__I = (function() {
-  return this.builder$1.length__I()
-});
 $c_jl_StringBuffer.prototype.init___jl_StringBuilder = (function(builder) {
   this.builder$1 = builder;
   return this
 });
+$c_jl_StringBuffer.prototype.charAt__I__C = (function(index) {
+  return this.builder$1.charAt__I__C(index)
+});
 $c_jl_StringBuffer.prototype.append__C__jl_StringBuffer = (function(c) {
   this.builder$1.append__C__jl_StringBuilder(c);
   return this
-});
-$c_jl_StringBuffer.prototype.charAt__I__C = (function(index) {
-  return this.builder$1.charAt__I__C(index)
 });
 var $d_jl_StringBuffer = new $TypeData().initClass({
   jl_StringBuffer: 0
@@ -31629,14 +31660,14 @@ $c_jl_StringBuilder.prototype.length__I = (function() {
   var thiz = this.java$lang$StringBuilder$$content$f;
   return $uI(thiz.length)
 });
-$c_jl_StringBuilder.prototype.substring__I__I__T = (function(start, end) {
-  var thiz = this.java$lang$StringBuilder$$content$f;
-  return $as_T(thiz.substring(start, end))
-});
 $c_jl_StringBuilder.prototype.append__C__jl_StringBuilder = (function(c) {
   var str = $as_T($g.String.fromCharCode(c));
   this.java$lang$StringBuilder$$content$f = (("" + this.java$lang$StringBuilder$$content$f) + str);
   return this
+});
+$c_jl_StringBuilder.prototype.substring__I__I__T = (function(start, end) {
+  var thiz = this.java$lang$StringBuilder$$content$f;
+  return $as_T(thiz.substring(start, end))
 });
 $c_jl_StringBuilder.prototype.setCharAt__I__C__V = (function(index, ch) {
   var oldContent = this.java$lang$StringBuilder$$content$f;
@@ -53420,22 +53451,22 @@ $c_s_math_Numeric$ByteIsIntegral$.prototype.times__O__O__O = (function(x, y) {
   var y$1 = $uB(y);
   return $f_s_math_Numeric$ByteIsIntegral__times__B__B__B(this, x$1, y$1)
 });
-$c_s_math_Numeric$ByteIsIntegral$.prototype.compare__O__O__I = (function(x, y) {
-  var x$1 = $uB(x);
-  var y$1 = $uB(y);
-  return ((x$1 - y$1) | 0)
-});
 $c_s_math_Numeric$ByteIsIntegral$.prototype.quot__O__O__O = (function(x, y) {
   var x$1 = $uB(x);
   var y$1 = $uB(y);
   return $f_s_math_Numeric$ByteIsIntegral__quot__B__B__B(this, x$1, y$1)
 });
-$c_s_math_Numeric$ByteIsIntegral$.prototype.fromInt__I__O = (function(x) {
-  return $f_s_math_Numeric$ByteIsIntegral__fromInt__I__B(this, x)
+$c_s_math_Numeric$ByteIsIntegral$.prototype.compare__O__O__I = (function(x, y) {
+  var x$1 = $uB(x);
+  var y$1 = $uB(y);
+  return ((x$1 - y$1) | 0)
 });
 $c_s_math_Numeric$ByteIsIntegral$.prototype.toInt__O__I = (function(x) {
   var x$1 = $uB(x);
   return x$1
+});
+$c_s_math_Numeric$ByteIsIntegral$.prototype.fromInt__I__O = (function(x) {
+  return $f_s_math_Numeric$ByteIsIntegral__fromInt__I__B(this, x)
 });
 var $d_s_math_Numeric$ByteIsIntegral$ = new $TypeData().initClass({
   s_math_Numeric$ByteIsIntegral$: 0
@@ -53523,21 +53554,6 @@ $c_s_math_Numeric$CharIsIntegral$.prototype.times__O__O__O = (function(x, y) {
   var c = $f_s_math_Numeric$CharIsIntegral__times__C__C__C(this, x$1, y$1);
   return new $c_jl_Character().init___C(c)
 });
-$c_s_math_Numeric$CharIsIntegral$.prototype.compare__O__O__I = (function(x, y) {
-  if ((x === null)) {
-    var x$1 = 0
-  } else {
-    var this$2 = $as_jl_Character(x);
-    var x$1 = this$2.value$1
-  };
-  if ((y === null)) {
-    var y$1 = 0
-  } else {
-    var this$4 = $as_jl_Character(y);
-    var y$1 = this$4.value$1
-  };
-  return ((x$1 - y$1) | 0)
-});
 $c_s_math_Numeric$CharIsIntegral$.prototype.quot__O__O__O = (function(x, y) {
   if ((x === null)) {
     var x$1 = 0
@@ -53554,9 +53570,20 @@ $c_s_math_Numeric$CharIsIntegral$.prototype.quot__O__O__O = (function(x, y) {
   var c = $f_s_math_Numeric$CharIsIntegral__quot__C__C__C(this, x$1, y$1);
   return new $c_jl_Character().init___C(c)
 });
-$c_s_math_Numeric$CharIsIntegral$.prototype.fromInt__I__O = (function(x) {
-  var c = $f_s_math_Numeric$CharIsIntegral__fromInt__I__C(this, x);
-  return new $c_jl_Character().init___C(c)
+$c_s_math_Numeric$CharIsIntegral$.prototype.compare__O__O__I = (function(x, y) {
+  if ((x === null)) {
+    var x$1 = 0
+  } else {
+    var this$2 = $as_jl_Character(x);
+    var x$1 = this$2.value$1
+  };
+  if ((y === null)) {
+    var y$1 = 0
+  } else {
+    var this$4 = $as_jl_Character(y);
+    var y$1 = this$4.value$1
+  };
+  return ((x$1 - y$1) | 0)
 });
 $c_s_math_Numeric$CharIsIntegral$.prototype.toInt__O__I = (function(x) {
   if ((x === null)) {
@@ -53566,6 +53593,10 @@ $c_s_math_Numeric$CharIsIntegral$.prototype.toInt__O__I = (function(x) {
     var x$1 = this$2.value$1
   };
   return x$1
+});
+$c_s_math_Numeric$CharIsIntegral$.prototype.fromInt__I__O = (function(x) {
+  var c = $f_s_math_Numeric$CharIsIntegral__fromInt__I__C(this, x);
+  return new $c_jl_Character().init___C(c)
 });
 var $d_s_math_Numeric$CharIsIntegral$ = new $TypeData().initClass({
   s_math_Numeric$CharIsIntegral$: 0
@@ -53620,22 +53651,22 @@ $c_s_math_Numeric$IntIsIntegral$.prototype.times__O__O__O = (function(x, y) {
   var y$1 = $uI(y);
   return $f_s_math_Numeric$IntIsIntegral__times__I__I__I(this, x$1, y$1)
 });
-$c_s_math_Numeric$IntIsIntegral$.prototype.compare__O__O__I = (function(x, y) {
-  var x$1 = $uI(x);
-  var y$1 = $uI(y);
-  return ((x$1 === y$1) ? 0 : ((x$1 < y$1) ? (-1) : 1))
-});
 $c_s_math_Numeric$IntIsIntegral$.prototype.quot__O__O__O = (function(x, y) {
   var x$1 = $uI(x);
   var y$1 = $uI(y);
   return $f_s_math_Numeric$IntIsIntegral__quot__I__I__I(this, x$1, y$1)
 });
-$c_s_math_Numeric$IntIsIntegral$.prototype.fromInt__I__O = (function(x) {
-  return x
+$c_s_math_Numeric$IntIsIntegral$.prototype.compare__O__O__I = (function(x, y) {
+  var x$1 = $uI(x);
+  var y$1 = $uI(y);
+  return ((x$1 === y$1) ? 0 : ((x$1 < y$1) ? (-1) : 1))
 });
 $c_s_math_Numeric$IntIsIntegral$.prototype.toInt__O__I = (function(x) {
   var x$1 = $uI(x);
   return x$1
+});
+$c_s_math_Numeric$IntIsIntegral$.prototype.fromInt__I__O = (function(x) {
+  return x
 });
 var $d_s_math_Numeric$IntIsIntegral$ = new $TypeData().initClass({
   s_math_Numeric$IntIsIntegral$: 0
@@ -53702,15 +53733,6 @@ $c_s_math_Numeric$LongIsIntegral$.prototype.times__O__O__O = (function(x, y) {
   var hi$1 = t$1.hi$2;
   return $f_s_math_Numeric$LongIsIntegral__times__J__J__J(this, new $c_sjsr_RuntimeLong().init___I__I(lo, hi), new $c_sjsr_RuntimeLong().init___I__I(lo$1, hi$1))
 });
-$c_s_math_Numeric$LongIsIntegral$.prototype.compare__O__O__I = (function(x, y) {
-  var t = $uJ(x);
-  var lo = t.lo$2;
-  var hi = t.hi$2;
-  var t$1 = $uJ(y);
-  var lo$1 = t$1.lo$2;
-  var hi$1 = t$1.hi$2;
-  return $m_sjsr_RuntimeLong$().scala$scalajs$runtime$RuntimeLong$$compare__I__I__I__I__I(lo, hi, lo$1, hi$1)
-});
 $c_s_math_Numeric$LongIsIntegral$.prototype.quot__O__O__O = (function(x, y) {
   var t = $uJ(x);
   var lo = t.lo$2;
@@ -53720,14 +53742,23 @@ $c_s_math_Numeric$LongIsIntegral$.prototype.quot__O__O__O = (function(x, y) {
   var hi$1 = t$1.hi$2;
   return $f_s_math_Numeric$LongIsIntegral__quot__J__J__J(this, new $c_sjsr_RuntimeLong().init___I__I(lo, hi), new $c_sjsr_RuntimeLong().init___I__I(lo$1, hi$1))
 });
-$c_s_math_Numeric$LongIsIntegral$.prototype.fromInt__I__O = (function(x) {
-  return $f_s_math_Numeric$LongIsIntegral__fromInt__I__J(this, x)
+$c_s_math_Numeric$LongIsIntegral$.prototype.compare__O__O__I = (function(x, y) {
+  var t = $uJ(x);
+  var lo = t.lo$2;
+  var hi = t.hi$2;
+  var t$1 = $uJ(y);
+  var lo$1 = t$1.lo$2;
+  var hi$1 = t$1.hi$2;
+  return $m_sjsr_RuntimeLong$().scala$scalajs$runtime$RuntimeLong$$compare__I__I__I__I__I(lo, hi, lo$1, hi$1)
 });
 $c_s_math_Numeric$LongIsIntegral$.prototype.toInt__O__I = (function(x) {
   var t = $uJ(x);
   var lo = t.lo$2;
   var hi = t.hi$2;
   return $f_s_math_Numeric$LongIsIntegral__toInt__J__I(this, new $c_sjsr_RuntimeLong().init___I__I(lo, hi))
+});
+$c_s_math_Numeric$LongIsIntegral$.prototype.fromInt__I__O = (function(x) {
+  return $f_s_math_Numeric$LongIsIntegral__fromInt__I__J(this, x)
 });
 var $d_s_math_Numeric$LongIsIntegral$ = new $TypeData().initClass({
   s_math_Numeric$LongIsIntegral$: 0
@@ -53782,22 +53813,22 @@ $c_s_math_Numeric$ShortIsIntegral$.prototype.times__O__O__O = (function(x, y) {
   var y$1 = $uS(y);
   return $f_s_math_Numeric$ShortIsIntegral__times__S__S__S(this, x$1, y$1)
 });
-$c_s_math_Numeric$ShortIsIntegral$.prototype.compare__O__O__I = (function(x, y) {
-  var x$1 = $uS(x);
-  var y$1 = $uS(y);
-  return ((x$1 - y$1) | 0)
-});
 $c_s_math_Numeric$ShortIsIntegral$.prototype.quot__O__O__O = (function(x, y) {
   var x$1 = $uS(x);
   var y$1 = $uS(y);
   return $f_s_math_Numeric$ShortIsIntegral__quot__S__S__S(this, x$1, y$1)
 });
-$c_s_math_Numeric$ShortIsIntegral$.prototype.fromInt__I__O = (function(x) {
-  return $f_s_math_Numeric$ShortIsIntegral__fromInt__I__S(this, x)
+$c_s_math_Numeric$ShortIsIntegral$.prototype.compare__O__O__I = (function(x, y) {
+  var x$1 = $uS(x);
+  var y$1 = $uS(y);
+  return ((x$1 - y$1) | 0)
 });
 $c_s_math_Numeric$ShortIsIntegral$.prototype.toInt__O__I = (function(x) {
   var x$1 = $uS(x);
   return x$1
+});
+$c_s_math_Numeric$ShortIsIntegral$.prototype.fromInt__I__O = (function(x) {
+  return $f_s_math_Numeric$ShortIsIntegral__fromInt__I__S(this, x)
 });
 var $d_s_math_Numeric$ShortIsIntegral$ = new $TypeData().initClass({
   s_math_Numeric$ShortIsIntegral$: 0
@@ -65020,10 +65051,6 @@ function $h_scm_ListBuffer() {
   /*<skip>*/
 }
 $h_scm_ListBuffer.prototype = $c_scm_ListBuffer.prototype;
-$c_scm_ListBuffer.prototype.indexOf__O__I__I = (function(elem, from) {
-  var this$1 = this.scala$collection$mutable$ListBuffer$$start$6;
-  return $f_sc_GenSeqLike__indexOf__O__I__I(this$1, elem, from)
-});
 $c_scm_ListBuffer.prototype.copy__p6__V = (function() {
   if (this.isEmpty__Z()) {
     return (void 0)
@@ -65037,17 +65064,21 @@ $c_scm_ListBuffer.prototype.copy__p6__V = (function() {
     cursor = $as_sci_List(cursor.tail__O())
   }
 });
+$c_scm_ListBuffer.prototype.indexOf__O__I__I = (function(elem, from) {
+  var this$1 = this.scala$collection$mutable$ListBuffer$$start$6;
+  return $f_sc_GenSeqLike__indexOf__O__I__I(this$1, elem, from)
+});
 $c_scm_ListBuffer.prototype.repr__scg_Subtractable = (function() {
   return this
+});
+$c_scm_ListBuffer.prototype.head__O = (function() {
+  return this.scala$collection$mutable$ListBuffer$$start$6.head__O()
 });
 $c_scm_ListBuffer.prototype.init___ = (function() {
   this.scala$collection$mutable$ListBuffer$$start$6 = $m_sci_Nil$();
   this.exported$6 = false;
   this.len$6 = 0;
   return this
-});
-$c_scm_ListBuffer.prototype.head__O = (function() {
-  return this.scala$collection$mutable$ListBuffer$$start$6.head__O()
 });
 $c_scm_ListBuffer.prototype.apply__I__O = (function(n) {
   if (((n < 0) || (n >= this.len$6))) {
@@ -65064,23 +65095,23 @@ $c_scm_ListBuffer.prototype.lengthCompare__I__I = (function(len) {
   var this$1 = this.scala$collection$mutable$ListBuffer$$start$6;
   return $f_sc_LinearSeqOptimized__lengthCompare__I__I(this$1, len)
 });
-$c_scm_ListBuffer.prototype.apply__O__O = (function(v1) {
-  return this.apply__I__O($uI(v1))
-});
 $c_scm_ListBuffer.prototype.sameElements__sc_GenIterable__Z = (function(that) {
   var this$1 = this.scala$collection$mutable$ListBuffer$$start$6;
   return $f_sc_LinearSeqOptimized__sameElements__sc_GenIterable__Z(this$1, that)
+});
+$c_scm_ListBuffer.prototype.apply__O__O = (function(v1) {
+  return this.apply__I__O($uI(v1))
 });
 $c_scm_ListBuffer.prototype.$$minus__O__scg_Subtractable = (function(elem) {
   var this$1 = new $c_scm_ListBuffer().init___().$$plus$plus$eq__sc_TraversableOnce__scm_ListBuffer(this);
   return this$1.$$minus$eq__O__scm_ListBuffer(elem)
 });
-$c_scm_ListBuffer.prototype.isEmpty__Z = (function() {
-  return (this.len$6 === 0)
-});
 $c_scm_ListBuffer.prototype.toList__sci_List = (function() {
   this.exported$6 = (!this.isEmpty__Z());
   return this.scala$collection$mutable$ListBuffer$$start$6
+});
+$c_scm_ListBuffer.prototype.isEmpty__Z = (function() {
+  return (this.len$6 === 0)
 });
 $c_scm_ListBuffer.prototype.thisCollection__sc_Traversable = (function() {
   return this
@@ -65231,13 +65262,13 @@ $c_scm_ListBuffer.prototype.$$plus$eq__O__scm_ListBuffer = (function(x) {
   this.len$6 = ((1 + this.len$6) | 0);
   return this
 });
-$c_scm_ListBuffer.prototype.$$minus$eq__O__scm_Buffer = (function(x) {
-  return this.$$minus$eq__O__scm_ListBuffer(x)
-});
 $c_scm_ListBuffer.prototype.isDefinedAt__O__Z = (function(x) {
   var x$1 = $uI(x);
   var this$1 = this.scala$collection$mutable$ListBuffer$$start$6;
   return $f_sc_LinearSeqOptimized__isDefinedAt__I__Z(this$1, x$1)
+});
+$c_scm_ListBuffer.prototype.$$minus$eq__O__scm_Buffer = (function(x) {
+  return this.$$minus$eq__O__scm_ListBuffer(x)
 });
 $c_scm_ListBuffer.prototype.toSet__sci_Set = (function() {
   var this$1 = this.scala$collection$mutable$ListBuffer$$start$6;

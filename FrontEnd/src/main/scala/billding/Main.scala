@@ -4,25 +4,10 @@ import java.time.{LocalDate, ZoneId}
 
 import scala.concurrent.ExecutionContext.global
 
-import java.time.{LocalDate, ZoneId}
-
-import org.scalajs.dom
-import dom.{Event, document}
-import io.circe.{Decoder, Encoder}
-import io.circe._
-import io.circe.generic.semiauto._
-import io.circe.syntax._
-import io.circe.generic.JsonCodec
-import sttp.client.circe._
-import sttp.model.MediaType
-
-import scala.concurrent.ExecutionContext.global
-
 
 case class DailyQuantizedExercise(id: Option[Long], name: String, day: String, count: Int)
 
 object ApiInteractions {
-  import sttp.client._
   //  implicit val fooDecoder: Decoder[Foo] = deriveDecoder
   //  implicit val fooEncoder: Encoder[DailyQuantizedExercise] =
   //    Encoder.forProduct4("id", "name", "day", "count")
@@ -50,13 +35,7 @@ object ApiInteractions {
     val constructedUri = uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
     println("uri: " + constructedUri)
     val request = basicRequest
-      .body(
-        exercise
-        //                Map(
-        //                  "name" -> exercise.name,
-        //                  "day" -> exercise.day.toString,
-        //                  "count" -> exercise.count)
-      )
+      .body(exercise)
       .post(constructedUri)
 
 
@@ -64,7 +43,18 @@ object ApiInteractions {
     for {
       response: Response[Either[String, String]] <- request.send()
     } {
-      println(response.body)
+      response.body match {
+        case Right(jsonBody) => {
+          println("jsonBody: " + jsonBody)
+          println("jsonBody.toInt: " + jsonBody.toInt)
+          Main.dailyTotal = jsonBody.toInt
+          println("Resetting current count after successful submission")
+          Main.count = 0
+          document.getElementById("counter").innerHTML = Main.count.toString
+          document.getElementById("daily_total").innerHTML = Main.dailyTotal.toString
+//          println("count: " + jsonBody.asJson.findAllByKey("count").head.asString.get.toInt)
+        }
+      }
       println(response.headers)
       "hi"
     }
@@ -73,6 +63,7 @@ object ApiInteractions {
 
 object Main {
   var count = 0
+  var dailyTotal = 0
 
   def toggleColor() =
     if (document.body.getAttribute("style").contains("green")) {
