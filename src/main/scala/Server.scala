@@ -1,6 +1,6 @@
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
-import cats.effect.{Clock, ExitCode, IO, IOApp}
+import cats.effect.{Blocker, Clock, ExitCode, IO, IOApp}
 import cats.implicits._
 import config.{Config, ConfigData, DatabaseConfig}
 import db.Database
@@ -13,7 +13,7 @@ import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.server.middleware._
 import pureconfig.error.ConfigReaderException
 import repository._
-import service.{ExerciseService, GithubService, TodoService, WeatherService}
+import service._
 import zio.{DefaultRuntime, Runtime, ZEnv}
 
 import scala.concurrent.ExecutionContext
@@ -52,7 +52,8 @@ object Server extends IOApp with Http4sDsl[IO] {
       transactor <- Stream.resource(Database.transactor(config)(ec))
       client <- BlazeClientBuilder[IO](global).stream
       _ <- Stream.eval(Database.initialize(transactor))
-      service = new TodoService[IO](new TodoRepository[IO](transactor)).service
+      blocker <- Stream.resource(Blocker[IO])
+      todoService = new TodoService[IO](new TodoRepository[IO](transactor)).service
       exerciseService =
       new ExerciseService[IO](
         new ExerciseLogic[IO](
@@ -64,8 +65,11 @@ object Server extends IOApp with Http4sDsl[IO] {
         new GithubService(Github.impl[IO](client)).service
       }
       weatherService = new WeatherService[IO](WeatherApi.impl[IO](client)).service
+      homePageService = new HomePageService[IO](blocker).routes
+
       httpApp = Router(
-        "/" -> service,
+        "/" -> homePageService,
+        "/todo" -> todoService,
         "/github" -> githubService,
         "/exercises" -> exerciseService,
         "/weather" -> weatherService,
