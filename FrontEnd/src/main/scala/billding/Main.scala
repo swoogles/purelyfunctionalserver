@@ -1,12 +1,19 @@
 package billding
 
 
+import org.scalajs.dom
+import org.scalajs.dom.Event
+import org.scalajs.dom.document
+import sttp.client.{BodySerializer, FetchBackend, Response, StringBody}
+import sttp.model.MediaType
 
 import scala.concurrent.ExecutionContext.global
+import scala.scalajs.js.Date
 
 case class DailyQuantizedExercise(id: Option[Long], name: String, day: String, count: Int)
 
 object ApiInteractions {
+  import sttp.client._
 
   implicit val personSerializer: BodySerializer[DailyQuantizedExercise] = { p: DailyQuantizedExercise =>
     val serialized =
