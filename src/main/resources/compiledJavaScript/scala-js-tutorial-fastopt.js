@@ -2215,12 +2215,12 @@ $c_Lbillding_ApiInteractions$.prototype.safelyPostQuadSets__I__V = (function(cou
 $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
   var jsDate = new $g.Date();
   var this$1 = $uI(jsDate.getFullYear());
-  var this$3 = $uI(jsDate.getUTCMonth());
-  var this$5 = $uI(jsDate.getUTCDate());
+  var this$3 = $uI(jsDate.getMonth());
+  var this$5 = $uI(jsDate.getDate());
   var formattedLocalDate = ((((("" + this$1) + "-") + ("" + this$3)) + "-") + ("" + this$5));
   var exercise = new $c_Lbillding_DailyQuantizedExercise().init___s_Option__T__T__I(new $c_s_Some().init___O(new $c_sjsr_RuntimeLong().init___I__I(1, 0)), "QuadSets", formattedLocalDate, count);
   var this$9 = $m_Lsttp_client_package$();
-  var array = ["http://localhost:8080/exercises"];
+  var array = ["https://purelyfunctionalserver.herokuapp.com/exercises"];
   var sc = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array));
   var this$10 = new $c_Lsttp_model_UriInterpolator$UriContext().init___Lsttp_model_UriInterpolator__s_StringContext(this$9, sc);
   var args = $m_sci_Nil$();
@@ -2293,6 +2293,16 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
     })
   })(this)), this.ec$1)
 });
+$c_Lbillding_ApiInteractions$.prototype.safeResetReps__V = (function() {
+  var confirmed = $uZ($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().confirm("Are you sure you want to reset the count?"));
+  if (confirmed) {
+    $m_Lbillding_Main$().count$1 = 0
+  } else {
+    var this$2 = $m_s_Console$();
+    var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
+    this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("I won't throw away those sweet reps!\n")
+  }
+});
 var $d_Lbillding_ApiInteractions$ = new $TypeData().initClass({
   Lbillding_ApiInteractions$: 0
 }, false, "billding.ApiInteractions$", {
@@ -2341,7 +2351,7 @@ $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
   qual$1.addEventListener("click", x$2);
   var qual$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("reset_reps");
   var x$5 = (function(arg1$2$1) {
-    $m_Lbillding_ApiInteractions$().safelyPostQuadSets__I__V($m_Lbillding_Main$().count$1)
+    $m_Lbillding_ApiInteractions$().safeResetReps__V()
   });
   qual$2.addEventListener("click", x$5)
 });

@@ -112,7 +112,7 @@ object Main {
       .addEventListener("click", (event: Event) => ApiInteractions.safelyPostQuadSets(count))
 
     document.getElementById("reset_reps")
-      .addEventListener("click", (event: Event) => ApiInteractions.safelyPostQuadSets(count))
+      .addEventListener("click", (event: Event) => ApiInteractions.safeResetReps())
 
   }
 }
