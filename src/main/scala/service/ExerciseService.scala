@@ -62,6 +62,7 @@ class ExerciseService[F[_]: ConcurrentEffect](
     case req @ POST -> Root =>
       for {
         newExercise <- req.decodeJson[DailyQuantizedExercise]
+        _ <- IO { println("postedExercise day: " + newExercise.day)}
         wrappedResult <- exerciseLogic.createOrUpdate(newExercise) map {
           case Right(successfullyCreatedExercise) =>
             Created(
