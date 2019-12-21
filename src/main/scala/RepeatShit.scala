@@ -5,13 +5,13 @@ import scala.concurrent.duration._
 
 object RepeatShit {
   def infiniteIO(id: Int)(implicit cs: ContextShift[IO], timer: Timer[IO]): IO[Fiber[IO, Unit]] = {
-    def repeat: IO[Unit] = IO(println("I should periodically retrieve Github info!")).flatMap(_ => IO.shift *> IO.sleep(15.minutes) *> repeat)
+    def repeat: IO[Unit] = IO(println("I should periodically retrieve Github info!")).flatMap(_ => IO.shift *> IO.sleep(15.seconds) *> repeat)
 
     repeat.start
   }
 
   def infiniteWeatherCheck(implicit cs: ContextShift[IO], timer: Timer[IO]): IO[Fiber[IO, Unit]] = {
-    def repeat: IO[Unit] = IO(println("I should get the weather data every few minutes.")).flatMap(_ => IO.shift *> IO.sleep(10.minutes) *> repeat)
+    def repeat: IO[Unit] = IO(println("I should get the weather data every few minutes.")).flatMap(_ => IO.shift *> IO.sleep(10.seconds) *> repeat)
 
     repeat.start
   }

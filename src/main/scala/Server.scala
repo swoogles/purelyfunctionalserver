@@ -29,7 +29,6 @@ object Server extends IOApp with Http4sDsl[IO] {
   val delayedExecutor = new ScheduledThreadPoolExecutor(1)
   implicit val runtime: Runtime[ZEnv] = new DefaultRuntime {}
 
-
   val fallBackConfig =
     DatabaseConfig("org.postgresql.Driver", "jdbc:postgresql:doobie", "postgres", "password")
 
@@ -50,13 +49,13 @@ object Server extends IOApp with Http4sDsl[IO] {
       )
       herokuDbConfigAttempt <- Stream.attemptEval(configImpl.loadDatabaseEnvironmentVariables())
       configAttempt <- Stream.attemptEval(configImpl.load())
-      config = herokuDbConfigAttempt.getOrElse(configAttempt.map(_.database).getOrElse(fallBackConfig))
+      databaseConfig = herokuDbConfigAttempt.getOrElse(configAttempt.map(_.database).getOrElse(fallBackConfig))
       clock: Clock[IO] = timer.clock
-      transactor <- Stream.resource(Database.transactor(config)(ec))
+      transactor <- Stream.resource(Database.transactor(databaseConfig)(ec))
       client <- BlazeClientBuilder[IO](global).stream
       _ <- Stream.eval(Database.initialize(transactor))
       blocker <- Stream.resource(Blocker[IO])
-      httpApp = initializeRoutes(transactor, client, blocker)
+      httpApp = initializeServicesAndRoutes(transactor, client, blocker)
       originConfig = CORSConfig(
         anyOrigin = false,
         allowedOrigins = Set("quadsets.netlify.com"),
@@ -64,8 +63,7 @@ object Server extends IOApp with Http4sDsl[IO] {
         maxAge = 1.day.toSeconds)
       corsApp = CORS(httpApp, originConfig) // TODO Use this eventually
 
-      _ <- Stream.eval(RepeatShit.infiniteIO(0))
-      _ <- Stream.eval(RepeatShit.infiniteWeatherCheck)
+      _ <- Stream.eval(RepeatShit.infiniteIO(0).combine(RepeatShit.infiniteWeatherCheck))
       exitCode <- BlazeServerBuilder[IO]
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
         .withHttpApp(httpApp)
@@ -73,7 +71,7 @@ object Server extends IOApp with Http4sDsl[IO] {
     } yield exitCode
   }
 
-  def initializeRoutes(transactor: HikariTransactor[IO], client: Client[IO], blocker: Blocker) = {
+  def initializeServicesAndRoutes(transactor: HikariTransactor[IO], client: Client[IO], blocker: Blocker) = {
 
     val todoService = new TodoService[IO](new TodoRepository[IO](transactor)).service
     val exerciseService =
