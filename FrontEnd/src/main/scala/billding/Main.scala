@@ -52,20 +52,44 @@ object ApiInteractions {
     println("Fine, I won't do anything then!")
   }
 
+  def getQuadSetHistory() = {
+    val constructedUri =
+//      uri"https://purelyfunctionalserver.herokuapp.com/exercises"
+                uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
+    println("historical uri: " + constructedUri)
+    val request = basicRequest
+      .get(constructedUri)
+
+
+    for {
+      response: Response[Either[String, String]] <- request.send()
+    } {
+      response.body match {
+        case Right(jsonBody) => {
+          println("jsonBody: " + jsonBody)
+        }
+        case Left(failure) => {
+          println("Failure: " + failure)
+        }
+      }
+      println(response.headers)
+      "hi"
+    }
+
+  }
+
   def postQuadSets(count: Int) = {
     val jsDate = new Date()
     val formattedLocalDate = jsDate.getFullYear().toString + "-" + jsDate.getMonth().toString + "-" + jsDate.getDate().toString
       val exercise = DailyQuantizedExercise(id = Some(1), name = "QuadSets", day = formattedLocalDate, count = count)
 
       val constructedUri =
-        uri"https://purelyfunctionalserver.herokuapp.com/exercises"
-//            uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
+//        uri"https://purelyfunctionalserver.herokuapp.com/exercises"
+            uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
       println("uri: " + constructedUri)
       val request = basicRequest
         .body(exercise)
         .post(constructedUri)
-
-    println("exercise day: " + exercise.day)
 
 
       println("About to make a request: " + request)
@@ -104,6 +128,8 @@ object Main {
     }
 
   def main(args: Array[String]): Unit = {
+    println("I'm flying")
+    ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(count) // Doing this to get the initial count
     document.body.setAttribute("style", "background-color: green")
     document.getElementById("counter").innerHTML = count.toString
