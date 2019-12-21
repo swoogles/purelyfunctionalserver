@@ -1,11 +1,13 @@
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
-import cats.effect.{Blocker, Clock, ExitCode, IO, IOApp}
+import cats.data.Kleisli
+import cats.effect.{Blocker, Clock, ConcurrentEffect, ExitCode, IO, IOApp}
 import cats.implicits._
 import config.{Config, ConfigData, DatabaseConfig}
 import db.Database
 import doobie.hikari.HikariTransactor
 import fs2.Stream
+import org.http4s.{Request, Response}
 import org.http4s.client.Client
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.dsl.Http4sDsl
@@ -39,39 +41,57 @@ object Server extends IOApp with Http4sDsl[IO] {
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
     for {
-      configImpl <- Stream.eval(IO {
-        Config.impl[IO](
-          (ex) => IO.raiseError[ConfigData](new ConfigReaderException[ConfigData](ex)),
-          IO.pure,
-          IO.pure,
-          (ex) => IO.raiseError[DatabaseConfig](ex))
-      }
+      fullyBakedConfig <- Stream.eval(
+        configSteps()
       )
-      herokuDbConfigAttempt <- Stream.attemptEval(configImpl.loadDatabaseEnvironmentVariables())
-      configAttempt <- Stream.attemptEval(configImpl.load())
-      databaseConfig = herokuDbConfigAttempt.getOrElse(configAttempt.map(_.database).getOrElse(fallBackConfig))
       clock: Clock[IO] = timer.clock
-      transactor <- Stream.resource(Database.transactor(databaseConfig)(ec))
+      transactor <- Stream.resource(Database.transactor(fullyBakedConfig.database)(ec))
       client <- BlazeClientBuilder[IO](global).stream
       _ <- Stream.eval(Database.initialize(transactor))
       blocker <- Stream.resource(Blocker[IO])
-      httpApp = initializeServicesAndRoutes(transactor, client, blocker)
-      originConfig = CORSConfig(
-        anyOrigin = false,
-        allowedOrigins = Set("quadsets.netlify.com"),
-        allowCredentials = false,
-        maxAge = 1.day.toSeconds)
-      corsApp = CORS(httpApp, originConfig) // TODO Use this eventually
+      httpApp = initializeServicesAndRoutes[IO](transactor, client, blocker)
+      appWithMiddleWare = applyMiddleWareToHttpApp(httpApp)
 
       _ <- Stream.eval(RepeatShit.infiniteIO(0).combine(RepeatShit.infiniteWeatherCheck))
       exitCode <- BlazeServerBuilder[IO]
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
-        .withHttpApp(httpApp)
+        .withHttpApp(appWithMiddleWare)
         .serve
     } yield exitCode
   }
 
-  def initializeServicesAndRoutes(transactor: HikariTransactor[IO], client: Client[IO], blocker: Blocker) = {
+  def configSteps() = {
+    val configImpl =
+      Config.impl[IO](
+        (ex) => IO.raiseError[ConfigData](new ConfigReaderException[ConfigData](ex)),
+        IO.pure,
+        IO.pure,
+        (ex) => IO.raiseError[DatabaseConfig](ex))
+
+    configImpl.load().flatMap {
+      configFromFile =>
+        configImpl
+          .loadDatabaseEnvironmentVariables()
+          .map(envDbConfig => configFromFile.copy(database = envDbConfig))
+          .orElse(IO.pure(configFromFile))
+    }
+  }
+
+  def applyMiddleWareToHttpApp(httpApp: Kleisli[IO, Request[IO], Response[IO]]) = {
+    val originConfig = CORSConfig(
+      anyOrigin = false,
+      allowedOrigins = Set("quadsets.netlify.com"),
+      allowCredentials = false,
+      maxAge = 1.day.toSeconds)
+    val corsApp = CORS(httpApp, originConfig) // TODO Use this eventually
+    httpApp
+  }
+
+  def initializeServicesAndRoutes[F[_]: ConcurrentEffect](
+                                   transactor: HikariTransactor[IO],
+                                   client: Client[IO],
+                                   blocker: Blocker
+                                 ): Kleisli[IO, Request[IO], Response[IO]] = {
 
     val todoService = new TodoService[IO](new TodoRepository[IO](transactor)).service
     val exerciseService =
