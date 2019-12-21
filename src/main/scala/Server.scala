@@ -4,7 +4,9 @@ import cats.effect.{Blocker, Clock, ExitCode, IO, IOApp}
 import cats.implicits._
 import config.{Config, ConfigData, DatabaseConfig}
 import db.Database
+import doobie.hikari.HikariTransactor
 import fs2.Stream
+import org.http4s.client.Client
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.dsl.Http4sDsl
 import org.http4s.implicits._
@@ -54,29 +56,7 @@ object Server extends IOApp with Http4sDsl[IO] {
       client <- BlazeClientBuilder[IO](global).stream
       _ <- Stream.eval(Database.initialize(transactor))
       blocker <- Stream.resource(Blocker[IO])
-      todoService = new TodoService[IO](new TodoRepository[IO](transactor)).service
-      exerciseService =
-      new ExerciseService[IO](
-        new ExerciseLogic[IO](
-          new ExerciseRepositoryImpl[IO](transactor)
-        )
-      ).service
-
-      githubService = {
-        new GithubService(Github.impl[IO](client)).service
-      }
-      weatherService = new WeatherService[IO](WeatherApi.impl[IO](client)).service
-      homePageService = new HomePageService[IO](blocker).routes
-      resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
-
-      httpApp = Router(
-        "/" -> homePageService,
-        "/resources" -> resourceService,
-        "/todo" -> todoService,
-        "/github" -> githubService,
-        "/exercises" -> exerciseService,
-        "/weather" -> weatherService,
-      ).orNotFound
+      httpApp = initializeRoutes(transactor, client, blocker)
       originConfig = CORSConfig(
         anyOrigin = false,
         allowedOrigins = Set("quadsets.netlify.com"),
@@ -91,5 +71,32 @@ object Server extends IOApp with Http4sDsl[IO] {
         .withHttpApp(httpApp)
         .serve
     } yield exitCode
+  }
+
+  def initializeRoutes(transactor: HikariTransactor[IO], client: Client[IO], blocker: Blocker) = {
+
+    val todoService = new TodoService[IO](new TodoRepository[IO](transactor)).service
+    val exerciseService =
+      new ExerciseService[IO](
+        new ExerciseLogic[IO](
+          new ExerciseRepositoryImpl[IO](transactor)
+        )
+      ).service
+
+    val githubService = {
+      new GithubService(Github.impl[IO](client)).service
+    }
+    val weatherService = new WeatherService[IO](WeatherApi.impl[IO](client)).service
+    val homePageService = new HomePageService[IO](blocker).routes
+    val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
+
+    Router(
+      "/" -> homePageService,
+      "/resources" -> resourceService,
+      "/todo" -> todoService,
+      "/github" -> githubService,
+      "/exercises" -> exerciseService,
+      "/weather" -> weatherService,
+    ).orNotFound
   }
 }
