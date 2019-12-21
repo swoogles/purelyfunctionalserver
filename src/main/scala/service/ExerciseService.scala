@@ -30,7 +30,7 @@ class ExerciseService[F[_]: ConcurrentEffect](
     case GET -> Root =>
         Ok(
           Stream("[") ++
-            exerciseLogic.getExercisesFor("quad_sets")
+            exerciseLogic.getExercisesFor("QuadSets")
               .map(_.asJson.noSpaces)
               .intersperse(",") ++ Stream("]")
           , `Content-Type`(MediaType.application.json)
