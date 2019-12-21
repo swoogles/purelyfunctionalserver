@@ -24,20 +24,21 @@ class ExerciseService[F[_]: ConcurrentEffect](
   val clocky: IO[Long] = clock.monotonic(MILLISECONDS)
   val shittyJavaClock = java.time.Clock.systemDefaultZone()
 
+
+
   val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
-    case GET -> Root => {
+    case GET -> Root =>
+        Ok(
+          Stream("[") ++
+            exerciseLogic.getExercisesFor("quad_sets")
+              .map(_.asJson.noSpaces)
+              .intersperse(",") ++ Stream("]")
+          , `Content-Type`(MediaType.application.json)
+        )
+
+
       /*
-      Ok(
-        for {
-          res <- IO {"hi"}
-        } yield {
-          res
-        }
-      )
-
-       */
-
-//      /*
+    case GET -> Root => {
       Ok(
           Stream("[") ++
             exerciseLogic.getExercisesForToday( shittyJavaClock.instant().atZone(ZoneId.systemDefault()).toLocalDate)
@@ -48,16 +49,9 @@ class ExerciseService[F[_]: ConcurrentEffect](
 
       }
 
+       */
 
 
-      /*
-    case GET -> Root =>
-      for {
-        getResult <- exerciseLogic.getTodo(id)
-        response <- todoResult(getResult)
-      } yield response
-
-      */
 
     case req @ POST -> Root =>
       for {

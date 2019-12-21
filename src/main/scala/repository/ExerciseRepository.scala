@@ -11,7 +11,7 @@ import model.{DailyQuantizedExercise, ExerciseNotFoundError}
 trait ExerciseRepository[F[_]] {
   // TODO Push F throughout the rest of this file
   def getExercise(name: String, day: LocalDate): IO[Option[DailyQuantizedExercise]]
-  def getExercisesFor(day: LocalDate): Stream[IO, DailyQuantizedExercise]
+  def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise]
   def createExercise(exercise: DailyQuantizedExercise): IO[DailyQuantizedExercise]
   def updateQuantizedExercise(exercise: DailyQuantizedExercise, reps: Int): IO[Either[ExerciseNotFoundError.type, DailyQuantizedExercise]]
 }
@@ -19,8 +19,8 @@ trait ExerciseRepository[F[_]] {
 class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends ExerciseRepository[F] {
 //  private implicit val importanceMeta: Meta[Importance] = Meta[String].timap(Importance.unsafeFromString)( _.value)
 
-  def getExercisesFor(day: LocalDate): Stream[IO, DailyQuantizedExercise] =
-    sql"SELECT id, name, day, count FROM daily_quantized_exercises"
+  def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise] =
+    sql"SELECT id, name, day, count FROM daily_quantized_exercises WHERE name = $name"
       .query[DailyQuantizedExercise]
       .stream
       .transact(transactor)

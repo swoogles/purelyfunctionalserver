@@ -7,8 +7,9 @@ import fs2.Stream
 import model.DailyQuantizedExercise
 
 class ExerciseLogic[F[_] : Sync](exerciseRepository: ExerciseRepository[F]) {
-  def getExercisesForToday(day: LocalDate): Stream[IO, DailyQuantizedExercise] =
-    exerciseRepository.getExercisesFor(day)
+
+  def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise] =
+    exerciseRepository.getExercisesFor(name)
 
   def createOrUpdate(dailyQuantizedExercise: DailyQuantizedExercise): IO[Either[ IllegalStateException, DailyQuantizedExercise]] = {
 
