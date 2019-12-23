@@ -107,6 +107,7 @@ object Server extends IOApp with Http4sDsl[IO] {
     val weatherService = new WeatherService[IO](WeatherApi.impl[IO](client)).service
     val homePageService = new HomePageService[IO](blocker).routes
     val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
+    val authService = new OAuthService[IO].service
 
     Router(
       "/" -> homePageService,
@@ -115,6 +116,7 @@ object Server extends IOApp with Http4sDsl[IO] {
       "/github" -> githubService,
       "/exercises" -> exerciseService,
       "/weather" -> weatherService,
+      "/oauth" -> authService
     ).orNotFound
   }
 }

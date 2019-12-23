@@ -66,6 +66,7 @@ object ApiInteractions {
     } {
       response.body match {
         case Right(jsonBody) => {
+          document.getElementById("exercise_history").innerHTML = jsonBody
           println("jsonBody: " + jsonBody)
         }
         case Left(failure) => {

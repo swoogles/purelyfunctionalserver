@@ -2317,6 +2317,7 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
       if ((x1 instanceof $c_s_util_Right)) {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
+        $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("exercise_history").innerHTML = jsonBody;
         var x$1 = ("jsonBody: " + jsonBody);
         var this$11 = $m_s_Console$();
         var this$12 = $as_Ljava_io_PrintStream(this$11.outVar$2.v$1);
