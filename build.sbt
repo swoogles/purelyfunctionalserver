@@ -34,6 +34,8 @@ lazy val uTestVersion = "0.7.1"
 
 lazy val zioVersion = "1.0.0-RC17"
 
+lazy val tsecV = "0.0.1-M11"
+
 testFrameworks += new TestFramework("utest.runner.Framework")
 
 lazy val root = (project in file("."))
@@ -71,7 +73,23 @@ lazy val root = (project in file("."))
       "org.scalamock"         %% "scalamock"            % ScalaMockVersion  % "test",
       "com.lihaoyi"           %% "utest"                % uTestVersion % "test",
       "dev.zio"               %% "zio"                  % zioVersion,
-      "dev.zio"               %% "zio-interop-cats"     % "2.0.0.0-RC10"
+      "dev.zio"               %% "zio-interop-cats"     % "2.0.0.0-RC10",
+      "javax.servlet" % "javax.servlet-api" % "3.1.0", // No good for Scala
+//      "com.nulab-inc" %% "scala-oauth2-core" % "1.5.0",
+      "com.auth0" % "mvc-auth-commons" % "1.1.0",
+      // Ditch all this tsec stuff if the Heroku/Java examples end up getting me there.
+      "io.github.jmcardon" %% "tsec-common" % tsecV,
+      "io.github.jmcardon" %% "tsec-password" % tsecV,
+      "io.github.jmcardon" %% "tsec-cipher-jca" % tsecV,
+      "io.github.jmcardon" %% "tsec-cipher-bouncy" % tsecV,
+      "io.github.jmcardon" %% "tsec-mac" % tsecV,
+      "io.github.jmcardon" %% "tsec-signatures" % tsecV,
+      "io.github.jmcardon" %% "tsec-hash-jca" % tsecV,
+      "io.github.jmcardon" %% "tsec-hash-bouncy" % tsecV,
+      "io.github.jmcardon" %% "tsec-libsodium" % tsecV,
+      "io.github.jmcardon" %% "tsec-jwt-mac" % tsecV,
+      "io.github.jmcardon" %% "tsec-jwt-sig" % tsecV,
+      "io.github.jmcardon" %% "tsec-http4s" % tsecV,
 
 )
 ).enablePlugins(JavaServerAppPackaging)
