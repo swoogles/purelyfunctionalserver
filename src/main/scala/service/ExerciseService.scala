@@ -2,7 +2,7 @@ package service
 
 import java.time.ZoneId
 
-import cats.effect.{Clock, ConcurrentEffect, IO}
+import cats.effect.{Clock, ConcurrentEffect, IO, Sync}
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
@@ -18,10 +18,11 @@ import scala.concurrent.duration.MILLISECONDS
 class ExerciseService[F[_]: ConcurrentEffect](
                                                   exerciseLogic: ExerciseLogic[F]
                                                 )(implicit
-                                                  clock: Clock[IO] // TODO Why can't this be F?
+F: Sync[F],
+                                                  clock: Clock[F] // TODO Why can't this be F?
 ) extends Http4sDsl[IO] {
 
-  val clocky: IO[Long] = clock.monotonic(MILLISECONDS)
+  val clocky: F[Long] = clock.monotonic(MILLISECONDS)
   val shittyJavaClock = java.time.Clock.systemDefaultZone()
 
 
