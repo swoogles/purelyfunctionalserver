@@ -1,14 +1,15 @@
 package service
 
-import cats.effect.Sync
+import cats.effect.{IO, Sync}
 import com.auth0.SessionUtils
 import fs2.Stream
+import io.chrisdavenport.vault.Key
 import io.circe.generic.auto._
 import io.circe.syntax._
 import javax.servlet.http.{HttpServlet, HttpServletRequestWrapper}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Location, `Content-Type`}
-import org.http4s.{HttpRoutes, MediaType, Uri}
+import org.http4s.{HttpRoutes, MediaType, Response, Uri}
 import repository.Github
 
 case class OauthConfig(domain: String, clientId: String, clientSecret: String)
@@ -24,23 +25,29 @@ class OAuthService[F[_]: Sync]() extends Http4sDsl[F] {
   import com.auth0.jwk.JwkProviderBuilder
 
   val jwkProvider: JwkProvider = new JwkProviderBuilder(domain).build
-  val controller: AuthenticationController = AuthenticationController.newBuilder(domain, clientId, clientSecret).withJwkProvider(jwkProvider).build
+  val controller: AuthenticationController =
+    AuthenticationController.newBuilder(
+      domain,
+      clientId,
+      clientSecret
+    ).withJwkProvider(jwkProvider).build
 
 
   val service: HttpRoutes[F] = HttpRoutes.of[F] {
     case req @ GET -> Root / "callback"  => {
-      println("Full Config")
-      println(fullConfig)
+      val newKey: IO[Key[String]] = Key.newKey[IO, String]
+      val keyUsage: IO[F[Response[F]]] = for {
+        flatKey <- newKey
+      } yield {
+        req.attributes.insert(flatKey, "oauthtoken")
+        Ok("Sure, you good")
+      }
 
       val callbackUrl = "https://purelyfunctionalserver.herokuapp.com/oauth/callback" // TODO make this a property or something
       val authorizeUrl = controller.buildAuthorizeUrl(new ScalaHttpServletRequest(req), callbackUrl)
 
-//      getServletConfig().getServletContext()
-
       PermanentRedirect(Location(Uri.fromString(authorizeUrl.build()).right.get)) // TODO Unsafe parsing
-//      Ok(
-//        "Yo bro. You authenticated"
-//        , `Content-Type`(MediaType.text.plain))
+
     }
 
     case GET -> Root / "logout"  =>

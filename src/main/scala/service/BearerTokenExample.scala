@@ -46,6 +46,7 @@ object BearerTokenExample {
       3. The identity (i.e in this case, User)
        */
       val r: SecuredRequest[IO, User, TSecBearerToken[Int]] = request
+      user.id
       Ok()
   }
 
