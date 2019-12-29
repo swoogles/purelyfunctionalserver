@@ -10,7 +10,7 @@ import tsec.authorization._
 import scala.collection.mutable
 
 object AuthHelpers {
-  def dummyBackingStore[F[_], I, V](getId: V => I, defaultValue: () => V)(implicit F: Sync[F]): BackingStore[F, I, V] =
+  def dummyBackingStore[F[_], I, V](getId: V => I)(implicit F: Sync[F]): BackingStore[F, I, V] =
     new BackingStore[F, I, V] {
       private val storageMap = mutable.HashMap.empty[I, V]
 
@@ -41,8 +41,7 @@ object AuthHelpers {
             case Some(creds) => Some(creds)
             case None => {
               println("No creds found. Inserting them next.")
-              put(defaultValue.apply())
-              Some(defaultValue.apply())
+              None
             }
           }
         )

@@ -27,17 +27,16 @@ object AuthenticatedEndpoint {
       None
     )
 
-  private val bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]] =
-    dummyBackingStore[IO, SecureRandomId, TSecBearerToken[Int]](s => {// This function is: Int => SecureRandomId
-      println(s"Turning s.id: ${s.id} into a SecureRandomId: ${SecureRandomId.coerce(s.id) }")
-      SecureRandomId.coerce(s.id) // TODO Restore as entire body of this function
-    }, () => defaultBearerToken)
+  val bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]] =
+    dummyBackingStore[IO, SecureRandomId, TSecBearerToken[Int]](tokenValue => {// This function is: Int => SecureRandomId
+      println(s"Turning s.id: ${tokenValue.id} into a SecureRandomId: ${SecureRandomId.coerce(tokenValue.id) }")
+      SecureRandomId.coerce(tokenValue.id) // TODO Restore as entire body of this function
+    })
 
   //We create a way to store our users. You can attach this to say, your doobie accessor
-  private val userStore: BackingStore[IO, Int, User] =
+  val userStoreThatShouldBeInstantiatedOnceByTheServer: BackingStore[IO, Int, User] =
     dummyBackingStore[IO, Int, User](
       getId = (user: User) =>  user.idInt
-      , () => defaultUser
     ) //This function is: User => Int
 
   private val settings: TSecTokenSettings = TSecTokenSettings(
@@ -47,8 +46,8 @@ object AuthenticatedEndpoint {
 
   private val bearerTokenAuth: BearerTokenAuthenticator[IO, Int, User] =
     BearerTokenAuthenticator(
-      bearerTokenStore,
-      userStore,
+      bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer,
+      userStoreThatShouldBeInstantiatedOnceByTheServer,
       settings
     )
 

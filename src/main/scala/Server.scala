@@ -108,6 +108,11 @@ object Server extends IOApp with Http4sDsl[IO] {
     val homePageService = new HomePageService[IO](blocker).routes
     val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
     val authService = new OAuthService[IO].service
+    val loginService =
+      new LoginEndpoint[IO](
+        AuthenticatedEndpoint.userStoreThatShouldBeInstantiatedOnceByTheServer,
+        AuthenticatedEndpoint.bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer
+      ).service
 
     Router(
       "/" -> homePageService,
@@ -117,7 +122,8 @@ object Server extends IOApp with Http4sDsl[IO] {
       "/exercises" -> exerciseService,
       "/weather" -> weatherService,
       "/oauth" -> authService,
-      "/tsec" -> AuthenticatedEndpoint.lifted
+      "/tsec" -> AuthenticatedEndpoint.lifted,
+      "/login" -> loginService
     ).orNotFound
   }
 }
