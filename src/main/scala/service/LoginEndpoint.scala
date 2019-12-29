@@ -3,6 +3,7 @@ package service
 import java.time.Instant
 
 import cats.effect.{Effect, IO, Sync}
+import io.chrisdavenport.vault.Key
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 import service.AuthHelpers.User
@@ -10,6 +11,7 @@ import tsec.authentication.{BackingStore, TSecBearerToken}
 import tsec.common.SecureRandomId
 
 class LoginEndpoint [F[_]: Sync](
+  // TODO Get rid of these IO refs
                                   userStore: BackingStore[IO, Int, User],
                                   bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]]
                                 )(
@@ -29,19 +31,18 @@ class LoginEndpoint [F[_]: Sync](
     )
   }
   val service = HttpRoutes.of[F] {
-    case GET -> Root / userId => {
+    case request @ GET -> Root / userId => {
       println(s"Attempting to login userId=$userId")
       val result = userStore.get(userId.toInt).value.unsafeRunSync() match {
         case None =>
           userStore.put(User(idInt = userId.toInt, name = s"name_$userId", age = 1))
-            .flatMap( newUserResult => {
-              val newBearerToken = generateNewTokenFor(newUserResult)
-              bearerTokenStore.put(newBearerToken)
-            })
+            .flatMap( newUserResult =>
+              bearerTokenStore.put(generateNewTokenFor(newUserResult))
+            )
 
-        case Some(existingUser) => {
+        case Some(existingUser) =>
           val secureUserId = SecureRandomId.coerce(existingUser.idInt.toString)
-            bearerTokenStore.get(secureUserId).map {
+          bearerTokenStore.get(secureUserId).map {
               existingToken =>
               if (existingToken.expiry.isBefore(Instant.now())) {// TODO Bad side effect
                 val newBearerToken = generateNewTokenFor(existingUser)
@@ -55,7 +56,7 @@ class LoginEndpoint [F[_]: Sync](
               println(s"Generating a new token: $newBearerToken")
               bearerTokenStore.put(newBearerToken)
             }
-        }
+
       }
       Ok(result.unsafeRunSync().toString)
     }
