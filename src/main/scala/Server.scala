@@ -104,7 +104,6 @@ object Server extends IOApp with Http4sDsl[IO] {
     val githubService = {
       new GithubService(Github.impl[IO](client)).service
     }
-    val weatherService = new WeatherService[IO](WeatherApi.impl[IO](client)).service
     val homePageService = new HomePageService[IO](blocker).routes
     val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
     val authService = new OAuthService[IO].service
@@ -119,6 +118,11 @@ object Server extends IOApp with Http4sDsl[IO] {
         authenticationBackends.userStore,
         authenticationBackends.bearerTokenStore,
       ).service
+
+    val weatherService =
+      Auth.liftService(
+        new WeatherService[IO](WeatherApi.impl[IO](client)).service
+      )
 
     val authenticatedEndpoint =
       Auth.liftService(

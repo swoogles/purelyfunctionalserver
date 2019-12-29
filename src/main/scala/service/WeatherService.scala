@@ -8,13 +8,17 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.`Content-Type`
 import org.http4s.{HttpRoutes, MediaType}
 import repository.{GpsCoordinates, WeatherApi}
+import service.AuthHelpers.User
+import tsec.authentication.{TSecAuthService, TSecBearerToken}
+import tsec.authentication._
 
 class WeatherService[F[_]: Sync](weatherApi: WeatherApi[F])(
   implicit ev: Effect[F]
 ) extends Http4sDsl[F] {
+  type AuthService = TSecAuthService[User, TSecBearerToken[Int], F]
 
-  val service: HttpRoutes[F] = HttpRoutes.of[F] {
-    case GET -> Root =>
+  val service: AuthService = TSecAuthService {
+    case GET -> Root asAuthed user =>
       Ok(
         Stream.eval(
           weatherApi.get(GpsCoordinates.resorts.CrestedButte)
