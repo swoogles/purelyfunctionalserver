@@ -16,17 +16,6 @@ object AuthenticatedEndpoint {
 
   type AuthService = TSecAuthService[User, TSecBearerToken[Int], IO]
 
-  private val defaultUser =
-    User(idInt = -1, age = 1, name = "default_name", Role.Administrator)
-
-  private val defaultBearerToken =
-    TSecBearerToken[Int](
-      SecureRandomId.coerce(defaultUser.name),
-      identity = 0,
-      Instant.now().plusSeconds(60), // TODO BAD SIDE EFFECT
-      None
-    )
-
   val bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]] =
     dummyBackingStore[IO, SecureRandomId, TSecBearerToken[Int]](tokenValue => {// This function is: Int => SecureRandomId
       println(s"Turning s.id: ${tokenValue.id} into a SecureRandomId: ${SecureRandomId.coerce(tokenValue.id) }")
@@ -56,7 +45,6 @@ object AuthenticatedEndpoint {
     SecuredRequestHandler(bearerTokenAuth)
 
   val authService1: AuthService = TSecAuthService {
-    //Where user is the case class User above
     case request @ GET -> Root / "api" asAuthed user =>
       /*
       Note: The request is of type: SecuredRequest, which carries:
@@ -66,8 +54,9 @@ object AuthenticatedEndpoint {
        */
 
       val r: SecuredRequest[IO, User, TSecBearerToken[Int]] = request
+      println(s"SecureRequest: $r")
       println("Authenticated User is: " + user)
-      Ok(user.toString)  // TODO Unsafe. Leaking the whole User
+      Ok("Super secure info")  // TODO Unsafe. Leaking the whole User
 
     case request @ GET -> Root / "logout" asAuthed user => {
       val r: SecuredRequest[IO, User, TSecBearerToken[Int]] = request
