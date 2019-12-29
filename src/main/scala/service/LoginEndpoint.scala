@@ -2,13 +2,10 @@ package service
 
 import java.time.Instant
 
-import cats.data.OptionT
 import cats.effect.{IO, Sync}
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
-import repository.TodoRepository
 import service.AuthHelpers.User
-import service.AuthenticatedEndpoint.defaultUser
 import tsec.authentication.{BackingStore, TSecBearerToken}
 import tsec.common.SecureRandomId
 
@@ -22,7 +19,7 @@ class LoginEndpoint [F[_]: Sync](userStore: BackingStore[IO, Int, User], bearerT
       //        SecureRandomId.coerce(newUserResult.name),
       SecureRandomId.coerce(user.idInt.toString),
       user.idInt,
-      Instant.now().plusSeconds(600), // TODO BAD SIDE EFFECT
+      Instant.now().plusSeconds(30), // TODO BAD SIDE EFFECT
       None
     )
   }
@@ -38,13 +35,23 @@ class LoginEndpoint [F[_]: Sync](userStore: BackingStore[IO, Int, User], bearerT
           storedToken.toString
         }
         case Some(existingUser) => {
-          val result = bearerTokenStore.get(SecureRandomId.coerce(existingUser.idInt.toString)).map {
-            existingToken => s"User exists with token $existingToken"
-          }.getOrElseF {
-            val newBearerToken = generateNewTokenFor(existingUser)
-            println(s"Generating a new token: $newBearerToken")
-            bearerTokenStore.put(newBearerToken)
-          }
+          val secureUserId = SecureRandomId.coerce(existingUser.idInt.toString)
+          val result =
+            bearerTokenStore.get(secureUserId).map {
+              existingToken =>
+              if (existingToken.expiry.isBefore(Instant.now())) {// TODO Bad side effect
+                bearerTokenStore.delete(secureUserId).unsafeRunSync() // TODO Make Sure this actually executes properly
+                val newBearerToken = generateNewTokenFor(existingUser)
+                bearerTokenStore.put(newBearerToken)
+                s"User exists, but needed to replace an expired token"
+              } else {
+                s"User exists with a valid token"
+              }
+            }.getOrElseF {
+              val newBearerToken = generateNewTokenFor(existingUser)
+              println(s"Generating a new token: $newBearerToken")
+              bearerTokenStore.put(newBearerToken)
+            }
           result.unsafeRunSync().toString
         }
       }
