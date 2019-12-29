@@ -21,6 +21,7 @@ import scala.concurrent.duration._
 object ExampleAuthHelpers {
   def dummyBackingStore[F[_], I, V](getId: V => I)(implicit F: Sync[F]) = new BackingStore[F, I, V] {
     private val storageMap = mutable.HashMap.empty[I, V]
+//    storageMap.put("key", "value")
 
     def put(elem: V): F[V] = {
       val map = storageMap.put(getId(elem), elem)
@@ -30,8 +31,13 @@ object ExampleAuthHelpers {
         F.raiseError(new IllegalArgumentException)
     }
 
-    def get(id: I): OptionT[F, V] =
+    def get(id: I): OptionT[F, V] = {
+//      storageMap.put(User(1, 10, "admin", Role.Administrator))
+      println(s"Getting stored auth creds for id: $id")
+//      println(s"Getting stored auth creds for coerced id: ${SecureRandomId.coerce(id)}")
+
       OptionT.fromOption[F](storageMap.get(id))
+    }
 
     def update(v: V): F[V] = {
       storageMap.update(getId(v), v)
@@ -59,11 +65,14 @@ object ExampleAuthHelpers {
 
     implicit val E: Eq[Role] = Eq.fromUniversalEquals[Role]
 
-    def getReprDef(t: Role): String = t.roleRepr
 
     protected val values: AuthGroup[Role] = AuthGroup(Administrator, Customer, Seller)
-    override val getRepr: Role => String = role => getReprDef(role)
-    override val orElse: Role = ???
+    //    override val getRepr: Role => String = role => getReprDef(role)
+    //    override val orElse: Role = ???
+    override def getRepr(t: Role): String = {
+      println("hit getrepr")
+      t.roleRepr
+    }
   }
 
   case class User(id: Int, age: Int, name: String, role: Role = Role.Customer)
@@ -71,7 +80,10 @@ object ExampleAuthHelpers {
   object User {
     implicit def authRole[F[_]](implicit F: MonadError[F, Throwable]): AuthorizationInfo[F, Role, User] =
       new AuthorizationInfo[F, Role, User] {
-        def fetchInfo(u: User): F[Role] = F.pure(u.role)
+        def fetchInfo(u: User): F[Role] = {
+          println("Anything?!")
+          F.pure(u.role)
+        }
       }
   }
 }

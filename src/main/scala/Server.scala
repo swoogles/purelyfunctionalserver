@@ -116,7 +116,8 @@ object Server extends IOApp with Http4sDsl[IO] {
       "/github" -> githubService,
       "/exercises" -> exerciseService,
       "/weather" -> weatherService,
-      "/oauth" -> authService
+      "/oauth" -> authService,
+      "/tsec" -> BearerTokenExample.lifted
     ).orNotFound
   }
 }

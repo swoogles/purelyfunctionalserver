@@ -34,7 +34,7 @@ lazy val uTestVersion = "0.7.1"
 
 lazy val zioVersion = "1.0.0-RC17"
 
-lazy val tsecV = "0.0.1-M11"
+lazy val tsecV = "0.2.0-M2"
 
 testFrameworks += new TestFramework("utest.runner.Framework")
 
@@ -86,7 +86,7 @@ lazy val root = (project in file("."))
       "io.github.jmcardon" %% "tsec-signatures" % tsecV,
       "io.github.jmcardon" %% "tsec-hash-jca" % tsecV,
       "io.github.jmcardon" %% "tsec-hash-bouncy" % tsecV,
-      "io.github.jmcardon" %% "tsec-libsodium" % tsecV,
+//      "io.github.jmcardon" %% "tsec-libsodium" % tsecV,
       "io.github.jmcardon" %% "tsec-jwt-mac" % tsecV,
       "io.github.jmcardon" %% "tsec-jwt-sig" % tsecV,
       "io.github.jmcardon" %% "tsec-http4s" % tsecV,

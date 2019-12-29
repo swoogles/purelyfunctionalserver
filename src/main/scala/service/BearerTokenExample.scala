@@ -14,12 +14,18 @@ object BearerTokenExample {
   import ExampleAuthHelpers._
 
   val bearerTokenStore =
-    dummyBackingStore[IO, SecureRandomId, TSecBearerToken[Int]](s => SecureRandomId.coerce(s.id))
+    dummyBackingStore[IO, SecureRandomId, TSecBearerToken[Int]](s => {
+      println("Doing anything")
+      SecureRandomId.coerce(s.id)
+    })
 
   type AuthService = TSecAuthService[User, TSecBearerToken[Int], IO]
 
   //We create a way to store our users. You can attach this to say, your doobie accessor
-  val userStore: BackingStore[IO, Int, User] = dummyBackingStore[IO, Int, User](_.id)
+  val userStore: BackingStore[IO, Int, User] = dummyBackingStore[IO, Int, User](value => {
+    println("getting the id")
+    value.id
+  })
 
   val settings: TSecTokenSettings = TSecTokenSettings(
     expiryDuration = 10.minutes, //Absolute expiration time
@@ -32,6 +38,7 @@ object BearerTokenExample {
       userStore,
       settings
     )
+
 
   val Auth =
     SecuredRequestHandler(bearerTokenAuth)
@@ -46,7 +53,7 @@ object BearerTokenExample {
       3. The identity (i.e in this case, User)
        */
       val r: SecuredRequest[IO, User, TSecBearerToken[Int]] = request
-      user.id
+      println("User.is: " + user.id)
       Ok()
   }
 
