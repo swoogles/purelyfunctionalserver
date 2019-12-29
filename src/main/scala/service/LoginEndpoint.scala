@@ -2,14 +2,19 @@ package service
 
 import java.time.Instant
 
-import cats.effect.{IO, Sync}
+import cats.effect.{Effect, IO, Sync}
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 import service.AuthHelpers.User
 import tsec.authentication.{BackingStore, TSecBearerToken}
 import tsec.common.SecureRandomId
 
-class LoginEndpoint [F[_]: Sync](userStore: BackingStore[IO, Int, User], bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]]) extends Http4sDsl[IO] {
+class LoginEndpoint [F[_]: Sync](
+                                  userStore: BackingStore[IO, Int, User],
+                                  bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]]
+                                )(
+                                  implicit ev: Effect[F]
+                                ) extends Http4sDsl[IO] {
   case class RequestWithToken(token: String)
   def contactOAuthProvider(userId: Int): RequestWithToken = {
     RequestWithToken(s"Fresh token for $userId")
@@ -41,10 +46,10 @@ class LoginEndpoint [F[_]: Sync](userStore: BackingStore[IO, Int, User], bearerT
               existingToken =>
               if (existingToken.expiry.isBefore(Instant.now())) {// TODO Bad side effect
                 val newBearerToken = generateNewTokenFor(existingUser)
-                bearerTokenStore.update(newBearerToken).unsafeRunSync()// TODO Use this in a composed way
-                s"User exists, but needed to replace an expired token"
+                bearerTokenStore.update(newBearerToken)
+                  .map(ignoredToken => s"User exists, but needed to replace an expired token")
               } else {
-                s"User exists with a valid token"
+                ev.pure(s"User exists with a valid token")
               }
             }.getOrElseF {
               val newBearerToken = generateNewTokenFor(existingUser)
