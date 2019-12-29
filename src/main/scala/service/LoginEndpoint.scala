@@ -17,28 +17,38 @@ class LoginEndpoint [F[_]: Sync](userStore: BackingStore[IO, Int, User], bearerT
   def contactOAuthProvider(userId: Int): RequestWithToken = {
     RequestWithToken(s"Fresh token for $userId")
   }
+  def generateNewTokenFor(user: User) = {
+    TSecBearerToken[Int](
+      //        SecureRandomId.coerce(newUserResult.name),
+      SecureRandomId.coerce(user.idInt.toString),
+      user.idInt,
+      Instant.now().plusSeconds(600), // TODO BAD SIDE EFFECT
+      None
+    )
+  }
   val service = HttpRoutes.of[IO] {
     case GET -> Root / userId => {
       println(s"Attempting to login userId=$userId")
-      val newUserResult = userStore.put(User(idInt = userId.toInt, name = s"name_$userId", age = 1)).unsafeRunSync()
-      val storedUser: Option[User] = userStore.get(userId.toInt).value.unsafeRunSync()
-      storedUser match {
-        case Some(storedUser) => println("Successfully stored user: " + storedUser)
-        case None => throw new RuntimeException("Failed to insert!!")
+      val result: String = userStore.get(userId.toInt).value.unsafeRunSync() match {
+        case None => {
+          val newUserResult = userStore.put(User(idInt = userId.toInt, name = s"name_$userId", age = 1)).unsafeRunSync()
+          val storedUser: User = userStore.get(userId.toInt).value.unsafeRunSync().get
+          val newBearerToken = generateNewTokenFor(storedUser)
+          val storedToken = bearerTokenStore.put(newBearerToken).unsafeRunSync()
+          storedToken.toString
+        }
+        case Some(existingUser) => {
+          val result = bearerTokenStore.get(SecureRandomId.coerce(existingUser.idInt.toString)).map {
+            existingToken => s"User exists with token $existingToken"
+          }.getOrElseF {
+            val newBearerToken = generateNewTokenFor(existingUser)
+            println(s"Generating a new token: $newBearerToken")
+            bearerTokenStore.put(newBearerToken)
+          }
+          result.unsafeRunSync().toString
+        }
       }
-      val newBearerToken =
-      TSecBearerToken[Int](
-//        SecureRandomId.coerce(newUserResult.name),
-        SecureRandomId.coerce(newUserResult.idInt.toString),
-        newUserResult.idInt,
-        Instant.now().plusSeconds(600), // TODO BAD SIDE EFFECT
-        None
-      )
-      val storedToken = bearerTokenStore.put(newBearerToken).unsafeRunSync()
-      Ok(
-        storedToken.toString
-      )
-//      Ok(s"Should login userId=$userId")
+      Ok(result)
     }
   }
 
