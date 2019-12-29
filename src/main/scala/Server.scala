@@ -4,7 +4,7 @@ import cats.data.Kleisli
 import cats.effect.{Blocker, Clock, ConcurrentEffect, ExitCode, IO, IOApp}
 import cats.implicits._
 import config.{Config, ConfigData, DatabaseConfig}
-import db.Database
+import db.{Database, InMemoryAuthBackends}
 import doobie.hikari.HikariTransactor
 import fs2.Stream
 import org.http4s.{Request, Response}
@@ -108,11 +108,24 @@ object Server extends IOApp with Http4sDsl[IO] {
     val homePageService = new HomePageService[IO](blocker).routes
     val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
     val authService = new OAuthService[IO].service
+    val authenticationBackends = new AuthenticationBackends(
+      InMemoryAuthBackends.bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer,
+      InMemoryAuthBackends.userStoreThatShouldBeInstantiatedOnceByTheServer,
+    )
+    val Auth = authenticationBackends.Auth
+
     val loginService =
       new LoginEndpoint[IO](
-        AuthenticatedEndpoint.userStoreThatShouldBeInstantiatedOnceByTheServer,
-        AuthenticatedEndpoint.bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer
+        authenticationBackends.userStore,
+        authenticationBackends.bearerTokenStore,
       ).service
+
+    val authenticatedEndpoint =
+      Auth.liftService(
+        new AuthenticatedEndpoint(
+          authenticationBackends.bearerTokenStore
+        ).service
+      )
 
     Router(
       "/" -> homePageService,
@@ -122,7 +135,7 @@ object Server extends IOApp with Http4sDsl[IO] {
       "/exercises" -> exerciseService,
       "/weather" -> weatherService,
       "/oauth" -> authService,
-      "/tsec" -> AuthenticatedEndpoint.lifted,
+      "/tsec" -> authenticatedEndpoint,
       "/login" -> loginService
     ).orNotFound
   }
