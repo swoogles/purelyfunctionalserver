@@ -6,33 +6,31 @@ import org.http4s.HttpRoutes
 import org.http4s.dsl.io._
 import tsec.authentication._
 import tsec.common.SecureRandomId
-
 import scala.concurrent.duration._
 
-object BearerTokenExample {
+import AuthHelpers.{dummyBackingStore, Role, User}
 
-  import ExampleAuthHelpers._
+object AuthenticatedEndpoint {
 
-  val bearerTokenStore =
-    dummyBackingStore[IO, SecureRandomId, TSecBearerToken[Int]](s => {
+
+  type AuthService = TSecAuthService[User, TSecBearerToken[Int], IO]
+
+  private val bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]] =
+    dummyBackingStore[IO, SecureRandomId, TSecBearerToken[Int]](s => {// This function is: Int => SecureRandomId
       println("Doing anything")
       SecureRandomId.coerce(s.id)
     })
 
-  type AuthService = TSecAuthService[User, TSecBearerToken[Int], IO]
-
   //We create a way to store our users. You can attach this to say, your doobie accessor
-  val userStore: BackingStore[IO, Int, User] = dummyBackingStore[IO, Int, User](value => {
-    println("getting the id")
-    value.id
-  })
+  private val userStore: BackingStore[IO, Int, User] =
+    dummyBackingStore[IO, Int, User](getId = (user: User) =>   user.idInt ) //This function is: User => Int
 
-  val settings: TSecTokenSettings = TSecTokenSettings(
+  private val settings: TSecTokenSettings = TSecTokenSettings(
     expiryDuration = 10.minutes, //Absolute expiration time
     maxIdle = None
   )
 
-  val bearerTokenAuth =
+  private val bearerTokenAuth: BearerTokenAuthenticator[IO, Int, User] =
     BearerTokenAuthenticator(
       bearerTokenStore,
       userStore,
@@ -40,7 +38,7 @@ object BearerTokenExample {
     )
 
 
-  val Auth =
+  private val Auth: SecuredRequestHandler[IO, Int, User, TSecBearerToken[Int]] =
     SecuredRequestHandler(bearerTokenAuth)
 
   val authService1: AuthService = TSecAuthService {
@@ -53,15 +51,15 @@ object BearerTokenExample {
       3. The identity (i.e in this case, User)
        */
       val r: SecuredRequest[IO, User, TSecBearerToken[Int]] = request
-      println("User.is: " + user.id)
+      println("User.is: " + user.idInt)
       Ok()
   }
 
-  val authedService2: AuthService = TSecAuthService {
+  private val authedService2: AuthService = TSecAuthService {
     case GET -> Root / "api2" asAuthed user =>
       Ok()
   }
 
   val lifted: HttpRoutes[IO]         = Auth.liftService(authService1)
-  val liftedComposed: HttpRoutes[IO] = Auth.liftService(authService1 <+> authedService2)
+  private val liftedComposed: HttpRoutes[IO] = Auth.liftService(authService1 <+> authedService2)
 }
