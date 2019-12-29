@@ -1,29 +1,44 @@
 package service
 
+import java.time.Instant
+
 import cats.effect.IO
 import cats.syntax.semigroupk._
 import org.http4s.HttpRoutes
 import org.http4s.dsl.io._
 import tsec.authentication._
 import tsec.common.SecureRandomId
-import scala.concurrent.duration._
 
-import AuthHelpers.{dummyBackingStore, Role, User}
+import scala.concurrent.duration._
+import AuthHelpers.{Role, User, dummyBackingStore}
 
 object AuthenticatedEndpoint {
 
-
   type AuthService = TSecAuthService[User, TSecBearerToken[Int], IO]
+
+  private val defaultUser =
+    User(idInt = -1, age = 1, name = "default_name", Role.Administrator)
+
+  private val defaultBearerToken =
+    TSecBearerToken[Int](
+      SecureRandomId.coerce(defaultUser.name),
+      identity = 0,
+      Instant.now().plusSeconds(60), // TODO BAD SIDE EFFECT
+      None
+    )
 
   private val bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]] =
     dummyBackingStore[IO, SecureRandomId, TSecBearerToken[Int]](s => {// This function is: Int => SecureRandomId
-      println("Doing anything")
-      SecureRandomId.coerce(s.id)
-    })
+      println(s"Turning s.id: ${s.id} into a SecureRandomId: ${SecureRandomId.coerce(s.id) }")
+      SecureRandomId.coerce(s.id) // TODO Restore as entire body of this function
+    }, () => defaultBearerToken)
 
   //We create a way to store our users. You can attach this to say, your doobie accessor
   private val userStore: BackingStore[IO, Int, User] =
-    dummyBackingStore[IO, Int, User](getId = (user: User) =>   user.idInt ) //This function is: User => Int
+    dummyBackingStore[IO, Int, User](
+      getId = (user: User) =>  user.idInt
+      , () => defaultUser
+    ) //This function is: User => Int
 
   private val settings: TSecTokenSettings = TSecTokenSettings(
     expiryDuration = 10.minutes, //Absolute expiration time
@@ -50,9 +65,10 @@ object AuthenticatedEndpoint {
       2. The Authenticator (i.e token)
       3. The identity (i.e in this case, User)
        */
+
       val r: SecuredRequest[IO, User, TSecBearerToken[Int]] = request
-      println("User.is: " + user.idInt)
-      Ok()
+      println("Authenticated User is: " + user)
+      Ok(user.toString)  // TODO Unsafe. Leaking the whole User
   }
 
   private val authedService2: AuthService = TSecAuthService {

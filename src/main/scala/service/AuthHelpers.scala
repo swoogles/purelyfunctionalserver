@@ -10,7 +10,7 @@ import tsec.authorization._
 import scala.collection.mutable
 
 object AuthHelpers {
-  def dummyBackingStore[F[_], I, V](getId: V => I)(implicit F: Sync[F]): BackingStore[F, I, V] =
+  def dummyBackingStore[F[_], I, V](getId: V => I, defaultValue: () => V)(implicit F: Sync[F]): BackingStore[F, I, V] =
     new BackingStore[F, I, V] {
       private val storageMap = mutable.HashMap.empty[I, V]
 
@@ -33,9 +33,19 @@ object AuthHelpers {
         //      storageMap.put(User(1, 10, "admin", Role.Administrator))
         println(s"Getting stored auth creds for id: $id")
 
+
         //      println(s"Getting stored auth creds for coerced id: ${SecureRandomId.coerce(id)}")
         println(s"retrieved user: " + storageMap.get(id))
-        OptionT.fromOption[F](storageMap.get(id))
+        OptionT.fromOption[F](
+          storageMap.get(id) match {
+            case Some(creds) => Some(creds)
+            case None => {
+              println("No creds found. Inserting them next.")
+              put(defaultValue.apply())
+              Some(defaultValue.apply())
+            }
+          }
+        )
       }
 
       def update(v: V): F[V] = {
