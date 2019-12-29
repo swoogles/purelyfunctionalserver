@@ -68,6 +68,15 @@ object AuthenticatedEndpoint {
       val r: SecuredRequest[IO, User, TSecBearerToken[Int]] = request
       println("Authenticated User is: " + user)
       Ok(user.toString)  // TODO Unsafe. Leaking the whole User
+
+    case request @ GET -> Root / "logout" asAuthed user => {
+      val r: SecuredRequest[IO, User, TSecBearerToken[Int]] = request
+      Ok(
+        bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer.delete(SecureRandomId.coerce(user.idInt.toString))
+          .toString()
+      )
+
+    }
   }
 
   private val authedService2: AuthService = TSecAuthService {
