@@ -40,9 +40,8 @@ class LoginEndpoint [F[_]: Sync](userStore: BackingStore[IO, Int, User], bearerT
             bearerTokenStore.get(secureUserId).map {
               existingToken =>
               if (existingToken.expiry.isBefore(Instant.now())) {// TODO Bad side effect
-                bearerTokenStore.delete(secureUserId).unsafeRunSync() // TODO Make Sure this actually executes properly
                 val newBearerToken = generateNewTokenFor(existingUser)
-                bearerTokenStore.put(newBearerToken)
+                bearerTokenStore.put(newBearerToken).unsafeRunSync()// TODO Use this in a composed way
                 s"User exists, but needed to replace an expired token"
               } else {
                 s"User exists with a valid token"
