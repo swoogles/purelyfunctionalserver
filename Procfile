@@ -1,1 +1,3 @@
-web: ./target/universal/stage/bin/server
+web: ./target/universal/stage/bin/purelyfunctionalserver
+# For when I restore the ZIO version:
+#     web: ./target/universal/stage/bin/server
