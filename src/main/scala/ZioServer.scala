@@ -1,6 +1,6 @@
 import java.util.concurrent.Executors
 
-import ZioServer.->
+//import ZioServer.->
 import zio.{DefaultRuntime, Runtime, Task, ZEnv, ZIO}
 import zio.interop.catz.implicits._
 import zio.interop.catz._
@@ -21,6 +21,7 @@ import scala.concurrent.ExecutionContext
 import scala.util.Properties
 import org.http4s.implicits._
 
+/*
 object ZioServer extends CatsApp with Http4sDsl[Task]{
   implicit val ec = ExecutionContext .fromExecutor(Executors.newFixedThreadPool(10))
   def run(args: List[String]): ZIO[ZEnv, Nothing, Int] = {
@@ -53,3 +54,5 @@ object ZioServer extends CatsApp with Http4sDsl[Task]{
     }
 
 }
+
+ */

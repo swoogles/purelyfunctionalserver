@@ -54,10 +54,13 @@ F: Sync[F],
 
 
 
-    case req @ POST -> Root =>
+    case req @ POST -> Root => {
+      println("Request: " + req)
       for {
         newExercise <- req.decodeJson[DailyQuantizedExercise]
-        _ <- IO { println("postedExercise day: " + newExercise.day)}
+        _ <- IO {
+          println("postedExercise day: " + newExercise.day)
+        }
         wrappedResult <- exerciseLogic.createOrUpdate(newExercise) map {
           case Right(successfullyCreatedExercise) =>
             Created(
@@ -71,9 +74,10 @@ F: Sync[F],
         }
         bigResult <- wrappedResult
       }
-       yield {
-        bigResult
-      }
+        yield {
+          bigResult
+        }
+    }
 
       /*
     case req @ PUT -> Root / "todos" / LongVar(id) =>

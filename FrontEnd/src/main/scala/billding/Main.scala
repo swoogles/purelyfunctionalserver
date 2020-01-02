@@ -81,7 +81,21 @@ object ApiInteractions {
 
   def postQuadSets(count: Int) = {
     val jsDate = new Date()
-    val formattedLocalDate = jsDate.getFullYear().toString + "-" + jsDate.getMonth().toString + "-" + jsDate.getDate().toString
+    val monthSection =
+      if (jsDate.getUTCMonth() + 1 > 9)
+        (jsDate.getUTCMonth() + 1).toString
+      else
+        "0" + (jsDate.getUTCMonth() + 1).toString
+
+    val daySection =
+      if (jsDate.getUTCDate() + 1 > 9)
+        (jsDate.getUTCDate() + 1).toString
+      else
+        "0" + (jsDate.getUTCDate() + 1).toString
+
+
+    println("About to post quadsets on month: " + (jsDate.getUTCMonth() + 1).toString)
+    val formattedLocalDate = jsDate.getFullYear().toString + "-" + monthSection + "-" + daySection
       val exercise = DailyQuantizedExercise(id = Some(1), name = "QuadSets", day = formattedLocalDate, count = count)
 
       val constructedUri =
@@ -108,6 +122,7 @@ object ApiInteractions {
             document.getElementById("daily_total").innerHTML = Main.dailyTotal.toString
             //          println("count: " + jsonBody.asJson.findAllByKey("count").head.asString.get.toInt)
           }
+          case Left(failure) => println("Failed to submit quadsets with error: " + failure)
         }
         println(response.headers)
         "hi"
