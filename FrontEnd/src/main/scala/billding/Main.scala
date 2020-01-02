@@ -54,8 +54,8 @@ object ApiInteractions {
 
   def getQuadSetHistory() = {
     val constructedUri =
-//      uri"https://purelyfunctionalserver.herokuapp.com/exercises"
-                uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
+      uri"https://purelyfunctionalserver.herokuapp.com/exercises"
+//                uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
     println("historical uri: " + constructedUri)
     val request = basicRequest
       .get(constructedUri)
@@ -99,8 +99,8 @@ object ApiInteractions {
       val exercise = DailyQuantizedExercise(id = Some(1), name = "QuadSets", day = formattedLocalDate, count = count)
 
       val constructedUri =
-//        uri"https://purelyfunctionalserver.herokuapp.com/exercises"
-            uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
+        uri"https://purelyfunctionalserver.herokuapp.com/exercises"
+//            uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
       println("uri: " + constructedUri)
       val request = basicRequest
         .body(exercise)
