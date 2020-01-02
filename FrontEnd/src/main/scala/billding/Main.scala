@@ -94,7 +94,7 @@ object ApiInteractions {
         "0" + (jsDate.getUTCDate() + 1).toString
 
 
-    println("About to post quadsets on month: " + (jsDate.getUTCMonth() + 1).toString)
+    println("About to post FIXED QUADSETS for month: " + monthSection)
     val formattedLocalDate = jsDate.getFullYear().toString + "-" + monthSection + "-" + daySection
       val exercise = DailyQuantizedExercise(id = Some(1), name = "QuadSets", day = formattedLocalDate, count = count)
 
