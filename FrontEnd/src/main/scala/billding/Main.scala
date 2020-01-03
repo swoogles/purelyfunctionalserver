@@ -53,6 +53,12 @@ object ApiInteractions {
   }
 
   def getQuadSetHistory() = {
+    /* TODO Use one of these to determine domain dynamically so I can stop toggling this crap
+      document.location
+      document.domain
+      document.URL
+
+     */
     val constructedUri =
       uri"https://purelyfunctionalserver.herokuapp.com/exercises"
 //                uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
