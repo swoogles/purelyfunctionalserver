@@ -51,7 +51,7 @@ class OAuthService[F[_]: Sync]() extends Http4sDsl[F] {
     }
 
     case req @ GET -> Root / "callback"  => {
-      println("req.body: " + req.body.asJson)
+      println("req.bodyAsText: " + req.bodyAsText)
       println("req.attributes: " + req.attributes)
       val newKey: IO[Key[String]] = Key.newKey[IO, String]
       val keyUsage = (for {
