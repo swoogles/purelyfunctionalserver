@@ -1,6 +1,8 @@
 package billding
 
 
+import io.circe.AccumulatingDecoder.Result
+import io.circe.{Decoder, HCursor}
 import org.scalajs.dom
 import org.scalajs.dom.Event
 import org.scalajs.dom.document
@@ -9,6 +11,8 @@ import sttp.model.{MediaType, Uri}
 
 import scala.concurrent.ExecutionContext.global
 import scala.scalajs.js.Date
+
+import io.circe._, io.circe.generic.semiauto._
 
 case class DailyQuantizedExercise(id: Option[Long], name: String, day: String, count: Int)
 
@@ -21,8 +25,20 @@ object ApiInteractions {
     }
 
   val exerciseUri: Uri = uri"${host}/exercises"
+  implicit val decoder: Decoder[DailyQuantizedExercise] =  deriveDecoder[DailyQuantizedExercise]
+//    new Decoder[DailyQuantizedExercise] {
+//    override def apply(c: HCursor): Decoder.Result[DailyQuantizedExercise] =  {
+//      c.values.foreach("Println value: " + _)
+//      ???
+//  }
+//}
 
-  implicit val personSerializer: BodySerializer[DailyQuantizedExercise] = { p: DailyQuantizedExercise =>
+  implicit val personSerializer: BodySerializer[DailyQuantizedExercise] = {
+
+import io.circe.Decoder.Result
+import io.circe.HCursor
+
+p: DailyQuantizedExercise =>
     val serialized =
       s"""{
          |  "name" : "${p.name}",
@@ -59,6 +75,16 @@ object ApiInteractions {
     println("Fine, I won't do anything then!")
   }
 
+  import scalatags.JsDom.all._
+  def representQuadSets(quadsets: List[DailyQuantizedExercise]) =
+    div(
+      quadsets
+        .map(quadSet=> div(
+          span(quadSet.day),
+          span(quadSet.count),
+        ))
+    )
+
   def getQuadSetHistory() = {
     val request = basicRequest
       .get(exerciseUri)
@@ -69,7 +95,14 @@ object ApiInteractions {
     } {
       response.body match {
         case Right(jsonBody) => {
-          document.getElementById("exercise_history").innerHTML = jsonBody
+          circe.deserializeJson[List[DailyQuantizedExercise]].apply(jsonBody) match {
+            case Right(value) => {
+              document.getElementById("exercise_history").innerHTML =
+                representQuadSets(value).render.render.toString
+            }
+            case Left(failure) => println("Parse failure: "+ failure)
+          }
+
           println("jsonBody: " + jsonBody)
         }
         case Left(failure) => {
