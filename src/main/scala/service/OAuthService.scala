@@ -33,7 +33,7 @@ class OAuthService[F[_]: Sync]() extends Http4sDsl[F] {
     ).withJwkProvider(jwkProvider).build
 
   val service: HttpRoutes[F] = HttpRoutes.of[F] {
-    case req @ GET -> Root / "manualCallback"  => {
+    case req @ GET -> Root / "login"  => {
       val newKey: IO[Key[String]] = Key.newKey[IO, String]
       val keyUsage: IO[F[Response[F]]] = for {
         flatKey <- newKey
@@ -51,20 +51,19 @@ class OAuthService[F[_]: Sync]() extends Http4sDsl[F] {
     }
 
     case req @ GET -> Root / "callback"  => {
+      println("req.body: " + req.body)
+      println("req.attributes: " + req.attributes)
       val newKey: IO[Key[String]] = Key.newKey[IO, String]
-      val keyUsage: IO[F[Response[F]]] = for {
+      val keyUsage = (for {
         flatKey <- newKey
       } yield {
         println("OauthService.callback.flatKey: " + flatKey)
         req.attributes.insert(flatKey, "oauthtoken")
         Ok("Sure, you good")
-      }
+      }).unsafeRunSync()
+      println("Key usage: " + keyUsage)
 
-      val callbackUrl = "https://purelyfunctionalserver.herokuapp.com/oauth/callback" // TODO make this a property or something
-      val authorizeUrl = controller.buildAuthorizeUrl(new ScalaHttpServletRequest(req), callbackUrl)
-
-      PermanentRedirect(Location(Uri.fromString(authorizeUrl.build()).right.get)) // TODO Unsafe parsing
-
+      Ok("We did some stuff!")
     }
 
     case GET -> Root / "logout"  =>
