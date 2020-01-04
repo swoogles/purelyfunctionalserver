@@ -7,6 +7,7 @@ import org.scalajs.dom.Event
 import org.scalajs.dom.document
 import sttp.client.{BodySerializer, FetchBackend, Response, StringBody}
 import sttp.model.{MediaType, Uri}
+import sttp.client.circe._
 
 import scala.concurrent.ExecutionContext.global
 import scala.scalajs.js.Date
@@ -53,15 +54,9 @@ object ApiInteractions {
   import sttp.client._
 
   val exerciseUri: Uri = uri"${Meta.host}/exercises"
-  implicit val decoder: Decoder[DailyQuantizedExercise] =  deriveDecoder[DailyQuantizedExercise]
-//  implicit val optionEncoder: Encoder[Option[Long]] = deriveEncoder[Option[Long]]
-  implicit val encoder: Encoder[DailyQuantizedExercise] =  deriveEncoder
 
-  implicit val personSerializer: BodySerializer[DailyQuantizedExercise] = {
-    p: DailyQuantizedExercise =>
-      // Re-enable
-      StringBody(p.asJson.toString(), "UTF-8", Some(MediaType.ApplicationJson))
-  }
+  implicit val decoder: Decoder[DailyQuantizedExercise] =  deriveDecoder[DailyQuantizedExercise]
+  implicit val encoder: Encoder[DailyQuantizedExercise] =  deriveEncoder
 
   implicit val backend = FetchBackend()
   implicit val ec = global
@@ -128,7 +123,7 @@ object ApiInteractions {
       val exercise = DailyQuantizedExercise(name = "QuadSets", day = localDate, count = count)
 
       val request = basicRequest
-        .body(exercise)
+        .body(exercise.asJson)
         .post(exerciseUri)
 
       println("About to make a request: " + request)
