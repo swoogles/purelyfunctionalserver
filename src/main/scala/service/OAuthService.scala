@@ -32,6 +32,23 @@ class OAuthService[F[_]: Sync]() extends Http4sDsl[F] {
       clientSecret
     ).withJwkProvider(jwkProvider).build
 
+  val service: HttpRoutes[F] = HttpRoutes.of[F] {
+    case req @ GET -> Root / "manualCallback"  => {
+      val newKey: IO[Key[String]] = Key.newKey[IO, String]
+      val keyUsage: IO[F[Response[F]]] = for {
+        flatKey <- newKey
+      } yield {
+        println("OauthService.callback.flatKey: " + flatKey)
+        req.attributes.insert(flatKey, "oauthtoken")
+        Ok("Sure, you good")
+      }
+
+      val callbackUrl = "https://purelyfunctionalserver.herokuapp.com/oauth/callback" // TODO make this a property or something
+      val authorizeUrl = controller.buildAuthorizeUrl(new ScalaHttpServletRequest(req), callbackUrl)
+
+      PermanentRedirect(Location(Uri.fromString(authorizeUrl.build()).right.get)) // TODO Unsafe parsing
+
+    }
 
   val service: HttpRoutes[F] = HttpRoutes.of[F] {
     case req @ GET -> Root / "callback"  => {
@@ -39,6 +56,7 @@ class OAuthService[F[_]: Sync]() extends Http4sDsl[F] {
       val keyUsage: IO[F[Response[F]]] = for {
         flatKey <- newKey
       } yield {
+        println("OauthService.callback.flatKey: " + flatKey)
         req.attributes.insert(flatKey, "oauthtoken")
         Ok("Sure, you good")
       }
