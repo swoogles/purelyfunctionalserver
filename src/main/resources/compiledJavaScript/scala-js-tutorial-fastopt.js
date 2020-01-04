@@ -1205,6 +1205,14 @@ function $f_Lsttp_client_circe_SttpCirceApi__deserializeJson__Lio_circe_Decoder_
     })
   })($thiz, evidence$7)))
 }
+function $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1($thiz, encoder, printer) {
+  return new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, encoder$1, printer$1) {
+    return (function(b$2) {
+      var this$1 = encoder$1.apply__O__Lio_circe_Json(b$2);
+      return new $c_Lsttp_client_StringBody().init___T__T__s_Option(printer$1.print__Lio_circe_Json__T(this$1), $m_Lsttp_client_internal_package$().Utf8__T(), new $c_s_Some().init___O($m_Lsttp_model_MediaType$().ApplicationJson__Lsttp_model_MediaType()))
+    })
+  })($thiz, encoder, printer))
+}
 function $f_Lsttp_model_HasHeaders__header__T__s_Option($thiz, h) {
   var this$4 = $thiz.headers__sci_Seq().find__F1__s_Option(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this, h$1) {
     return (function(x$1$2) {
@@ -2351,9 +2359,6 @@ var $d_sjs_js_Any = new $TypeData().initClass({
 function $c_Lbillding_ApiInteractions$() {
   $c_O.call(this);
   this.exerciseUri$1 = null;
-  this.decoder$1 = null;
-  this.encoder$1 = null;
-  this.personSerializer$1 = null;
   this.backend$1 = null;
   this.ec$1 = null
 }
@@ -2373,33 +2378,6 @@ $c_Lbillding_ApiInteractions$.prototype.init___ = (function() {
   var array$1 = [$m_Lbillding_Meta$().host$1];
   var args = new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1);
   this.exerciseUri$1 = $m_Lsttp_model_UriInterpolator$().interpolate__s_StringContext__sc_Seq__Lsttp_model_Uri(this$6.sc$1, args);
-  var inst$macro$12 = new $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1().init___().inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder();
-  var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, inst$macro$12$1) {
-    return (function() {
-      return inst$macro$12$1
-    })
-  })(this, inst$macro$12));
-  var decode = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
-  this.decoder$1 = $as_Lio_circe_Decoder(decode.value__O());
-  var inst$macro$24 = new $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1().init___().inst$macro$13__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
-  var t$1 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$2$1, inst$macro$24$1) {
-    return (function() {
-      return inst$macro$24$1
-    })
-  })(this, inst$macro$24));
-  var encode = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$1);
-  this.encoder$1 = $as_Lio_circe_Encoder$AsObject(encode.value__O());
-  this.personSerializer$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
-    return (function(p$2) {
-      var p = $as_Lbillding_DailyQuantizedExercise(p$2);
-      var x = (((((("{\n           |  \"name\" : \"" + p.name$1) + "\",\n           |  \"day\" : \"") + p.day$1) + "\",\n           |  \"count\" : ") + p.count$1) + "\n           |}  ");
-      var this$12 = new $c_sci_StringOps().init___T(x);
-      $f_sci_StringLike__stripMargin__C__T(this$12, 124);
-      var encoder = $m_Lbillding_ApiInteractions$().encoder$1;
-      var this$15 = encoder.apply__O__Lio_circe_Json(p);
-      return new $c_Lsttp_client_StringBody().init___T__T__s_Option($m_Lio_circe_Printer$().spaces2$1.print__Lio_circe_Json__T(this$15), "UTF-8", new $c_s_Some().init___O($m_Lsttp_model_MediaType$().ApplicationJson__Lsttp_model_MediaType()))
-    })
-  })(this));
   var x$1 = $m_Lsttp_client_FetchOptions$().Default__Lsttp_client_FetchOptions();
   var x$2 = $m_Lsttp_client_FetchBackend$().apply$default$2__F1();
   var x$3 = $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext();
@@ -2481,62 +2459,75 @@ $c_Lbillding_ApiInteractions$.prototype.representQuadSets__sci_List__Lscalatags_
 $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
   var localDate = $m_Lbillding_Time$().formattedLocalDate__T();
   var exercise = new $c_Lbillding_DailyQuantizedExercise().init___T__T__I("QuadSets", localDate, count);
-  var this$1 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
-  var evidence$1 = this.personSerializer$1;
-  var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$1, exercise, evidence$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
+  var this$8 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+  $m_Lio_circe_Encoder$();
+  var inst$macro$12 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1().init___().inst$macro$1__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
+  var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, inst$macro$12$1) {
+    return (function() {
+      return inst$macro$12$1
+    })
+  })(this, inst$macro$12));
+  var lv = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
+  var exported = $as_Lio_circe_Encoder$AsObject(lv.value__O());
+  var b = $f_Lio_circe_Encoder$AsObject__apply__O__Lio_circe_Json(exported, exercise);
+  var this$7 = $m_Lsttp_client_circe_package$();
+  var encoder = $m_Lio_circe_Encoder$().encodeJson$1;
+  var printer = $m_Lio_circe_Printer$().noSpaces$1;
+  var evidence$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$7, encoder, printer);
+  var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$8, b, evidence$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
   var x = ("About to make a request: " + request);
-  var this$3 = $m_s_Console$();
-  var this$4 = $as_Ljava_io_PrintStream(this$3.outVar$2.v$1);
-  this$4.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+  var this$10 = $m_s_Console$();
+  var this$11 = $as_Ljava_io_PrintStream(this$10.outVar$2.v$1);
+  this$11.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var backend = this.backend$1;
-  var this$6 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
-  var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
+  var this$13 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
+  var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(check$ifrefutable$2$2) {
       var check$ifrefutable$2 = $as_Lsttp_client_Response(check$ifrefutable$2$2);
       return (check$ifrefutable$2 !== null)
     })
   })(this));
   var executor = this.ec$1;
-  this$6.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+  this$13.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
     return (function(response$2) {
       var response = $as_Lsttp_client_Response(response$2);
       var x1 = $as_s_util_Either(response.body$1);
       if ((x1 instanceof $c_s_util_Right)) {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
-        var this$8 = new $c_sci_StringOps().init___T(jsonBody);
-        var this$10 = $m_jl_Integer$();
-        var $$this = this$8.repr$1;
-        var x$1 = ("jsonBody.toInt: " + this$10.parseInt__T__I__I($$this, 10));
-        var this$12 = $m_s_Console$();
-        var this$13 = $as_Ljava_io_PrintStream(this$12.outVar$2.v$1);
-        this$13.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
-        var jsx$1 = $m_Lbillding_Main$();
         var this$15 = new $c_sci_StringOps().init___T(jsonBody);
         var this$17 = $m_jl_Integer$();
-        var $$this$1 = this$15.repr$1;
-        jsx$1.dailyTotal$1 = this$17.parseInt__T__I__I($$this$1, 10);
+        var $$this = this$15.repr$1;
+        var x$1 = ("jsonBody.toInt: " + this$17.parseInt__T__I__I($$this, 10));
+        var this$19 = $m_s_Console$();
+        var this$20 = $as_Ljava_io_PrintStream(this$19.outVar$2.v$1);
+        this$20.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+        var jsx$1 = $m_Lbillding_Main$();
+        var this$22 = new $c_sci_StringOps().init___T(jsonBody);
+        var this$24 = $m_jl_Integer$();
+        var $$this$1 = this$22.repr$1;
+        jsx$1.dailyTotal$1 = this$24.parseInt__T__I__I($$this$1, 10);
         $m_Lbillding_Main$().count$1 = 0;
         var jsx$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-        var this$18 = $m_Lbillding_Main$().count$1;
-        jsx$2.innerHTML = ("" + this$18);
+        var this$25 = $m_Lbillding_Main$().count$1;
+        jsx$2.innerHTML = ("" + this$25);
         var jsx$3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("daily_total");
-        var this$20 = $m_Lbillding_Main$().dailyTotal$1;
-        jsx$3.innerHTML = ("" + this$20)
+        var this$27 = $m_Lbillding_Main$().dailyTotal$1;
+        jsx$3.innerHTML = ("" + this$27)
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3 = $as_s_util_Left(x1);
         var failure = $as_T(x3.value$2);
         var x$2 = ("Failed to submit quadsets with error: " + failure);
-        var this$23 = $m_s_Console$();
-        var this$24 = $as_Ljava_io_PrintStream(this$23.outVar$2.v$1);
-        this$24.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
+        var this$30 = $m_s_Console$();
+        var this$31 = $as_Ljava_io_PrintStream(this$30.outVar$2.v$1);
+        this$31.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
       } else {
         throw new $c_s_MatchError().init___O(x1)
       };
       var x$3 = response.headers$1;
-      var this$26 = $m_s_Console$();
-      var this$27 = $as_Ljava_io_PrintStream(this$26.outVar$2.v$1);
-      this$27.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
+      var this$33 = $m_s_Console$();
+      var this$34 = $as_Ljava_io_PrintStream(this$33.outVar$2.v$1);
+      this$34.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
       return "hi"
     })
   })(this)), this.ec$1)
@@ -2559,26 +2550,34 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
       if ((x1 instanceof $c_s_util_Right)) {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
-        var this$5 = $m_Lsttp_client_circe_package$();
+        var this$8 = $m_Lsttp_client_circe_package$();
         $m_Lio_circe_Decoder$();
-        var decodeA = $m_Lbillding_ApiInteractions$().decoder$1;
-        var evidence$7 = new $c_Lio_circe_Decoder$$anon$44().init___Lio_circe_Decoder(decodeA);
+        $m_Lio_circe_Decoder$();
+        var inst$macro$12 = new $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1().init___().inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder();
+        var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this$1, inst$macro$12$1) {
+          return (function() {
+            return inst$macro$12$1
+          })
+        })(this$2$1, inst$macro$12));
+        var lv = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
+        var exported = $as_Lio_circe_Decoder(lv.value__O());
+        var evidence$7 = new $c_Lio_circe_Decoder$$anon$44().init___Lio_circe_Decoder(exported);
         var evidence$8 = $m_Lsttp_client_IsOption$False$();
-        var x1$2 = $as_s_util_Either($f_Lsttp_client_circe_SttpCirceApi__deserializeJson__Lio_circe_Decoder__Lsttp_client_IsOption__F1(this$5, evidence$7, evidence$8).apply__O__O(jsonBody));
+        var x1$2 = $as_s_util_Either($f_Lsttp_client_circe_SttpCirceApi__deserializeJson__Lio_circe_Decoder__Lsttp_client_IsOption__F1(this$8, evidence$7, evidence$8).apply__O__O(jsonBody));
         if ((x1$2 instanceof $c_s_util_Right)) {
           var x2$2 = $as_s_util_Right(x1$2);
           var value = $as_sci_List(x2$2.value$2);
           var jsx$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("exercise_history");
-          var this$6 = $m_Lscalatags_JsDom$all$();
+          var this$9 = $m_Lscalatags_JsDom$all$();
           var e = $m_Lbillding_ApiInteractions$().representQuadSets__sci_List__Lscalatags_JsDom$TypedTag(value).render__Lorg_scalajs_dom_raw_Element();
-          return jsx$1.appendChild(new $c_Lscalatags_LowPriorityImplicits$bindNode().init___Lscalatags_LowPriorityImplicits__Lorg_scalajs_dom_raw_Node(this$6, e).e$1)
+          return jsx$1.appendChild(new $c_Lscalatags_LowPriorityImplicits$bindNode().init___Lscalatags_LowPriorityImplicits__Lorg_scalajs_dom_raw_Node(this$9, e).e$1)
         } else if ((x1$2 instanceof $c_s_util_Left)) {
           var x3 = $as_s_util_Left(x1$2);
           var failure = $as_Lio_circe_Error(x3.value$2);
           var x = ("Parse failure: " + failure);
-          var this$8 = $m_s_Console$();
-          var this$9 = $as_Ljava_io_PrintStream(this$8.outVar$2.v$1);
-          this$9.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+          var this$11 = $m_s_Console$();
+          var this$12 = $as_Ljava_io_PrintStream(this$11.outVar$2.v$1);
+          this$12.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
           return (void 0)
         } else {
           throw new $c_s_MatchError().init___O(x1$2)
@@ -2587,9 +2586,9 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
         var x3$2 = $as_s_util_Left(x1);
         var failure$2 = $as_T(x3$2.value$2);
         var x$1 = ("Failure: " + failure$2);
-        var this$11 = $m_s_Console$();
-        var this$12 = $as_Ljava_io_PrintStream(this$11.outVar$2.v$1);
-        this$12.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+        var this$14 = $m_s_Console$();
+        var this$15 = $as_Ljava_io_PrintStream(this$14.outVar$2.v$1);
+        this$15.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
         return (void 0)
       } else {
         throw new $c_s_MatchError().init___O(x1)
@@ -17592,26 +17591,26 @@ var $d_sr_ObjectRef = new $TypeData().initClass({
 });
 $c_sr_ObjectRef.prototype.$classData = $d_sr_ObjectRef;
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1() {
+function $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1() {
   $c_O.call(this);
   this.inst$macro$10$1 = null;
   this.inst$macro$1$1 = null;
   this.bitmap$0$1 = 0
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype = new $h_O();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$11$1() {
+function $h_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.init___ = (function() {
+$h_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1.prototype = $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1.prototype;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1.prototype.init___ = (function() {
   return this
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.inst$macro$1$lzycompute__p1__Lio_circe_generic_decoding_DerivedDecoder = (function() {
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1.prototype.inst$macro$1$lzycompute__p1__Lio_circe_generic_decoding_DerivedDecoder = (function() {
   if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    new $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2().init___Lbillding_ApiInteractions$anon$lazy$macro$11$1(this);
-    var gen = new $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1().init___Lbillding_ApiInteractions$anon$lazy$macro$11$1(this);
+    new $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2().init___Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1(this);
+    var gen = new $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1().init___Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1(this);
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
@@ -17644,59 +17643,55 @@ $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.inst$macro$1$lzycomp
   };
   return this.inst$macro$1$1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder = (function() {
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1.prototype.inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder = (function() {
   return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$1$lzycompute__p1__Lio_circe_generic_decoding_DerivedDecoder() : this.inst$macro$1$1)
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.inst$macro$10__Lio_circe_generic_decoding_ReprDecoder = (function() {
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1.prototype.inst$macro$10__Lio_circe_generic_decoding_ReprDecoder = (function() {
   return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$10$lzycompute__p1__Lio_circe_generic_decoding_ReprDecoder() : this.inst$macro$10$1)
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.inst$macro$10$lzycompute__p1__Lio_circe_generic_decoding_ReprDecoder = (function() {
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1.prototype.inst$macro$10$lzycompute__p1__Lio_circe_generic_decoding_ReprDecoder = (function() {
   if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.inst$macro$10$1 = new $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1().init___Lbillding_ApiInteractions$anon$lazy$macro$11$1(this);
+    this.inst$macro$10$1 = new $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1().init___Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1(this);
     this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
   };
   return this.inst$macro$10$1
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$11$1: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$11$1", {
-  Lbillding_ApiInteractions$anon$lazy$macro$11$1: 1,
+var $d_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1: 0
+}, false, "billding.ApiInteractions$anon$importedDecoder$macro$11$1", {
+  Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1: 1,
   O: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1;
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1() {
+function $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1() {
   $c_O.call(this);
-  this.inst$macro$22$1 = null;
-  this.inst$macro$13$1 = null;
+  this.inst$macro$10$1 = null;
+  this.inst$macro$1$1 = null;
   this.bitmap$0$1 = 0
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype = new $h_O();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$23$1() {
+function $h_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.init___ = (function() {
+$h_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype.init___ = (function() {
   return this
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.inst$macro$22$lzycompute__p1__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function() {
-  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.inst$macro$22$1 = new $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3().init___Lbillding_ApiInteractions$anon$lazy$macro$23$1(this);
-    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
-  };
-  return this.inst$macro$22$1
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype.inst$macro$10__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$10$lzycompute__p1__Lio_circe_generic_encoding_ReprAsObjectEncoder() : this.inst$macro$10$1)
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.inst$macro$22__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function() {
-  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$22$lzycompute__p1__Lio_circe_generic_encoding_ReprAsObjectEncoder() : this.inst$macro$22$1)
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype.inst$macro$1__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function() {
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$1$lzycompute__p1__Lio_circe_generic_encoding_DerivedAsObjectEncoder() : this.inst$macro$1$1)
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.inst$macro$13$lzycompute__p1__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function() {
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype.inst$macro$1$lzycompute__p1__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function() {
   if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    new $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4().init___Lbillding_ApiInteractions$anon$lazy$macro$23$1(this);
-    var gen = new $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1().init___Lbillding_ApiInteractions$anon$lazy$macro$23$1(this);
+    new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4().init___Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1(this);
+    var gen = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2().init___Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1(this);
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
@@ -17720,27 +17715,31 @@ $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.inst$macro$13$lzycom
     var gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1().init___Lshapeless_Generic__Lshapeless_ops_hlist$ZipWithKeys__s_Predef$$less$colon$less(gen, zip, ev);
     var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
       return (function() {
-        return $this.inst$macro$22__Lio_circe_generic_encoding_ReprAsObjectEncoder()
+        return $this.inst$macro$10__Lio_circe_generic_encoding_ReprAsObjectEncoder()
       })
     })(this));
     var encode = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
-    this.inst$macro$13$1 = new $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1().init___Lshapeless_Lazy__Lshapeless_LabelledGeneric(encode, gen$1);
+    this.inst$macro$1$1 = new $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1().init___Lshapeless_Lazy__Lshapeless_LabelledGeneric(encode, gen$1);
     this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
   };
-  return this.inst$macro$13$1
+  return this.inst$macro$1$1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.inst$macro$13__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function() {
-  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$13$lzycompute__p1__Lio_circe_generic_encoding_DerivedAsObjectEncoder() : this.inst$macro$13$1)
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype.inst$macro$10$lzycompute__p1__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function() {
+  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.inst$macro$10$1 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3().init___Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1(this);
+    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.inst$macro$10$1
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$23$1: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$23$1", {
-  Lbillding_ApiInteractions$anon$lazy$macro$23$1: 1,
+var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$11$1", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1: 1,
   O: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1;
 /** @constructor */
 function $c_Lcats_Show$() {
   $c_O.call(this);
@@ -24993,48 +24992,51 @@ var $d_sr_Nothing$ = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1() {
+function $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1() {
   $c_Lio_circe_generic_decoding_ReprDecoder.call(this);
   this.circeGenericDecoderForday$2 = null;
   this.circeGenericDecoderForcount$2 = null
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype = new $h_Lio_circe_generic_decoding_ReprDecoder();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1.prototype = new $h_Lio_circe_generic_decoding_ReprDecoder();
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1() {
+function $h_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
-  return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericDecoderForday$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("name")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericDecoderForday$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("day")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericDecoderForcount$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("count")), $m_Lio_circe_generic_decoding_ReprDecoder$().hnilResult$1, $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1))
-});
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$11$1 = (function($$outer) {
+$h_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1.prototype = $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1.prototype;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1.prototype.init___Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1 = (function($$outer) {
   this.circeGenericDecoderForday$2 = $m_Lio_circe_Decoder$().decodeString$1;
   this.circeGenericDecoderForcount$2 = $m_Lio_circe_Decoder$().decodeInt$1;
   return this
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$11$1$$anon$1", {
-  Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1: 1,
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+  return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericDecoderForday$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("name")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericDecoderForday$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("day")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericDecoderForcount$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("count")), $m_Lio_circe_generic_decoding_ReprDecoder$().hnilResult$1, $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1))
+});
+var $d_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1: 0
+}, false, "billding.ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1", {
+  Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$1;
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1() {
+function $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1() {
   $c_O.call(this)
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype = new $h_O();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1() {
+function $h_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise = (function(p) {
+$h_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1.prototype = $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1.prototype;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1.prototype.init___Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1 = (function($$outer) {
+  return this
+});
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1.prototype.from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise = (function(p) {
   if ((p !== null)) {
     var pat$macro$6 = $as_T(p.head$1);
     var p2 = $as_Lshapeless_$colon$colon(p.tail$1);
@@ -25053,10 +25055,7 @@ $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.from_
   };
   throw new $c_s_MatchError().init___O(p)
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$11$1 = (function($$outer) {
-  return this
-});
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon = (function(p) {
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1.prototype.to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon = (function(p) {
   if ((p !== null)) {
     var pat$macro$6 = p.name$1;
     var pat$macro$7 = p.day$1;
@@ -25066,69 +25065,69 @@ $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.to__L
     throw new $c_s_MatchError().init___O(p)
   }
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1", {
-  Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1: 1,
+var $d_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1: 0
+}, false, "billding.ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1", {
+  Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1: 1,
   O: 1,
   Lshapeless_Generic: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$anon$macro$9$1;
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1() {
+function $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2() {
   $c_O.call(this)
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype = new $h_O();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1() {
+function $h_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$23$1 = (function($$outer) {
-  return this
-});
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype.from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise = (function(p) {
+$h_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2.prototype = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2.prototype;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2.prototype.from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise = (function(p) {
   if ((p !== null)) {
-    var pat$macro$18 = $as_T(p.head$1);
+    var pat$macro$6 = $as_T(p.head$1);
     var p2 = $as_Lshapeless_$colon$colon(p.tail$1);
     if ((p2 !== null)) {
-      var pat$macro$19 = $as_T(p2.head$1);
+      var pat$macro$7 = $as_T(p2.head$1);
       var p3 = $as_Lshapeless_$colon$colon(p2.tail$1);
       if ((p3 !== null)) {
-        var pat$macro$20 = $uI(p3.head$1);
+        var pat$macro$8 = $uI(p3.head$1);
         var p4 = $as_Lshapeless_HNil(p3.tail$1);
         var x = $m_Lshapeless_HNil$();
         if ((x === p4)) {
-          return new $c_Lbillding_DailyQuantizedExercise().init___T__T__I(pat$macro$18, pat$macro$19, pat$macro$20)
+          return new $c_Lbillding_DailyQuantizedExercise().init___T__T__I(pat$macro$6, pat$macro$7, pat$macro$8)
         }
       }
     }
   };
   throw new $c_s_MatchError().init___O(p)
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype.to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon = (function(p) {
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2.prototype.init___Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1 = (function($$outer) {
+  return this
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2.prototype.to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon = (function(p) {
   if ((p !== null)) {
-    var pat$macro$18 = p.name$1;
-    var pat$macro$19 = p.day$1;
-    var pat$macro$20 = p.count$1;
-    return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$18, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$19, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$20, $m_Lshapeless_HNil$())))
+    var pat$macro$6 = p.name$1;
+    var pat$macro$7 = p.day$1;
+    var pat$macro$8 = p.count$1;
+    return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$6, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$7, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$8, $m_Lshapeless_HNil$())))
   } else {
     throw new $c_s_MatchError().init___O(p)
   }
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1", {
-  Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1: 1,
+var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2: 1,
   O: 1,
   Lshapeless_Generic: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2;
 /** @constructor */
 function $c_Lcats_SemigroupK$$anon$1() {
   $c_O.call(this);
@@ -31325,55 +31324,55 @@ var $d_sjsr_RuntimeLong = new $TypeData().initClass({
 });
 $c_sjsr_RuntimeLong.prototype.$classData = $d_sjsr_RuntimeLong;
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2() {
+function $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2() {
   $c_O.call(this)
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype = new $h_O();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2() {
+function $h_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$11$1 = (function($$outer) {
+$h_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2.prototype = $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2.prototype;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2.prototype.init___Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1 = (function($$outer) {
   return this
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$11$1$$anon$2", {
-  Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2: 1,
+var $d_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2: 0
+}, false, "billding.ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2", {
+  Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2;
+$c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1$$anon$2;
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4() {
+function $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4() {
   $c_O.call(this)
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype = new $h_O();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4() {
+function $h_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$23$1 = (function($$outer) {
+$h_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4.prototype = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4.prototype;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4.prototype.init___Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1 = (function($$outer) {
   return this
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$23$1$$anon$4", {
-  Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4: 1,
+var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4;
 /** @constructor */
 function $c_Lbillding_DailyQuantizedExercise() {
   $c_O.call(this);
@@ -35565,76 +35564,6 @@ var $d_sci_StreamIterator = new $TypeData().initClass({
 });
 $c_sci_StreamIterator.prototype.$classData = $d_sci_StreamIterator;
 /** @constructor */
-function $c_sci_StringLike$$anon$1() {
-  $c_sc_AbstractIterator.call(this);
-  this.str$2 = null;
-  this.len$2 = 0;
-  this.index$2 = 0;
-  this.$$outer$2 = null
-}
-$c_sci_StringLike$$anon$1.prototype = new $h_sc_AbstractIterator();
-$c_sci_StringLike$$anon$1.prototype.constructor = $c_sci_StringLike$$anon$1;
-/** @constructor */
-function $h_sci_StringLike$$anon$1() {
-  /*<skip>*/
-}
-$h_sci_StringLike$$anon$1.prototype = $c_sci_StringLike$$anon$1.prototype;
-$c_sci_StringLike$$anon$1.prototype.next__O = (function() {
-  return this.next__T()
-});
-$c_sci_StringLike$$anon$1.prototype.next__T = (function() {
-  if ((this.index$2 >= this.len$2)) {
-    throw new $c_ju_NoSuchElementException().init___T("next on empty iterator")
-  };
-  var start = this.index$2;
-  while (true) {
-    if ((this.index$2 < this.len$2)) {
-      var this$1 = this.$$outer$2;
-      var c = this.$$outer$2.apply__I__C(this.index$2);
-      var jsx$1 = (!$f_sci_StringLike__scala$collection$immutable$StringLike$$isLineBreak__C__Z(this$1, c))
-    } else {
-      var jsx$1 = false
-    };
-    if (jsx$1) {
-      this.index$2 = ((1 + this.index$2) | 0)
-    } else {
-      break
-    }
-  };
-  this.index$2 = ((1 + this.index$2) | 0);
-  var thiz = this.str$2;
-  var x = this.index$2;
-  var that = this.len$2;
-  var endIndex = ((x < that) ? x : that);
-  return $as_T(thiz.substring(start, endIndex))
-});
-$c_sci_StringLike$$anon$1.prototype.hasNext__Z = (function() {
-  return (this.index$2 < this.len$2)
-});
-$c_sci_StringLike$$anon$1.prototype.init___sci_StringLike = (function($$outer) {
-  if (($$outer === null)) {
-    throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(null)
-  } else {
-    this.$$outer$2 = $$outer
-  };
-  this.str$2 = $$outer.toString__T();
-  var thiz = this.str$2;
-  this.len$2 = $uI(thiz.length);
-  this.index$2 = 0;
-  return this
-});
-var $d_sci_StringLike$$anon$1 = new $TypeData().initClass({
-  sci_StringLike$$anon$1: 0
-}, false, "scala.collection.immutable.StringLike$$anon$1", {
-  sci_StringLike$$anon$1: 1,
-  sc_AbstractIterator: 1,
-  O: 1,
-  sc_Iterator: 1,
-  sc_TraversableOnce: 1,
-  sc_GenTraversableOnce: 1
-});
-$c_sci_StringLike$$anon$1.prototype.$classData = $d_sci_StringLike$$anon$1;
-/** @constructor */
 function $c_sci_Traversable$() {
   $c_scg_GenTraversableFactory.call(this)
 }
@@ -36283,19 +36212,19 @@ var $d_sr_ScalaRunTime$$anon$1 = new $TypeData().initClass({
 });
 $c_sr_ScalaRunTime$$anon$1.prototype.$classData = $d_sr_ScalaRunTime$$anon$1;
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3() {
+function $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3() {
   $c_Lio_circe_generic_encoding_ReprAsObjectEncoder.call(this);
   this.circeGenericEncoderForday$2 = null;
   this.circeGenericEncoderForcount$2 = null
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype = new $h_Lio_circe_generic_encoding_ReprAsObjectEncoder();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3.prototype = new $h_Lio_circe_generic_encoding_ReprAsObjectEncoder();
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3() {
+function $h_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject = (function(a) {
+$h_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3.prototype = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3.prototype;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3.prototype.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject = (function(a) {
   if ((a !== null)) {
     var circeGenericHListBindingForname = $as_T(a.head$1);
     var p2 = $as_Lshapeless_$colon$colon(a.tail$1);
@@ -36331,18 +36260,18 @@ $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.encodeObject
   };
   throw new $c_s_MatchError().init___O(a)
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$23$1 = (function($$outer) {
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3.prototype.encodeObject__O__Lio_circe_JsonObject = (function(a) {
+  return this.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject($as_Lshapeless_$colon$colon(a))
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3.prototype.init___Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1 = (function($$outer) {
   this.circeGenericEncoderForday$2 = $m_Lio_circe_Encoder$().encodeString$1;
   this.circeGenericEncoderForcount$2 = $m_Lio_circe_Encoder$().encodeInt$1;
   return this
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.encodeObject__O__Lio_circe_JsonObject = (function(a) {
-  return this.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject($as_Lshapeless_$colon$colon(a))
-});
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$23$1$$anon$3", {
-  Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3: 1,
+var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3: 1,
   Lio_circe_generic_encoding_ReprAsObjectEncoder: 1,
   O: 1,
   Lio_circe_Encoder$AsObject: 1,
@@ -36350,7 +36279,7 @@ var $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3 = new $TypeData().
   Lio_circe_Encoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3;
 /** @constructor */
 function $c_Lcats_NonEmptyReducible() {
   $c_O.call(this);
@@ -51249,9 +51178,6 @@ var $d_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5 = new $TypeData().in
   s_Equals: 1
 });
 $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5.prototype.$classData = $d_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5;
-function $f_sci_StringLike__scala$collection$immutable$StringLike$$isLineBreak__C__Z($thiz, c) {
-  return ((c === 10) || (c === 12))
-}
 function $f_sci_StringLike__unwrapArg__psci_StringLike__O__O($thiz, arg) {
   if ((arg instanceof $c_s_math_ScalaNumber)) {
     var x2 = $as_s_math_ScalaNumber(arg);
@@ -51272,42 +51198,6 @@ function $f_sci_StringLike__slice__I__I__O($thiz, from, until) {
     var x = $as_T(thiz.substring(start, end));
     return $as_scm_Builder(jsx$1.$$plus$plus$eq__sc_TraversableOnce__scg_Growable(new $c_sci_StringOps().init___T(x))).result__O()
   }
-}
-function $f_sci_StringLike__stripMargin__C__T($thiz, marginChar) {
-  var buf = new $c_scm_StringBuilder().init___();
-  var this$1 = new $c_sci_StringLike$$anon$1().init___sci_StringLike($thiz);
-  while (this$1.hasNext__Z()) {
-    var arg1 = this$1.next__T();
-    var len = $uI(arg1.length);
-    var index = 0;
-    while (true) {
-      if ((index < len)) {
-        var index$1 = index;
-        var jsx$1 = ((65535 & $uI(arg1.charCodeAt(index$1))) <= 32)
-      } else {
-        var jsx$1 = false
-      };
-      if (jsx$1) {
-        index = ((1 + index) | 0)
-      } else {
-        break
-      }
-    };
-    if ((index < len)) {
-      var index$2 = index;
-      var jsx$3 = ((65535 & $uI(arg1.charCodeAt(index$2))) === marginChar)
-    } else {
-      var jsx$3 = false
-    };
-    if (jsx$3) {
-      var beginIndex = ((1 + index) | 0);
-      var jsx$2 = $as_T(arg1.substring(beginIndex))
-    } else {
-      var jsx$2 = arg1
-    };
-    buf.append__T__scm_StringBuilder(jsx$2)
-  };
-  return buf.underlying$5.java$lang$StringBuilder$$content$f
 }
 /** @constructor */
 function $c_sc_AbstractIterable() {
@@ -51437,10 +51327,6 @@ $c_sci_StringOps.prototype.thisCollection__sc_Traversable = (function() {
 });
 $c_sci_StringOps.prototype.equals__O__Z = (function(x$1) {
   return $m_sci_StringOps$().equals$extension__T__O__Z(this.repr$1, x$1)
-});
-$c_sci_StringOps.prototype.apply__I__C = (function(index) {
-  var $$this = this.repr$1;
-  return (65535 & $uI($$this.charCodeAt(index)))
 });
 $c_sci_StringOps.prototype.mkString__T__T = (function(sep) {
   return $f_sc_TraversableOnce__mkString__T__T__T__T(this, "", sep, "")
@@ -60067,10 +59953,6 @@ $c_sci_WrappedString.prototype.toList__sci_List = (function() {
 $c_sci_WrappedString.prototype.thisCollection__sc_Traversable = (function() {
   return this
 });
-$c_sci_WrappedString.prototype.apply__I__C = (function(n) {
-  var thiz = this.self$4;
-  return (65535 & $uI(thiz.charCodeAt(n)))
-});
 $c_sci_WrappedString.prototype.init__O = (function() {
   return $f_sc_IndexedSeqOptimized__init__O(this)
 });
@@ -60127,11 +60009,11 @@ $c_sci_WrappedString.prototype.drop__I__O = (function(n) {
   var until = $uI(thiz.length);
   return this.slice__I__I__sci_WrappedString(n, until)
 });
-$c_sci_WrappedString.prototype.thisCollection__sc_Seq = (function() {
-  return this
-});
 $c_sci_WrappedString.prototype.tail__O = (function() {
   return $f_sc_IndexedSeqOptimized__tail__O(this)
+});
+$c_sci_WrappedString.prototype.thisCollection__sc_Seq = (function() {
+  return this
 });
 $c_sci_WrappedString.prototype.isDefinedAt__O__Z = (function(x) {
   var idx = $uI(x);
@@ -62234,9 +62116,6 @@ $c_scm_StringBuilder.prototype.thisCollection__sc_Traversable = (function() {
 });
 $c_scm_StringBuilder.prototype.subSequence__I__I__jl_CharSequence = (function(start, end) {
   return this.underlying$5.substring__I__I__T(start, end)
-});
-$c_scm_StringBuilder.prototype.apply__I__C = (function(index) {
-  return this.underlying$5.charAt__I__C(index)
 });
 $c_scm_StringBuilder.prototype.$$plus$eq__O__scg_Growable = (function(elem) {
   if ((elem === null)) {

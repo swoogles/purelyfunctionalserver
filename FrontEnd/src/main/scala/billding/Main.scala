@@ -1,22 +1,16 @@
 package billding
 
-
-
 import org.scalajs.dom
 import org.scalajs.dom.Event
 import org.scalajs.dom.document
-import sttp.client.{BodySerializer, FetchBackend, Response, StringBody}
-import sttp.model.{MediaType, Uri}
+import sttp.model.Uri
 import sttp.client.circe._
 
 import scala.concurrent.ExecutionContext.global
 import scala.scalajs.js.Date
-import io.circe._
-import io.circe.generic.semiauto._
 
-import io.circe.generic.JsonCodec, io.circe.syntax._
+import io.circe.generic.auto._, io.circe.syntax._
 
-// @JsonCodec  TODO Consider this once my circe use is more stable
 case class DailyQuantizedExercise(name: String, day: String, count: Int)
 
 object Time {
@@ -54,9 +48,6 @@ object ApiInteractions {
   import sttp.client._
 
   val exerciseUri: Uri = uri"${Meta.host}/exercises"
-
-  implicit val decoder: Decoder[DailyQuantizedExercise] =  deriveDecoder[DailyQuantizedExercise]
-  implicit val encoder: Encoder[DailyQuantizedExercise] =  deriveEncoder
 
   implicit val backend = FetchBackend()
   implicit val ec = global
