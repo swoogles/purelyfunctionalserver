@@ -2459,7 +2459,8 @@ $c_Lbillding_ApiInteractions$.prototype.representQuadSets__sci_List__Lscalatags_
 $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
   var localDate = $m_Lbillding_Time$().formattedLocalDate__T();
   var exercise = new $c_Lbillding_DailyQuantizedExercise().init___T__T__I("QuadSets", localDate, count);
-  var this$8 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+  var this$6 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+  var this$5 = $m_Lsttp_client_circe_package$();
   $m_Lio_circe_Encoder$();
   var inst$macro$12 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1().init___().inst$macro$1__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
   var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, inst$macro$12$1) {
@@ -2469,18 +2470,15 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
   })(this, inst$macro$12));
   var lv = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
   var exported = $as_Lio_circe_Encoder$AsObject(lv.value__O());
-  var b = $f_Lio_circe_Encoder$AsObject__apply__O__Lio_circe_Json(exported, exercise);
-  var this$7 = $m_Lsttp_client_circe_package$();
-  var encoder = $m_Lio_circe_Encoder$().encodeJson$1;
   var printer = $m_Lio_circe_Printer$().noSpaces$1;
-  var evidence$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$7, encoder, printer);
-  var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$8, b, evidence$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
+  var evidence$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$5, exported, printer);
+  var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$6, exercise, evidence$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
   var x = ("About to make a request: " + request);
-  var this$10 = $m_s_Console$();
-  var this$11 = $as_Ljava_io_PrintStream(this$10.outVar$2.v$1);
-  this$11.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+  var this$8 = $m_s_Console$();
+  var this$9 = $as_Ljava_io_PrintStream(this$8.outVar$2.v$1);
+  this$9.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var backend = this.backend$1;
-  var this$13 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
+  var this$11 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
   var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(check$ifrefutable$2$2) {
       var check$ifrefutable$2 = $as_Lsttp_client_Response(check$ifrefutable$2$2);
@@ -2488,46 +2486,46 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
     })
   })(this));
   var executor = this.ec$1;
-  this$13.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
+  this$11.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
     return (function(response$2) {
       var response = $as_Lsttp_client_Response(response$2);
       var x1 = $as_s_util_Either(response.body$1);
       if ((x1 instanceof $c_s_util_Right)) {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
-        var this$15 = new $c_sci_StringOps().init___T(jsonBody);
-        var this$17 = $m_jl_Integer$();
-        var $$this = this$15.repr$1;
-        var x$1 = ("jsonBody.toInt: " + this$17.parseInt__T__I__I($$this, 10));
-        var this$19 = $m_s_Console$();
-        var this$20 = $as_Ljava_io_PrintStream(this$19.outVar$2.v$1);
-        this$20.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+        var this$13 = new $c_sci_StringOps().init___T(jsonBody);
+        var this$15 = $m_jl_Integer$();
+        var $$this = this$13.repr$1;
+        var x$1 = ("jsonBody.toInt: " + this$15.parseInt__T__I__I($$this, 10));
+        var this$17 = $m_s_Console$();
+        var this$18 = $as_Ljava_io_PrintStream(this$17.outVar$2.v$1);
+        this$18.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
         var jsx$1 = $m_Lbillding_Main$();
-        var this$22 = new $c_sci_StringOps().init___T(jsonBody);
-        var this$24 = $m_jl_Integer$();
-        var $$this$1 = this$22.repr$1;
-        jsx$1.dailyTotal$1 = this$24.parseInt__T__I__I($$this$1, 10);
+        var this$20 = new $c_sci_StringOps().init___T(jsonBody);
+        var this$22 = $m_jl_Integer$();
+        var $$this$1 = this$20.repr$1;
+        jsx$1.dailyTotal$1 = this$22.parseInt__T__I__I($$this$1, 10);
         $m_Lbillding_Main$().count$1 = 0;
         var jsx$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-        var this$25 = $m_Lbillding_Main$().count$1;
-        jsx$2.innerHTML = ("" + this$25);
+        var this$23 = $m_Lbillding_Main$().count$1;
+        jsx$2.innerHTML = ("" + this$23);
         var jsx$3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("daily_total");
-        var this$27 = $m_Lbillding_Main$().dailyTotal$1;
-        jsx$3.innerHTML = ("" + this$27)
+        var this$25 = $m_Lbillding_Main$().dailyTotal$1;
+        jsx$3.innerHTML = ("" + this$25)
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3 = $as_s_util_Left(x1);
         var failure = $as_T(x3.value$2);
         var x$2 = ("Failed to submit quadsets with error: " + failure);
-        var this$30 = $m_s_Console$();
-        var this$31 = $as_Ljava_io_PrintStream(this$30.outVar$2.v$1);
-        this$31.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
+        var this$28 = $m_s_Console$();
+        var this$29 = $as_Ljava_io_PrintStream(this$28.outVar$2.v$1);
+        this$29.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
       } else {
         throw new $c_s_MatchError().init___O(x1)
       };
       var x$3 = response.headers$1;
-      var this$33 = $m_s_Console$();
-      var this$34 = $as_Ljava_io_PrintStream(this$33.outVar$2.v$1);
-      this$34.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
+      var this$31 = $m_s_Console$();
+      var this$32 = $as_Ljava_io_PrintStream(this$31.outVar$2.v$1);
+      this$32.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
       return "hi"
     })
   })(this)), this.ec$1)

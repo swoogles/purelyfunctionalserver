@@ -25,9 +25,9 @@ object Time {
 
     val daySection =
       if (jsDate.getDate() > 9)
-        (jsDate.getDate()).toString
+        jsDate.getDate().toString
       else
-        "0" + (jsDate.getDate()).toString
+        "0" + jsDate.getDate().toString
 
     println("Current hours: " + jsDate.getHours())
     println("Full Date: " + jsDate)
@@ -73,7 +73,6 @@ object ApiInteractions {
   }
 
   import scalatags.JsDom.all._
-//  import scalatags.Text.all._
   def representQuadSets(quadsets: List[DailyQuantizedExercise]) =
     div(
       quadsets
@@ -96,6 +95,7 @@ object ApiInteractions {
           circe.deserializeJson[List[DailyQuantizedExercise]].apply(jsonBody) match {
             case Right(value) => {
               document.getElementById("exercise_history")
+                // TODO Why do I need the double .render call?
                 .appendChild(representQuadSets(value).render.render)
             }
             case Left(failure) => println("Parse failure: "+ failure)
@@ -114,7 +114,7 @@ object ApiInteractions {
       val exercise = DailyQuantizedExercise(name = "QuadSets", day = localDate, count = count)
 
       val request = basicRequest
-        .body(exercise.asJson)
+        .body(exercise)
         .post(exerciseUri)
 
       println("About to make a request: " + request)
@@ -123,7 +123,6 @@ object ApiInteractions {
       } {
         response.body match {
           case Right(jsonBody) => {
-            println("jsonBody.toInt: " + jsonBody.toInt)
             Main.dailyTotal = jsonBody.toInt
             Main.count = 0
             document.getElementById("counter").innerHTML = Main.count.toString
@@ -131,8 +130,6 @@ object ApiInteractions {
           }
           case Left(failure) => println("Failed to submit quadsets with error: " + failure)
         }
-        println(response.headers)
-        "hi"
       }
   }
 }
