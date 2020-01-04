@@ -5,7 +5,7 @@ import org.scalajs.dom
 import org.scalajs.dom.Event
 import org.scalajs.dom.document
 import sttp.client.{BodySerializer, FetchBackend, Response, StringBody}
-import sttp.model.MediaType
+import sttp.model.{MediaType, Uri}
 
 import scala.concurrent.ExecutionContext.global
 import scala.scalajs.js.Date
@@ -14,6 +14,16 @@ case class DailyQuantizedExercise(id: Option[Long], name: String, day: String, c
 
 object ApiInteractions {
   import sttp.client._
+
+  val (host, path) =
+    document.URL.split("/").splitAt(3) match {
+      case (a, b) => (a.mkString("/"), b.mkString("/"))
+    }
+  println("host: " + host)
+  println("ExerciseUrl: " + exerciseUri)
+
+  val exerciseUri: Uri = uri"${host}/exercises"
+
 
   implicit val personSerializer: BodySerializer[DailyQuantizedExercise] = { p: DailyQuantizedExercise =>
     val serialized =
@@ -53,18 +63,12 @@ object ApiInteractions {
   }
 
   def getQuadSetHistory() = {
-    /* TODO Use one of these to determine domain dynamically so I can stop toggling this crap
-      document.location
-      document.domain
-      document.URL
+      println("document.location: " + document.location)
+      println("document.domain: " + document.domain)
+      println("document.URL: " + document.URL)
 
-     */
-    val constructedUri =
-      uri"https://purelyfunctionalserver.herokuapp.com/exercises"
-//                uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
-    println("historical uri: " + constructedUri)
     val request = basicRequest
-      .get(constructedUri)
+      .get(exerciseUri)
 
 
     for {
@@ -104,13 +108,10 @@ object ApiInteractions {
     val formattedLocalDate = jsDate.getFullYear().toString + "-" + monthSection + "-" + daySection
       val exercise = DailyQuantizedExercise(id = Some(1), name = "QuadSets", day = formattedLocalDate, count = count)
 
-      val constructedUri =
-        uri"https://purelyfunctionalserver.herokuapp.com/exercises"
-//            uri"http://localhost:8080/exercises" // TODO Make this dynamic across environments
-      println("uri: " + constructedUri)
+      println("uri: " + exerciseUri)
       val request = basicRequest
         .body(exercise)
-        .post(constructedUri)
+        .post(exerciseUri)
 
 
       println("About to make a request: " + request)

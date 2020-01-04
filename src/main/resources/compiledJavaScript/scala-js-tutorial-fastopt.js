@@ -2173,6 +2173,10 @@ var $d_sjs_js_Any = new $TypeData().initClass({
 /** @constructor */
 function $c_Lbillding_ApiInteractions$() {
   $c_O.call(this);
+  this.x$1$1 = null;
+  this.host$1 = null;
+  this.path$1 = null;
+  this.exerciseUri$1 = null;
   this.personSerializer$1 = null;
   this.backend$1 = null;
   this.ec$1 = null
@@ -2186,19 +2190,98 @@ function $h_Lbillding_ApiInteractions$() {
 $h_Lbillding_ApiInteractions$.prototype = $c_Lbillding_ApiInteractions$.prototype;
 $c_Lbillding_ApiInteractions$.prototype.init___ = (function() {
   $n_Lbillding_ApiInteractions$ = this;
+  var thiz = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+  var xs = $m_sjsr_RuntimeString$().split__T__T__I__AT(thiz, "/", 0);
+  var y = xs.u.length;
+  var hi = ((y > 3) ? 3 : y);
+  var size = ((hi > 0) ? hi : 0);
+  var result = $m_jl_reflect_Array$().newInstance__jl_Class__I__O($objectGetClass(xs).getComponentType__jl_Class(), size);
+  if ((size > 0)) {
+    $m_s_Array$().copy__O__I__O__I__I__V(xs, 0, result, 0, size)
+  };
+  var until = xs.u.length;
+  var x = ((until > 0) ? until : 0);
+  var y$1 = xs.u.length;
+  var hi$1 = ((x < y$1) ? x : y$1);
+  var x$1 = (((-3) + hi$1) | 0);
+  var size$1 = ((x$1 > 0) ? x$1 : 0);
+  var result$1 = $m_jl_reflect_Array$().newInstance__jl_Class__I__O($objectGetClass(xs).getComponentType__jl_Class(), size$1);
+  if ((size$1 > 0)) {
+    $m_s_Array$().copy__O__I__O__I__I__V(xs, 3, result$1, 0, size$1)
+  };
+  var a = $asArrayOf_T(result, 1);
+  var b = $asArrayOf_T(result$1, 1);
+  var b$1 = new $c_scm_StringBuilder().init___();
+  var elem$1 = false;
+  elem$1 = true;
+  b$1.append__T__scm_StringBuilder("");
+  var i = 0;
+  var len = a.u.length;
+  while ((i < len)) {
+    var index = i;
+    var arg1 = a.get(index);
+    if (elem$1) {
+      b$1.append__O__scm_StringBuilder(arg1);
+      elem$1 = false
+    } else {
+      b$1.append__T__scm_StringBuilder("/");
+      b$1.append__O__scm_StringBuilder(arg1)
+    };
+    i = ((1 + i) | 0)
+  };
+  b$1.append__T__scm_StringBuilder("");
+  var _1 = b$1.underlying$5.java$lang$StringBuilder$$content$f;
+  var b$2 = new $c_scm_StringBuilder().init___();
+  var elem$1$1 = false;
+  elem$1$1 = true;
+  b$2.append__T__scm_StringBuilder("");
+  var i$1 = 0;
+  var len$1 = b.u.length;
+  while ((i$1 < len$1)) {
+    var index$1 = i$1;
+    var arg1$1 = b.get(index$1);
+    if (elem$1$1) {
+      b$2.append__O__scm_StringBuilder(arg1$1);
+      elem$1$1 = false
+    } else {
+      b$2.append__T__scm_StringBuilder("/");
+      b$2.append__O__scm_StringBuilder(arg1$1)
+    };
+    i$1 = ((1 + i$1) | 0)
+  };
+  b$2.append__T__scm_StringBuilder("");
+  var _2 = b$2.underlying$5.java$lang$StringBuilder$$content$f;
+  this.x$1$1 = new $c_T2().init___O__O(_1, _2);
+  this.host$1 = $as_T(this.x$1$1.$$und1__O());
+  this.path$1 = $as_T(this.x$1$1.$$und2__O());
+  var x$2 = ("host: " + this.host$1);
+  var this$29 = $m_s_Console$();
+  var this$30 = $as_Ljava_io_PrintStream(this$29.outVar$2.v$1);
+  this$30.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+  var x$3 = ("ExerciseUrl: " + this.exerciseUri$1);
+  var this$32 = $m_s_Console$();
+  var this$33 = $as_Ljava_io_PrintStream(this$32.outVar$2.v$1);
+  this$33.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
+  var this$36 = $m_Lsttp_client_package$();
+  var array = ["", "/exercises"];
+  var sc = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array));
+  var this$39 = new $c_Lsttp_model_UriInterpolator$UriContext().init___Lsttp_model_UriInterpolator__s_StringContext(this$36, sc);
+  var array$1 = [this.host$1];
+  var args = new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1);
+  this.exerciseUri$1 = $m_Lsttp_model_UriInterpolator$().interpolate__s_StringContext__sc_Seq__Lsttp_model_Uri(this$39.sc$1, args);
   this.personSerializer$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(p$2) {
       var p = $as_Lbillding_DailyQuantizedExercise(p$2);
-      var x = (((((("{\n         |  \"name\" : \"" + p.name$1) + "\",\n         |  \"day\" : \"") + p.day$1) + "\",\n         |  \"count\" : ") + p.count$1) + "\n         |}  ");
-      var this$2 = new $c_sci_StringOps().init___T(x);
-      var serialized = $f_sci_StringLike__stripMargin__C__T(this$2, 124);
+      var x$4 = (((((("{\n         |  \"name\" : \"" + p.name$1) + "\",\n         |  \"day\" : \"") + p.day$1) + "\",\n         |  \"count\" : ") + p.count$1) + "\n         |}  ");
+      var this$41 = new $c_sci_StringOps().init___T(x$4);
+      var serialized = $f_sci_StringLike__stripMargin__C__T(this$41, 124);
       return new $c_Lsttp_client_StringBody().init___T__T__s_Option(serialized, "UTF-8", new $c_s_Some().init___O($m_Lsttp_model_MediaType$().ApplicationJson__Lsttp_model_MediaType()))
     })
   })(this));
-  var x$1 = $m_Lsttp_client_FetchOptions$().Default__Lsttp_client_FetchOptions();
-  var x$2 = $m_Lsttp_client_FetchBackend$().apply$default$2__F1();
-  var x$3 = $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext();
-  this.backend$1 = new $c_Lsttp_client_FetchBackend().init___Lsttp_client_FetchOptions__F1__s_concurrent_ExecutionContext(x$1, x$2, x$3);
+  var x$1$1 = $m_Lsttp_client_FetchOptions$().Default__Lsttp_client_FetchOptions();
+  var x$2$1 = $m_Lsttp_client_FetchBackend$().apply$default$2__F1();
+  var x$3$1 = $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext();
+  this.backend$1 = new $c_Lsttp_client_FetchBackend().init___Lsttp_client_FetchOptions__F1__s_concurrent_ExecutionContext(x$1$1, x$2$1, x$3$1);
   this.ec$1 = $as_s_concurrent_ExecutionContextExecutor($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
   return this
 });
@@ -2235,25 +2318,19 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
   var this$12 = $uI(jsDate.getFullYear());
   var formattedLocalDate = ((((("" + this$12) + "-") + monthSection) + "-") + daySection);
   var exercise = new $c_Lbillding_DailyQuantizedExercise().init___s_Option__T__T__I(new $c_s_Some().init___O(new $c_sjsr_RuntimeLong().init___I__I(1, 0)), "QuadSets", formattedLocalDate, count);
-  var this$16 = $m_Lsttp_client_package$();
-  var array = ["https://purelyfunctionalserver.herokuapp.com/exercises"];
-  var sc = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array));
-  var this$17 = new $c_Lsttp_model_UriInterpolator$UriContext().init___Lsttp_model_UriInterpolator__s_StringContext(this$16, sc);
-  var args = $m_sci_Nil$();
-  var constructedUri = $m_Lsttp_model_UriInterpolator$().interpolate__s_StringContext__sc_Seq__Lsttp_model_Uri(this$17.sc$1, args);
-  var x$1 = ("uri: " + constructedUri);
+  var x$1 = ("uri: " + this.exerciseUri$1);
+  var this$15 = $m_s_Console$();
+  var this$16 = $as_Ljava_io_PrintStream(this$15.outVar$2.v$1);
+  this$16.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+  var this$17 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+  var evidence$1 = this.personSerializer$1;
+  var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$17, exercise, evidence$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
+  var x$2 = ("About to make a request: " + request);
   var this$19 = $m_s_Console$();
   var this$20 = $as_Ljava_io_PrintStream(this$19.outVar$2.v$1);
-  this$20.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
-  var this$21 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
-  var evidence$1 = this.personSerializer$1;
-  var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$21, exercise, evidence$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(constructedUri);
-  var x$2 = ("About to make a request: " + request);
-  var this$23 = $m_s_Console$();
-  var this$24 = $as_Ljava_io_PrintStream(this$23.outVar$2.v$1);
-  this$24.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+  this$20.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
   var backend = this.backend$1;
-  var this$26 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
+  var this$22 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
   var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(check$ifrefutable$2$2) {
       var check$ifrefutable$2 = $as_Lsttp_client_Response(check$ifrefutable$2$2);
@@ -2261,7 +2338,7 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
     })
   })(this));
   var executor = this.ec$1;
-  this$26.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+  this$22.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(response$2) {
       var response = $as_Lsttp_client_Response(response$2);
       var x1 = $as_s_util_Either(response.body$1);
@@ -2269,63 +2346,65 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
         var x$3 = ("jsonBody: " + jsonBody);
-        var this$28 = $m_s_Console$();
-        var this$29 = $as_Ljava_io_PrintStream(this$28.outVar$2.v$1);
-        this$29.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
-        var this$31 = new $c_sci_StringOps().init___T(jsonBody);
-        var this$33 = $m_jl_Integer$();
-        var $$this = this$31.repr$1;
-        var x$4 = ("jsonBody.toInt: " + this$33.parseInt__T__I__I($$this, 10));
-        var this$35 = $m_s_Console$();
-        var this$36 = $as_Ljava_io_PrintStream(this$35.outVar$2.v$1);
-        this$36.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$4 + "\n"));
+        var this$24 = $m_s_Console$();
+        var this$25 = $as_Ljava_io_PrintStream(this$24.outVar$2.v$1);
+        this$25.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
+        var this$27 = new $c_sci_StringOps().init___T(jsonBody);
+        var this$29 = $m_jl_Integer$();
+        var $$this = this$27.repr$1;
+        var x$4 = ("jsonBody.toInt: " + this$29.parseInt__T__I__I($$this, 10));
+        var this$31 = $m_s_Console$();
+        var this$32 = $as_Ljava_io_PrintStream(this$31.outVar$2.v$1);
+        this$32.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$4 + "\n"));
         var jsx$1 = $m_Lbillding_Main$();
-        var this$38 = new $c_sci_StringOps().init___T(jsonBody);
-        var this$40 = $m_jl_Integer$();
-        var $$this$1 = this$38.repr$1;
-        jsx$1.dailyTotal$1 = this$40.parseInt__T__I__I($$this$1, 10);
-        var this$42 = $m_s_Console$();
-        var this$43 = $as_Ljava_io_PrintStream(this$42.outVar$2.v$1);
-        this$43.java$lang$JSConsoleBasedPrintStream$$printString__T__V("Resetting current count after successful submission\n");
+        var this$34 = new $c_sci_StringOps().init___T(jsonBody);
+        var this$36 = $m_jl_Integer$();
+        var $$this$1 = this$34.repr$1;
+        jsx$1.dailyTotal$1 = this$36.parseInt__T__I__I($$this$1, 10);
+        var this$38 = $m_s_Console$();
+        var this$39 = $as_Ljava_io_PrintStream(this$38.outVar$2.v$1);
+        this$39.java$lang$JSConsoleBasedPrintStream$$printString__T__V("Resetting current count after successful submission\n");
         $m_Lbillding_Main$().count$1 = 0;
         var jsx$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-        var this$44 = $m_Lbillding_Main$().count$1;
-        jsx$2.innerHTML = ("" + this$44);
+        var this$40 = $m_Lbillding_Main$().count$1;
+        jsx$2.innerHTML = ("" + this$40);
         var jsx$3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("daily_total");
-        var this$46 = $m_Lbillding_Main$().dailyTotal$1;
-        jsx$3.innerHTML = ("" + this$46)
+        var this$42 = $m_Lbillding_Main$().dailyTotal$1;
+        jsx$3.innerHTML = ("" + this$42)
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3 = $as_s_util_Left(x1);
         var failure = $as_T(x3.value$2);
         var x$5 = ("Failed to submit quadsets with error: " + failure);
-        var this$49 = $m_s_Console$();
-        var this$50 = $as_Ljava_io_PrintStream(this$49.outVar$2.v$1);
-        this$50.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$5 + "\n"))
+        var this$45 = $m_s_Console$();
+        var this$46 = $as_Ljava_io_PrintStream(this$45.outVar$2.v$1);
+        this$46.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$5 + "\n"))
       } else {
         throw new $c_s_MatchError().init___O(x1)
       };
       var x$6 = response.headers$1;
-      var this$52 = $m_s_Console$();
-      var this$53 = $as_Ljava_io_PrintStream(this$52.outVar$2.v$1);
-      this$53.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$6 + "\n"));
+      var this$48 = $m_s_Console$();
+      var this$49 = $as_Ljava_io_PrintStream(this$48.outVar$2.v$1);
+      this$49.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$6 + "\n"));
       return "hi"
     })
   })(this)), this.ec$1)
 });
 $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
-  var this$3 = $m_Lsttp_client_package$();
-  var array = ["https://purelyfunctionalserver.herokuapp.com/exercises"];
-  var sc = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array));
-  var this$4 = new $c_Lsttp_model_UriInterpolator$UriContext().init___Lsttp_model_UriInterpolator__s_StringContext(this$3, sc);
-  var args = $m_sci_Nil$();
-  var constructedUri = $m_Lsttp_model_UriInterpolator$().interpolate__s_StringContext__sc_Seq__Lsttp_model_Uri(this$4.sc$1, args);
-  var x = ("historical uri: " + constructedUri);
-  var this$6 = $m_s_Console$();
-  var this$7 = $as_Ljava_io_PrintStream(this$6.outVar$2.v$1);
-  this$7.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
-  var request = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(constructedUri);
+  var x = ("document.location: " + $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().location);
+  var this$2 = $m_s_Console$();
+  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+  var x$1 = ("document.domain: " + $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().domain));
+  var this$5 = $m_s_Console$();
+  var this$6 = $as_Ljava_io_PrintStream(this$5.outVar$2.v$1);
+  this$6.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+  var x$2 = ("document.URL: " + $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL));
+  var this$8 = $m_s_Console$();
+  var this$9 = $as_Ljava_io_PrintStream(this$8.outVar$2.v$1);
+  this$9.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+  var request = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
   var backend = this.backend$1;
-  var this$9 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
+  var this$11 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
   var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(check$ifrefutable$1$2) {
       var check$ifrefutable$1 = $as_Lsttp_client_Response(check$ifrefutable$1$2);
@@ -2333,7 +2412,7 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
     })
   })(this));
   var executor = this.ec$1;
-  this$9.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+  this$11.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(response$2) {
       var response = $as_Lsttp_client_Response(response$2);
       var x1 = $as_s_util_Either(response.body$1);
@@ -2341,24 +2420,24 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
         $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("exercise_history").innerHTML = jsonBody;
-        var x$1 = ("jsonBody: " + jsonBody);
-        var this$11 = $m_s_Console$();
-        var this$12 = $as_Ljava_io_PrintStream(this$11.outVar$2.v$1);
-        this$12.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"))
+        var x$3 = ("jsonBody: " + jsonBody);
+        var this$13 = $m_s_Console$();
+        var this$14 = $as_Ljava_io_PrintStream(this$13.outVar$2.v$1);
+        this$14.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"))
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3 = $as_s_util_Left(x1);
         var failure = $as_T(x3.value$2);
-        var x$2 = ("Failure: " + failure);
-        var this$14 = $m_s_Console$();
-        var this$15 = $as_Ljava_io_PrintStream(this$14.outVar$2.v$1);
-        this$15.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
+        var x$4 = ("Failure: " + failure);
+        var this$16 = $m_s_Console$();
+        var this$17 = $as_Ljava_io_PrintStream(this$16.outVar$2.v$1);
+        this$17.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$4 + "\n"))
       } else {
         throw new $c_s_MatchError().init___O(x1)
       };
-      var x$3 = response.headers$1;
-      var this$17 = $m_s_Console$();
-      var this$18 = $as_Ljava_io_PrintStream(this$17.outVar$2.v$1);
-      this$18.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
+      var x$5 = response.headers$1;
+      var this$19 = $m_s_Console$();
+      var this$20 = $as_Ljava_io_PrintStream(this$19.outVar$2.v$1);
+      this$20.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$5 + "\n"));
       return "hi"
     })
   })(this)), this.ec$1)
@@ -32945,6 +33024,9 @@ function $f_sc_IndexedSeqOptimized__sameElements__sc_GenIterable__Z($thiz, that)
 function $f_sc_IndexedSeqOptimized__exists__F1__Z($thiz, p) {
   return ($f_sc_IndexedSeqOptimized__prefixLengthImpl__psc_IndexedSeqOptimized__F1__Z__I($thiz, p, false) !== $thiz.length__I())
 }
+function $f_sc_IndexedSeqOptimized__isEmpty__Z($thiz) {
+  return ($thiz.length__I() === 0)
+}
 function $f_sc_IndexedSeqOptimized__toList__sci_List($thiz) {
   var i = (((-1) + $thiz.length__I()) | 0);
   var result = $m_sci_Nil$();
@@ -32955,9 +33037,6 @@ function $f_sc_IndexedSeqOptimized__toList__sci_List($thiz) {
     i = (((-1) + i) | 0)
   };
   return result
-}
-function $f_sc_IndexedSeqOptimized__isEmpty__Z($thiz) {
-  return ($thiz.length__I() === 0)
 }
 function $f_sc_IndexedSeqOptimized__prefixLengthImpl__psc_IndexedSeqOptimized__F1__Z__I($thiz, p, expectTrue) {
   var i = 0;
@@ -33035,6 +33114,9 @@ function $f_sc_IndexedSeqOptimized__find__F1__s_Option($thiz, p) {
 function $f_sc_IndexedSeqOptimized__last__O($thiz) {
   return (($thiz.length__I() > 0) ? $thiz.apply__I__O((((-1) + $thiz.length__I()) | 0)) : $f_sc_TraversableLike__last__O($thiz))
 }
+function $f_sc_IndexedSeqOptimized__tail__O($thiz) {
+  return ($f_sc_IndexedSeqOptimized__isEmpty__Z($thiz) ? $f_sc_TraversableLike__tail__O($thiz) : $thiz.slice__I__I__O(1, $thiz.length__I()))
+}
 function $f_sc_IndexedSeqOptimized__foldl__psc_IndexedSeqOptimized__I__I__O__F2__O($thiz, start, end, z, op) {
   _foldl: while (true) {
     if ((start === end)) {
@@ -33048,12 +33130,6 @@ function $f_sc_IndexedSeqOptimized__foldl__psc_IndexedSeqOptimized__I__I__O__F2_
     }
   }
 }
-function $f_sc_IndexedSeqOptimized__tail__O($thiz) {
-  return ($f_sc_IndexedSeqOptimized__isEmpty__Z($thiz) ? $f_sc_TraversableLike__tail__O($thiz) : $thiz.slice__I__I__O(1, $thiz.length__I()))
-}
-function $f_sc_IndexedSeqOptimized__negLength__psc_IndexedSeqOptimized__I__I($thiz, n) {
-  return ((n >= $thiz.length__I()) ? (-1) : n)
-}
 function $f_sc_IndexedSeqOptimized__copyToArray__O__I__I__V($thiz, xs, start, len) {
   var i = 0;
   var j = start;
@@ -33066,6 +33142,9 @@ function $f_sc_IndexedSeqOptimized__copyToArray__O__I__I__V($thiz, xs, start, le
     i = ((1 + i) | 0);
     j = ((1 + j) | 0)
   }
+}
+function $f_sc_IndexedSeqOptimized__negLength__psc_IndexedSeqOptimized__I__I($thiz, n) {
+  return ((n >= $thiz.length__I()) ? (-1) : n)
 }
 function $f_sc_IndexedSeqOptimized__takeRight__I__O($thiz, n) {
   return $thiz.slice__I__I__O((($thiz.length__I() - ((n > 0) ? n : 0)) | 0), $thiz.length__I())
@@ -35137,11 +35216,11 @@ $c_scm_ArrayOps$ofRef.prototype.thisCollection__sc_Traversable = (function() {
 $c_scm_ArrayOps$ofRef.prototype.equals__O__Z = (function(x$1) {
   return $m_scm_ArrayOps$ofRef$().equals$extension__AO__O__Z(this.repr$1, x$1)
 });
-$c_scm_ArrayOps$ofRef.prototype.mkString__T__T__T__T = (function(start, sep, end) {
-  return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
-});
 $c_scm_ArrayOps$ofRef.prototype.mkString__T__T = (function(sep) {
   return $f_sc_TraversableOnce__mkString__T__T__T__T(this, "", sep, "")
+});
+$c_scm_ArrayOps$ofRef.prototype.mkString__T__T__T__T = (function(start, sep, end) {
+  return $f_sc_TraversableOnce__mkString__T__T__T__T(this, start, sep, end)
 });
 $c_scm_ArrayOps$ofRef.prototype.init__O = (function() {
   return $f_sc_IndexedSeqOptimized__init__O(this)
@@ -43151,11 +43230,11 @@ $c_scm_StringBuilder.prototype.$$plus$eq__O__scg_Growable = (function(elem) {
 $c_scm_StringBuilder.prototype.init__O = (function() {
   return $f_sc_IndexedSeqOptimized__init__O(this)
 });
-$c_scm_StringBuilder.prototype.toString__T = (function() {
-  return this.underlying$5.java$lang$StringBuilder$$content$f
-});
 $c_scm_StringBuilder.prototype.companion__scg_GenericCompanion = (function() {
   return $m_scm_IndexedSeq$()
+});
+$c_scm_StringBuilder.prototype.toString__T = (function() {
+  return this.underlying$5.java$lang$StringBuilder$$content$f
 });
 $c_scm_StringBuilder.prototype.foreach__F1__V = (function(f) {
   $f_sc_IndexedSeqOptimized__foreach__F1__V(this, f)
