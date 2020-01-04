@@ -19,11 +19,8 @@ object ApiInteractions {
     document.URL.split("/").splitAt(3) match {
       case (a, b) => (a.mkString("/"), b.mkString("/"))
     }
-  println("host: " + host)
-  println("ExerciseUrl: " + exerciseUri)
 
   val exerciseUri: Uri = uri"${host}/exercises"
-
 
   implicit val personSerializer: BodySerializer[DailyQuantizedExercise] = { p: DailyQuantizedExercise =>
     val serialized =
@@ -63,10 +60,6 @@ object ApiInteractions {
   }
 
   def getQuadSetHistory() = {
-      println("document.location: " + document.location)
-      println("document.domain: " + document.domain)
-      println("document.URL: " + document.URL)
-
     val request = basicRequest
       .get(exerciseUri)
 
@@ -92,23 +85,23 @@ object ApiInteractions {
   def postQuadSets(count: Int) = {
     val jsDate = new Date()
     val monthSection =
-      if (jsDate.getUTCMonth() + 1 > 9)
-        (jsDate.getUTCMonth() + 1).toString
+      if (jsDate.getMonth() + 1 > 9)
+        (jsDate.getMonth() + 1).toString
       else
-        "0" + (jsDate.getUTCMonth() + 1).toString
+        "0" + (jsDate.getMonth() + 1).toString
 
     val daySection =
-      if (jsDate.getUTCDate() + 1 > 9)
-        (jsDate.getUTCDate() + 1).toString
+      if (jsDate.getDate() + 1 > 9)
+        (jsDate.getDate() + 1).toString
       else
-        "0" + (jsDate.getUTCDate() + 1).toString
+        "0" + (jsDate.getDate() + 1).toString
 
+    println("Current hours: " + jsDate.getHours())
+    println("Full Date: " + jsDate)
 
-    println("About to post FIXED QUADSETS for month: " + monthSection)
     val formattedLocalDate = jsDate.getFullYear().toString + "-" + monthSection + "-" + daySection
       val exercise = DailyQuantizedExercise(id = Some(1), name = "QuadSets", day = formattedLocalDate, count = count)
 
-      println("uri: " + exerciseUri)
       val request = basicRequest
         .body(exercise)
         .post(exerciseUri)
@@ -123,11 +116,9 @@ object ApiInteractions {
             println("jsonBody: " + jsonBody)
             println("jsonBody.toInt: " + jsonBody.toInt)
             Main.dailyTotal = jsonBody.toInt
-            println("Resetting current count after successful submission")
             Main.count = 0
             document.getElementById("counter").innerHTML = Main.count.toString
             document.getElementById("daily_total").innerHTML = Main.dailyTotal.toString
-            //          println("count: " + jsonBody.asJson.findAllByKey("count").head.asString.get.toInt)
           }
           case Left(failure) => println("Failed to submit quadsets with error: " + failure)
         }
@@ -151,7 +142,6 @@ object Main {
     }
 
   def main(args: Array[String]): Unit = {
-    println("I'm flying")
     ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(count) // Doing this to get the initial count
     document.body.setAttribute("style", "background-color: green")

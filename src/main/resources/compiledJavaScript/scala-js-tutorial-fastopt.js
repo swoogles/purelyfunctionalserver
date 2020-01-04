@@ -2254,34 +2254,26 @@ $c_Lbillding_ApiInteractions$.prototype.init___ = (function() {
   this.x$1$1 = new $c_T2().init___O__O(_1, _2);
   this.host$1 = $as_T(this.x$1$1.$$und1__O());
   this.path$1 = $as_T(this.x$1$1.$$und2__O());
-  var x$2 = ("host: " + this.host$1);
-  var this$29 = $m_s_Console$();
-  var this$30 = $as_Ljava_io_PrintStream(this$29.outVar$2.v$1);
-  this$30.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
-  var x$3 = ("ExerciseUrl: " + this.exerciseUri$1);
-  var this$32 = $m_s_Console$();
-  var this$33 = $as_Ljava_io_PrintStream(this$32.outVar$2.v$1);
-  this$33.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
-  var this$36 = $m_Lsttp_client_package$();
+  var this$30 = $m_Lsttp_client_package$();
   var array = ["", "/exercises"];
   var sc = new $c_s_StringContext().init___sc_Seq(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array));
-  var this$39 = new $c_Lsttp_model_UriInterpolator$UriContext().init___Lsttp_model_UriInterpolator__s_StringContext(this$36, sc);
+  var this$33 = new $c_Lsttp_model_UriInterpolator$UriContext().init___Lsttp_model_UriInterpolator__s_StringContext(this$30, sc);
   var array$1 = [this.host$1];
   var args = new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1);
-  this.exerciseUri$1 = $m_Lsttp_model_UriInterpolator$().interpolate__s_StringContext__sc_Seq__Lsttp_model_Uri(this$39.sc$1, args);
+  this.exerciseUri$1 = $m_Lsttp_model_UriInterpolator$().interpolate__s_StringContext__sc_Seq__Lsttp_model_Uri(this$33.sc$1, args);
   this.personSerializer$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(p$2) {
       var p = $as_Lbillding_DailyQuantizedExercise(p$2);
-      var x$4 = (((((("{\n         |  \"name\" : \"" + p.name$1) + "\",\n         |  \"day\" : \"") + p.day$1) + "\",\n         |  \"count\" : ") + p.count$1) + "\n         |}  ");
-      var this$41 = new $c_sci_StringOps().init___T(x$4);
-      var serialized = $f_sci_StringLike__stripMargin__C__T(this$41, 124);
+      var x$2 = (((((("{\n         |  \"name\" : \"" + p.name$1) + "\",\n         |  \"day\" : \"") + p.day$1) + "\",\n         |  \"count\" : ") + p.count$1) + "\n         |}  ");
+      var this$35 = new $c_sci_StringOps().init___T(x$2);
+      var serialized = $f_sci_StringLike__stripMargin__C__T(this$35, 124);
       return new $c_Lsttp_client_StringBody().init___T__T__s_Option(serialized, "UTF-8", new $c_s_Some().init___O($m_Lsttp_model_MediaType$().ApplicationJson__Lsttp_model_MediaType()))
     })
   })(this));
   var x$1$1 = $m_Lsttp_client_FetchOptions$().Default__Lsttp_client_FetchOptions();
   var x$2$1 = $m_Lsttp_client_FetchBackend$().apply$default$2__F1();
-  var x$3$1 = $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext();
-  this.backend$1 = new $c_Lsttp_client_FetchBackend().init___Lsttp_client_FetchOptions__F1__s_concurrent_ExecutionContext(x$1$1, x$2$1, x$3$1);
+  var x$3 = $m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext();
+  this.backend$1 = new $c_Lsttp_client_FetchBackend().init___Lsttp_client_FetchOptions__F1__s_concurrent_ExecutionContext(x$1$1, x$2$1, x$3);
   this.ec$1 = $as_s_concurrent_ExecutionContextExecutor($m_s_concurrent_ExecutionContext$Implicits$().global__s_concurrent_ExecutionContext());
   return this
 });
@@ -2297,31 +2289,31 @@ $c_Lbillding_ApiInteractions$.prototype.safelyPostQuadSets__I__V = (function(cou
 });
 $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
   var jsDate = new $g.Date();
-  if ((((1 + $uI(jsDate.getUTCMonth())) | 0) > 9)) {
-    var this$1 = ((1 + $uI(jsDate.getUTCMonth())) | 0);
+  if ((((1 + $uI(jsDate.getMonth())) | 0) > 9)) {
+    var this$1 = ((1 + $uI(jsDate.getMonth())) | 0);
     var monthSection = ("" + this$1)
   } else {
-    var this$3 = ((1 + $uI(jsDate.getUTCMonth())) | 0);
+    var this$3 = ((1 + $uI(jsDate.getMonth())) | 0);
     var monthSection = ("0" + ("" + this$3))
   };
-  if ((((1 + $uI(jsDate.getUTCDate())) | 0) > 9)) {
-    var this$5 = ((1 + $uI(jsDate.getUTCDate())) | 0);
+  if ((((1 + $uI(jsDate.getDate())) | 0) > 9)) {
+    var this$5 = ((1 + $uI(jsDate.getDate())) | 0);
     var daySection = ("" + this$5)
   } else {
-    var this$7 = ((1 + $uI(jsDate.getUTCDate())) | 0);
+    var this$7 = ((1 + $uI(jsDate.getDate())) | 0);
     var daySection = ("0" + ("" + this$7))
   };
-  var x = ("About to post FIXED QUADSETS for month: " + monthSection);
+  var x = ("Current hours: " + $uI(jsDate.getHours()));
   var this$10 = $m_s_Console$();
   var this$11 = $as_Ljava_io_PrintStream(this$10.outVar$2.v$1);
   this$11.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
-  var this$12 = $uI(jsDate.getFullYear());
-  var formattedLocalDate = ((((("" + this$12) + "-") + monthSection) + "-") + daySection);
+  var x$1 = ("Full Date: " + jsDate);
+  var this$13 = $m_s_Console$();
+  var this$14 = $as_Ljava_io_PrintStream(this$13.outVar$2.v$1);
+  this$14.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+  var this$15 = $uI(jsDate.getFullYear());
+  var formattedLocalDate = ((((("" + this$15) + "-") + monthSection) + "-") + daySection);
   var exercise = new $c_Lbillding_DailyQuantizedExercise().init___s_Option__T__T__I(new $c_s_Some().init___O(new $c_sjsr_RuntimeLong().init___I__I(1, 0)), "QuadSets", formattedLocalDate, count);
-  var x$1 = ("uri: " + this.exerciseUri$1);
-  var this$15 = $m_s_Console$();
-  var this$16 = $as_Ljava_io_PrintStream(this$15.outVar$2.v$1);
-  this$16.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
   var this$17 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
   var evidence$1 = this.personSerializer$1;
   var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$17, exercise, evidence$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
@@ -2361,50 +2353,35 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
         var this$36 = $m_jl_Integer$();
         var $$this$1 = this$34.repr$1;
         jsx$1.dailyTotal$1 = this$36.parseInt__T__I__I($$this$1, 10);
-        var this$38 = $m_s_Console$();
-        var this$39 = $as_Ljava_io_PrintStream(this$38.outVar$2.v$1);
-        this$39.java$lang$JSConsoleBasedPrintStream$$printString__T__V("Resetting current count after successful submission\n");
         $m_Lbillding_Main$().count$1 = 0;
         var jsx$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-        var this$40 = $m_Lbillding_Main$().count$1;
-        jsx$2.innerHTML = ("" + this$40);
+        var this$37 = $m_Lbillding_Main$().count$1;
+        jsx$2.innerHTML = ("" + this$37);
         var jsx$3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("daily_total");
-        var this$42 = $m_Lbillding_Main$().dailyTotal$1;
-        jsx$3.innerHTML = ("" + this$42)
+        var this$39 = $m_Lbillding_Main$().dailyTotal$1;
+        jsx$3.innerHTML = ("" + this$39)
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3 = $as_s_util_Left(x1);
         var failure = $as_T(x3.value$2);
         var x$5 = ("Failed to submit quadsets with error: " + failure);
-        var this$45 = $m_s_Console$();
-        var this$46 = $as_Ljava_io_PrintStream(this$45.outVar$2.v$1);
-        this$46.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$5 + "\n"))
+        var this$42 = $m_s_Console$();
+        var this$43 = $as_Ljava_io_PrintStream(this$42.outVar$2.v$1);
+        this$43.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$5 + "\n"))
       } else {
         throw new $c_s_MatchError().init___O(x1)
       };
       var x$6 = response.headers$1;
-      var this$48 = $m_s_Console$();
-      var this$49 = $as_Ljava_io_PrintStream(this$48.outVar$2.v$1);
-      this$49.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$6 + "\n"));
+      var this$45 = $m_s_Console$();
+      var this$46 = $as_Ljava_io_PrintStream(this$45.outVar$2.v$1);
+      this$46.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$6 + "\n"));
       return "hi"
     })
   })(this)), this.ec$1)
 });
 $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
-  var x = ("document.location: " + $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().location);
-  var this$2 = $m_s_Console$();
-  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
-  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
-  var x$1 = ("document.domain: " + $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().domain));
-  var this$5 = $m_s_Console$();
-  var this$6 = $as_Ljava_io_PrintStream(this$5.outVar$2.v$1);
-  this$6.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
-  var x$2 = ("document.URL: " + $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL));
-  var this$8 = $m_s_Console$();
-  var this$9 = $as_Ljava_io_PrintStream(this$8.outVar$2.v$1);
-  this$9.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
   var request = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
   var backend = this.backend$1;
-  var this$11 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
+  var this$2 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
   var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(check$ifrefutable$1$2) {
       var check$ifrefutable$1 = $as_Lsttp_client_Response(check$ifrefutable$1$2);
@@ -2412,7 +2389,7 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
     })
   })(this));
   var executor = this.ec$1;
-  this$11.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+  this$2.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(response$2) {
       var response = $as_Lsttp_client_Response(response$2);
       var x1 = $as_s_util_Either(response.body$1);
@@ -2420,24 +2397,24 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
         $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("exercise_history").innerHTML = jsonBody;
-        var x$3 = ("jsonBody: " + jsonBody);
-        var this$13 = $m_s_Console$();
-        var this$14 = $as_Ljava_io_PrintStream(this$13.outVar$2.v$1);
-        this$14.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"))
+        var x = ("jsonBody: " + jsonBody);
+        var this$4 = $m_s_Console$();
+        var this$5 = $as_Ljava_io_PrintStream(this$4.outVar$2.v$1);
+        this$5.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"))
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3 = $as_s_util_Left(x1);
         var failure = $as_T(x3.value$2);
-        var x$4 = ("Failure: " + failure);
-        var this$16 = $m_s_Console$();
-        var this$17 = $as_Ljava_io_PrintStream(this$16.outVar$2.v$1);
-        this$17.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$4 + "\n"))
+        var x$1 = ("Failure: " + failure);
+        var this$7 = $m_s_Console$();
+        var this$8 = $as_Ljava_io_PrintStream(this$7.outVar$2.v$1);
+        this$8.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"))
       } else {
         throw new $c_s_MatchError().init___O(x1)
       };
-      var x$5 = response.headers$1;
-      var this$19 = $m_s_Console$();
-      var this$20 = $as_Ljava_io_PrintStream(this$19.outVar$2.v$1);
-      this$20.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$5 + "\n"));
+      var x$2 = response.headers$1;
+      var this$10 = $m_s_Console$();
+      var this$11 = $as_Ljava_io_PrintStream(this$10.outVar$2.v$1);
+      this$11.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
       return "hi"
     })
   })(this)), this.ec$1)
@@ -2485,15 +2462,12 @@ $c_Lbillding_Main$.prototype.init___ = (function() {
   return this
 });
 $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
-  var this$2 = $m_s_Console$();
-  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
-  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("I'm flying\n");
   $m_Lbillding_ApiInteractions$().getQuadSetHistory__V();
   $m_Lbillding_ApiInteractions$().postQuadSets__I__V(this.count$1);
   $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: green");
   var jsx$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-  var this$4 = this.count$1;
-  jsx$1.innerHTML = ("" + this$4);
+  var this$1 = this.count$1;
+  jsx$1.innerHTML = ("" + this$1);
   $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().setInterval((function() {
     $m_Lbillding_Main$().toggleColor__V()
   }), 10000.0);
