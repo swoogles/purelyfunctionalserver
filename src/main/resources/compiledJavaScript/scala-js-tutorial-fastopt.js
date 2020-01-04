@@ -2352,6 +2352,7 @@ function $c_Lbillding_ApiInteractions$() {
   $c_O.call(this);
   this.exerciseUri$1 = null;
   this.decoder$1 = null;
+  this.encoder$1 = null;
   this.personSerializer$1 = null;
   this.backend$1 = null;
   this.ec$1 = null
@@ -2372,21 +2373,31 @@ $c_Lbillding_ApiInteractions$.prototype.init___ = (function() {
   var array$1 = [$m_Lbillding_Meta$().host$1];
   var args = new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$1);
   this.exerciseUri$1 = $m_Lsttp_model_UriInterpolator$().interpolate__s_StringContext__sc_Seq__Lsttp_model_Uri(this$6.sc$1, args);
-  var inst$macro$14 = new $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1().init___().inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder();
-  var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, inst$macro$14$1) {
+  var inst$macro$12 = new $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1().init___().inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder();
+  var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, inst$macro$12$1) {
     return (function() {
-      return inst$macro$14$1
+      return inst$macro$12$1
     })
-  })(this, inst$macro$14));
+  })(this, inst$macro$12));
   var decode = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
   this.decoder$1 = $as_Lio_circe_Decoder(decode.value__O());
-  this.personSerializer$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+  var inst$macro$24 = new $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1().init___().inst$macro$13__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
+  var t$1 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$2$1, inst$macro$24$1) {
+    return (function() {
+      return inst$macro$24$1
+    })
+  })(this, inst$macro$24));
+  var encode = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$1);
+  this.encoder$1 = $as_Lio_circe_Encoder$AsObject(encode.value__O());
+  this.personSerializer$1 = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
     return (function(p$2) {
       var p = $as_Lbillding_DailyQuantizedExercise(p$2);
-      var x = (((((("{\n         |  \"name\" : \"" + p.name$1) + "\",\n         |  \"day\" : \"") + p.day$1) + "\",\n         |  \"count\" : ") + p.count$1) + "\n         |}  ");
-      var this$10 = new $c_sci_StringOps().init___T(x);
-      var serialized = $f_sci_StringLike__stripMargin__C__T(this$10, 124);
-      return new $c_Lsttp_client_StringBody().init___T__T__s_Option(serialized, "UTF-8", new $c_s_Some().init___O($m_Lsttp_model_MediaType$().ApplicationJson__Lsttp_model_MediaType()))
+      var x = (((((("{\n           |  \"name\" : \"" + p.name$1) + "\",\n           |  \"day\" : \"") + p.day$1) + "\",\n           |  \"count\" : ") + p.count$1) + "\n           |}  ");
+      var this$12 = new $c_sci_StringOps().init___T(x);
+      $f_sci_StringLike__stripMargin__C__T(this$12, 124);
+      var encoder = $m_Lbillding_ApiInteractions$().encoder$1;
+      var this$15 = encoder.apply__O__Lio_circe_Json(p);
+      return new $c_Lsttp_client_StringBody().init___T__T__s_Option($m_Lio_circe_Printer$().spaces2$1.print__Lio_circe_Json__T(this$15), "UTF-8", new $c_s_Some().init___O($m_Lsttp_model_MediaType$().ApplicationJson__Lsttp_model_MediaType()))
     })
   })(this));
   var x$1 = $m_Lsttp_client_FetchOptions$().Default__Lsttp_client_FetchOptions();
@@ -2468,8 +2479,8 @@ $c_Lbillding_ApiInteractions$.prototype.representQuadSets__sci_List__Lscalatags_
   return jsx$7.apply__sc_Seq__Lscalatags_JsDom$TypedTag(new $c_sjs_js_WrappedArray().init___sjs_js_Array(array$4))
 });
 $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
-  var localDate = this.formattedLocalDate__T();
-  var exercise = new $c_Lbillding_DailyQuantizedExercise().init___s_Option__T__T__I($m_s_None$(), "QuadSets", localDate, count);
+  var localDate = $m_Lbillding_Time$().formattedLocalDate__T();
+  var exercise = new $c_Lbillding_DailyQuantizedExercise().init___T__T__I("QuadSets", localDate, count);
   var this$1 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
   var evidence$1 = this.personSerializer$1;
   var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$1, exercise, evidence$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
@@ -2493,73 +2504,42 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
       if ((x1 instanceof $c_s_util_Right)) {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
-        var x$1 = ("jsonBody: " + jsonBody);
-        var this$8 = $m_s_Console$();
-        var this$9 = $as_Ljava_io_PrintStream(this$8.outVar$2.v$1);
-        this$9.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
-        var this$11 = new $c_sci_StringOps().init___T(jsonBody);
-        var this$13 = $m_jl_Integer$();
-        var $$this = this$11.repr$1;
-        var x$2 = ("jsonBody.toInt: " + this$13.parseInt__T__I__I($$this, 10));
-        var this$15 = $m_s_Console$();
-        var this$16 = $as_Ljava_io_PrintStream(this$15.outVar$2.v$1);
-        this$16.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+        var this$8 = new $c_sci_StringOps().init___T(jsonBody);
+        var this$10 = $m_jl_Integer$();
+        var $$this = this$8.repr$1;
+        var x$1 = ("jsonBody.toInt: " + this$10.parseInt__T__I__I($$this, 10));
+        var this$12 = $m_s_Console$();
+        var this$13 = $as_Ljava_io_PrintStream(this$12.outVar$2.v$1);
+        this$13.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
         var jsx$1 = $m_Lbillding_Main$();
-        var this$18 = new $c_sci_StringOps().init___T(jsonBody);
-        var this$20 = $m_jl_Integer$();
-        var $$this$1 = this$18.repr$1;
-        jsx$1.dailyTotal$1 = this$20.parseInt__T__I__I($$this$1, 10);
+        var this$15 = new $c_sci_StringOps().init___T(jsonBody);
+        var this$17 = $m_jl_Integer$();
+        var $$this$1 = this$15.repr$1;
+        jsx$1.dailyTotal$1 = this$17.parseInt__T__I__I($$this$1, 10);
         $m_Lbillding_Main$().count$1 = 0;
         var jsx$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-        var this$21 = $m_Lbillding_Main$().count$1;
-        jsx$2.innerHTML = ("" + this$21);
+        var this$18 = $m_Lbillding_Main$().count$1;
+        jsx$2.innerHTML = ("" + this$18);
         var jsx$3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("daily_total");
-        var this$23 = $m_Lbillding_Main$().dailyTotal$1;
-        jsx$3.innerHTML = ("" + this$23)
+        var this$20 = $m_Lbillding_Main$().dailyTotal$1;
+        jsx$3.innerHTML = ("" + this$20)
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3 = $as_s_util_Left(x1);
         var failure = $as_T(x3.value$2);
-        var x$3 = ("Failed to submit quadsets with error: " + failure);
-        var this$26 = $m_s_Console$();
-        var this$27 = $as_Ljava_io_PrintStream(this$26.outVar$2.v$1);
-        this$27.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"))
+        var x$2 = ("Failed to submit quadsets with error: " + failure);
+        var this$23 = $m_s_Console$();
+        var this$24 = $as_Ljava_io_PrintStream(this$23.outVar$2.v$1);
+        this$24.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
       } else {
         throw new $c_s_MatchError().init___O(x1)
       };
-      var x$4 = response.headers$1;
-      var this$29 = $m_s_Console$();
-      var this$30 = $as_Ljava_io_PrintStream(this$29.outVar$2.v$1);
-      this$30.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$4 + "\n"));
+      var x$3 = response.headers$1;
+      var this$26 = $m_s_Console$();
+      var this$27 = $as_Ljava_io_PrintStream(this$26.outVar$2.v$1);
+      this$27.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
       return "hi"
     })
   })(this)), this.ec$1)
-});
-$c_Lbillding_ApiInteractions$.prototype.formattedLocalDate__T = (function() {
-  var jsDate = new $g.Date();
-  if ((((1 + $uI(jsDate.getMonth())) | 0) > 9)) {
-    var this$1 = ((1 + $uI(jsDate.getMonth())) | 0);
-    var monthSection = ("" + this$1)
-  } else {
-    var this$3 = ((1 + $uI(jsDate.getMonth())) | 0);
-    var monthSection = ("0" + ("" + this$3))
-  };
-  if (($uI(jsDate.getDate()) > 9)) {
-    var this$5 = $uI(jsDate.getDate());
-    var daySection = ("" + this$5)
-  } else {
-    var this$7 = $uI(jsDate.getDate());
-    var daySection = ("0" + ("" + this$7))
-  };
-  var x = ("Current hours: " + $uI(jsDate.getHours()));
-  var this$10 = $m_s_Console$();
-  var this$11 = $as_Ljava_io_PrintStream(this$10.outVar$2.v$1);
-  this$11.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
-  var x$1 = ("Full Date: " + jsDate);
-  var this$13 = $m_s_Console$();
-  var this$14 = $as_Ljava_io_PrintStream(this$13.outVar$2.v$1);
-  this$14.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
-  var this$15 = $uI(jsDate.getFullYear());
-  return ((((("" + this$15) + "-") + monthSection) + "-") + daySection)
 });
 $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
   var request = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
@@ -2582,7 +2562,7 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
         var this$5 = $m_Lsttp_client_circe_package$();
         $m_Lio_circe_Decoder$();
         var decodeA = $m_Lbillding_ApiInteractions$().decoder$1;
-        var evidence$7 = new $c_Lio_circe_Decoder$$anon$43().init___Lio_circe_Decoder(decodeA);
+        var evidence$7 = new $c_Lio_circe_Decoder$$anon$44().init___Lio_circe_Decoder(decodeA);
         var evidence$8 = $m_Lsttp_client_IsOption$False$();
         var x1$2 = $as_s_util_Either($f_Lsttp_client_circe_SttpCirceApi__deserializeJson__Lio_circe_Decoder__Lsttp_client_IsOption__F1(this$5, evidence$7, evidence$8).apply__O__O(jsonBody));
         if ((x1$2 instanceof $c_s_util_Right)) {
@@ -2801,6 +2781,61 @@ function $m_Lbillding_Meta$() {
     $n_Lbillding_Meta$ = new $c_Lbillding_Meta$().init___()
   };
   return $n_Lbillding_Meta$
+}
+/** @constructor */
+function $c_Lbillding_Time$() {
+  $c_O.call(this)
+}
+$c_Lbillding_Time$.prototype = new $h_O();
+$c_Lbillding_Time$.prototype.constructor = $c_Lbillding_Time$;
+/** @constructor */
+function $h_Lbillding_Time$() {
+  /*<skip>*/
+}
+$h_Lbillding_Time$.prototype = $c_Lbillding_Time$.prototype;
+$c_Lbillding_Time$.prototype.init___ = (function() {
+  return this
+});
+$c_Lbillding_Time$.prototype.formattedLocalDate__T = (function() {
+  var jsDate = new $g.Date();
+  if ((((1 + $uI(jsDate.getMonth())) | 0) > 9)) {
+    var this$1 = ((1 + $uI(jsDate.getMonth())) | 0);
+    var monthSection = ("" + this$1)
+  } else {
+    var this$3 = ((1 + $uI(jsDate.getMonth())) | 0);
+    var monthSection = ("0" + ("" + this$3))
+  };
+  if (($uI(jsDate.getDate()) > 9)) {
+    var this$5 = $uI(jsDate.getDate());
+    var daySection = ("" + this$5)
+  } else {
+    var this$7 = $uI(jsDate.getDate());
+    var daySection = ("0" + ("" + this$7))
+  };
+  var x = ("Current hours: " + $uI(jsDate.getHours()));
+  var this$10 = $m_s_Console$();
+  var this$11 = $as_Ljava_io_PrintStream(this$10.outVar$2.v$1);
+  this$11.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+  var x$1 = ("Full Date: " + jsDate);
+  var this$13 = $m_s_Console$();
+  var this$14 = $as_Ljava_io_PrintStream(this$13.outVar$2.v$1);
+  this$14.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+  var this$15 = $uI(jsDate.getFullYear());
+  return ((((("" + this$15) + "-") + monthSection) + "-") + daySection)
+});
+var $d_Lbillding_Time$ = new $TypeData().initClass({
+  Lbillding_Time$: 0
+}, false, "billding.Time$", {
+  Lbillding_Time$: 1,
+  O: 1
+});
+$c_Lbillding_Time$.prototype.$classData = $d_Lbillding_Time$;
+var $n_Lbillding_Time$ = (void 0);
+function $m_Lbillding_Time$() {
+  if ((!$n_Lbillding_Time$)) {
+    $n_Lbillding_Time$ = new $c_Lbillding_Time$().init___()
+  };
+  return $n_Lbillding_Time$
 }
 /** @constructor */
 function $c_Lcats_data_NonEmptyListInstances1() {
@@ -17557,27 +17592,26 @@ var $d_sr_ObjectRef = new $TypeData().initClass({
 });
 $c_sr_ObjectRef.prototype.$classData = $d_sr_ObjectRef;
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1() {
+function $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1() {
   $c_O.call(this);
-  this.inst$macro$12$1 = null;
+  this.inst$macro$10$1 = null;
   this.inst$macro$1$1 = null;
   this.bitmap$0$1 = 0
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype = new $h_O();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$13$1() {
+function $h_Lbillding_ApiInteractions$anon$lazy$macro$11$1() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype.init___ = (function() {
+$h_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.init___ = (function() {
   return this
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype.inst$macro$1$lzycompute__p1__Lio_circe_generic_decoding_DerivedDecoder = (function() {
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.inst$macro$1$lzycompute__p1__Lio_circe_generic_decoding_DerivedDecoder = (function() {
   if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    new $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2().init___Lbillding_ApiInteractions$anon$lazy$macro$13$1(this);
-    var gen = new $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1().init___Lbillding_ApiInteractions$anon$lazy$macro$13$1(this);
-    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    new $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2().init___Lbillding_ApiInteractions$anon$lazy$macro$11$1(this);
+    var gen = new $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1().init___Lbillding_ApiInteractions$anon$lazy$macro$11$1(this);
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
     $m_Lshapeless_ops_hlist$ZipWithKeys$();
@@ -17596,17 +17630,12 @@ $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype.inst$macro$1$lzycomp
     var this$7 = $m_s_Symbol$();
     var value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$7, "name"));
     new $c_Lshapeless_Witness$$anon$1().init___O(value0$2);
-    var zipWithKeys$3 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$2);
-    $m_Lshapeless_Witness$();
-    var this$10 = $m_s_Symbol$();
-    var value0$3 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$10, "id"));
-    new $c_Lshapeless_Witness$$anon$1().init___O(value0$3);
-    var zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$3);
+    var zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$2);
     var ev = $m_s_Predef$().singleton$und$less$colon$less$2;
     var gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1().init___Lshapeless_Generic__Lshapeless_ops_hlist$ZipWithKeys__s_Predef$$less$colon$less(gen, zip, ev);
     var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
       return (function() {
-        return $this.inst$macro$12__Lio_circe_generic_decoding_ReprDecoder()
+        return $this.inst$macro$10__Lio_circe_generic_decoding_ReprDecoder()
       })
     })(this));
     var decode = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
@@ -17615,28 +17644,103 @@ $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype.inst$macro$1$lzycomp
   };
   return this.inst$macro$1$1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype.inst$macro$12$lzycompute__p1__Lio_circe_generic_decoding_ReprDecoder = (function() {
-  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
-    this.inst$macro$12$1 = new $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1().init___Lbillding_ApiInteractions$anon$lazy$macro$13$1(this);
-    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
-  };
-  return this.inst$macro$12$1
-});
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype.inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder = (function() {
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder = (function() {
   return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$1$lzycompute__p1__Lio_circe_generic_decoding_DerivedDecoder() : this.inst$macro$1$1)
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype.inst$macro$12__Lio_circe_generic_decoding_ReprDecoder = (function() {
-  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$12$lzycompute__p1__Lio_circe_generic_decoding_ReprDecoder() : this.inst$macro$12$1)
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.inst$macro$10__Lio_circe_generic_decoding_ReprDecoder = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$10$lzycompute__p1__Lio_circe_generic_decoding_ReprDecoder() : this.inst$macro$10$1)
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$13$1 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$13$1: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$13$1", {
-  Lbillding_ApiInteractions$anon$lazy$macro$13$1: 1,
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.inst$macro$10$lzycompute__p1__Lio_circe_generic_decoding_ReprDecoder = (function() {
+  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.inst$macro$10$1 = new $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1().init___Lbillding_ApiInteractions$anon$lazy$macro$11$1(this);
+    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.inst$macro$10$1
+});
+var $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$lazy$macro$11$1: 0
+}, false, "billding.ApiInteractions$anon$lazy$macro$11$1", {
+  Lbillding_ApiInteractions$anon$lazy$macro$11$1: 1,
   O: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$13$1;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1;
+/** @constructor */
+function $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1() {
+  $c_O.call(this);
+  this.inst$macro$22$1 = null;
+  this.inst$macro$13$1 = null;
+  this.bitmap$0$1 = 0
+}
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1;
+/** @constructor */
+function $h_Lbillding_ApiInteractions$anon$lazy$macro$23$1() {
+  /*<skip>*/
+}
+$h_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.init___ = (function() {
+  return this
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.inst$macro$22$lzycompute__p1__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function() {
+  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.inst$macro$22$1 = new $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3().init___Lbillding_ApiInteractions$anon$lazy$macro$23$1(this);
+    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.inst$macro$22$1
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.inst$macro$22__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$22$lzycompute__p1__Lio_circe_generic_encoding_ReprAsObjectEncoder() : this.inst$macro$22$1)
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.inst$macro$13$lzycompute__p1__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function() {
+  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    new $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4().init___Lbillding_ApiInteractions$anon$lazy$macro$23$1(this);
+    var gen = new $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1().init___Lbillding_ApiInteractions$anon$lazy$macro$23$1(this);
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    var zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().hnilZipWithKeys$1;
+    $m_Lshapeless_Witness$();
+    var this$1 = $m_s_Symbol$();
+    var value0 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "count"));
+    new $c_Lshapeless_Witness$$anon$1().init___O(value0);
+    var zipWithKeys$1 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys);
+    $m_Lshapeless_Witness$();
+    var this$4 = $m_s_Symbol$();
+    var value0$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$4, "day"));
+    new $c_Lshapeless_Witness$$anon$1().init___O(value0$1);
+    var zipWithKeys$2 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$1);
+    $m_Lshapeless_Witness$();
+    var this$7 = $m_s_Symbol$();
+    var value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$7, "name"));
+    new $c_Lshapeless_Witness$$anon$1().init___O(value0$2);
+    var zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$2);
+    var ev = $m_s_Predef$().singleton$und$less$colon$less$2;
+    var gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1().init___Lshapeless_Generic__Lshapeless_ops_hlist$ZipWithKeys__s_Predef$$less$colon$less(gen, zip, ev);
+    var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
+      return (function() {
+        return $this.inst$macro$22__Lio_circe_generic_encoding_ReprAsObjectEncoder()
+      })
+    })(this));
+    var encode = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
+    this.inst$macro$13$1 = new $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1().init___Lshapeless_Lazy__Lshapeless_LabelledGeneric(encode, gen$1);
+    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.inst$macro$13$1
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.inst$macro$13__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function() {
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$13$lzycompute__p1__Lio_circe_generic_encoding_DerivedAsObjectEncoder() : this.inst$macro$13$1)
+});
+var $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$lazy$macro$23$1: 0
+}, false, "billding.ApiInteractions$anon$lazy$macro$23$1", {
+  Lbillding_ApiInteractions$anon$lazy$macro$23$1: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1;
 /** @constructor */
 function $c_Lcats_Show$() {
   $c_O.call(this);
@@ -17934,119 +18038,83 @@ $c_Lio_circe_CursorOp$.prototype.opsToPath__sci_List__T = (function(history) {
     var x0$1 = $as_Lio_circe_CursorOp(arg2);
     var x1$1 = $as_sci_List(arg1);
     matchEnd36: {
-      case38: {
-        if ((!(x0$1 instanceof $c_Lio_circe_CursorOp$DownField))) {
-          break case38
-        };
+      if ((x0$1 instanceof $c_Lio_circe_CursorOp$DownField)) {
         var x3 = $as_Lio_circe_CursorOp$DownField(x0$1);
         var k = x3.k$3;
         var x$1 = new $c_Lio_circe_CursorOp$SelectField().init___T(k);
         acc = new $c_sci_$colon$colon().init___O__sci_List(x$1, x1$1);
         break matchEnd36
       };
-      case39: {
-        var x = $m_Lio_circe_CursorOp$DownArray$();
-        if ((!(x === x0$1))) {
-          break case39
-        };
+      var x = $m_Lio_circe_CursorOp$DownArray$();
+      if ((x === x0$1)) {
         var x$2$2 = new $c_Lio_circe_CursorOp$SelectIndex().init___I(0);
         acc = new $c_sci_$colon$colon().init___O__sci_List(x$2$2, x1$1);
         break matchEnd36
       };
-      case40: {
-        var x$3 = $m_Lio_circe_CursorOp$MoveUp$();
-        if ((!(x$3 === x0$1))) {
-          break case40
-        };
-        if ((!(x1$1 instanceof $c_sci_$colon$colon))) {
-          break case40
-        };
+      var x$3 = $m_Lio_circe_CursorOp$MoveUp$();
+      if (((x$3 === x0$1) && (x1$1 instanceof $c_sci_$colon$colon))) {
         var x7 = $as_sci_$colon$colon(x1$1);
         var tail = x7.tl$5;
         acc = tail;
         break matchEnd36
       };
-      case41: {
-        var x$5 = $m_Lio_circe_CursorOp$MoveRight$();
-        if ((!(x$5 === x0$1))) {
-          break case41
-        };
-        if ((!(x1$1 instanceof $c_sci_$colon$colon))) {
-          break case41
-        };
+      var x$5 = $m_Lio_circe_CursorOp$MoveRight$();
+      if (((x$5 === x0$1) && (x1$1 instanceof $c_sci_$colon$colon))) {
         var x11 = $as_sci_$colon$colon(x1$1);
         var p12 = $as_Lio_circe_CursorOp$Selection(x11.head$5);
         var tail$2 = x11.tl$5;
-        if ((!(p12 instanceof $c_Lio_circe_CursorOp$SelectIndex))) {
-          break case41
-        };
-        var x13 = $as_Lio_circe_CursorOp$SelectIndex(p12);
-        var i = x13.index$1;
-        var x$3$2 = new $c_Lio_circe_CursorOp$SelectIndex().init___I(((1 + i) | 0));
-        acc = new $c_sci_$colon$colon().init___O__sci_List(x$3$2, tail$2);
-        break matchEnd36
+        if ((p12 instanceof $c_Lio_circe_CursorOp$SelectIndex)) {
+          var x13 = $as_Lio_circe_CursorOp$SelectIndex(p12);
+          var i = x13.index$1;
+          var x$3$2 = new $c_Lio_circe_CursorOp$SelectIndex().init___I(((1 + i) | 0));
+          acc = new $c_sci_$colon$colon().init___O__sci_List(x$3$2, tail$2);
+          break matchEnd36
+        }
       };
-      case42: {
-        var x$7 = $m_Lio_circe_CursorOp$MoveLeft$();
-        if ((!(x$7 === x0$1))) {
-          break case42
-        };
-        if ((!(x1$1 instanceof $c_sci_$colon$colon))) {
-          break case42
-        };
+      var x$7 = $m_Lio_circe_CursorOp$MoveLeft$();
+      if (((x$7 === x0$1) && (x1$1 instanceof $c_sci_$colon$colon))) {
         var x16 = $as_sci_$colon$colon(x1$1);
         var p17 = $as_Lio_circe_CursorOp$Selection(x16.head$5);
         var tail$3 = x16.tl$5;
-        if ((!(p17 instanceof $c_Lio_circe_CursorOp$SelectIndex))) {
-          break case42
-        };
-        var x18 = $as_Lio_circe_CursorOp$SelectIndex(p17);
-        var i$2 = x18.index$1;
-        var x$4$2 = new $c_Lio_circe_CursorOp$SelectIndex().init___I((((-1) + i$2) | 0));
-        acc = new $c_sci_$colon$colon().init___O__sci_List(x$4$2, tail$3);
-        break matchEnd36
+        if ((p17 instanceof $c_Lio_circe_CursorOp$SelectIndex)) {
+          var x18 = $as_Lio_circe_CursorOp$SelectIndex(p17);
+          var i$2 = x18.index$1;
+          var x$4$2 = new $c_Lio_circe_CursorOp$SelectIndex().init___I((((-1) + i$2) | 0));
+          acc = new $c_sci_$colon$colon().init___O__sci_List(x$4$2, tail$3);
+          break matchEnd36
+        }
       };
-      case43: {
-        if ((!(x0$1 instanceof $c_Lio_circe_CursorOp$RightN))) {
-          break case43
-        };
+      if ((x0$1 instanceof $c_Lio_circe_CursorOp$RightN)) {
         var x21 = $as_Lio_circe_CursorOp$RightN(x0$1);
         var n = x21.n__I();
-        if ((!(x1$1 instanceof $c_sci_$colon$colon))) {
-          break case43
-        };
-        var x22 = $as_sci_$colon$colon(x1$1);
-        var p23 = $as_Lio_circe_CursorOp$Selection(x22.head$5);
-        var tail$4 = x22.tl$5;
-        if ((!(p23 instanceof $c_Lio_circe_CursorOp$SelectIndex))) {
-          break case43
-        };
-        var x24 = $as_Lio_circe_CursorOp$SelectIndex(p23);
-        var i$3 = x24.index$1;
-        var x$5$2 = new $c_Lio_circe_CursorOp$SelectIndex().init___I(((i$3 + n) | 0));
-        acc = new $c_sci_$colon$colon().init___O__sci_List(x$5$2, tail$4);
-        break matchEnd36
+        if ((x1$1 instanceof $c_sci_$colon$colon)) {
+          var x22 = $as_sci_$colon$colon(x1$1);
+          var p23 = $as_Lio_circe_CursorOp$Selection(x22.head$5);
+          var tail$4 = x22.tl$5;
+          if ((p23 instanceof $c_Lio_circe_CursorOp$SelectIndex)) {
+            var x24 = $as_Lio_circe_CursorOp$SelectIndex(p23);
+            var i$3 = x24.index$1;
+            var x$5$2 = new $c_Lio_circe_CursorOp$SelectIndex().init___I(((i$3 + n) | 0));
+            acc = new $c_sci_$colon$colon().init___O__sci_List(x$5$2, tail$4);
+            break matchEnd36
+          }
+        }
       };
-      case44: {
-        if ((!(x0$1 instanceof $c_Lio_circe_CursorOp$LeftN))) {
-          break case44
-        };
+      if ((x0$1 instanceof $c_Lio_circe_CursorOp$LeftN)) {
         var x27 = $as_Lio_circe_CursorOp$LeftN(x0$1);
         var n$2 = x27.n__I();
-        if ((!(x1$1 instanceof $c_sci_$colon$colon))) {
-          break case44
-        };
-        var x28 = $as_sci_$colon$colon(x1$1);
-        var p29 = $as_Lio_circe_CursorOp$Selection(x28.head$5);
-        var tail$5 = x28.tl$5;
-        if ((!(p29 instanceof $c_Lio_circe_CursorOp$SelectIndex))) {
-          break case44
-        };
-        var x30 = $as_Lio_circe_CursorOp$SelectIndex(p29);
-        var i$4 = x30.index$1;
-        var x$6$2 = new $c_Lio_circe_CursorOp$SelectIndex().init___I(((i$4 - n$2) | 0));
-        acc = new $c_sci_$colon$colon().init___O__sci_List(x$6$2, tail$5);
-        break matchEnd36
+        if ((x1$1 instanceof $c_sci_$colon$colon)) {
+          var x28 = $as_sci_$colon$colon(x1$1);
+          var p29 = $as_Lio_circe_CursorOp$Selection(x28.head$5);
+          var tail$5 = x28.tl$5;
+          if ((p29 instanceof $c_Lio_circe_CursorOp$SelectIndex)) {
+            var x30 = $as_Lio_circe_CursorOp$SelectIndex(p29);
+            var i$4 = x30.index$1;
+            var x$6$2 = new $c_Lio_circe_CursorOp$SelectIndex().init___I(((i$4 - n$2) | 0));
+            acc = new $c_sci_$colon$colon().init___O__sci_List(x$6$2, tail$5);
+            break matchEnd36
+          }
+        }
       };
       var x$7$2 = new $c_Lio_circe_CursorOp$Op().init___Lio_circe_CursorOp(x0$1);
       acc = new $c_sci_$colon$colon().init___O__sci_List(x$7$2, x1$1)
@@ -18063,34 +18131,25 @@ $c_Lio_circe_CursorOp$.prototype.opsToPath__sci_List__T = (function(history) {
     var x1$2 = $as_Lio_circe_CursorOp$Selection(arg2$1);
     var x1 = new $c_T2().init___O__O(x0$2, x1$2);
     matchEnd9: {
-      case11: {
-        var str = $as_T(x1.$$und1$f);
-        var p2 = $as_Lio_circe_CursorOp$Selection(x1.$$und2$f);
-        if ((!(p2 instanceof $c_Lio_circe_CursorOp$SelectField))) {
-          break case11
-        };
+      var str = $as_T(x1.$$und1$f);
+      var p2 = $as_Lio_circe_CursorOp$Selection(x1.$$und2$f);
+      if ((p2 instanceof $c_Lio_circe_CursorOp$SelectField)) {
         var x3$1 = $as_Lio_circe_CursorOp$SelectField(p2);
         var f = x3$1.field$1;
         acc$1 = (("." + f) + str);
         break matchEnd9
       };
-      case12: {
-        var str$2 = $as_T(x1.$$und1$f);
-        var p4 = $as_Lio_circe_CursorOp$Selection(x1.$$und2$f);
-        if ((!(p4 instanceof $c_Lio_circe_CursorOp$SelectIndex))) {
-          break case12
-        };
+      var str$2 = $as_T(x1.$$und1$f);
+      var p4 = $as_Lio_circe_CursorOp$Selection(x1.$$und2$f);
+      if ((p4 instanceof $c_Lio_circe_CursorOp$SelectIndex)) {
         var x5 = $as_Lio_circe_CursorOp$SelectIndex(p4);
         var i$1 = x5.index$1;
         acc$1 = ((("[" + i$1) + "]") + str$2);
         break matchEnd9
       };
-      case13: {
-        var str$3 = $as_T(x1.$$und1$f);
-        var p6 = $as_Lio_circe_CursorOp$Selection(x1.$$und2$f);
-        if ((!(p6 instanceof $c_Lio_circe_CursorOp$Op))) {
-          break case13
-        };
+      var str$3 = $as_T(x1.$$und1$f);
+      var p6 = $as_Lio_circe_CursorOp$Selection(x1.$$und2$f);
+      if ((p6 instanceof $c_Lio_circe_CursorOp$Op)) {
         var x7$1 = $as_Lio_circe_CursorOp$Op(p6);
         var op = x7$1.op$1;
         $m_Lcats_Show$();
@@ -18227,36 +18286,6 @@ var $d_Lio_circe_Decoder$$anon$2 = new $TypeData().initClass({
 });
 $c_Lio_circe_Decoder$$anon$2.prototype.$classData = $d_Lio_circe_Decoder$$anon$2;
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$21() {
-  $c_O.call(this)
-}
-$c_Lio_circe_Decoder$$anon$21.prototype = new $h_O();
-$c_Lio_circe_Decoder$$anon$21.prototype.constructor = $c_Lio_circe_Decoder$$anon$21;
-/** @constructor */
-function $h_Lio_circe_Decoder$$anon$21() {
-  /*<skip>*/
-}
-$h_Lio_circe_Decoder$$anon$21.prototype = $c_Lio_circe_Decoder$$anon$21.prototype;
-$c_Lio_circe_Decoder$$anon$21.prototype.init___ = (function() {
-  return this
-});
-$c_Lio_circe_Decoder$$anon$21.prototype.tryDecode__Lio_circe_ACursor__s_util_Either = (function(c) {
-  return $f_Lio_circe_Decoder__tryDecode__Lio_circe_ACursor__s_util_Either(this, c)
-});
-$c_Lio_circe_Decoder$$anon$21.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
-  $m_s_package$();
-  return new $c_s_util_Right().init___O(c)
-});
-var $d_Lio_circe_Decoder$$anon$21 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$21: 0
-}, false, "io.circe.Decoder$$anon$21", {
-  Lio_circe_Decoder$$anon$21: 1,
-  O: 1,
-  Lio_circe_Decoder: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lio_circe_Decoder$$anon$21.prototype.$classData = $d_Lio_circe_Decoder$$anon$21;
-/** @constructor */
 function $c_Lio_circe_Decoder$$anon$22() {
   $c_O.call(this)
 }
@@ -18275,8 +18304,7 @@ $c_Lio_circe_Decoder$$anon$22.prototype.tryDecode__Lio_circe_ACursor__s_util_Eit
 });
 $c_Lio_circe_Decoder$$anon$22.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   $m_s_package$();
-  var value = c.value__Lio_circe_Json();
-  return new $c_s_util_Right().init___O(value)
+  return new $c_s_util_Right().init___O(c)
 });
 var $d_Lio_circe_Decoder$$anon$22 = new $TypeData().initClass({
   Lio_circe_Decoder$$anon$22: 0
@@ -18305,28 +18333,9 @@ $c_Lio_circe_Decoder$$anon$23.prototype.tryDecode__Lio_circe_ACursor__s_util_Eit
   return $f_Lio_circe_Decoder__tryDecode__Lio_circe_ACursor__s_util_Either(this, c)
 });
 $c_Lio_circe_Decoder$$anon$23.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
-  var x1 = c.value__Lio_circe_Json().asObject__s_Option();
-  if ((x1 instanceof $c_s_Some)) {
-    var x2 = $as_s_Some(x1);
-    var v = $as_Lio_circe_JsonObject(x2.value$2);
-    $m_s_package$();
-    return new $c_s_util_Right().init___O(v)
-  } else {
-    var x = $m_s_None$();
-    if ((x === x1)) {
-      $m_s_package$();
-      $m_Lio_circe_DecodingFailure$();
-      var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$1) {
-        return (function() {
-          return c$1.history__sci_List()
-        })
-      })(this, c));
-      var value = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("JsonObject", ops);
-      return new $c_s_util_Left().init___O(value)
-    } else {
-      throw new $c_s_MatchError().init___O(x1)
-    }
-  }
+  $m_s_package$();
+  var value = c.value__Lio_circe_Json();
+  return new $c_s_util_Right().init___O(value)
 });
 var $d_Lio_circe_Decoder$$anon$23 = new $TypeData().initClass({
   Lio_circe_Decoder$$anon$23: 0
@@ -18355,10 +18364,10 @@ $c_Lio_circe_Decoder$$anon$24.prototype.tryDecode__Lio_circe_ACursor__s_util_Eit
   return $f_Lio_circe_Decoder__tryDecode__Lio_circe_ACursor__s_util_Either(this, c)
 });
 $c_Lio_circe_Decoder$$anon$24.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
-  var x1 = c.value__Lio_circe_Json().asNumber__s_Option();
+  var x1 = c.value__Lio_circe_Json().asObject__s_Option();
   if ((x1 instanceof $c_s_Some)) {
     var x2 = $as_s_Some(x1);
-    var v = $as_Lio_circe_JsonNumber(x2.value$2);
+    var v = $as_Lio_circe_JsonObject(x2.value$2);
     $m_s_package$();
     return new $c_s_util_Right().init___O(v)
   } else {
@@ -18371,7 +18380,7 @@ $c_Lio_circe_Decoder$$anon$24.prototype.apply__Lio_circe_HCursor__s_util_Either 
           return c$1.history__sci_List()
         })
       })(this, c));
-      var value = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("JsonNumber", ops);
+      var value = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("JsonObject", ops);
       return new $c_s_util_Left().init___O(value)
     } else {
       throw new $c_s_MatchError().init___O(x1)
@@ -18405,22 +18414,27 @@ $c_Lio_circe_Decoder$$anon$25.prototype.tryDecode__Lio_circe_ACursor__s_util_Eit
   return $f_Lio_circe_Decoder__tryDecode__Lio_circe_ACursor__s_util_Either(this, c)
 });
 $c_Lio_circe_Decoder$$anon$25.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
-  var x1 = c.value__Lio_circe_Json();
-  if ((x1 instanceof $c_Lio_circe_Json$JString)) {
-    var x2 = $as_Lio_circe_Json$JString(x1);
-    var string = x2.value$2;
+  var x1 = c.value__Lio_circe_Json().asNumber__s_Option();
+  if ((x1 instanceof $c_s_Some)) {
+    var x2 = $as_s_Some(x1);
+    var v = $as_Lio_circe_JsonNumber(x2.value$2);
     $m_s_package$();
-    return new $c_s_util_Right().init___O(string)
+    return new $c_s_util_Right().init___O(v)
   } else {
-    $m_s_package$();
-    $m_Lio_circe_DecodingFailure$();
-    var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$1) {
-      return (function() {
-        return c$1.history__sci_List()
-      })
-    })(this, c));
-    var value = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("String", ops);
-    return new $c_s_util_Left().init___O(value)
+    var x = $m_s_None$();
+    if ((x === x1)) {
+      $m_s_package$();
+      $m_Lio_circe_DecodingFailure$();
+      var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$1) {
+        return (function() {
+          return c$1.history__sci_List()
+        })
+      })(this, c));
+      var value = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("JsonNumber", ops);
+      return new $c_s_util_Left().init___O(value)
+    } else {
+      throw new $c_s_MatchError().init___O(x1)
+    }
   }
 });
 var $d_Lio_circe_Decoder$$anon$25 = new $TypeData().initClass({
@@ -18451,43 +18465,22 @@ $c_Lio_circe_Decoder$$anon$26.prototype.tryDecode__Lio_circe_ACursor__s_util_Eit
 });
 $c_Lio_circe_Decoder$$anon$26.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   var x1 = c.value__Lio_circe_Json();
-  case7: {
-    if ((!(x1 instanceof $c_Lio_circe_Json$JObject))) {
-      break case7
-    };
-    var x2 = $as_Lio_circe_Json$JObject(x1);
-    var obj = x2.value$2;
-    if ((!obj.isEmpty__Z())) {
-      break case7
-    };
+  if ((x1 instanceof $c_Lio_circe_Json$JString)) {
+    var x2 = $as_Lio_circe_Json$JString(x1);
+    var string = x2.value$2;
     $m_s_package$();
-    return new $c_s_util_Right().init___O((void 0))
-  };
-  case8: {
-    if ((!(x1 instanceof $c_Lio_circe_Json$JArray))) {
-      break case8
-    };
-    var x3 = $as_Lio_circe_Json$JArray(x1);
-    var arr = x3.value$2;
-    if ((!$f_sc_SeqLike__isEmpty__Z(arr))) {
-      break case8
-    };
+    return new $c_s_util_Right().init___O(string)
+  } else {
     $m_s_package$();
-    return new $c_s_util_Right().init___O((void 0))
-  };
-  if (x1.isNull__Z()) {
-    $m_s_package$();
-    return new $c_s_util_Right().init___O((void 0))
-  };
-  $m_s_package$();
-  $m_Lio_circe_DecodingFailure$();
-  var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$1) {
-    return (function() {
-      return c$1.history__sci_List()
-    })
-  })(this, c));
-  var value = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("Unit", ops);
-  return new $c_s_util_Left().init___O(value)
+    $m_Lio_circe_DecodingFailure$();
+    var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$1) {
+      return (function() {
+        return c$1.history__sci_List()
+      })
+    })(this, c));
+    var value = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("String", ops);
+    return new $c_s_util_Left().init___O(value)
+  }
 });
 var $d_Lio_circe_Decoder$$anon$26 = new $TypeData().initClass({
   Lio_circe_Decoder$$anon$26: 0
@@ -18517,22 +18510,35 @@ $c_Lio_circe_Decoder$$anon$27.prototype.tryDecode__Lio_circe_ACursor__s_util_Eit
 });
 $c_Lio_circe_Decoder$$anon$27.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   var x1 = c.value__Lio_circe_Json();
-  if ((x1 instanceof $c_Lio_circe_Json$JBoolean)) {
-    var x2 = $as_Lio_circe_Json$JBoolean(x1);
-    var b = x2.value$2;
+  if ((x1 instanceof $c_Lio_circe_Json$JObject)) {
+    var x2 = $as_Lio_circe_Json$JObject(x1);
+    var obj = x2.value$2;
+    if (obj.isEmpty__Z()) {
+      $m_s_package$();
+      return new $c_s_util_Right().init___O((void 0))
+    }
+  };
+  if ((x1 instanceof $c_Lio_circe_Json$JArray)) {
+    var x3 = $as_Lio_circe_Json$JArray(x1);
+    var arr = x3.value$2;
+    if ($f_sc_SeqLike__isEmpty__Z(arr)) {
+      $m_s_package$();
+      return new $c_s_util_Right().init___O((void 0))
+    }
+  };
+  if (x1.isNull__Z()) {
     $m_s_package$();
-    return new $c_s_util_Right().init___O(b)
-  } else {
-    $m_s_package$();
-    $m_Lio_circe_DecodingFailure$();
-    var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$1) {
-      return (function() {
-        return c$1.history__sci_List()
-      })
-    })(this, c));
-    var value = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("Boolean", ops);
-    return new $c_s_util_Left().init___O(value)
-  }
+    return new $c_s_util_Right().init___O((void 0))
+  };
+  $m_s_package$();
+  $m_Lio_circe_DecodingFailure$();
+  var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$1) {
+    return (function() {
+      return c$1.history__sci_List()
+    })
+  })(this, c));
+  var value = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("Unit", ops);
+  return new $c_s_util_Left().init___O(value)
 });
 var $d_Lio_circe_Decoder$$anon$27 = new $TypeData().initClass({
   Lio_circe_Decoder$$anon$27: 0
@@ -18562,29 +18568,22 @@ $c_Lio_circe_Decoder$$anon$28.prototype.tryDecode__Lio_circe_ACursor__s_util_Eit
 });
 $c_Lio_circe_Decoder$$anon$28.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   var x1 = c.value__Lio_circe_Json();
-  case6: {
-    if ((!(x1 instanceof $c_Lio_circe_Json$JString))) {
-      break case6
-    };
-    var x2 = $as_Lio_circe_Json$JString(x1);
-    var string = x2.value$2;
-    if (($uI(string.length) !== 1)) {
-      break case6
-    };
+  if ((x1 instanceof $c_Lio_circe_Json$JBoolean)) {
+    var x2 = $as_Lio_circe_Json$JBoolean(x1);
+    var b = x2.value$2;
     $m_s_package$();
-    var c$1 = (65535 & $uI(string.charCodeAt(0)));
-    var value = new $c_jl_Character().init___C(c$1);
-    return new $c_s_util_Right().init___O(value)
-  };
-  $m_s_package$();
-  $m_Lio_circe_DecodingFailure$();
-  var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$2) {
-    return (function() {
-      return c$2.history__sci_List()
-    })
-  })(this, c));
-  var value$1 = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("Char", ops);
-  return new $c_s_util_Left().init___O(value$1)
+    return new $c_s_util_Right().init___O(b)
+  } else {
+    $m_s_package$();
+    $m_Lio_circe_DecodingFailure$();
+    var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$1) {
+      return (function() {
+        return c$1.history__sci_List()
+      })
+    })(this, c));
+    var value = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("Boolean", ops);
+    return new $c_s_util_Left().init___O(value)
+  }
 });
 var $d_Lio_circe_Decoder$$anon$28 = new $TypeData().initClass({
   Lio_circe_Decoder$$anon$28: 0
@@ -18596,92 +18595,71 @@ var $d_Lio_circe_Decoder$$anon$28 = new $TypeData().initClass({
 });
 $c_Lio_circe_Decoder$$anon$28.prototype.$classData = $d_Lio_circe_Decoder$$anon$28;
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$38() {
-  $c_O.call(this);
-  this.d$2$1 = null
+function $c_Lio_circe_Decoder$$anon$29() {
+  $c_O.call(this)
 }
-$c_Lio_circe_Decoder$$anon$38.prototype = new $h_O();
-$c_Lio_circe_Decoder$$anon$38.prototype.constructor = $c_Lio_circe_Decoder$$anon$38;
+$c_Lio_circe_Decoder$$anon$29.prototype = new $h_O();
+$c_Lio_circe_Decoder$$anon$29.prototype.constructor = $c_Lio_circe_Decoder$$anon$29;
 /** @constructor */
-function $h_Lio_circe_Decoder$$anon$38() {
+function $h_Lio_circe_Decoder$$anon$29() {
   /*<skip>*/
 }
-$h_Lio_circe_Decoder$$anon$38.prototype = $c_Lio_circe_Decoder$$anon$38.prototype;
-$c_Lio_circe_Decoder$$anon$38.prototype.tryDecode__Lio_circe_ACursor__s_util_Either = (function(c) {
-  if ((c instanceof $c_Lio_circe_HCursor)) {
-    var x2 = $as_Lio_circe_HCursor(c);
-    if (x2.value__Lio_circe_Json().isNull__Z()) {
-      return $m_Lio_circe_Decoder$().io$circe$Decoder$$rightNone$f
-    } else {
-      var x1$2 = this.d$2$1.apply__Lio_circe_HCursor__s_util_Either(x2);
-      if ((x1$2 instanceof $c_s_util_Right)) {
-        var x2$2 = $as_s_util_Right(x1$2);
-        var a = x2$2.value$2;
-        $m_s_package$();
-        var value = new $c_s_Some().init___O(a);
-        return new $c_s_util_Right().init___O(value)
-      } else if ((x1$2 instanceof $c_s_util_Left)) {
-        var x3 = $as_s_util_Left(x1$2);
-        var df = $as_Lio_circe_DecodingFailure(x3.value$2);
-        $m_s_package$();
-        return new $c_s_util_Left().init___O(df)
-      } else {
-        throw new $c_s_MatchError().init___O(x1$2)
-      }
-    }
-  } else if ((c instanceof $c_Lio_circe_FailedCursor)) {
-    var x3$2 = $as_Lio_circe_FailedCursor(c);
-    if ((!x3$2.incorrectFocus__Z())) {
-      return $m_Lio_circe_Decoder$().keyMissingNone$1
-    } else {
-      $m_s_package$();
-      $m_Lio_circe_DecodingFailure$();
-      var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, x3$2$1) {
-        return (function() {
-          return x3$2$1.history__sci_List()
-        })
-      })(this, x3$2));
-      var value$1 = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("[A]Option[A]", ops);
-      return new $c_s_util_Left().init___O(value$1)
-    }
-  } else {
-    throw new $c_s_MatchError().init___O(c)
-  }
-});
-$c_Lio_circe_Decoder$$anon$38.prototype.init___Lio_circe_Decoder = (function(d$2) {
-  this.d$2$1 = d$2;
+$h_Lio_circe_Decoder$$anon$29.prototype = $c_Lio_circe_Decoder$$anon$29.prototype;
+$c_Lio_circe_Decoder$$anon$29.prototype.init___ = (function() {
   return this
 });
-$c_Lio_circe_Decoder$$anon$38.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
-  return this.tryDecode__Lio_circe_ACursor__s_util_Either(c)
+$c_Lio_circe_Decoder$$anon$29.prototype.tryDecode__Lio_circe_ACursor__s_util_Either = (function(c) {
+  return $f_Lio_circe_Decoder__tryDecode__Lio_circe_ACursor__s_util_Either(this, c)
 });
-var $d_Lio_circe_Decoder$$anon$38 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$38: 0
-}, false, "io.circe.Decoder$$anon$38", {
-  Lio_circe_Decoder$$anon$38: 1,
+$c_Lio_circe_Decoder$$anon$29.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+  var x1 = c.value__Lio_circe_Json();
+  if ((x1 instanceof $c_Lio_circe_Json$JString)) {
+    var x2 = $as_Lio_circe_Json$JString(x1);
+    var string = x2.value$2;
+    if (($uI(string.length) === 1)) {
+      $m_s_package$();
+      var c$1 = (65535 & $uI(string.charCodeAt(0)));
+      var value = new $c_jl_Character().init___C(c$1);
+      return new $c_s_util_Right().init___O(value)
+    }
+  };
+  $m_s_package$();
+  $m_Lio_circe_DecodingFailure$();
+  var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$2) {
+    return (function() {
+      return c$2.history__sci_List()
+    })
+  })(this, c));
+  var value$1 = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("Char", ops);
+  return new $c_s_util_Left().init___O(value$1)
+});
+var $d_Lio_circe_Decoder$$anon$29 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$29: 0
+}, false, "io.circe.Decoder$$anon$29", {
+  Lio_circe_Decoder$$anon$29: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lio_circe_Decoder$$anon$38.prototype.$classData = $d_Lio_circe_Decoder$$anon$38;
+$c_Lio_circe_Decoder$$anon$29.prototype.$classData = $d_Lio_circe_Decoder$$anon$29;
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$39() {
+function $c_Lio_circe_Decoder$$anon$40() {
   $c_O.call(this)
 }
-$c_Lio_circe_Decoder$$anon$39.prototype = new $h_O();
-$c_Lio_circe_Decoder$$anon$39.prototype.constructor = $c_Lio_circe_Decoder$$anon$39;
+$c_Lio_circe_Decoder$$anon$40.prototype = new $h_O();
+$c_Lio_circe_Decoder$$anon$40.prototype.constructor = $c_Lio_circe_Decoder$$anon$40;
 /** @constructor */
-function $h_Lio_circe_Decoder$$anon$39() {
+function $h_Lio_circe_Decoder$$anon$40() {
   /*<skip>*/
 }
-$h_Lio_circe_Decoder$$anon$39.prototype = $c_Lio_circe_Decoder$$anon$39.prototype;
-$c_Lio_circe_Decoder$$anon$39.prototype.init___ = (function() {
+$h_Lio_circe_Decoder$$anon$40.prototype = $c_Lio_circe_Decoder$$anon$40.prototype;
+$c_Lio_circe_Decoder$$anon$40.prototype.init___ = (function() {
   return this
 });
-$c_Lio_circe_Decoder$$anon$39.prototype.tryDecode__Lio_circe_ACursor__s_util_Either = (function(c) {
+$c_Lio_circe_Decoder$$anon$40.prototype.tryDecode__Lio_circe_ACursor__s_util_Either = (function(c) {
   return $f_Lio_circe_Decoder__tryDecode__Lio_circe_ACursor__s_util_Either(this, c)
 });
-$c_Lio_circe_Decoder$$anon$39.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+$c_Lio_circe_Decoder$$anon$40.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   if (c.value__Lio_circe_Json().isNull__Z()) {
     $m_s_package$();
     var value = $m_s_None$();
@@ -18698,15 +18676,15 @@ $c_Lio_circe_Decoder$$anon$39.prototype.apply__Lio_circe_HCursor__s_util_Either 
     return new $c_s_util_Left().init___O(value$1)
   }
 });
-var $d_Lio_circe_Decoder$$anon$39 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$39: 0
-}, false, "io.circe.Decoder$$anon$39", {
-  Lio_circe_Decoder$$anon$39: 1,
+var $d_Lio_circe_Decoder$$anon$40 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$40: 0
+}, false, "io.circe.Decoder$$anon$40", {
+  Lio_circe_Decoder$$anon$40: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lio_circe_Decoder$$anon$39.prototype.$classData = $d_Lio_circe_Decoder$$anon$39;
+$c_Lio_circe_Decoder$$anon$40.prototype.$classData = $d_Lio_circe_Decoder$$anon$40;
 /** @constructor */
 function $c_Lio_circe_Decoder$$anon$8() {
   $c_O.call(this);
@@ -18758,18 +18736,18 @@ function $h_Lio_circe_Decoder$$anon$9() {
 }
 $h_Lio_circe_Decoder$$anon$9.prototype = $c_Lio_circe_Decoder$$anon$9.prototype;
 $c_Lio_circe_Decoder$$anon$9.prototype.tryDecode__Lio_circe_ACursor__s_util_Either = (function(c) {
-  return $f_Lio_circe_Decoder__tryDecode__Lio_circe_ACursor__s_util_Either(this, c)
-});
-$c_Lio_circe_Decoder$$anon$9.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
-  var x1 = this.$$outer$1.apply__Lio_circe_HCursor__s_util_Either(c);
+  var x1 = this.$$outer$1.tryDecode__Lio_circe_ACursor__s_util_Either(c);
   if ((x1 instanceof $c_s_util_Right)) {
     var x2 = $as_s_util_Right(x1);
     return x2
   } else if ((x1 instanceof $c_s_util_Left)) {
-    return $as_Lio_circe_Decoder(this.d$1$1.apply__O()).apply__Lio_circe_HCursor__s_util_Either(c)
+    return $as_Lio_circe_Decoder(this.d$1$1.apply__O()).tryDecode__Lio_circe_ACursor__s_util_Either(c)
   } else {
     throw new $c_s_MatchError().init___O(x1)
   }
+});
+$c_Lio_circe_Decoder$$anon$9.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+  return this.tryDecode__Lio_circe_ACursor__s_util_Either(c)
 });
 $c_Lio_circe_Decoder$$anon$9.prototype.init___Lio_circe_Decoder__F0 = (function($$outer, d$1) {
   if (($$outer === null)) {
@@ -18841,22 +18819,18 @@ $c_Lio_circe_DecodingFailure$.prototype.init___ = (function() {
       var x0$1 = $as_Lio_circe_DecodingFailure(x0$1$2);
       var x1$1 = $as_Lio_circe_DecodingFailure(x1$1$2);
       var x1 = new $c_T2().init___O__O(x0$1, x1$1);
-      case9: {
-        var p2 = $as_Lio_circe_DecodingFailure(x1.$$und1$f);
-        var p3 = $as_Lio_circe_DecodingFailure(x1.$$und2$f);
-        var o11 = $m_Lio_circe_DecodingFailure$().unapply__Lio_circe_Error__s_Option(p2);
-        if (o11.isEmpty__Z()) {
-          break case9
-        };
+      var p2 = $as_Lio_circe_DecodingFailure(x1.$$und1$f);
+      var p3 = $as_Lio_circe_DecodingFailure(x1.$$und2$f);
+      var o11 = $m_Lio_circe_DecodingFailure$().unapply__Lio_circe_Error__s_Option(p2);
+      if ((!o11.isEmpty__Z())) {
         var m1 = $as_T($as_T2(o11.get__O()).$$und1__O());
         var h1 = $as_sci_List($as_T2(o11.get__O()).$$und2__O());
         var o10 = $m_Lio_circe_DecodingFailure$().unapply__Lio_circe_Error__s_Option(p3);
-        if (o10.isEmpty__Z()) {
-          break case9
-        };
-        var m2 = $as_T($as_T2(o10.get__O()).$$und1__O());
-        var h2 = $as_sci_List($as_T2(o10.get__O()).$$und2__O());
-        return ((m1 === m2) && $m_Lio_circe_CursorOp$().eqCursorOpList$1.eqv__O__O__Z(h1, h2))
+        if ((!o10.isEmpty__Z())) {
+          var m2 = $as_T($as_T2(o10.get__O()).$$und1__O());
+          var h2 = $as_sci_List($as_T2(o10.get__O()).$$und2__O());
+          return ((m1 === m2) && $m_Lio_circe_CursorOp$().eqCursorOpList$1.eqv__O__O__Z(h1, h2))
+        }
       };
       throw new $c_s_MatchError().init___O(x1)
     })
@@ -18900,6 +18874,415 @@ function $m_Lio_circe_DecodingFailure$() {
   return $n_Lio_circe_DecodingFailure$
 }
 /** @constructor */
+function $c_Lio_circe_Encoder$$anon$10() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$10.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$10.prototype.constructor = $c_Lio_circe_Encoder$$anon$10;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$10() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$10.prototype = $c_Lio_circe_Encoder$$anon$10.prototype;
+$c_Lio_circe_Encoder$$anon$10.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$10.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $uZ(a);
+  return $m_Lio_circe_Json$().fromBoolean__Z__Lio_circe_Json(a$1)
+});
+var $d_Lio_circe_Encoder$$anon$10 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$10: 0
+}, false, "io.circe.Encoder$$anon$10", {
+  Lio_circe_Encoder$$anon$10: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$10.prototype.$classData = $d_Lio_circe_Encoder$$anon$10;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$11() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$11.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$11.prototype.constructor = $c_Lio_circe_Encoder$$anon$11;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$11() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$11.prototype = $c_Lio_circe_Encoder$$anon$11.prototype;
+$c_Lio_circe_Encoder$$anon$11.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$11.prototype.apply__O__Lio_circe_Json = (function(a) {
+  if ((a === null)) {
+    var jsx$1 = 0
+  } else {
+    var this$2 = $as_jl_Character(a);
+    var jsx$1 = this$2.value$1
+  };
+  return this.apply__C__Lio_circe_Json(jsx$1)
+});
+$c_Lio_circe_Encoder$$anon$11.prototype.apply__C__Lio_circe_Json = (function(a) {
+  $m_Lio_circe_Json$();
+  var value = $as_T($g.String.fromCharCode(a));
+  return new $c_Lio_circe_Json$JString().init___T(value)
+});
+var $d_Lio_circe_Encoder$$anon$11 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$11: 0
+}, false, "io.circe.Encoder$$anon$11", {
+  Lio_circe_Encoder$$anon$11: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$11.prototype.$classData = $d_Lio_circe_Encoder$$anon$11;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$12() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$12.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$12.prototype.constructor = $c_Lio_circe_Encoder$$anon$12;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$12() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$12.prototype = $c_Lio_circe_Encoder$$anon$12.prototype;
+$c_Lio_circe_Encoder$$anon$12.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$12.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $uF(a);
+  return $m_Lio_circe_Json$().fromFloatOrNull__F__Lio_circe_Json(a$1)
+});
+var $d_Lio_circe_Encoder$$anon$12 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$12: 0
+}, false, "io.circe.Encoder$$anon$12", {
+  Lio_circe_Encoder$$anon$12: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$12.prototype.$classData = $d_Lio_circe_Encoder$$anon$12;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$13() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$13.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$13.prototype.constructor = $c_Lio_circe_Encoder$$anon$13;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$13() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$13.prototype = $c_Lio_circe_Encoder$$anon$13.prototype;
+$c_Lio_circe_Encoder$$anon$13.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$13.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $uD(a);
+  return $m_Lio_circe_Json$().fromDoubleOrNull__D__Lio_circe_Json(a$1)
+});
+var $d_Lio_circe_Encoder$$anon$13 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$13: 0
+}, false, "io.circe.Encoder$$anon$13", {
+  Lio_circe_Encoder$$anon$13: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$13.prototype.$classData = $d_Lio_circe_Encoder$$anon$13;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$14() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$14.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$14.prototype.constructor = $c_Lio_circe_Encoder$$anon$14;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$14() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$14.prototype = $c_Lio_circe_Encoder$$anon$14.prototype;
+$c_Lio_circe_Encoder$$anon$14.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$14.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $uB(a);
+  return $m_Lio_circe_Json$().fromInt__I__Lio_circe_Json(a$1)
+});
+var $d_Lio_circe_Encoder$$anon$14 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$14: 0
+}, false, "io.circe.Encoder$$anon$14", {
+  Lio_circe_Encoder$$anon$14: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$14.prototype.$classData = $d_Lio_circe_Encoder$$anon$14;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$15() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$15.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$15.prototype.constructor = $c_Lio_circe_Encoder$$anon$15;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$15() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$15.prototype = $c_Lio_circe_Encoder$$anon$15.prototype;
+$c_Lio_circe_Encoder$$anon$15.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$15.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $uS(a);
+  return $m_Lio_circe_Json$().fromInt__I__Lio_circe_Json(a$1)
+});
+var $d_Lio_circe_Encoder$$anon$15 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$15: 0
+}, false, "io.circe.Encoder$$anon$15", {
+  Lio_circe_Encoder$$anon$15: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$15.prototype.$classData = $d_Lio_circe_Encoder$$anon$15;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$16() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$16.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$16.prototype.constructor = $c_Lio_circe_Encoder$$anon$16;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$16() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$16.prototype = $c_Lio_circe_Encoder$$anon$16.prototype;
+$c_Lio_circe_Encoder$$anon$16.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$16.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $uI(a);
+  return $m_Lio_circe_Json$().fromInt__I__Lio_circe_Json(a$1)
+});
+var $d_Lio_circe_Encoder$$anon$16 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$16: 0
+}, false, "io.circe.Encoder$$anon$16", {
+  Lio_circe_Encoder$$anon$16: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$16.prototype.$classData = $d_Lio_circe_Encoder$$anon$16;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$17() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$17.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$17.prototype.constructor = $c_Lio_circe_Encoder$$anon$17;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$17() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$17.prototype = $c_Lio_circe_Encoder$$anon$17.prototype;
+$c_Lio_circe_Encoder$$anon$17.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$17.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var t = $uJ(a);
+  var lo = t.lo$2;
+  var hi = t.hi$2;
+  return $m_Lio_circe_Json$().fromLong__J__Lio_circe_Json(new $c_sjsr_RuntimeLong().init___I__I(lo, hi))
+});
+var $d_Lio_circe_Encoder$$anon$17 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$17: 0
+}, false, "io.circe.Encoder$$anon$17", {
+  Lio_circe_Encoder$$anon$17: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$17.prototype.$classData = $d_Lio_circe_Encoder$$anon$17;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$18() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$18.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$18.prototype.constructor = $c_Lio_circe_Encoder$$anon$18;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$18() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$18.prototype = $c_Lio_circe_Encoder$$anon$18.prototype;
+$c_Lio_circe_Encoder$$anon$18.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$18.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $as_s_math_BigInt(a);
+  return $m_Lio_circe_Json$().fromBigInt__s_math_BigInt__Lio_circe_Json(a$1)
+});
+var $d_Lio_circe_Encoder$$anon$18 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$18: 0
+}, false, "io.circe.Encoder$$anon$18", {
+  Lio_circe_Encoder$$anon$18: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$18.prototype.$classData = $d_Lio_circe_Encoder$$anon$18;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$19() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$19.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$19.prototype.constructor = $c_Lio_circe_Encoder$$anon$19;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$19() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$19.prototype = $c_Lio_circe_Encoder$$anon$19.prototype;
+$c_Lio_circe_Encoder$$anon$19.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$19.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $as_s_math_BigDecimal(a);
+  return $m_Lio_circe_Json$().fromBigDecimal__s_math_BigDecimal__Lio_circe_Json(a$1)
+});
+var $d_Lio_circe_Encoder$$anon$19 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$19: 0
+}, false, "io.circe.Encoder$$anon$19", {
+  Lio_circe_Encoder$$anon$19: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$19.prototype.$classData = $d_Lio_circe_Encoder$$anon$19;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$22() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$22.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$22.prototype.constructor = $c_Lio_circe_Encoder$$anon$22;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$22() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$22.prototype = $c_Lio_circe_Encoder$$anon$22.prototype;
+$c_Lio_circe_Encoder$$anon$22.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$22.prototype.apply__O__Lio_circe_Json = (function(a) {
+  $as_s_None$(a);
+  return $m_Lio_circe_Json$().Null$1
+});
+var $d_Lio_circe_Encoder$$anon$22 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$22: 0
+}, false, "io.circe.Encoder$$anon$22", {
+  Lio_circe_Encoder$$anon$22: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$22.prototype.$classData = $d_Lio_circe_Encoder$$anon$22;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$5() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$5.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$5.prototype.constructor = $c_Lio_circe_Encoder$$anon$5;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$5() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$5.prototype = $c_Lio_circe_Encoder$$anon$5.prototype;
+$c_Lio_circe_Encoder$$anon$5.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$5.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $as_Lio_circe_Json(a);
+  return a$1
+});
+var $d_Lio_circe_Encoder$$anon$5 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$5: 0
+}, false, "io.circe.Encoder$$anon$5", {
+  Lio_circe_Encoder$$anon$5: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$5.prototype.$classData = $d_Lio_circe_Encoder$$anon$5;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$7() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$7.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$7.prototype.constructor = $c_Lio_circe_Encoder$$anon$7;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$7() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$7.prototype = $c_Lio_circe_Encoder$$anon$7.prototype;
+$c_Lio_circe_Encoder$$anon$7.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$7.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $as_Lio_circe_JsonNumber(a);
+  $m_Lio_circe_Json$();
+  return new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(a$1)
+});
+var $d_Lio_circe_Encoder$$anon$7 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$7: 0
+}, false, "io.circe.Encoder$$anon$7", {
+  Lio_circe_Encoder$$anon$7: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$7.prototype.$classData = $d_Lio_circe_Encoder$$anon$7;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$8() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$8.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$8.prototype.constructor = $c_Lio_circe_Encoder$$anon$8;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$8() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$8.prototype = $c_Lio_circe_Encoder$$anon$8.prototype;
+$c_Lio_circe_Encoder$$anon$8.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$8.prototype.apply__O__Lio_circe_Json = (function(a) {
+  var a$1 = $as_T(a);
+  $m_Lio_circe_Json$();
+  return new $c_Lio_circe_Json$JString().init___T(a$1)
+});
+var $d_Lio_circe_Encoder$$anon$8 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$8: 0
+}, false, "io.circe.Encoder$$anon$8", {
+  Lio_circe_Encoder$$anon$8: 1,
+  O: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$8.prototype.$classData = $d_Lio_circe_Encoder$$anon$8;
+function $f_Lio_circe_Encoder$AsObject__apply__O__Lio_circe_Json($thiz, a) {
+  $m_Lio_circe_Json$();
+  var value = $thiz.encodeObject__O__Lio_circe_JsonObject(a);
+  return new $c_Lio_circe_Json$JObject().init___Lio_circe_JsonObject(value)
+}
+function $is_Lio_circe_Encoder$AsObject(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lio_circe_Encoder$AsObject)))
+}
+function $as_Lio_circe_Encoder$AsObject(obj) {
+  return (($is_Lio_circe_Encoder$AsObject(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "io.circe.Encoder$AsObject"))
+}
+function $isArrayOf_Lio_circe_Encoder$AsObject(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lio_circe_Encoder$AsObject)))
+}
+function $asArrayOf_Lio_circe_Encoder$AsObject(obj, depth) {
+  return (($isArrayOf_Lio_circe_Encoder$AsObject(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lio.circe.Encoder$AsObject;", depth))
+}
+/** @constructor */
 function $c_Lio_circe_FailedCursor() {
   $c_Lio_circe_ACursor.call(this);
   this.lastCursor$2 = null;
@@ -18921,21 +19304,9 @@ $c_Lio_circe_FailedCursor.prototype.init___Lio_circe_HCursor__Lio_circe_CursorOp
 $c_Lio_circe_FailedCursor.prototype.succeeded__Z = (function() {
   return false
 });
-$c_Lio_circe_FailedCursor.prototype.incorrectFocus__Z = (function() {
-  return ((this.lastOp$2.requiresObject__Z() && (!this.lastCursor$2.value__Lio_circe_Json().isObject__Z())) || (this.lastOp$2.requiresArray__Z() && (!this.lastCursor$2.value__Lio_circe_Json().isArray__Z())))
-});
 $c_Lio_circe_FailedCursor.prototype.right__Lio_circe_ACursor = (function() {
   return this
 });
-function $as_Lio_circe_FailedCursor(obj) {
-  return (((obj instanceof $c_Lio_circe_FailedCursor) || (obj === null)) ? obj : $throwClassCastException(obj, "io.circe.FailedCursor"))
-}
-function $isArrayOf_Lio_circe_FailedCursor(obj, depth) {
-  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lio_circe_FailedCursor)))
-}
-function $asArrayOf_Lio_circe_FailedCursor(obj, depth) {
-  return (($isArrayOf_Lio_circe_FailedCursor(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lio.circe.FailedCursor;", depth))
-}
 var $d_Lio_circe_FailedCursor = new $TypeData().initClass({
   Lio_circe_FailedCursor: 0
 }, false, "io.circe.FailedCursor", {
@@ -18977,16 +19348,12 @@ $c_Lio_circe_HCursor.prototype.downField__T__Lio_circe_ACursor = (function(k) {
 });
 $c_Lio_circe_HCursor.prototype.downArray__Lio_circe_ACursor = (function() {
   var x1 = this.value__Lio_circe_Json();
-  case6: {
-    if ((!(x1 instanceof $c_Lio_circe_Json$JArray))) {
-      break case6
-    };
+  if ((x1 instanceof $c_Lio_circe_Json$JArray)) {
     var x2 = $as_Lio_circe_Json$JArray(x1);
     var values = x2.value$2;
-    if ($f_sc_SeqLike__isEmpty__Z(values)) {
-      break case6
-    };
-    return new $c_Lio_circe_cursor_ArrayCursor().init___sci_Vector__I__Lio_circe_HCursor__Z__Lio_circe_HCursor__Lio_circe_CursorOp(values, 0, this, false, this, $m_Lio_circe_CursorOp$DownArray$())
+    if ((!$f_sc_SeqLike__isEmpty__Z(values))) {
+      return new $c_Lio_circe_cursor_ArrayCursor().init___sci_Vector__I__Lio_circe_HCursor__Z__Lio_circe_HCursor__Lio_circe_CursorOp(values, 0, this, false, this, $m_Lio_circe_CursorOp$DownArray$())
+    }
   };
   var op = $m_Lio_circe_CursorOp$DownArray$();
   return new $c_Lio_circe_FailedCursor().init___Lio_circe_HCursor__Lio_circe_CursorOp(this, op)
@@ -19026,70 +19393,50 @@ $c_Lio_circe_Json$.prototype.init___ = (function() {
     return (function(x0$1$2, x1$1$2) {
       var x0$1 = $as_Lio_circe_Json(x0$1$2);
       var x1$1 = $as_Lio_circe_Json(x1$1$2);
-      case25: {
-        if ((!(x0$1 instanceof $c_Lio_circe_Json$JObject))) {
-          break case25
-        };
+      if ((x0$1 instanceof $c_Lio_circe_Json$JObject)) {
         var x4 = $as_Lio_circe_Json$JObject(x0$1);
         var a = x4.value$2;
-        if ((!(x1$1 instanceof $c_Lio_circe_Json$JObject))) {
-          break case25
-        };
-        var x5 = $as_Lio_circe_Json$JObject(x1$1);
-        var b = x5.value$2;
-        return $m_Lio_circe_JsonObject$().eqJsonObject$1.eqv__O__O__Z(a, b)
+        if ((x1$1 instanceof $c_Lio_circe_Json$JObject)) {
+          var x5 = $as_Lio_circe_Json$JObject(x1$1);
+          var b = x5.value$2;
+          return $m_Lio_circe_JsonObject$().eqJsonObject$1.eqv__O__O__Z(a, b)
+        }
       };
-      case26: {
-        if ((!(x0$1 instanceof $c_Lio_circe_Json$JString))) {
-          break case26
-        };
+      if ((x0$1 instanceof $c_Lio_circe_Json$JString)) {
         var x8 = $as_Lio_circe_Json$JString(x0$1);
         var a$2 = x8.value$2;
-        if ((!(x1$1 instanceof $c_Lio_circe_Json$JString))) {
-          break case26
-        };
-        var x9 = $as_Lio_circe_Json$JString(x1$1);
-        var b$2 = x9.value$2;
-        return (a$2 === b$2)
+        if ((x1$1 instanceof $c_Lio_circe_Json$JString)) {
+          var x9 = $as_Lio_circe_Json$JString(x1$1);
+          var b$2 = x9.value$2;
+          return (a$2 === b$2)
+        }
       };
-      case27: {
-        if ((!(x0$1 instanceof $c_Lio_circe_Json$JNumber))) {
-          break case27
-        };
+      if ((x0$1 instanceof $c_Lio_circe_Json$JNumber)) {
         var x12 = $as_Lio_circe_Json$JNumber(x0$1);
         var a$3 = x12.value$2;
-        if ((!(x1$1 instanceof $c_Lio_circe_Json$JNumber))) {
-          break case27
-        };
-        var x13 = $as_Lio_circe_Json$JNumber(x1$1);
-        var b$3 = x13.value$2;
-        return $m_Lio_circe_JsonNumber$().eqJsonNumber$1.eqv__O__O__Z(a$3, b$3)
+        if ((x1$1 instanceof $c_Lio_circe_Json$JNumber)) {
+          var x13 = $as_Lio_circe_Json$JNumber(x1$1);
+          var b$3 = x13.value$2;
+          return $m_Lio_circe_JsonNumber$().eqJsonNumber$1.eqv__O__O__Z(a$3, b$3)
+        }
       };
-      case28: {
-        if ((!(x0$1 instanceof $c_Lio_circe_Json$JBoolean))) {
-          break case28
-        };
+      if ((x0$1 instanceof $c_Lio_circe_Json$JBoolean)) {
         var x16 = $as_Lio_circe_Json$JBoolean(x0$1);
         var a$4 = x16.value$2;
-        if ((!(x1$1 instanceof $c_Lio_circe_Json$JBoolean))) {
-          break case28
-        };
-        var x17 = $as_Lio_circe_Json$JBoolean(x1$1);
-        var b$4 = x17.value$2;
-        return (a$4 === b$4)
+        if ((x1$1 instanceof $c_Lio_circe_Json$JBoolean)) {
+          var x17 = $as_Lio_circe_Json$JBoolean(x1$1);
+          var b$4 = x17.value$2;
+          return (a$4 === b$4)
+        }
       };
-      case29: {
-        if ((!(x0$1 instanceof $c_Lio_circe_Json$JArray))) {
-          break case29
-        };
+      if ((x0$1 instanceof $c_Lio_circe_Json$JArray)) {
         var x20 = $as_Lio_circe_Json$JArray(x0$1);
         var a$5 = x20.value$2;
-        if ((!(x1$1 instanceof $c_Lio_circe_Json$JArray))) {
-          break case29
-        };
-        var x21 = $as_Lio_circe_Json$JArray(x1$1);
-        var b$5 = x21.value$2;
-        return $m_Lio_circe_Json$().arrayEq__p1__sc_Seq__sc_Seq__Z(a$5, b$5)
+        if ((x1$1 instanceof $c_Lio_circe_Json$JArray)) {
+          var x21 = $as_Lio_circe_Json$JArray(x1$1);
+          var b$5 = x21.value$2;
+          return $m_Lio_circe_Json$().arrayEq__p1__sc_Seq__sc_Seq__Z(a$5, b$5)
+        }
       };
       return (x0$1.isNull__Z() && x1$1.isNull__Z())
     })
@@ -19111,14 +19458,34 @@ $c_Lio_circe_Json$.prototype.arrayEq__p1__sc_Seq__sc_Seq__Z = (function(x, y) {
   };
   return (it0.hasNext__Z() === it1.hasNext__Z())
 });
-$c_Lio_circe_Json$.prototype.isReal__p1__D__Z = (function(value) {
-  return ((value === value) && (!((value === Infinity) || (value === (-Infinity)))))
+$c_Lio_circe_Json$.prototype.fromLong__J__Lio_circe_Json = (function(value) {
+  return new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonLong().init___J(value))
+});
+$c_Lio_circe_Json$.prototype.fromFloatOrNull__F__Lio_circe_Json = (function(value) {
+  return (((value === value) && (!((value === Infinity) || (value === (-Infinity))))) ? new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonFloat().init___F(value)) : this.Null$1)
+});
+$c_Lio_circe_Json$.prototype.fromBigDecimal__s_math_BigDecimal__Lio_circe_Json = (function(value) {
+  return new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonBigDecimal().init___Ljava_math_BigDecimal(value.bigDecimal$3))
+});
+$c_Lio_circe_Json$.prototype.fromBoolean__Z__Lio_circe_Json = (function(value) {
+  return (value ? this.True$1 : this.False$1)
 });
 $c_Lio_circe_Json$.prototype.fromFields__sc_Iterable__Lio_circe_Json = (function(fields) {
   return new $c_Lio_circe_Json$JObject().init___Lio_circe_JsonObject($m_Lio_circe_JsonObject$().fromIterable__sc_Iterable__Lio_circe_JsonObject(fields))
 });
+$c_Lio_circe_Json$.prototype.fromInt__I__Lio_circe_Json = (function(value) {
+  var hi = (value >> 31);
+  return new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonLong().init___J(new $c_sjsr_RuntimeLong().init___I__I(value, hi)))
+});
 $c_Lio_circe_Json$.prototype.fromDoubleOrNull__D__Lio_circe_Json = (function(value) {
-  return (this.isReal__p1__D__Z(value) ? new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonDouble().init___D(value)) : this.Null$1)
+  return (((value === value) && (!((value === Infinity) || (value === (-Infinity))))) ? new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonDouble().init___D(value)) : this.Null$1)
+});
+$c_Lio_circe_Json$.prototype.fromBigInt__s_math_BigInt__Lio_circe_Json = (function(value) {
+  var this$1 = $m_Lio_circe_numbers_BiggerDecimal$();
+  var i = value.bigInteger$3;
+  var jsx$1 = this$1.fromUnscaledAndScale__p1__Ljava_math_BigInteger__J__Lio_circe_numbers_BiggerDecimal(i, $m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong());
+  var this$2 = value.bigInteger$3;
+  return new $c_Lio_circe_Json$JNumber().init___Lio_circe_JsonNumber(new $c_Lio_circe_JsonBiggerDecimal().init___Lio_circe_numbers_BiggerDecimal__T(jsx$1, $m_Ljava_math_Conversion$().toDecimalScaledString__Ljava_math_BigInteger__T(this$2)))
 });
 var $d_Lio_circe_Json$ = new $TypeData().initClass({
   Lio_circe_Json$: 0
@@ -19158,61 +19525,45 @@ $c_Lio_circe_JsonNumber$.prototype.init___ = (function() {
     return (function(x0$1$2, x1$1$2) {
       var x0$1 = $as_Lio_circe_JsonNumber(x0$1$2);
       var x1$1 = $as_Lio_circe_JsonNumber(x1$1$2);
-      case21: {
-        if ((!(x0$1 instanceof $c_Lio_circe_JsonLong))) {
-          break case21
-        };
+      if ((x0$1 instanceof $c_Lio_circe_JsonLong)) {
         var x4 = $as_Lio_circe_JsonLong(x0$1);
-        var t = x4.value__J();
+        var t = x4.value$2;
         var lo = t.lo$2;
         var hi = t.hi$2;
-        if ((!(x1$1 instanceof $c_Lio_circe_JsonLong))) {
-          break case21
-        };
-        var x5 = $as_Lio_circe_JsonLong(x1$1);
-        var t$1 = x5.value__J();
-        var lo$1 = t$1.lo$2;
-        var hi$1 = t$1.hi$2;
-        return ((lo === lo$1) && (hi === hi$1))
+        if ((x1$1 instanceof $c_Lio_circe_JsonLong)) {
+          var x5 = $as_Lio_circe_JsonLong(x1$1);
+          var t$1 = x5.value$2;
+          var lo$1 = t$1.lo$2;
+          var hi$1 = t$1.hi$2;
+          return ((lo === lo$1) && (hi === hi$1))
+        }
       };
-      case22: {
-        if ((!(x0$1 instanceof $c_Lio_circe_JsonDouble))) {
-          break case22
-        };
+      if ((x0$1 instanceof $c_Lio_circe_JsonDouble)) {
         var x8 = $as_Lio_circe_JsonDouble(x0$1);
         var x$2 = x8.value$2;
-        if ((!(x1$1 instanceof $c_Lio_circe_JsonDouble))) {
-          break case22
-        };
-        var x9 = $as_Lio_circe_JsonDouble(x1$1);
-        var y$2 = x9.value$2;
-        return ($m_jl_Double$().compare__D__D__I(x$2, y$2) === 0)
+        if ((x1$1 instanceof $c_Lio_circe_JsonDouble)) {
+          var x9 = $as_Lio_circe_JsonDouble(x1$1);
+          var y$2 = x9.value$2;
+          return ($m_jl_Double$().compare__D__D__I(x$2, y$2) === 0)
+        }
       };
-      case23: {
-        if ((!(x0$1 instanceof $c_Lio_circe_JsonFloat))) {
-          break case23
-        };
+      if ((x0$1 instanceof $c_Lio_circe_JsonFloat)) {
         var x12 = $as_Lio_circe_JsonFloat(x0$1);
-        var x$3 = x12.value__F();
-        if ((!(x1$1 instanceof $c_Lio_circe_JsonFloat))) {
-          break case23
-        };
-        var x13 = $as_Lio_circe_JsonFloat(x1$1);
-        var y$3 = x13.value__F();
-        return ($m_jl_Double$().compare__D__D__I(x$3, y$3) === 0)
+        var x$3 = x12.value$2;
+        if ((x1$1 instanceof $c_Lio_circe_JsonFloat)) {
+          var x13 = $as_Lio_circe_JsonFloat(x1$1);
+          var y$3 = x13.value$2;
+          return ($m_jl_Double$().compare__D__D__I(x$3, y$3) === 0)
+        }
       };
-      case24: {
-        if ((!(x0$1 instanceof $c_Lio_circe_JsonBigDecimal))) {
-          break case24
-        };
+      if ((x0$1 instanceof $c_Lio_circe_JsonBigDecimal)) {
         var x16 = $as_Lio_circe_JsonBigDecimal(x0$1);
-        var x$4 = x16.value__Ljava_math_BigDecimal();
-        if ((!(x1$1 instanceof $c_Lio_circe_JsonBigDecimal))) {
-          break case24
-        };
-        var x17 = $as_Lio_circe_JsonBigDecimal(x1$1);
-        var y$4 = x17.value__Ljava_math_BigDecimal();
-        return (x$4.compareTo__Ljava_math_BigDecimal__I(y$4) === 0)
+        var x$4 = x16.value$2;
+        if ((x1$1 instanceof $c_Lio_circe_JsonBigDecimal)) {
+          var x17 = $as_Lio_circe_JsonBigDecimal(x1$1);
+          var y$4 = x17.value$2;
+          return (x$4.compareTo__Ljava_math_BigDecimal__I(y$4) === 0)
+        }
       };
       var x$5 = x0$1.toBiggerDecimal__Lio_circe_numbers_BiggerDecimal();
       var x$6 = x1$1.toBiggerDecimal__Lio_circe_numbers_BiggerDecimal();
@@ -19547,9 +19898,7 @@ $c_Lio_circe_Printer$.prototype.init___ = (function() {
   this.spaces2SortKeys$1 = this.indented__T__Z__Lio_circe_Printer("  ", true);
   this.spaces4$1 = this.indented__T__Z__Lio_circe_Printer("    ", false);
   this.spaces4SortKeys$1 = this.indented__T__Z__Lio_circe_Printer("    ", true);
-  var jsx$1 = $m_s_Array$();
-  var array = [48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608, 16777216, 33554432];
-  this.io$circe$Printer$$SizeTable$f = jsx$1.apply__I__sc_Seq__AI(32, new $c_sjs_js_WrappedArray().init___sjs_js_Array(array));
+  this.io$circe$Printer$$SizeTable$f = $makeNativeArrayWrapper($d_I.getArrayOf(), [32, 48, 64, 80, 96, 112, 128, 144, 160, 176, 192, 208, 224, 240, 256, 272, 288, 304, 320, 336, 352, 368, 384, 400, 416, 432, 448, 464, 480, 496, 512, 1024, 2048, 4096, 8192, 16384, 32768, 65536, 131072, 262144, 524288, 1048576, 2097152, 4194304, 8388608, 16777216, 33554432]);
   return this
 });
 $c_Lio_circe_Printer$.prototype.toHex__p1__I__C = (function(nibble) {
@@ -20153,11 +20502,17 @@ $c_Lio_circe_numbers_BiggerDecimal$.prototype.parseBiggerDecimalUnsafe__T__Lio_c
     }
   }
 });
+$c_Lio_circe_numbers_BiggerDecimal$.prototype.fromLong__J__Lio_circe_numbers_BiggerDecimal = (function(d) {
+  return this.fromUnscaledAndScale__p1__Ljava_math_BigInteger__J__Lio_circe_numbers_BiggerDecimal($m_Ljava_math_BigInteger$().valueOf__J__Ljava_math_BigInteger(d), $m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong())
+});
 $c_Lio_circe_numbers_BiggerDecimal$.prototype.fromBigDecimal__Ljava_math_BigDecimal__Lio_circe_numbers_BiggerDecimal = (function(d) {
   var jsx$1 = d.java$math$BigDecimal$$getUnscaledValue__Ljava_math_BigInteger();
   var value = d.java$math$BigDecimal$$$undscale$2;
   var hi = (value >> 31);
   return this.fromUnscaledAndScale__p1__Ljava_math_BigInteger__J__Lio_circe_numbers_BiggerDecimal(jsx$1, new $c_sjsr_RuntimeLong().init___I__I(value, hi))
+});
+$c_Lio_circe_numbers_BiggerDecimal$.prototype.fromFloat__F__Lio_circe_numbers_BiggerDecimal = (function(f) {
+  return (($m_jl_Double$().compare__D__D__I(f, (-0)) === 0) ? this.NegativeZero$1 : this.fromBigDecimal__Ljava_math_BigDecimal__Lio_circe_numbers_BiggerDecimal(new $c_Ljava_math_BigDecimal().init___T(("" + f))))
 });
 $c_Lio_circe_numbers_BiggerDecimal$.prototype.fromDoubleUnsafe__D__Lio_circe_numbers_BiggerDecimal = (function(d) {
   return (($m_jl_Double$().compare__D__D__I(d, (-0)) === 0) ? this.NegativeZero$1 : this.fromBigDecimal__Ljava_math_BigDecimal__Lio_circe_numbers_BiggerDecimal($m_Ljava_math_BigDecimal$().valueOf__D__Ljava_math_BigDecimal(d)))
@@ -23222,8 +23577,57 @@ $c_s_math_BigDecimal$.prototype.init___ = (function() {
   this.defaultMathContext$1 = $m_Ljava_math_MathContext$().DECIMAL128$1;
   return this
 });
+$c_s_math_BigDecimal$.prototype.apply__J__Ljava_math_MathContext__s_math_BigDecimal = (function(l, mc) {
+  return new $c_s_math_BigDecimal().init___Ljava_math_BigDecimal__Ljava_math_MathContext(new $c_Ljava_math_BigDecimal().init___J__Ljava_math_MathContext(l, mc), mc)
+});
+$c_s_math_BigDecimal$.prototype.cache$lzycompute__p1__As_math_BigDecimal = (function() {
+  if ((!this.bitmap$0$1)) {
+    this.cache$1 = $newArrayObject($d_s_math_BigDecimal.getArrayOf(), [((1 + ((this.maxCached$1 - this.minCached$1) | 0)) | 0)]);
+    this.bitmap$0$1 = true
+  };
+  return this.cache$1
+});
 $c_s_math_BigDecimal$.prototype.decimal__D__Ljava_math_MathContext__s_math_BigDecimal = (function(d, mc) {
   return new $c_s_math_BigDecimal().init___Ljava_math_BigDecimal__Ljava_math_MathContext(new $c_Ljava_math_BigDecimal().init___T__Ljava_math_MathContext(("" + d), mc), mc)
+});
+$c_s_math_BigDecimal$.prototype.apply__J__s_math_BigDecimal = (function(l) {
+  var value = this.minCached$1;
+  var hi = (value >> 31);
+  var bhi = l.hi$2;
+  if (((hi === bhi) ? (((-2147483648) ^ value) <= ((-2147483648) ^ l.lo$2)) : (hi < bhi))) {
+    var value$1 = this.maxCached$1;
+    var hi$1 = (value$1 >> 31);
+    var ahi = l.hi$2;
+    var jsx$1 = ((ahi === hi$1) ? (((-2147483648) ^ l.lo$2) <= ((-2147483648) ^ value$1)) : (ahi < hi$1))
+  } else {
+    var jsx$1 = false
+  };
+  if (jsx$1) {
+    var i = l.lo$2;
+    return this.apply__I__Ljava_math_MathContext__s_math_BigDecimal(i, this.defaultMathContext$1)
+  } else {
+    return new $c_s_math_BigDecimal().init___Ljava_math_BigDecimal__Ljava_math_MathContext($m_Ljava_math_BigDecimal$().valueOf__J__Ljava_math_BigDecimal(l), this.defaultMathContext$1)
+  }
+});
+$c_s_math_BigDecimal$.prototype.cache__p1__As_math_BigDecimal = (function() {
+  return ((!this.bitmap$0$1) ? this.cache$lzycompute__p1__As_math_BigDecimal() : this.cache$1)
+});
+$c_s_math_BigDecimal$.prototype.apply__I__Ljava_math_MathContext__s_math_BigDecimal = (function(i, mc) {
+  var x$2 = this.defaultMathContext$1;
+  if (((((mc === null) ? (x$2 === null) : mc.equals__O__Z(x$2)) && (this.minCached$1 <= i)) && (i <= this.maxCached$1))) {
+    var offset = ((i - this.minCached$1) | 0);
+    var n = this.cache__p1__As_math_BigDecimal().get(offset);
+    if ((n === null)) {
+      var jsx$1 = $m_Ljava_math_BigDecimal$();
+      var hi = (i >> 31);
+      n = new $c_s_math_BigDecimal().init___Ljava_math_BigDecimal__Ljava_math_MathContext(jsx$1.valueOf__J__Ljava_math_BigDecimal(new $c_sjsr_RuntimeLong().init___I__I(i, hi)), mc);
+      this.cache__p1__As_math_BigDecimal().set(offset, n)
+    };
+    return n
+  } else {
+    var hi$1 = (i >> 31);
+    return this.apply__J__Ljava_math_MathContext__s_math_BigDecimal(new $c_sjsr_RuntimeLong().init___I__I(i, hi$1), mc)
+  }
 });
 $c_s_math_BigDecimal$.prototype.exact__T__s_math_BigDecimal = (function(s) {
   return this.exact__Ljava_math_BigDecimal__s_math_BigDecimal(new $c_Ljava_math_BigDecimal().init___T(s))
@@ -24589,87 +24993,142 @@ var $d_sr_Nothing$ = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1() {
+function $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1() {
   $c_Lio_circe_generic_decoding_ReprDecoder.call(this);
-  this.circeGenericInstanceForid$2 = null;
-  this.circeGenericInstanceForday$2 = null;
-  this.circeGenericInstanceForcount$2 = null
+  this.circeGenericDecoderForday$2 = null;
+  this.circeGenericDecoderForcount$2 = null
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1.prototype = new $h_Lio_circe_generic_decoding_ReprDecoder();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype = new $h_Lio_circe_generic_decoding_ReprDecoder();
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1() {
+function $h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
-  return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericInstanceForid$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("id")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericInstanceForday$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("name")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericInstanceForday$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("day")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericInstanceForcount$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("count")), $m_Lio_circe_generic_decoding_ReprDecoder$().hnilResult$1, $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1))
+$h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+  return $as_s_util_Either($m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericDecoderForday$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("name")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericDecoderForday$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("day")), $m_Lio_circe_generic_decoding_ReprDecoder$().consResults__O__O__Lcats_Apply__O(this.circeGenericDecoderForcount$2.tryDecode__Lio_circe_ACursor__s_util_Either(c.downField__T__Lio_circe_ACursor("count")), $m_Lio_circe_generic_decoding_ReprDecoder$().hnilResult$1, $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1), $m_Lio_circe_Decoder$().resultInstance$1))
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$13$1 = (function($$outer) {
-  $m_Lio_circe_Decoder$();
-  var d = $m_Lio_circe_Decoder$().decodeLong$1;
-  this.circeGenericInstanceForid$2 = new $c_Lio_circe_Decoder$$anon$38().init___Lio_circe_Decoder(d);
-  this.circeGenericInstanceForday$2 = $m_Lio_circe_Decoder$().decodeString$1;
-  this.circeGenericInstanceForcount$2 = $m_Lio_circe_Decoder$().decodeInt$1;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$11$1 = (function($$outer) {
+  this.circeGenericDecoderForday$2 = $m_Lio_circe_Decoder$().decodeString$1;
+  this.circeGenericDecoderForcount$2 = $m_Lio_circe_Decoder$().decodeInt$1;
   return this
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$13$1$$anon$1", {
-  Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1: 1,
+var $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1: 0
+}, false, "billding.ApiInteractions$anon$lazy$macro$11$1$$anon$1", {
+  Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1: 1,
   Lio_circe_generic_decoding_ReprDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$1;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$1;
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1() {
+function $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1() {
   $c_O.call(this)
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1.prototype = new $h_O();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1() {
+function $h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1.prototype.from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise = (function(p) {
+$h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise = (function(p) {
   if ((p !== null)) {
-    var pat$macro$7 = $as_s_Option(p.head$1);
+    var pat$macro$6 = $as_T(p.head$1);
     var p2 = $as_Lshapeless_$colon$colon(p.tail$1);
     if ((p2 !== null)) {
-      var pat$macro$8 = $as_T(p2.head$1);
+      var pat$macro$7 = $as_T(p2.head$1);
       var p3 = $as_Lshapeless_$colon$colon(p2.tail$1);
       if ((p3 !== null)) {
-        var pat$macro$9 = $as_T(p3.head$1);
-        var p4 = $as_Lshapeless_$colon$colon(p3.tail$1);
-        if ((p4 !== null)) {
-          var pat$macro$10 = $uI(p4.head$1);
-          var p5 = $as_Lshapeless_HNil(p4.tail$1);
-          var x = $m_Lshapeless_HNil$();
-          if ((x === p5)) {
-            return new $c_Lbillding_DailyQuantizedExercise().init___s_Option__T__T__I(pat$macro$7, pat$macro$8, pat$macro$9, pat$macro$10)
-          }
+        var pat$macro$8 = $uI(p3.head$1);
+        var p4 = $as_Lshapeless_HNil(p3.tail$1);
+        var x = $m_Lshapeless_HNil$();
+        if ((x === p4)) {
+          return new $c_Lbillding_DailyQuantizedExercise().init___T__T__I(pat$macro$6, pat$macro$7, pat$macro$8)
         }
       }
     }
   };
   throw new $c_s_MatchError().init___O(p)
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$13$1 = (function($$outer) {
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$11$1 = (function($$outer) {
   return this
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1", {
-  Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1: 1,
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon = (function(p) {
+  if ((p !== null)) {
+    var pat$macro$6 = p.name$1;
+    var pat$macro$7 = p.day$1;
+    var pat$macro$8 = p.count$1;
+    return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$6, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$7, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$8, $m_Lshapeless_HNil$())))
+  } else {
+    throw new $c_s_MatchError().init___O(p)
+  }
+});
+var $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1: 0
+}, false, "billding.ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1", {
+  Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1: 1,
   O: 1,
   Lshapeless_Generic: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$13$1$anon$macro$11$1;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$anon$macro$9$1;
+/** @constructor */
+function $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1() {
+  $c_O.call(this)
+}
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1;
+/** @constructor */
+function $h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1() {
+  /*<skip>*/
+}
+$h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$23$1 = (function($$outer) {
+  return this
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype.from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise = (function(p) {
+  if ((p !== null)) {
+    var pat$macro$18 = $as_T(p.head$1);
+    var p2 = $as_Lshapeless_$colon$colon(p.tail$1);
+    if ((p2 !== null)) {
+      var pat$macro$19 = $as_T(p2.head$1);
+      var p3 = $as_Lshapeless_$colon$colon(p2.tail$1);
+      if ((p3 !== null)) {
+        var pat$macro$20 = $uI(p3.head$1);
+        var p4 = $as_Lshapeless_HNil(p3.tail$1);
+        var x = $m_Lshapeless_HNil$();
+        if ((x === p4)) {
+          return new $c_Lbillding_DailyQuantizedExercise().init___T__T__I(pat$macro$18, pat$macro$19, pat$macro$20)
+        }
+      }
+    }
+  };
+  throw new $c_s_MatchError().init___O(p)
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype.to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon = (function(p) {
+  if ((p !== null)) {
+    var pat$macro$18 = p.name$1;
+    var pat$macro$19 = p.day$1;
+    var pat$macro$20 = p.count$1;
+    return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$18, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$19, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$20, $m_Lshapeless_HNil$())))
+  } else {
+    throw new $c_s_MatchError().init___O(p)
+  }
+});
+var $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1: 0
+}, false, "billding.ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1", {
+  Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$anon$macro$21$1;
 /** @constructor */
 function $c_Lcats_SemigroupK$$anon$1() {
   $c_O.call(this);
@@ -24968,21 +25427,21 @@ function $asArrayOf_Lio_circe_CursorOp(obj, depth) {
   return (($isArrayOf_Lio_circe_CursorOp(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lio.circe.CursorOp;", depth))
 }
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$29() {
+function $c_Lio_circe_Decoder$$anon$30() {
   $c_Lio_circe_Decoder$DecoderWithFailure.call(this)
 }
-$c_Lio_circe_Decoder$$anon$29.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
-$c_Lio_circe_Decoder$$anon$29.prototype.constructor = $c_Lio_circe_Decoder$$anon$29;
+$c_Lio_circe_Decoder$$anon$30.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
+$c_Lio_circe_Decoder$$anon$30.prototype.constructor = $c_Lio_circe_Decoder$$anon$30;
 /** @constructor */
-function $h_Lio_circe_Decoder$$anon$29() {
+function $h_Lio_circe_Decoder$$anon$30() {
   /*<skip>*/
 }
-$h_Lio_circe_Decoder$$anon$29.prototype = $c_Lio_circe_Decoder$$anon$29.prototype;
-$c_Lio_circe_Decoder$$anon$29.prototype.init___ = (function() {
+$h_Lio_circe_Decoder$$anon$30.prototype = $c_Lio_circe_Decoder$$anon$30.prototype;
+$c_Lio_circe_Decoder$$anon$30.prototype.init___ = (function() {
   $c_Lio_circe_Decoder$DecoderWithFailure.prototype.init___T.call(this, "Float");
   return this
 });
-$c_Lio_circe_Decoder$$anon$29.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+$c_Lio_circe_Decoder$$anon$30.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   var x1 = c.value__Lio_circe_Json();
   if ((x1 instanceof $c_Lio_circe_Json$JNumber)) {
     var x2 = $as_Lio_circe_Json$JNumber(x1);
@@ -25004,67 +25463,6 @@ $c_Lio_circe_Decoder$$anon$29.prototype.apply__Lio_circe_HCursor__s_util_Either 
     if ((x1$2 instanceof $c_s_Some)) {
       var x2$2 = $as_s_Some(x1$2);
       var v = $uF(x2$2.value$2);
-      $m_s_package$();
-      return new $c_s_util_Right().init___O(v)
-    } else {
-      var x = $m_s_None$();
-      if ((x === x1$2)) {
-        return this.fail__Lio_circe_HCursor__s_util_Either(c)
-      } else {
-        throw new $c_s_MatchError().init___O(x1$2)
-      }
-    }
-  } else {
-    return (x1.isNull__Z() ? ($m_s_package$(), new $c_s_util_Right().init___O((NaN))) : this.fail__Lio_circe_HCursor__s_util_Either(c))
-  }
-});
-var $d_Lio_circe_Decoder$$anon$29 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$29: 0
-}, false, "io.circe.Decoder$$anon$29", {
-  Lio_circe_Decoder$$anon$29: 1,
-  Lio_circe_Decoder$DecoderWithFailure: 1,
-  O: 1,
-  Lio_circe_Decoder: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lio_circe_Decoder$$anon$29.prototype.$classData = $d_Lio_circe_Decoder$$anon$29;
-/** @constructor */
-function $c_Lio_circe_Decoder$$anon$30() {
-  $c_Lio_circe_Decoder$DecoderWithFailure.call(this)
-}
-$c_Lio_circe_Decoder$$anon$30.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
-$c_Lio_circe_Decoder$$anon$30.prototype.constructor = $c_Lio_circe_Decoder$$anon$30;
-/** @constructor */
-function $h_Lio_circe_Decoder$$anon$30() {
-  /*<skip>*/
-}
-$h_Lio_circe_Decoder$$anon$30.prototype = $c_Lio_circe_Decoder$$anon$30.prototype;
-$c_Lio_circe_Decoder$$anon$30.prototype.init___ = (function() {
-  $c_Lio_circe_Decoder$DecoderWithFailure.prototype.init___T.call(this, "Double");
-  return this
-});
-$c_Lio_circe_Decoder$$anon$30.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
-  var x1 = c.value__Lio_circe_Json();
-  if ((x1 instanceof $c_Lio_circe_Json$JNumber)) {
-    var x2 = $as_Lio_circe_Json$JNumber(x1);
-    var number = x2.value$2;
-    $m_s_package$();
-    var value = number.toDouble__D();
-    return new $c_s_util_Right().init___O(value)
-  } else if ((x1 instanceof $c_Lio_circe_Json$JString)) {
-    var x3 = $as_Lio_circe_Json$JString(x1);
-    var string = x3.value$2;
-    var this$2 = $m_Lio_circe_JsonNumber$().fromString__T__s_Option(string);
-    if (this$2.isEmpty__Z()) {
-      var x1$2 = $m_s_None$()
-    } else {
-      var arg1 = this$2.get__O();
-      var x$8 = $as_Lio_circe_JsonNumber(arg1);
-      var x1$2 = new $c_s_Some().init___O(x$8.toDouble__D())
-    };
-    if ((x1$2 instanceof $c_s_Some)) {
-      var x2$2 = $as_s_Some(x1$2);
-      var v = $uD(x2$2.value$2);
       $m_s_package$();
       return new $c_s_util_Right().init___O(v)
     } else {
@@ -25101,10 +25499,71 @@ function $h_Lio_circe_Decoder$$anon$31() {
 }
 $h_Lio_circe_Decoder$$anon$31.prototype = $c_Lio_circe_Decoder$$anon$31.prototype;
 $c_Lio_circe_Decoder$$anon$31.prototype.init___ = (function() {
-  $c_Lio_circe_Decoder$DecoderWithFailure.prototype.init___T.call(this, "Byte");
+  $c_Lio_circe_Decoder$DecoderWithFailure.prototype.init___T.call(this, "Double");
   return this
 });
 $c_Lio_circe_Decoder$$anon$31.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+  var x1 = c.value__Lio_circe_Json();
+  if ((x1 instanceof $c_Lio_circe_Json$JNumber)) {
+    var x2 = $as_Lio_circe_Json$JNumber(x1);
+    var number = x2.value$2;
+    $m_s_package$();
+    var value = number.toDouble__D();
+    return new $c_s_util_Right().init___O(value)
+  } else if ((x1 instanceof $c_Lio_circe_Json$JString)) {
+    var x3 = $as_Lio_circe_Json$JString(x1);
+    var string = x3.value$2;
+    var this$2 = $m_Lio_circe_JsonNumber$().fromString__T__s_Option(string);
+    if (this$2.isEmpty__Z()) {
+      var x1$2 = $m_s_None$()
+    } else {
+      var arg1 = this$2.get__O();
+      var x$8 = $as_Lio_circe_JsonNumber(arg1);
+      var x1$2 = new $c_s_Some().init___O(x$8.toDouble__D())
+    };
+    if ((x1$2 instanceof $c_s_Some)) {
+      var x2$2 = $as_s_Some(x1$2);
+      var v = $uD(x2$2.value$2);
+      $m_s_package$();
+      return new $c_s_util_Right().init___O(v)
+    } else {
+      var x = $m_s_None$();
+      if ((x === x1$2)) {
+        return this.fail__Lio_circe_HCursor__s_util_Either(c)
+      } else {
+        throw new $c_s_MatchError().init___O(x1$2)
+      }
+    }
+  } else {
+    return (x1.isNull__Z() ? ($m_s_package$(), new $c_s_util_Right().init___O((NaN))) : this.fail__Lio_circe_HCursor__s_util_Either(c))
+  }
+});
+var $d_Lio_circe_Decoder$$anon$31 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$31: 0
+}, false, "io.circe.Decoder$$anon$31", {
+  Lio_circe_Decoder$$anon$31: 1,
+  Lio_circe_Decoder$DecoderWithFailure: 1,
+  O: 1,
+  Lio_circe_Decoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Decoder$$anon$31.prototype.$classData = $d_Lio_circe_Decoder$$anon$31;
+/** @constructor */
+function $c_Lio_circe_Decoder$$anon$32() {
+  $c_Lio_circe_Decoder$DecoderWithFailure.call(this)
+}
+$c_Lio_circe_Decoder$$anon$32.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
+$c_Lio_circe_Decoder$$anon$32.prototype.constructor = $c_Lio_circe_Decoder$$anon$32;
+/** @constructor */
+function $h_Lio_circe_Decoder$$anon$32() {
+  /*<skip>*/
+}
+$h_Lio_circe_Decoder$$anon$32.prototype = $c_Lio_circe_Decoder$$anon$32.prototype;
+$c_Lio_circe_Decoder$$anon$32.prototype.init___ = (function() {
+  $c_Lio_circe_Decoder$DecoderWithFailure.prototype.init___T.call(this, "Byte");
+  return this
+});
+$c_Lio_circe_Decoder$$anon$32.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   var x1 = c.value__Lio_circe_Json();
   if ((x1 instanceof $c_Lio_circe_Json$JNumber)) {
     var x2 = $as_Lio_circe_Json$JNumber(x1);
@@ -25151,32 +25610,32 @@ $c_Lio_circe_Decoder$$anon$31.prototype.apply__Lio_circe_HCursor__s_util_Either 
     return this.fail__Lio_circe_HCursor__s_util_Either(c)
   }
 });
-var $d_Lio_circe_Decoder$$anon$31 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$31: 0
-}, false, "io.circe.Decoder$$anon$31", {
-  Lio_circe_Decoder$$anon$31: 1,
+var $d_Lio_circe_Decoder$$anon$32 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$32: 0
+}, false, "io.circe.Decoder$$anon$32", {
+  Lio_circe_Decoder$$anon$32: 1,
   Lio_circe_Decoder$DecoderWithFailure: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lio_circe_Decoder$$anon$31.prototype.$classData = $d_Lio_circe_Decoder$$anon$31;
+$c_Lio_circe_Decoder$$anon$32.prototype.$classData = $d_Lio_circe_Decoder$$anon$32;
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$32() {
+function $c_Lio_circe_Decoder$$anon$33() {
   $c_Lio_circe_Decoder$DecoderWithFailure.call(this)
 }
-$c_Lio_circe_Decoder$$anon$32.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
-$c_Lio_circe_Decoder$$anon$32.prototype.constructor = $c_Lio_circe_Decoder$$anon$32;
+$c_Lio_circe_Decoder$$anon$33.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
+$c_Lio_circe_Decoder$$anon$33.prototype.constructor = $c_Lio_circe_Decoder$$anon$33;
 /** @constructor */
-function $h_Lio_circe_Decoder$$anon$32() {
+function $h_Lio_circe_Decoder$$anon$33() {
   /*<skip>*/
 }
-$h_Lio_circe_Decoder$$anon$32.prototype = $c_Lio_circe_Decoder$$anon$32.prototype;
-$c_Lio_circe_Decoder$$anon$32.prototype.init___ = (function() {
+$h_Lio_circe_Decoder$$anon$33.prototype = $c_Lio_circe_Decoder$$anon$33.prototype;
+$c_Lio_circe_Decoder$$anon$33.prototype.init___ = (function() {
   $c_Lio_circe_Decoder$DecoderWithFailure.prototype.init___T.call(this, "Short");
   return this
 });
-$c_Lio_circe_Decoder$$anon$32.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+$c_Lio_circe_Decoder$$anon$33.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   var x1 = c.value__Lio_circe_Json();
   if ((x1 instanceof $c_Lio_circe_Json$JNumber)) {
     var x2 = $as_Lio_circe_Json$JNumber(x1);
@@ -25223,32 +25682,32 @@ $c_Lio_circe_Decoder$$anon$32.prototype.apply__Lio_circe_HCursor__s_util_Either 
     return this.fail__Lio_circe_HCursor__s_util_Either(c)
   }
 });
-var $d_Lio_circe_Decoder$$anon$32 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$32: 0
-}, false, "io.circe.Decoder$$anon$32", {
-  Lio_circe_Decoder$$anon$32: 1,
+var $d_Lio_circe_Decoder$$anon$33 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$33: 0
+}, false, "io.circe.Decoder$$anon$33", {
+  Lio_circe_Decoder$$anon$33: 1,
   Lio_circe_Decoder$DecoderWithFailure: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lio_circe_Decoder$$anon$32.prototype.$classData = $d_Lio_circe_Decoder$$anon$32;
+$c_Lio_circe_Decoder$$anon$33.prototype.$classData = $d_Lio_circe_Decoder$$anon$33;
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$33() {
+function $c_Lio_circe_Decoder$$anon$34() {
   $c_Lio_circe_Decoder$DecoderWithFailure.call(this)
 }
-$c_Lio_circe_Decoder$$anon$33.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
-$c_Lio_circe_Decoder$$anon$33.prototype.constructor = $c_Lio_circe_Decoder$$anon$33;
+$c_Lio_circe_Decoder$$anon$34.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
+$c_Lio_circe_Decoder$$anon$34.prototype.constructor = $c_Lio_circe_Decoder$$anon$34;
 /** @constructor */
-function $h_Lio_circe_Decoder$$anon$33() {
+function $h_Lio_circe_Decoder$$anon$34() {
   /*<skip>*/
 }
-$h_Lio_circe_Decoder$$anon$33.prototype = $c_Lio_circe_Decoder$$anon$33.prototype;
-$c_Lio_circe_Decoder$$anon$33.prototype.init___ = (function() {
+$h_Lio_circe_Decoder$$anon$34.prototype = $c_Lio_circe_Decoder$$anon$34.prototype;
+$c_Lio_circe_Decoder$$anon$34.prototype.init___ = (function() {
   $c_Lio_circe_Decoder$DecoderWithFailure.prototype.init___T.call(this, "Int");
   return this
 });
-$c_Lio_circe_Decoder$$anon$33.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+$c_Lio_circe_Decoder$$anon$34.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   var x1 = c.value__Lio_circe_Json();
   if ((x1 instanceof $c_Lio_circe_Json$JNumber)) {
     var x2 = $as_Lio_circe_Json$JNumber(x1);
@@ -25295,32 +25754,32 @@ $c_Lio_circe_Decoder$$anon$33.prototype.apply__Lio_circe_HCursor__s_util_Either 
     return this.fail__Lio_circe_HCursor__s_util_Either(c)
   }
 });
-var $d_Lio_circe_Decoder$$anon$33 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$33: 0
-}, false, "io.circe.Decoder$$anon$33", {
-  Lio_circe_Decoder$$anon$33: 1,
+var $d_Lio_circe_Decoder$$anon$34 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$34: 0
+}, false, "io.circe.Decoder$$anon$34", {
+  Lio_circe_Decoder$$anon$34: 1,
   Lio_circe_Decoder$DecoderWithFailure: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lio_circe_Decoder$$anon$33.prototype.$classData = $d_Lio_circe_Decoder$$anon$33;
+$c_Lio_circe_Decoder$$anon$34.prototype.$classData = $d_Lio_circe_Decoder$$anon$34;
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$34() {
+function $c_Lio_circe_Decoder$$anon$35() {
   $c_Lio_circe_Decoder$DecoderWithFailure.call(this)
 }
-$c_Lio_circe_Decoder$$anon$34.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
-$c_Lio_circe_Decoder$$anon$34.prototype.constructor = $c_Lio_circe_Decoder$$anon$34;
+$c_Lio_circe_Decoder$$anon$35.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
+$c_Lio_circe_Decoder$$anon$35.prototype.constructor = $c_Lio_circe_Decoder$$anon$35;
 /** @constructor */
-function $h_Lio_circe_Decoder$$anon$34() {
+function $h_Lio_circe_Decoder$$anon$35() {
   /*<skip>*/
 }
-$h_Lio_circe_Decoder$$anon$34.prototype = $c_Lio_circe_Decoder$$anon$34.prototype;
-$c_Lio_circe_Decoder$$anon$34.prototype.init___ = (function() {
+$h_Lio_circe_Decoder$$anon$35.prototype = $c_Lio_circe_Decoder$$anon$35.prototype;
+$c_Lio_circe_Decoder$$anon$35.prototype.init___ = (function() {
   $c_Lio_circe_Decoder$DecoderWithFailure.prototype.init___T.call(this, "Long");
   return this
 });
-$c_Lio_circe_Decoder$$anon$34.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+$c_Lio_circe_Decoder$$anon$35.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   var x1 = c.value__Lio_circe_Json();
   if ((x1 instanceof $c_Lio_circe_Json$JNumber)) {
     var x2 = $as_Lio_circe_Json$JNumber(x1);
@@ -25371,32 +25830,32 @@ $c_Lio_circe_Decoder$$anon$34.prototype.apply__Lio_circe_HCursor__s_util_Either 
     return this.fail__Lio_circe_HCursor__s_util_Either(c)
   }
 });
-var $d_Lio_circe_Decoder$$anon$34 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$34: 0
-}, false, "io.circe.Decoder$$anon$34", {
-  Lio_circe_Decoder$$anon$34: 1,
+var $d_Lio_circe_Decoder$$anon$35 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$35: 0
+}, false, "io.circe.Decoder$$anon$35", {
+  Lio_circe_Decoder$$anon$35: 1,
   Lio_circe_Decoder$DecoderWithFailure: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lio_circe_Decoder$$anon$34.prototype.$classData = $d_Lio_circe_Decoder$$anon$34;
+$c_Lio_circe_Decoder$$anon$35.prototype.$classData = $d_Lio_circe_Decoder$$anon$35;
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$35() {
+function $c_Lio_circe_Decoder$$anon$36() {
   $c_Lio_circe_Decoder$DecoderWithFailure.call(this)
 }
-$c_Lio_circe_Decoder$$anon$35.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
-$c_Lio_circe_Decoder$$anon$35.prototype.constructor = $c_Lio_circe_Decoder$$anon$35;
+$c_Lio_circe_Decoder$$anon$36.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
+$c_Lio_circe_Decoder$$anon$36.prototype.constructor = $c_Lio_circe_Decoder$$anon$36;
 /** @constructor */
-function $h_Lio_circe_Decoder$$anon$35() {
+function $h_Lio_circe_Decoder$$anon$36() {
   /*<skip>*/
 }
-$h_Lio_circe_Decoder$$anon$35.prototype = $c_Lio_circe_Decoder$$anon$35.prototype;
-$c_Lio_circe_Decoder$$anon$35.prototype.init___ = (function() {
+$h_Lio_circe_Decoder$$anon$36.prototype = $c_Lio_circe_Decoder$$anon$36.prototype;
+$c_Lio_circe_Decoder$$anon$36.prototype.init___ = (function() {
   $c_Lio_circe_Decoder$DecoderWithFailure.prototype.init___T.call(this, "BigInt");
   return this
 });
-$c_Lio_circe_Decoder$$anon$35.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+$c_Lio_circe_Decoder$$anon$36.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   var x1 = c.value__Lio_circe_Json();
   if ((x1 instanceof $c_Lio_circe_Json$JNumber)) {
     var x2 = $as_Lio_circe_Json$JNumber(x1);
@@ -25443,32 +25902,32 @@ $c_Lio_circe_Decoder$$anon$35.prototype.apply__Lio_circe_HCursor__s_util_Either 
     return this.fail__Lio_circe_HCursor__s_util_Either(c)
   }
 });
-var $d_Lio_circe_Decoder$$anon$35 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$35: 0
-}, false, "io.circe.Decoder$$anon$35", {
-  Lio_circe_Decoder$$anon$35: 1,
+var $d_Lio_circe_Decoder$$anon$36 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$36: 0
+}, false, "io.circe.Decoder$$anon$36", {
+  Lio_circe_Decoder$$anon$36: 1,
   Lio_circe_Decoder$DecoderWithFailure: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lio_circe_Decoder$$anon$35.prototype.$classData = $d_Lio_circe_Decoder$$anon$35;
+$c_Lio_circe_Decoder$$anon$36.prototype.$classData = $d_Lio_circe_Decoder$$anon$36;
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$36() {
+function $c_Lio_circe_Decoder$$anon$37() {
   $c_Lio_circe_Decoder$DecoderWithFailure.call(this)
 }
-$c_Lio_circe_Decoder$$anon$36.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
-$c_Lio_circe_Decoder$$anon$36.prototype.constructor = $c_Lio_circe_Decoder$$anon$36;
+$c_Lio_circe_Decoder$$anon$37.prototype = new $h_Lio_circe_Decoder$DecoderWithFailure();
+$c_Lio_circe_Decoder$$anon$37.prototype.constructor = $c_Lio_circe_Decoder$$anon$37;
 /** @constructor */
-function $h_Lio_circe_Decoder$$anon$36() {
+function $h_Lio_circe_Decoder$$anon$37() {
   /*<skip>*/
 }
-$h_Lio_circe_Decoder$$anon$36.prototype = $c_Lio_circe_Decoder$$anon$36.prototype;
-$c_Lio_circe_Decoder$$anon$36.prototype.init___ = (function() {
+$h_Lio_circe_Decoder$$anon$37.prototype = $c_Lio_circe_Decoder$$anon$37.prototype;
+$c_Lio_circe_Decoder$$anon$37.prototype.init___ = (function() {
   $c_Lio_circe_Decoder$DecoderWithFailure.prototype.init___T.call(this, "BigDecimal");
   return this
 });
-$c_Lio_circe_Decoder$$anon$36.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
+$c_Lio_circe_Decoder$$anon$37.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
   var x1 = c.value__Lio_circe_Json();
   if ((x1 instanceof $c_Lio_circe_Json$JNumber)) {
     var x2 = $as_Lio_circe_Json$JNumber(x1);
@@ -25515,41 +25974,41 @@ $c_Lio_circe_Decoder$$anon$36.prototype.apply__Lio_circe_HCursor__s_util_Either 
     return this.fail__Lio_circe_HCursor__s_util_Either(c)
   }
 });
-var $d_Lio_circe_Decoder$$anon$36 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$36: 0
-}, false, "io.circe.Decoder$$anon$36", {
-  Lio_circe_Decoder$$anon$36: 1,
+var $d_Lio_circe_Decoder$$anon$37 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$37: 0
+}, false, "io.circe.Decoder$$anon$37", {
+  Lio_circe_Decoder$$anon$37: 1,
   Lio_circe_Decoder$DecoderWithFailure: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lio_circe_Decoder$$anon$36.prototype.$classData = $d_Lio_circe_Decoder$$anon$36;
+$c_Lio_circe_Decoder$$anon$37.prototype.$classData = $d_Lio_circe_Decoder$$anon$37;
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$43() {
+function $c_Lio_circe_Decoder$$anon$44() {
   $c_Lio_circe_SeqDecoder.call(this)
 }
-$c_Lio_circe_Decoder$$anon$43.prototype = new $h_Lio_circe_SeqDecoder();
-$c_Lio_circe_Decoder$$anon$43.prototype.constructor = $c_Lio_circe_Decoder$$anon$43;
+$c_Lio_circe_Decoder$$anon$44.prototype = new $h_Lio_circe_SeqDecoder();
+$c_Lio_circe_Decoder$$anon$44.prototype.constructor = $c_Lio_circe_Decoder$$anon$44;
 /** @constructor */
-function $h_Lio_circe_Decoder$$anon$43() {
+function $h_Lio_circe_Decoder$$anon$44() {
   /*<skip>*/
 }
-$h_Lio_circe_Decoder$$anon$43.prototype = $c_Lio_circe_Decoder$$anon$43.prototype;
-$c_Lio_circe_Decoder$$anon$43.prototype.init___Lio_circe_Decoder = (function(decodeA$3) {
+$h_Lio_circe_Decoder$$anon$44.prototype = $c_Lio_circe_Decoder$$anon$44.prototype;
+$c_Lio_circe_Decoder$$anon$44.prototype.init___Lio_circe_Decoder = (function(decodeA$3) {
   $c_Lio_circe_SeqDecoder.prototype.init___Lio_circe_Decoder.call(this, decodeA$3);
   return this
 });
-var $d_Lio_circe_Decoder$$anon$43 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$43: 0
-}, false, "io.circe.Decoder$$anon$43", {
-  Lio_circe_Decoder$$anon$43: 1,
+var $d_Lio_circe_Decoder$$anon$44 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$44: 0
+}, false, "io.circe.Decoder$$anon$44", {
+  Lio_circe_Decoder$$anon$44: 1,
   Lio_circe_SeqDecoder: 1,
   O: 1,
   Lio_circe_Decoder: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lio_circe_Decoder$$anon$43.prototype.$classData = $d_Lio_circe_Decoder$$anon$43;
+$c_Lio_circe_Decoder$$anon$44.prototype.$classData = $d_Lio_circe_Decoder$$anon$44;
 /** @constructor */
 function $c_Lio_circe_Error() {
   $c_jl_Exception.call(this)
@@ -25989,9 +26448,21 @@ $c_Lio_circe_generic_decoding_ReprDecoder$$anon$1.prototype.init___ = (function(
   return this
 });
 $c_Lio_circe_generic_decoding_ReprDecoder$$anon$1.prototype.apply__Lio_circe_HCursor__s_util_Either = (function(c) {
-  $m_s_package$();
-  var value = $m_Lshapeless_HNil$();
-  return new $c_s_util_Right().init___O(value)
+  if (c.value__Lio_circe_Json().isObject__Z()) {
+    $m_s_package$();
+    var value = $m_Lshapeless_HNil$();
+    return new $c_s_util_Right().init___O(value)
+  } else {
+    $m_s_package$();
+    $m_Lio_circe_DecodingFailure$();
+    var ops = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, c$1) {
+      return (function() {
+        return c$1.history__sci_List()
+      })
+    })(this, c));
+    var value$1 = new $c_Lio_circe_DecodingFailure$$anon$2().init___T__F0("HNil", ops);
+    return new $c_s_util_Left().init___O(value$1)
+  }
 });
 var $d_Lio_circe_generic_decoding_ReprDecoder$$anon$1 = new $TypeData().initClass({
   Lio_circe_generic_decoding_ReprDecoder$$anon$1: 0
@@ -26295,6 +26766,11 @@ $c_Ljava_math_BigDecimal.prototype.equals__O__Z = (function(x) {
   } else {
     return false
   }
+});
+$c_Ljava_math_BigDecimal.prototype.init___J__Ljava_math_MathContext = (function(lVal, mc) {
+  $c_Ljava_math_BigDecimal.prototype.init___J__I.call(this, lVal, 0);
+  this.inplaceRound__p2__Ljava_math_MathContext__V(mc);
+  return this
 });
 $c_Ljava_math_BigDecimal.prototype.intValueExact__I = (function() {
   var t = this.valueExact__p2__I__J(32);
@@ -28106,6 +28582,11 @@ $c_Lshapeless_LabelledGeneric$$anon$1.prototype.init___Lshapeless_Generic__Lshap
   this.ev$1$1 = ev$1;
   return this
 });
+$c_Lshapeless_LabelledGeneric$$anon$1.prototype.to__O__Lshapeless_HList = (function(t) {
+  var jsx$1 = this.zip$1$1;
+  var this$1 = this.gen$1$1;
+  return $as_Lshapeless_HList(jsx$1.apply__O__O(this$1.to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon($as_Lbillding_DailyQuantizedExercise(t))))
+});
 var $d_Lshapeless_LabelledGeneric$$anon$1 = new $TypeData().initClass({
   Lshapeless_LabelledGeneric$$anon$1: 0
 }, false, "shapeless.LabelledGeneric$$anon$1", {
@@ -29077,14 +29558,14 @@ $c_jl_StringBuilder.prototype.length__I = (function() {
   var thiz = this.java$lang$StringBuilder$$content$f;
   return $uI(thiz.length)
 });
+$c_jl_StringBuilder.prototype.substring__I__I__T = (function(start, end) {
+  var thiz = this.java$lang$StringBuilder$$content$f;
+  return $as_T(thiz.substring(start, end))
+});
 $c_jl_StringBuilder.prototype.append__C__jl_StringBuilder = (function(c) {
   var str = $as_T($g.String.fromCharCode(c));
   this.java$lang$StringBuilder$$content$f = (("" + this.java$lang$StringBuilder$$content$f) + str);
   return this
-});
-$c_jl_StringBuilder.prototype.substring__I__I__T = (function(start, end) {
-  var thiz = this.java$lang$StringBuilder$$content$f;
-  return $as_T(thiz.substring(start, end))
 });
 $c_jl_StringBuilder.prototype.append__C__jl_Appendable = (function(c) {
   return this.append__C__jl_StringBuilder(c)
@@ -29908,20 +30389,6 @@ $c_s_Array$.prototype.slowcopy__p2__O__I__O__I__I__V = (function(src, srcPos, de
     i = ((1 + i) | 0);
     j = ((1 + j) | 0)
   }
-});
-$c_s_Array$.prototype.apply__I__sc_Seq__AI = (function(x, xs) {
-  var array = $newArrayObject($d_I.getArrayOf(), [((1 + xs.length__I()) | 0)]);
-  array.set(0, x);
-  var elem$1 = 0;
-  elem$1 = 1;
-  var this$2 = xs.iterator__sc_Iterator();
-  while (this$2.hasNext__Z()) {
-    var arg1 = this$2.next__O();
-    var x$2 = $uI(arg1);
-    array.set(elem$1, x$2);
-    elem$1 = ((1 + elem$1) | 0)
-  };
-  return array
 });
 $c_s_Array$.prototype.copy__O__I__O__I__I__V = (function(src, srcPos, dest, destPos, length) {
   var srcClass = $objectGetClass(src);
@@ -30858,34 +31325,58 @@ var $d_sjsr_RuntimeLong = new $TypeData().initClass({
 });
 $c_sjsr_RuntimeLong.prototype.$classData = $d_sjsr_RuntimeLong;
 /** @constructor */
-function $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2() {
+function $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2() {
   $c_O.call(this)
 }
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2.prototype = new $h_O();
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2;
 /** @constructor */
-function $h_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2() {
+function $h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2() {
   /*<skip>*/
 }
-$h_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2.prototype;
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$13$1 = (function($$outer) {
+$h_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$11$1 = (function($$outer) {
   return this
 });
-var $d_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2 = new $TypeData().initClass({
-  Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2: 0
-}, false, "billding.ApiInteractions$anon$lazy$macro$13$1$$anon$2", {
-  Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2: 1,
+var $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2: 0
+}, false, "billding.ApiInteractions$anon$lazy$macro$11$1$$anon$2", {
+  Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2: 1,
   O: 1,
   Lshapeless_DefaultSymbolicLabelling: 1,
   Lshapeless_package$DepFn0: 1,
   s_Serializable: 1,
   Ljava_io_Serializable: 1
 });
-$c_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$13$1$$anon$2;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$11$1$$anon$2;
+/** @constructor */
+function $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4() {
+  $c_O.call(this)
+}
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4;
+/** @constructor */
+function $h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4() {
+  /*<skip>*/
+}
+$h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$23$1 = (function($$outer) {
+  return this
+});
+var $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4: 0
+}, false, "billding.ApiInteractions$anon$lazy$macro$23$1$$anon$4", {
+  Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4: 1,
+  O: 1,
+  Lshapeless_DefaultSymbolicLabelling: 1,
+  Lshapeless_package$DepFn0: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$4;
 /** @constructor */
 function $c_Lbillding_DailyQuantizedExercise() {
   $c_O.call(this);
-  this.id$1 = null;
   this.name$1 = null;
   this.day$1 = null;
   this.count$1 = 0
@@ -30901,20 +31392,14 @@ $c_Lbillding_DailyQuantizedExercise.prototype.productPrefix__T = (function() {
   return "DailyQuantizedExercise"
 });
 $c_Lbillding_DailyQuantizedExercise.prototype.productArity__I = (function() {
-  return 4
+  return 3
 });
 $c_Lbillding_DailyQuantizedExercise.prototype.equals__O__Z = (function(x$1) {
   if ((this === x$1)) {
     return true
   } else if ((x$1 instanceof $c_Lbillding_DailyQuantizedExercise)) {
     var DailyQuantizedExercise$1 = $as_Lbillding_DailyQuantizedExercise(x$1);
-    var x = this.id$1;
-    var x$2 = DailyQuantizedExercise$1.id$1;
-    if (((((x === null) ? (x$2 === null) : x.equals__O__Z(x$2)) && (this.name$1 === DailyQuantizedExercise$1.name$1)) && (this.day$1 === DailyQuantizedExercise$1.day$1))) {
-      return (this.count$1 === DailyQuantizedExercise$1.count$1)
-    } else {
-      return false
-    }
+    return (((this.name$1 === DailyQuantizedExercise$1.name$1) && (this.day$1 === DailyQuantizedExercise$1.day$1)) && (this.count$1 === DailyQuantizedExercise$1.count$1))
   } else {
     return false
   }
@@ -30922,18 +31407,14 @@ $c_Lbillding_DailyQuantizedExercise.prototype.equals__O__Z = (function(x$1) {
 $c_Lbillding_DailyQuantizedExercise.prototype.productElement__I__O = (function(x$1) {
   switch (x$1) {
     case 0: {
-      return this.id$1;
-      break
-    }
-    case 1: {
       return this.name$1;
       break
     }
-    case 2: {
+    case 1: {
       return this.day$1;
       break
     }
-    case 3: {
+    case 2: {
       return this.count$1;
       break
     }
@@ -30945,8 +31426,7 @@ $c_Lbillding_DailyQuantizedExercise.prototype.productElement__I__O = (function(x
 $c_Lbillding_DailyQuantizedExercise.prototype.toString__T = (function() {
   return $m_sr_ScalaRunTime$().$$undtoString__s_Product__T(this)
 });
-$c_Lbillding_DailyQuantizedExercise.prototype.init___s_Option__T__T__I = (function(id, name, day, count) {
-  this.id$1 = id;
+$c_Lbillding_DailyQuantizedExercise.prototype.init___T__T__I = (function(name, day, count) {
   this.name$1 = name;
   this.day$1 = day;
   this.count$1 = count;
@@ -30954,11 +31434,10 @@ $c_Lbillding_DailyQuantizedExercise.prototype.init___s_Option__T__T__I = (functi
 });
 $c_Lbillding_DailyQuantizedExercise.prototype.hashCode__I = (function() {
   var acc = (-889275714);
-  acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().anyHash__O__I(this.id$1));
   acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().anyHash__O__I(this.name$1));
   acc = $m_sr_Statics$().mix__I__I__I(acc, $m_sr_Statics$().anyHash__O__I(this.day$1));
   acc = $m_sr_Statics$().mix__I__I__I(acc, this.count$1);
-  return $m_sr_Statics$().finalizeHash__I__I__I(acc, 4)
+  return $m_sr_Statics$().finalizeHash__I__I__I(acc, 3)
 });
 $c_Lbillding_DailyQuantizedExercise.prototype.productIterator__sc_Iterator = (function() {
   return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
@@ -31412,12 +31891,6 @@ function $h_Lio_circe_CursorOp$ArrayOp() {
   /*<skip>*/
 }
 $h_Lio_circe_CursorOp$ArrayOp.prototype = $c_Lio_circe_CursorOp$ArrayOp.prototype;
-$c_Lio_circe_CursorOp$ArrayOp.prototype.requiresArray__Z = (function() {
-  return true
-});
-$c_Lio_circe_CursorOp$ArrayOp.prototype.requiresObject__Z = (function() {
-  return false
-});
 /** @constructor */
 function $c_Lio_circe_CursorOp$ObjectOp() {
   $c_Lio_circe_CursorOp.call(this)
@@ -31429,12 +31902,6 @@ function $h_Lio_circe_CursorOp$ObjectOp() {
   /*<skip>*/
 }
 $h_Lio_circe_CursorOp$ObjectOp.prototype = $c_Lio_circe_CursorOp$ObjectOp.prototype;
-$c_Lio_circe_CursorOp$ObjectOp.prototype.requiresArray__Z = (function() {
-  return false
-});
-$c_Lio_circe_CursorOp$ObjectOp.prototype.requiresObject__Z = (function() {
-  return true
-});
 /** @constructor */
 function $c_Lio_circe_CursorOp$UnconstrainedOp() {
   $c_Lio_circe_CursorOp.call(this)
@@ -31446,12 +31913,6 @@ function $h_Lio_circe_CursorOp$UnconstrainedOp() {
   /*<skip>*/
 }
 $h_Lio_circe_CursorOp$UnconstrainedOp.prototype = $c_Lio_circe_CursorOp$UnconstrainedOp.prototype;
-$c_Lio_circe_CursorOp$UnconstrainedOp.prototype.requiresArray__Z = (function() {
-  return false
-});
-$c_Lio_circe_CursorOp$UnconstrainedOp.prototype.requiresObject__Z = (function() {
-  return false
-});
 /** @constructor */
 function $c_Lio_circe_DecodingFailure() {
   $c_Lio_circe_Error.call(this);
@@ -31502,6 +31963,95 @@ function $isArrayOf_Lio_circe_DecodingFailure(obj, depth) {
 function $asArrayOf_Lio_circe_DecodingFailure(obj, depth) {
   return (($isArrayOf_Lio_circe_DecodingFailure(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lio.circe.DecodingFailure;", depth))
 }
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$36() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$36.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$36.prototype.constructor = $c_Lio_circe_Encoder$$anon$36;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$36() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$36.prototype = $c_Lio_circe_Encoder$$anon$36.prototype;
+$c_Lio_circe_Encoder$$anon$36.prototype.init___ = (function() {
+  return this
+});
+var $d_Lio_circe_Encoder$$anon$36 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$36: 0
+}, false, "io.circe.Encoder$$anon$36", {
+  Lio_circe_Encoder$$anon$36: 1,
+  O: 1,
+  Lcats_Contravariant: 1,
+  Lcats_Invariant: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$36.prototype.$classData = $d_Lio_circe_Encoder$$anon$36;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$6() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$6.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$6.prototype.constructor = $c_Lio_circe_Encoder$$anon$6;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$6() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$6.prototype = $c_Lio_circe_Encoder$$anon$6.prototype;
+$c_Lio_circe_Encoder$$anon$6.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$6.prototype.encodeObject__O__Lio_circe_JsonObject = (function(a) {
+  var a$1 = $as_Lio_circe_JsonObject(a);
+  return a$1
+});
+$c_Lio_circe_Encoder$$anon$6.prototype.apply__O__Lio_circe_Json = (function(a) {
+  return $f_Lio_circe_Encoder$AsObject__apply__O__Lio_circe_Json(this, a)
+});
+var $d_Lio_circe_Encoder$$anon$6 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$6: 0
+}, false, "io.circe.Encoder$$anon$6", {
+  Lio_circe_Encoder$$anon$6: 1,
+  O: 1,
+  Lio_circe_Encoder$AsObject: 1,
+  Lio_circe_Encoder$AsRoot: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$6.prototype.$classData = $d_Lio_circe_Encoder$$anon$6;
+/** @constructor */
+function $c_Lio_circe_Encoder$$anon$9() {
+  $c_O.call(this)
+}
+$c_Lio_circe_Encoder$$anon$9.prototype = new $h_O();
+$c_Lio_circe_Encoder$$anon$9.prototype.constructor = $c_Lio_circe_Encoder$$anon$9;
+/** @constructor */
+function $h_Lio_circe_Encoder$$anon$9() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$$anon$9.prototype = $c_Lio_circe_Encoder$$anon$9.prototype;
+$c_Lio_circe_Encoder$$anon$9.prototype.init___ = (function() {
+  return this
+});
+$c_Lio_circe_Encoder$$anon$9.prototype.encodeObject__O__Lio_circe_JsonObject = (function(a) {
+  $asUnit(a);
+  return $m_Lio_circe_JsonObject$().empty$1
+});
+$c_Lio_circe_Encoder$$anon$9.prototype.apply__O__Lio_circe_Json = (function(a) {
+  return $f_Lio_circe_Encoder$AsObject__apply__O__Lio_circe_Json(this, a)
+});
+var $d_Lio_circe_Encoder$$anon$9 = new $TypeData().initClass({
+  Lio_circe_Encoder$$anon$9: 0
+}, false, "io.circe.Encoder$$anon$9", {
+  Lio_circe_Encoder$$anon$9: 1,
+  O: 1,
+  Lio_circe_Encoder$AsObject: 1,
+  Lio_circe_Encoder$AsRoot: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$$anon$9.prototype.$classData = $d_Lio_circe_Encoder$$anon$9;
 /** @constructor */
 function $c_Lio_circe_Printer() {
   $c_O.call(this);
@@ -31859,6 +32409,34 @@ var $d_Lio_circe_Printer$Pieces = new $TypeData().initClass({
   s_Serializable: 1
 });
 $c_Lio_circe_Printer$Pieces.prototype.$classData = $d_Lio_circe_Printer$Pieces;
+/** @constructor */
+function $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder() {
+  $c_O.call(this)
+}
+$c_Lio_circe_generic_encoding_DerivedAsObjectEncoder.prototype = new $h_O();
+$c_Lio_circe_generic_encoding_DerivedAsObjectEncoder.prototype.constructor = $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder;
+/** @constructor */
+function $h_Lio_circe_generic_encoding_DerivedAsObjectEncoder() {
+  /*<skip>*/
+}
+$h_Lio_circe_generic_encoding_DerivedAsObjectEncoder.prototype = $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder.prototype;
+$c_Lio_circe_generic_encoding_DerivedAsObjectEncoder.prototype.apply__O__Lio_circe_Json = (function(a) {
+  return $f_Lio_circe_Encoder$AsObject__apply__O__Lio_circe_Json(this, a)
+});
+/** @constructor */
+function $c_Lio_circe_generic_encoding_ReprAsObjectEncoder() {
+  $c_O.call(this)
+}
+$c_Lio_circe_generic_encoding_ReprAsObjectEncoder.prototype = new $h_O();
+$c_Lio_circe_generic_encoding_ReprAsObjectEncoder.prototype.constructor = $c_Lio_circe_generic_encoding_ReprAsObjectEncoder;
+/** @constructor */
+function $h_Lio_circe_generic_encoding_ReprAsObjectEncoder() {
+  /*<skip>*/
+}
+$h_Lio_circe_generic_encoding_ReprAsObjectEncoder.prototype = $c_Lio_circe_generic_encoding_ReprAsObjectEncoder.prototype;
+$c_Lio_circe_generic_encoding_ReprAsObjectEncoder.prototype.apply__O__Lio_circe_Json = (function(a) {
+  return $f_Lio_circe_Encoder$AsObject__apply__O__Lio_circe_Json(this, a)
+});
 /** @constructor */
 function $c_Ljava_io_ByteArrayOutputStream() {
   $c_Ljava_io_OutputStream.call(this);
@@ -32246,6 +32824,10 @@ $h_Lshapeless_ops_hlist$ZipWithKeys$$anon$109.prototype = $c_Lshapeless_ops_hlis
 $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$109.prototype.init___ = (function() {
   return this
 });
+$c_Lshapeless_ops_hlist$ZipWithKeys$$anon$109.prototype.apply__O__O = (function(t) {
+  $as_Lshapeless_HNil(t);
+  return $m_Lshapeless_HNil$()
+});
 var $d_Lshapeless_ops_hlist$ZipWithKeys$$anon$109 = new $TypeData().initClass({
   Lshapeless_ops_hlist$ZipWithKeys$$anon$109: 0
 }, false, "shapeless.ops.hlist$ZipWithKeys$$anon$109", {
@@ -32272,6 +32854,15 @@ $h_Lshapeless_ops_hlist$ZipWithKeys$$anon$110.prototype = $c_Lshapeless_ops_hlis
 $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110.prototype.init___Lshapeless_ops_hlist$ZipWithKeys = (function(zipWithKeys$1) {
   this.zipWithKeys$1$1 = zipWithKeys$1;
   return this
+});
+$c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110.prototype.apply__O__O = (function(t) {
+  return this.apply__Lshapeless_$colon$colon__Lshapeless_$colon$colon($as_Lshapeless_$colon$colon(t))
+});
+$c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110.prototype.apply__Lshapeless_$colon$colon__Lshapeless_$colon$colon = (function(v) {
+  new $c_Lshapeless_labelled$FieldBuilder().init___();
+  var v$1 = v.head$1;
+  var l = $as_Lshapeless_HList(this.zipWithKeys$1$1.apply__O__O(v.tail$1));
+  return new $c_Lshapeless_syntax_HListOps().init___Lshapeless_HList(l).$$colon$colon__O__Lshapeless_$colon$colon(v$1)
 });
 var $d_Lshapeless_ops_hlist$ZipWithKeys$$anon$110 = new $TypeData().initClass({
   Lshapeless_ops_hlist$ZipWithKeys$$anon$110: 0
@@ -35692,6 +36283,75 @@ var $d_sr_ScalaRunTime$$anon$1 = new $TypeData().initClass({
 });
 $c_sr_ScalaRunTime$$anon$1.prototype.$classData = $d_sr_ScalaRunTime$$anon$1;
 /** @constructor */
+function $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3() {
+  $c_Lio_circe_generic_encoding_ReprAsObjectEncoder.call(this);
+  this.circeGenericEncoderForday$2 = null;
+  this.circeGenericEncoderForcount$2 = null
+}
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype = new $h_Lio_circe_generic_encoding_ReprAsObjectEncoder();
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.constructor = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3;
+/** @constructor */
+function $h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3() {
+  /*<skip>*/
+}
+$h_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype = $c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype;
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject = (function(a) {
+  if ((a !== null)) {
+    var circeGenericHListBindingForname = $as_T(a.head$1);
+    var p2 = $as_Lshapeless_$colon$colon(a.tail$1);
+    if ((p2 !== null)) {
+      var circeGenericHListBindingForday = $as_T(p2.head$1);
+      var p3 = $as_Lshapeless_$colon$colon(p2.tail$1);
+      if ((p3 !== null)) {
+        var circeGenericHListBindingForcount = $uI(p3.head$1);
+        var p4 = $as_Lshapeless_HNil(p3.tail$1);
+        var x = $m_Lshapeless_HNil$();
+        if ((x === p4)) {
+          var jsx$2 = $m_Lio_circe_JsonObject$();
+          var this$3 = $m_sci_Vector$();
+          var array = [new $c_T2().init___O__O("name", this.circeGenericEncoderForday$2.apply__O__Lio_circe_Json(circeGenericHListBindingForname)), new $c_T2().init___O__O("day", this.circeGenericEncoderForday$2.apply__O__Lio_circe_Json(circeGenericHListBindingForday)), new $c_T2().init___O__O("count", this.circeGenericEncoderForcount$2.apply__O__Lio_circe_Json(circeGenericHListBindingForcount))];
+          if (($uI(array.length) === 0)) {
+            var jsx$1 = this$3.NIL$6
+          } else {
+            var b = new $c_sci_VectorBuilder().init___();
+            var i = 0;
+            var len = $uI(array.length);
+            while ((i < len)) {
+              var index = i;
+              var arg1 = array[index];
+              b.$$plus$eq__O__sci_VectorBuilder(arg1);
+              i = ((1 + i) | 0)
+            };
+            var jsx$1 = b.result__sci_Vector()
+          };
+          return jsx$2.fromIterable__sc_Iterable__Lio_circe_JsonObject(jsx$1)
+        }
+      }
+    }
+  };
+  throw new $c_s_MatchError().init___O(a)
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.init___Lbillding_ApiInteractions$anon$lazy$macro$23$1 = (function($$outer) {
+  this.circeGenericEncoderForday$2 = $m_Lio_circe_Encoder$().encodeString$1;
+  this.circeGenericEncoderForcount$2 = $m_Lio_circe_Encoder$().encodeInt$1;
+  return this
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.encodeObject__O__Lio_circe_JsonObject = (function(a) {
+  return this.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject($as_Lshapeless_$colon$colon(a))
+});
+var $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3: 0
+}, false, "billding.ApiInteractions$anon$lazy$macro$23$1$$anon$3", {
+  Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3: 1,
+  Lio_circe_generic_encoding_ReprAsObjectEncoder: 1,
+  O: 1,
+  Lio_circe_Encoder$AsObject: 1,
+  Lio_circe_Encoder$AsRoot: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3.prototype.$classData = $d_Lbillding_ApiInteractions$anon$lazy$macro$23$1$$anon$3;
+/** @constructor */
 function $c_Lcats_NonEmptyReducible() {
   $c_O.call(this);
   this.G$1 = null
@@ -36932,8 +37592,74 @@ var $d_Lio_circe_Json$JString = new $TypeData().initClass({
 $c_Lio_circe_Json$JString.prototype.$classData = $d_Lio_circe_Json$JString;
 /** @constructor */
 function $c_Lio_circe_JsonBigDecimal() {
+  $c_Lio_circe_JsonNumber.call(this);
+  this.value$2 = null
+}
+$c_Lio_circe_JsonBigDecimal.prototype = new $h_Lio_circe_JsonNumber();
+$c_Lio_circe_JsonBigDecimal.prototype.constructor = $c_Lio_circe_JsonBigDecimal;
+/** @constructor */
+function $h_Lio_circe_JsonBigDecimal() {
   /*<skip>*/
 }
+$h_Lio_circe_JsonBigDecimal.prototype = $c_Lio_circe_JsonBigDecimal.prototype;
+$c_Lio_circe_JsonBigDecimal.prototype.productPrefix__T = (function() {
+  return "JsonBigDecimal"
+});
+$c_Lio_circe_JsonBigDecimal.prototype.productArity__I = (function() {
+  return 1
+});
+$c_Lio_circe_JsonBigDecimal.prototype.productElement__I__O = (function(x$1) {
+  switch (x$1) {
+    case 0: {
+      return this.value$2;
+      break
+    }
+    default: {
+      throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
+    }
+  }
+});
+$c_Lio_circe_JsonBigDecimal.prototype.toString__T = (function() {
+  return this.value$2.toString__T()
+});
+$c_Lio_circe_JsonBigDecimal.prototype.toBiggerDecimal__Lio_circe_numbers_BiggerDecimal = (function() {
+  return $m_Lio_circe_numbers_BiggerDecimal$().fromBigDecimal__Ljava_math_BigDecimal__Lio_circe_numbers_BiggerDecimal(this.value$2)
+});
+$c_Lio_circe_JsonBigDecimal.prototype.toBigInt__s_Option = (function() {
+  var this$1 = $m_Lio_circe_numbers_BiggerDecimal$().fromBigDecimal__Ljava_math_BigDecimal__Lio_circe_numbers_BiggerDecimal(this.value$2);
+  var this$2 = this$1.toBigIntegerWithMaxDigits__Ljava_math_BigInteger__s_Option($m_Lio_circe_numbers_BiggerDecimal$().MaxBigIntegerDigits$1);
+  if (this$2.isEmpty__Z()) {
+    return $m_s_None$()
+  } else {
+    var arg1 = this$2.get__O();
+    var x$2 = $as_Ljava_math_BigInteger(arg1);
+    $m_s_package$().BigInt__s_math_BigInt$();
+    return new $c_s_Some().init___O(new $c_s_math_BigInt().init___Ljava_math_BigInteger(x$2))
+  }
+});
+$c_Lio_circe_JsonBigDecimal.prototype.toDouble__D = (function() {
+  return this.value$2.doubleValue__D()
+});
+$c_Lio_circe_JsonBigDecimal.prototype.toBigDecimal__s_Option = (function() {
+  return new $c_s_Some().init___O(new $c_s_math_BigDecimal().init___Ljava_math_BigDecimal(this.value$2))
+});
+$c_Lio_circe_JsonBigDecimal.prototype.init___Ljava_math_BigDecimal = (function(value) {
+  this.value$2 = value;
+  return this
+});
+$c_Lio_circe_JsonBigDecimal.prototype.appendToStringBuilder__jl_StringBuilder__V = (function(builder) {
+  var str = this.value$2.toString__T();
+  builder.java$lang$StringBuilder$$content$f = (("" + builder.java$lang$StringBuilder$$content$f) + str)
+});
+$c_Lio_circe_JsonBigDecimal.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+$c_Lio_circe_JsonBigDecimal.prototype.toFloat__F = (function() {
+  return this.value$2.floatValue__F()
+});
+$c_Lio_circe_JsonBigDecimal.prototype.toLong__s_Option = (function() {
+  return $m_Lio_circe_numbers_BiggerDecimal$().fromBigDecimal__Ljava_math_BigDecimal__Lio_circe_numbers_BiggerDecimal(this.value$2).toLong__s_Option()
+});
 function $as_Lio_circe_JsonBigDecimal(obj) {
   return (((obj instanceof $c_Lio_circe_JsonBigDecimal) || (obj === null)) ? obj : $throwClassCastException(obj, "io.circe.JsonBigDecimal"))
 }
@@ -36943,6 +37669,18 @@ function $isArrayOf_Lio_circe_JsonBigDecimal(obj, depth) {
 function $asArrayOf_Lio_circe_JsonBigDecimal(obj, depth) {
   return (($isArrayOf_Lio_circe_JsonBigDecimal(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lio.circe.JsonBigDecimal;", depth))
 }
+var $d_Lio_circe_JsonBigDecimal = new $TypeData().initClass({
+  Lio_circe_JsonBigDecimal: 0
+}, false, "io.circe.JsonBigDecimal", {
+  Lio_circe_JsonBigDecimal: 1,
+  Lio_circe_JsonNumber: 1,
+  O: 1,
+  Ljava_io_Serializable: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  s_Serializable: 1
+});
+$c_Lio_circe_JsonBigDecimal.prototype.$classData = $d_Lio_circe_JsonBigDecimal;
 /** @constructor */
 function $c_Lio_circe_JsonDouble() {
   $c_Lio_circe_JsonNumber.call(this);
@@ -37034,8 +37772,76 @@ var $d_Lio_circe_JsonDouble = new $TypeData().initClass({
 $c_Lio_circe_JsonDouble.prototype.$classData = $d_Lio_circe_JsonDouble;
 /** @constructor */
 function $c_Lio_circe_JsonFloat() {
+  $c_Lio_circe_JsonNumber.call(this);
+  this.value$2 = 0.0
+}
+$c_Lio_circe_JsonFloat.prototype = new $h_Lio_circe_JsonNumber();
+$c_Lio_circe_JsonFloat.prototype.constructor = $c_Lio_circe_JsonFloat;
+/** @constructor */
+function $h_Lio_circe_JsonFloat() {
   /*<skip>*/
 }
+$h_Lio_circe_JsonFloat.prototype = $c_Lio_circe_JsonFloat.prototype;
+$c_Lio_circe_JsonFloat.prototype.productPrefix__T = (function() {
+  return "JsonFloat"
+});
+$c_Lio_circe_JsonFloat.prototype.productArity__I = (function() {
+  return 1
+});
+$c_Lio_circe_JsonFloat.prototype.productElement__I__O = (function(x$1) {
+  switch (x$1) {
+    case 0: {
+      return this.value$2;
+      break
+    }
+    default: {
+      throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
+    }
+  }
+});
+$c_Lio_circe_JsonFloat.prototype.toString__T = (function() {
+  var f = this.value$2;
+  return ("" + f)
+});
+$c_Lio_circe_JsonFloat.prototype.init___F = (function(value) {
+  this.value$2 = value;
+  return this
+});
+$c_Lio_circe_JsonFloat.prototype.toBiggerDecimal__Lio_circe_numbers_BiggerDecimal = (function() {
+  return $m_Lio_circe_numbers_BiggerDecimal$().fromFloat__F__Lio_circe_numbers_BiggerDecimal(this.value$2)
+});
+$c_Lio_circe_JsonFloat.prototype.toBigInt__s_Option = (function() {
+  var asBigDecimal = this.toJavaBigDecimal__p2__Ljava_math_BigDecimal();
+  return ($m_Lio_circe_JsonNumber$().bigDecimalIsWhole__Ljava_math_BigDecimal__Z(asBigDecimal) ? new $c_s_Some().init___O(new $c_s_math_BigInt().init___Ljava_math_BigInteger(asBigDecimal.toBigInteger__Ljava_math_BigInteger())) : $m_s_None$())
+});
+$c_Lio_circe_JsonFloat.prototype.toJavaBigDecimal__p2__Ljava_math_BigDecimal = (function() {
+  var f = this.value$2;
+  return new $c_Ljava_math_BigDecimal().init___T(("" + f))
+});
+$c_Lio_circe_JsonFloat.prototype.toDouble__D = (function() {
+  return this.toJavaBigDecimal__p2__Ljava_math_BigDecimal().doubleValue__D()
+});
+$c_Lio_circe_JsonFloat.prototype.toBigDecimal__s_Option = (function() {
+  var this$1 = $m_s_math_BigDecimal$();
+  var x = this.toJavaBigDecimal__p2__Ljava_math_BigDecimal();
+  var mc = this$1.defaultMathContext$1;
+  return new $c_s_Some().init___O(new $c_s_math_BigDecimal().init___Ljava_math_BigDecimal__Ljava_math_MathContext(x, mc))
+});
+$c_Lio_circe_JsonFloat.prototype.appendToStringBuilder__jl_StringBuilder__V = (function(builder) {
+  var f = this.value$2;
+  var str = ("" + f);
+  builder.java$lang$StringBuilder$$content$f = (builder.java$lang$StringBuilder$$content$f + str)
+});
+$c_Lio_circe_JsonFloat.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+$c_Lio_circe_JsonFloat.prototype.toFloat__F = (function() {
+  return this.value$2
+});
+$c_Lio_circe_JsonFloat.prototype.toLong__s_Option = (function() {
+  var asBigDecimal = this.toJavaBigDecimal__p2__Ljava_math_BigDecimal();
+  return ($m_Lio_circe_JsonNumber$().bigDecimalIsValidLong__Ljava_math_BigDecimal__Z(asBigDecimal) ? new $c_s_Some().init___O(asBigDecimal.longValue__J()) : $m_s_None$())
+});
 function $as_Lio_circe_JsonFloat(obj) {
   return (((obj instanceof $c_Lio_circe_JsonFloat) || (obj === null)) ? obj : $throwClassCastException(obj, "io.circe.JsonFloat"))
 }
@@ -37045,10 +37851,91 @@ function $isArrayOf_Lio_circe_JsonFloat(obj, depth) {
 function $asArrayOf_Lio_circe_JsonFloat(obj, depth) {
   return (($isArrayOf_Lio_circe_JsonFloat(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lio.circe.JsonFloat;", depth))
 }
+var $d_Lio_circe_JsonFloat = new $TypeData().initClass({
+  Lio_circe_JsonFloat: 0
+}, false, "io.circe.JsonFloat", {
+  Lio_circe_JsonFloat: 1,
+  Lio_circe_JsonNumber: 1,
+  O: 1,
+  Ljava_io_Serializable: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  s_Serializable: 1
+});
+$c_Lio_circe_JsonFloat.prototype.$classData = $d_Lio_circe_JsonFloat;
 /** @constructor */
 function $c_Lio_circe_JsonLong() {
+  $c_Lio_circe_JsonNumber.call(this);
+  this.value$2 = $m_sjsr_RuntimeLong$().Zero__sjsr_RuntimeLong()
+}
+$c_Lio_circe_JsonLong.prototype = new $h_Lio_circe_JsonNumber();
+$c_Lio_circe_JsonLong.prototype.constructor = $c_Lio_circe_JsonLong;
+/** @constructor */
+function $h_Lio_circe_JsonLong() {
   /*<skip>*/
 }
+$h_Lio_circe_JsonLong.prototype = $c_Lio_circe_JsonLong.prototype;
+$c_Lio_circe_JsonLong.prototype.productPrefix__T = (function() {
+  return "JsonLong"
+});
+$c_Lio_circe_JsonLong.prototype.productArity__I = (function() {
+  return 1
+});
+$c_Lio_circe_JsonLong.prototype.init___J = (function(value) {
+  this.value$2 = value;
+  return this
+});
+$c_Lio_circe_JsonLong.prototype.productElement__I__O = (function(x$1) {
+  switch (x$1) {
+    case 0: {
+      return this.value$2;
+      break
+    }
+    default: {
+      throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
+    }
+  }
+});
+$c_Lio_circe_JsonLong.prototype.toString__T = (function() {
+  var t = this.value$2;
+  var lo = t.lo$2;
+  var hi = t.hi$2;
+  return $m_sjsr_RuntimeLong$().scala$scalajs$runtime$RuntimeLong$$toString__I__I__T(lo, hi)
+});
+$c_Lio_circe_JsonLong.prototype.toBiggerDecimal__Lio_circe_numbers_BiggerDecimal = (function() {
+  return $m_Lio_circe_numbers_BiggerDecimal$().fromLong__J__Lio_circe_numbers_BiggerDecimal(this.value$2)
+});
+$c_Lio_circe_JsonLong.prototype.toBigInt__s_Option = (function() {
+  return new $c_s_Some().init___O($m_s_package$().BigInt__s_math_BigInt$().apply__J__s_math_BigInt(this.value$2))
+});
+$c_Lio_circe_JsonLong.prototype.toDouble__D = (function() {
+  var t = this.value$2;
+  var lo = t.lo$2;
+  var hi = t.hi$2;
+  return $m_sjsr_RuntimeLong$().scala$scalajs$runtime$RuntimeLong$$toDouble__I__I__D(lo, hi)
+});
+$c_Lio_circe_JsonLong.prototype.toBigDecimal__s_Option = (function() {
+  return new $c_s_Some().init___O($m_s_package$().BigDecimal__s_math_BigDecimal$().apply__J__s_math_BigDecimal(this.value$2))
+});
+$c_Lio_circe_JsonLong.prototype.appendToStringBuilder__jl_StringBuilder__V = (function(builder) {
+  var t = this.value$2;
+  var lo = t.lo$2;
+  var hi = t.hi$2;
+  var str = $m_sjsr_RuntimeLong$().scala$scalajs$runtime$RuntimeLong$$toString__I__I__T(lo, hi);
+  builder.java$lang$StringBuilder$$content$f = (("" + builder.java$lang$StringBuilder$$content$f) + str)
+});
+$c_Lio_circe_JsonLong.prototype.productIterator__sc_Iterator = (function() {
+  return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+$c_Lio_circe_JsonLong.prototype.toFloat__F = (function() {
+  var t = this.value$2;
+  var lo = t.lo$2;
+  var hi = t.hi$2;
+  return $fround($m_sjsr_RuntimeLong$().scala$scalajs$runtime$RuntimeLong$$toDouble__I__I__D(lo, hi))
+});
+$c_Lio_circe_JsonLong.prototype.toLong__s_Option = (function() {
+  return new $c_s_Some().init___O(this.value$2)
+});
 function $as_Lio_circe_JsonLong(obj) {
   return (((obj instanceof $c_Lio_circe_JsonLong) || (obj === null)) ? obj : $throwClassCastException(obj, "io.circe.JsonLong"))
 }
@@ -37058,6 +37945,53 @@ function $isArrayOf_Lio_circe_JsonLong(obj, depth) {
 function $asArrayOf_Lio_circe_JsonLong(obj, depth) {
   return (($isArrayOf_Lio_circe_JsonLong(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lio.circe.JsonLong;", depth))
 }
+var $d_Lio_circe_JsonLong = new $TypeData().initClass({
+  Lio_circe_JsonLong: 0
+}, false, "io.circe.JsonLong", {
+  Lio_circe_JsonLong: 1,
+  Lio_circe_JsonNumber: 1,
+  O: 1,
+  Ljava_io_Serializable: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  s_Serializable: 1
+});
+$c_Lio_circe_JsonLong.prototype.$classData = $d_Lio_circe_JsonLong;
+/** @constructor */
+function $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1() {
+  $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder.call(this);
+  this.encode$1$2 = null;
+  this.gen$1$2 = null
+}
+$c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1.prototype = new $h_Lio_circe_generic_encoding_DerivedAsObjectEncoder();
+$c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1.prototype.constructor = $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1;
+/** @constructor */
+function $h_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1() {
+  /*<skip>*/
+}
+$h_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1.prototype = $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1.prototype;
+$c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1.prototype.encodeObject__O__Lio_circe_JsonObject = (function(a) {
+  var jsx$1 = $as_Lio_circe_Encoder$AsObject(this.encode$1$2.value__O());
+  var this$1 = this.gen$1$2;
+  return jsx$1.encodeObject__O__Lio_circe_JsonObject(this$1.to__O__Lshapeless_HList(a))
+});
+$c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1.prototype.init___Lshapeless_Lazy__Lshapeless_LabelledGeneric = (function(encode$1, gen$1) {
+  this.encode$1$2 = encode$1;
+  this.gen$1$2 = gen$1;
+  return this
+});
+var $d_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1 = new $TypeData().initClass({
+  Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1: 0
+}, false, "io.circe.generic.encoding.DerivedAsObjectEncoder$$anon$1", {
+  Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1: 1,
+  Lio_circe_generic_encoding_DerivedAsObjectEncoder: 1,
+  O: 1,
+  Lio_circe_Encoder$AsObject: 1,
+  Lio_circe_Encoder$AsRoot: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1.prototype.$classData = $d_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1;
 /** @constructor */
 function $c_Ljava_nio_CharBuffer() {
   $c_Ljava_nio_Buffer.call(this);
@@ -40487,6 +41421,15 @@ $c_s_None$.prototype.hashCode__I = (function() {
 $c_s_None$.prototype.productIterator__sc_Iterator = (function() {
   return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
 });
+function $as_s_None$(obj) {
+  return (((obj instanceof $c_s_None$) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.None$"))
+}
+function $isArrayOf_s_None$(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.s_None$)))
+}
+function $asArrayOf_s_None$(obj, depth) {
+  return (($isArrayOf_s_None$(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.None$;", depth))
+}
 var $d_s_None$ = new $TypeData().initClass({
   s_None$: 0
 }, false, "scala.None$", {
@@ -44423,22 +45366,22 @@ $c_Lio_circe_Decoder$.prototype.init___ = (function() {
   this.accumulatingResultInstance$1 = new $c_Lcats_data_ValidatedInstances$$anon$6().init___Lcats_data_ValidatedInstances__Lcats_kernel_Semigroup(this$2, E);
   var this$3 = $m_Lcats_instances_package$either$();
   this.resultSemigroupK$1 = new $c_Lcats_instances_EitherInstances$$anon$3().init___Lcats_instances_EitherInstances(this$3);
-  this.decodeHCursor$1 = new $c_Lio_circe_Decoder$$anon$21().init___();
-  this.decodeJson$1 = new $c_Lio_circe_Decoder$$anon$22().init___();
-  this.decodeJsonObject$1 = new $c_Lio_circe_Decoder$$anon$23().init___();
-  this.decodeJsonNumber$1 = new $c_Lio_circe_Decoder$$anon$24().init___();
-  this.decodeString$1 = new $c_Lio_circe_Decoder$$anon$25().init___();
-  this.decodeUnit$1 = new $c_Lio_circe_Decoder$$anon$26().init___();
-  this.decodeBoolean$1 = new $c_Lio_circe_Decoder$$anon$27().init___();
-  this.decodeChar$1 = new $c_Lio_circe_Decoder$$anon$28().init___();
-  this.decodeFloat$1 = new $c_Lio_circe_Decoder$$anon$29().init___();
-  this.decodeDouble$1 = new $c_Lio_circe_Decoder$$anon$30().init___();
-  this.decodeByte$1 = new $c_Lio_circe_Decoder$$anon$31().init___();
-  this.decodeShort$1 = new $c_Lio_circe_Decoder$$anon$32().init___();
-  this.decodeInt$1 = new $c_Lio_circe_Decoder$$anon$33().init___();
-  this.decodeLong$1 = new $c_Lio_circe_Decoder$$anon$34().init___();
-  this.decodeBigInt$1 = new $c_Lio_circe_Decoder$$anon$35().init___();
-  this.decodeBigDecimal$1 = new $c_Lio_circe_Decoder$$anon$36().init___();
+  this.decodeHCursor$1 = new $c_Lio_circe_Decoder$$anon$22().init___();
+  this.decodeJson$1 = new $c_Lio_circe_Decoder$$anon$23().init___();
+  this.decodeJsonObject$1 = new $c_Lio_circe_Decoder$$anon$24().init___();
+  this.decodeJsonNumber$1 = new $c_Lio_circe_Decoder$$anon$25().init___();
+  this.decodeString$1 = new $c_Lio_circe_Decoder$$anon$26().init___();
+  this.decodeUnit$1 = new $c_Lio_circe_Decoder$$anon$27().init___();
+  this.decodeBoolean$1 = new $c_Lio_circe_Decoder$$anon$28().init___();
+  this.decodeChar$1 = new $c_Lio_circe_Decoder$$anon$29().init___();
+  this.decodeFloat$1 = new $c_Lio_circe_Decoder$$anon$30().init___();
+  this.decodeDouble$1 = new $c_Lio_circe_Decoder$$anon$31().init___();
+  this.decodeByte$1 = new $c_Lio_circe_Decoder$$anon$32().init___();
+  this.decodeShort$1 = new $c_Lio_circe_Decoder$$anon$33().init___();
+  this.decodeInt$1 = new $c_Lio_circe_Decoder$$anon$34().init___();
+  this.decodeLong$1 = new $c_Lio_circe_Decoder$$anon$35().init___();
+  this.decodeBigInt$1 = new $c_Lio_circe_Decoder$$anon$36().init___();
+  this.decodeBigDecimal$1 = new $c_Lio_circe_Decoder$$anon$37().init___();
   $m_s_package$();
   var value = $m_s_None$();
   this.io$circe$Decoder$$rightNone$f = new $c_s_util_Right().init___O(value);
@@ -44451,8 +45394,8 @@ $c_Lio_circe_Decoder$.prototype.init___ = (function() {
   $m_Lcats_data_Validated$();
   var a$1 = $m_s_None$();
   this.keyMissingNoneAccumulating$1 = new $c_Lcats_data_Validated$Valid().init___O(a$1);
-  this.decodeNone$1 = new $c_Lio_circe_Decoder$$anon$39().init___();
-  this.decoderInstances$1 = new $c_Lio_circe_Decoder$$anon$76().init___();
+  this.decodeNone$1 = new $c_Lio_circe_Decoder$$anon$40().init___();
+  this.decoderInstances$1 = new $c_Lio_circe_Decoder$$anon$77().init___();
   return this
 });
 var $d_Lio_circe_Decoder$ = new $TypeData().initClass({
@@ -44475,6 +45418,102 @@ function $m_Lio_circe_Decoder$() {
     $n_Lio_circe_Decoder$ = new $c_Lio_circe_Decoder$().init___()
   };
   return $n_Lio_circe_Decoder$
+}
+/** @constructor */
+function $c_Lio_circe_Encoder$() {
+  $c_O.call(this);
+  this.encodeJavaBoolean$1 = null;
+  this.encodeJavaCharacter$1 = null;
+  this.encodeJavaFloat$1 = null;
+  this.encodeJavaDouble$1 = null;
+  this.encodeJavaByte$1 = null;
+  this.encodeJavaShort$1 = null;
+  this.encodeJavaInteger$1 = null;
+  this.encodeJavaLong$1 = null;
+  this.encodeJavaBigInteger$1 = null;
+  this.encodeJavaBigDecimal$1 = null;
+  this.encodeUUID$1 = null;
+  this.encodeDuration$1 = null;
+  this.encodeInstant$1 = null;
+  this.encodePeriod$1 = null;
+  this.encodeZoneId$1 = null;
+  this.encodeLocalDate$1 = null;
+  this.encodeLocalTime$1 = null;
+  this.encodeLocalDateTime$1 = null;
+  this.encodeMonthDay$1 = null;
+  this.encodeOffsetTime$1 = null;
+  this.encodeOffsetDateTime$1 = null;
+  this.encodeYear$1 = null;
+  this.encodeYearMonth$1 = null;
+  this.encodeZonedDateTime$1 = null;
+  this.encodeZoneOffset$1 = null;
+  this.encodeJson$1 = null;
+  this.encodeJsonObject$1 = null;
+  this.encodeJsonNumber$1 = null;
+  this.encodeString$1 = null;
+  this.encodeUnit$1 = null;
+  this.encodeBoolean$1 = null;
+  this.encodeChar$1 = null;
+  this.encodeFloat$1 = null;
+  this.encodeDouble$1 = null;
+  this.encodeByte$1 = null;
+  this.encodeShort$1 = null;
+  this.encodeInt$1 = null;
+  this.encodeLong$1 = null;
+  this.encodeBigInt$1 = null;
+  this.encodeBigDecimal$1 = null;
+  this.encodeNone$1 = null;
+  this.encoderContravariant$1 = null;
+  this.bitmap$0$1 = 0
+}
+$c_Lio_circe_Encoder$.prototype = new $h_O();
+$c_Lio_circe_Encoder$.prototype.constructor = $c_Lio_circe_Encoder$;
+/** @constructor */
+function $h_Lio_circe_Encoder$() {
+  /*<skip>*/
+}
+$h_Lio_circe_Encoder$.prototype = $c_Lio_circe_Encoder$.prototype;
+$c_Lio_circe_Encoder$.prototype.init___ = (function() {
+  $n_Lio_circe_Encoder$ = this;
+  this.encodeJson$1 = new $c_Lio_circe_Encoder$$anon$5().init___();
+  this.encodeJsonObject$1 = new $c_Lio_circe_Encoder$$anon$6().init___();
+  this.encodeJsonNumber$1 = new $c_Lio_circe_Encoder$$anon$7().init___();
+  this.encodeString$1 = new $c_Lio_circe_Encoder$$anon$8().init___();
+  this.encodeUnit$1 = new $c_Lio_circe_Encoder$$anon$9().init___();
+  this.encodeBoolean$1 = new $c_Lio_circe_Encoder$$anon$10().init___();
+  this.encodeChar$1 = new $c_Lio_circe_Encoder$$anon$11().init___();
+  this.encodeFloat$1 = new $c_Lio_circe_Encoder$$anon$12().init___();
+  this.encodeDouble$1 = new $c_Lio_circe_Encoder$$anon$13().init___();
+  this.encodeByte$1 = new $c_Lio_circe_Encoder$$anon$14().init___();
+  this.encodeShort$1 = new $c_Lio_circe_Encoder$$anon$15().init___();
+  this.encodeInt$1 = new $c_Lio_circe_Encoder$$anon$16().init___();
+  this.encodeLong$1 = new $c_Lio_circe_Encoder$$anon$17().init___();
+  this.encodeBigInt$1 = new $c_Lio_circe_Encoder$$anon$18().init___();
+  this.encodeBigDecimal$1 = new $c_Lio_circe_Encoder$$anon$19().init___();
+  this.encodeNone$1 = new $c_Lio_circe_Encoder$$anon$22().init___();
+  this.encoderContravariant$1 = new $c_Lio_circe_Encoder$$anon$36().init___();
+  return this
+});
+var $d_Lio_circe_Encoder$ = new $TypeData().initClass({
+  Lio_circe_Encoder$: 0
+}, false, "io.circe.Encoder$", {
+  Lio_circe_Encoder$: 1,
+  O: 1,
+  Lio_circe_TupleEncoders: 1,
+  Lio_circe_ProductEncoders: 1,
+  Lio_circe_LiteralEncoders: 1,
+  Lio_circe_MidPriorityEncoders: 1,
+  Lio_circe_LowPriorityEncoders: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Encoder$.prototype.$classData = $d_Lio_circe_Encoder$;
+var $n_Lio_circe_Encoder$ = (void 0);
+function $m_Lio_circe_Encoder$() {
+  if ((!$n_Lio_circe_Encoder$)) {
+    $n_Lio_circe_Encoder$ = new $c_Lio_circe_Encoder$().init___()
+  };
+  return $n_Lio_circe_Encoder$
 }
 /** @constructor */
 function $c_Lio_circe_ParsingFailure() {
@@ -47439,6 +48478,10 @@ $c_s_math_BigDecimal.prototype.shortValue__S = (function() {
 $c_s_math_BigDecimal.prototype.doubleValue__D = (function() {
   return this.bigDecimal$3.doubleValue__D()
 });
+$c_s_math_BigDecimal.prototype.init___Ljava_math_BigDecimal = (function(bigDecimal) {
+  $c_s_math_BigDecimal.prototype.init___Ljava_math_BigDecimal__Ljava_math_MathContext.call(this, bigDecimal, $m_s_math_BigDecimal$().defaultMathContext$1);
+  return this
+});
 $c_s_math_BigDecimal.prototype.hashCode__I = (function() {
   if ((this.computedHashCode$3 === 1565550863)) {
     this.computeHashCode__p3__V()
@@ -49995,35 +51038,35 @@ var $d_Lcats_data_ValidatedInstances$$anon$6 = new $TypeData().initClass({
 });
 $c_Lcats_data_ValidatedInstances$$anon$6.prototype.$classData = $d_Lcats_data_ValidatedInstances$$anon$6;
 /** @constructor */
-function $c_Lio_circe_Decoder$$anon$76() {
+function $c_Lio_circe_Decoder$$anon$77() {
   $c_O.call(this)
 }
-$c_Lio_circe_Decoder$$anon$76.prototype = new $h_O();
-$c_Lio_circe_Decoder$$anon$76.prototype.constructor = $c_Lio_circe_Decoder$$anon$76;
+$c_Lio_circe_Decoder$$anon$77.prototype = new $h_O();
+$c_Lio_circe_Decoder$$anon$77.prototype.constructor = $c_Lio_circe_Decoder$$anon$77;
 /** @constructor */
-function $h_Lio_circe_Decoder$$anon$76() {
+function $h_Lio_circe_Decoder$$anon$77() {
   /*<skip>*/
 }
-$h_Lio_circe_Decoder$$anon$76.prototype = $c_Lio_circe_Decoder$$anon$76.prototype;
-$c_Lio_circe_Decoder$$anon$76.prototype.init___ = (function() {
+$h_Lio_circe_Decoder$$anon$77.prototype = $c_Lio_circe_Decoder$$anon$77.prototype;
+$c_Lio_circe_Decoder$$anon$77.prototype.init___ = (function() {
   return this
 });
-$c_Lio_circe_Decoder$$anon$76.prototype.map__O__F1__O = (function(fa, f) {
+$c_Lio_circe_Decoder$$anon$77.prototype.map__O__F1__O = (function(fa, f) {
   var fa$1 = $as_Lio_circe_Decoder(fa);
   return new $c_Lio_circe_Decoder$$anon$1().init___Lio_circe_Decoder__F1(fa$1, f)
 });
-$c_Lio_circe_Decoder$$anon$76.prototype.product__O__O__O = (function(fa, fb) {
+$c_Lio_circe_Decoder$$anon$77.prototype.product__O__O__O = (function(fa, fb) {
   var fa$1 = $as_Lio_circe_Decoder(fa);
   var fb$1 = $as_Lio_circe_Decoder(fb);
   return new $c_Lio_circe_Decoder$$anon$8().init___Lio_circe_Decoder__Lio_circe_Decoder(fa$1, fb$1)
 });
-$c_Lio_circe_Decoder$$anon$76.prototype.combineK__O__O__O = (function(x, y) {
+$c_Lio_circe_Decoder$$anon$77.prototype.combineK__O__O__O = (function(x, y) {
   return this.combineK__Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_Decoder($as_Lio_circe_Decoder(x), $as_Lio_circe_Decoder(y))
 });
-$c_Lio_circe_Decoder$$anon$76.prototype.map2__O__O__F2__O = (function(fa, fb, f) {
+$c_Lio_circe_Decoder$$anon$77.prototype.map2__O__O__F2__O = (function(fa, fb, f) {
   return $f_Lcats_FlatMap__map2__O__O__F2__O(this, fa, fb, f)
 });
-$c_Lio_circe_Decoder$$anon$76.prototype.combineK__Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_Decoder = (function(x, y) {
+$c_Lio_circe_Decoder$$anon$77.prototype.combineK__Lio_circe_Decoder__Lio_circe_Decoder__Lio_circe_Decoder = (function(x, y) {
   var d = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this, y$1) {
     return (function() {
       return y$1
@@ -50031,17 +51074,17 @@ $c_Lio_circe_Decoder$$anon$76.prototype.combineK__Lio_circe_Decoder__Lio_circe_D
   })(this, y));
   return new $c_Lio_circe_Decoder$$anon$9().init___Lio_circe_Decoder__F0(x, d)
 });
-$c_Lio_circe_Decoder$$anon$76.prototype.algebra__Lcats_kernel_Semigroup = (function() {
+$c_Lio_circe_Decoder$$anon$77.prototype.algebra__Lcats_kernel_Semigroup = (function() {
   return new $c_Lcats_SemigroupK$$anon$1().init___Lcats_SemigroupK(this)
 });
-$c_Lio_circe_Decoder$$anon$76.prototype.flatMap__O__F1__O = (function(fa, f) {
+$c_Lio_circe_Decoder$$anon$77.prototype.flatMap__O__F1__O = (function(fa, f) {
   var fa$1 = $as_Lio_circe_Decoder(fa);
   return new $c_Lio_circe_Decoder$$anon$2().init___Lio_circe_Decoder__F1(fa$1, f)
 });
-var $d_Lio_circe_Decoder$$anon$76 = new $TypeData().initClass({
-  Lio_circe_Decoder$$anon$76: 0
-}, false, "io.circe.Decoder$$anon$76", {
-  Lio_circe_Decoder$$anon$76: 1,
+var $d_Lio_circe_Decoder$$anon$77 = new $TypeData().initClass({
+  Lio_circe_Decoder$$anon$77: 0
+}, false, "io.circe.Decoder$$anon$77", {
+  Lio_circe_Decoder$$anon$77: 1,
   O: 1,
   Lcats_SemigroupK: 1,
   s_Serializable: 1,
@@ -50059,7 +51102,7 @@ var $d_Lio_circe_Decoder$$anon$76 = new $TypeData().initClass({
   Lcats_Monad: 1,
   Lcats_FlatMap: 1
 });
-$c_Lio_circe_Decoder$$anon$76.prototype.$classData = $d_Lio_circe_Decoder$$anon$76;
+$c_Lio_circe_Decoder$$anon$77.prototype.$classData = $d_Lio_circe_Decoder$$anon$77;
 /** @constructor */
 function $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5() {
   $c_O.call(this);

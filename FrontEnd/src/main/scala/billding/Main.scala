@@ -1,8 +1,7 @@
 package billding
 
 
-import io.circe.AccumulatingDecoder.Result
-import io.circe.{Decoder, HCursor}
+
 import org.scalajs.dom
 import org.scalajs.dom.Event
 import org.scalajs.dom.document
@@ -11,10 +10,37 @@ import sttp.model.{MediaType, Uri}
 
 import scala.concurrent.ExecutionContext.global
 import scala.scalajs.js.Date
+import io.circe._
+import io.circe.generic.semiauto._
 
-import io.circe._, io.circe.generic.semiauto._
+import io.circe.generic.JsonCodec, io.circe.syntax._
 
-case class DailyQuantizedExercise(id: Option[Long], name: String, day: String, count: Int)
+// @JsonCodec  TODO Consider this once my circe use is more stable
+case class DailyQuantizedExercise(name: String, day: String, count: Int)
+
+object Time {
+
+  def formattedLocalDate(): String = {
+    val jsDate = new Date()
+    val monthSection =
+      if (jsDate.getMonth() + 1 > 9)
+        (jsDate.getMonth() + 1).toString
+      else
+        "0" + (jsDate.getMonth() + 1).toString
+
+    val daySection =
+      if (jsDate.getDate() > 9)
+        (jsDate.getDate()).toString
+      else
+        "0" + (jsDate.getDate()).toString
+
+    println("Current hours: " + jsDate.getHours())
+    println("Full Date: " + jsDate)
+
+    jsDate.getFullYear().toString + "-" + monthSection + "-" + daySection
+  }
+
+}
 
 object Meta {
   val (host, path) =
@@ -28,17 +54,13 @@ object ApiInteractions {
 
   val exerciseUri: Uri = uri"${Meta.host}/exercises"
   implicit val decoder: Decoder[DailyQuantizedExercise] =  deriveDecoder[DailyQuantizedExercise]
+//  implicit val optionEncoder: Encoder[Option[Long]] = deriveEncoder[Option[Long]]
+  implicit val encoder: Encoder[DailyQuantizedExercise] =  deriveEncoder
 
   implicit val personSerializer: BodySerializer[DailyQuantizedExercise] = {
-
-p: DailyQuantizedExercise =>
-    val serialized =
-      s"""{
-         |  "name" : "${p.name}",
-         |  "day" : "${p.day}",
-         |  "count" : ${p.count}
-         |}  """.stripMargin
-    StringBody(serialized, "UTF-8", Some(MediaType.ApplicationJson))
+    p: DailyQuantizedExercise =>
+      // Re-enable
+      StringBody(p.asJson.toString(), "UTF-8", Some(MediaType.ApplicationJson))
   }
 
   implicit val backend = FetchBackend()
@@ -101,29 +123,9 @@ p: DailyQuantizedExercise =>
 
   }
 
-  def formattedLocalDate(): String = {
-    val jsDate = new Date()
-    val monthSection =
-      if (jsDate.getMonth() + 1 > 9)
-        (jsDate.getMonth() + 1).toString
-      else
-        "0" + (jsDate.getMonth() + 1).toString
-
-    val daySection =
-      if (jsDate.getDate() > 9)
-        (jsDate.getDate()).toString
-      else
-        "0" + (jsDate.getDate()).toString
-
-    println("Current hours: " + jsDate.getHours())
-    println("Full Date: " + jsDate)
-
-    jsDate.getFullYear().toString + "-" + monthSection + "-" + daySection
-  }
-
   def postQuadSets(count: Int) = {
-    val localDate = formattedLocalDate()
-      val exercise = DailyQuantizedExercise(id = None, name = "QuadSets", day = localDate, count = count)
+    val localDate = Time.formattedLocalDate()
+      val exercise = DailyQuantizedExercise(name = "QuadSets", day = localDate, count = count)
 
       val request = basicRequest
         .body(exercise)
@@ -135,7 +137,6 @@ p: DailyQuantizedExercise =>
       } {
         response.body match {
           case Right(jsonBody) => {
-            println("jsonBody: " + jsonBody)
             println("jsonBody.toInt: " + jsonBody.toInt)
             Main.dailyTotal = jsonBody.toInt
             Main.count = 0
