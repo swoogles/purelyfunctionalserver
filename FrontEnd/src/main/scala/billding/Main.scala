@@ -75,12 +75,13 @@ p: DailyQuantizedExercise =>
     println("Fine, I won't do anything then!")
   }
 
-  import scalatags.JsDom.all._
+//  import scalatags.JsDom.all._
+  import scalatags.Text.all._
   def representQuadSets(quadsets: List[DailyQuantizedExercise]) =
     div(
       quadsets
-        .map(quadSet=> div(
-          span(quadSet.day),
+        .map(quadSet=> div(style := "text-weight: bold; background-color: white; font-size: 18pt;")(
+          span(quadSet.day + ": "),
           span(quadSet.count),
         ))
     )
@@ -98,7 +99,7 @@ p: DailyQuantizedExercise =>
           circe.deserializeJson[List[DailyQuantizedExercise]].apply(jsonBody) match {
             case Right(value) => {
               document.getElementById("exercise_history").innerHTML =
-                representQuadSets(value).render.render.toString
+                representQuadSets(value).render.toString
             }
             case Left(failure) => println("Parse failure: "+ failure)
           }

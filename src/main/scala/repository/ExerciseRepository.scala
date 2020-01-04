@@ -20,7 +20,7 @@ class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends Exe
 //  private implicit val importanceMeta: Meta[Importance] = Meta[String].timap(Importance.unsafeFromString)( _.value)
 
   def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise] =
-    sql"SELECT id, name, day, count FROM daily_quantized_exercises WHERE name = $name"
+    sql"SELECT id, name, day, count FROM daily_quantized_exercises WHERE name = $name ORDER BY day DESC"
       .query[DailyQuantizedExercise]
       .stream
       .transact(transactor)
