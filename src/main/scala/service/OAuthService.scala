@@ -50,7 +50,6 @@ class OAuthService[F[_]: Sync]() extends Http4sDsl[F] {
 
     }
 
-  val service: HttpRoutes[F] = HttpRoutes.of[F] {
     case req @ GET -> Root / "callback"  => {
       val newKey: IO[Key[String]] = Key.newKey[IO, String]
       val keyUsage: IO[F[Response[F]]] = for {
