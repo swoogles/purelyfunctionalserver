@@ -16,27 +16,20 @@ import io.circe._, io.circe.generic.semiauto._
 
 case class DailyQuantizedExercise(id: Option[Long], name: String, day: String, count: Int)
 
-object ApiInteractions {
-  import sttp.client._
-
+object Meta {
   val (host, path) =
     document.URL.split("/").splitAt(3) match {
       case (a, b) => (a.mkString("/"), b.mkString("/"))
     }
+}
 
-  val exerciseUri: Uri = uri"${host}/exercises"
+object ApiInteractions {
+  import sttp.client._
+
+  val exerciseUri: Uri = uri"${Meta.host}/exercises"
   implicit val decoder: Decoder[DailyQuantizedExercise] =  deriveDecoder[DailyQuantizedExercise]
-//    new Decoder[DailyQuantizedExercise] {
-//    override def apply(c: HCursor): Decoder.Result[DailyQuantizedExercise] =  {
-//      c.values.foreach("Println value: " + _)
-//      ???
-//  }
-//}
 
   implicit val personSerializer: BodySerializer[DailyQuantizedExercise] = {
-
-import io.circe.Decoder.Result
-import io.circe.HCursor
 
 p: DailyQuantizedExercise =>
     val serialized =
@@ -48,16 +41,12 @@ p: DailyQuantizedExercise =>
     StringBody(serialized, "UTF-8", Some(MediaType.ApplicationJson))
   }
 
-  // the `query` parameter is automatically url-encoded
-  // `sort` is removed, as the value is not defined
-
   implicit val backend = FetchBackend()
   implicit val ec = global
 
   def resetReps() = {
     Main.count = 0
   }
-
 
   def safeResetReps() = {
     val confirmed = org.scalajs.dom.window.confirm(s"Are you sure you want to reset the count?")
@@ -72,11 +61,11 @@ p: DailyQuantizedExercise =>
     if (confirmed)
       postQuadSets(count)
     else
-    println("Fine, I won't do anything then!")
+      println("Fine, I won't do anything then!")
   }
 
-//  import scalatags.JsDom.all._
-  import scalatags.Text.all._
+  import scalatags.JsDom.all._
+//  import scalatags.Text.all._
   def representQuadSets(quadsets: List[DailyQuantizedExercise]) =
     div(
       quadsets
@@ -98,25 +87,21 @@ p: DailyQuantizedExercise =>
         case Right(jsonBody) => {
           circe.deserializeJson[List[DailyQuantizedExercise]].apply(jsonBody) match {
             case Right(value) => {
-              document.getElementById("exercise_history").innerHTML =
-                representQuadSets(value).render.toString
+              document.getElementById("exercise_history")
+                .appendChild(representQuadSets(value).render.render)
             }
             case Left(failure) => println("Parse failure: "+ failure)
           }
-
-          println("jsonBody: " + jsonBody)
         }
         case Left(failure) => {
           println("Failure: " + failure)
         }
       }
-      println(response.headers)
-      "hi"
     }
 
   }
 
-  def postQuadSets(count: Int) = {
+  def formattedLocalDate(): String = {
     val jsDate = new Date()
     val monthSection =
       if (jsDate.getMonth() + 1 > 9)
@@ -125,21 +110,24 @@ p: DailyQuantizedExercise =>
         "0" + (jsDate.getMonth() + 1).toString
 
     val daySection =
-      if (jsDate.getDate() + 1 > 9)
-        (jsDate.getDate() + 1).toString
+      if (jsDate.getDate() > 9)
+        (jsDate.getDate()).toString
       else
-        "0" + (jsDate.getDate() + 1).toString
+        "0" + (jsDate.getDate()).toString
 
     println("Current hours: " + jsDate.getHours())
     println("Full Date: " + jsDate)
 
-    val formattedLocalDate = jsDate.getFullYear().toString + "-" + monthSection + "-" + daySection
-      val exercise = DailyQuantizedExercise(id = Some(1), name = "QuadSets", day = formattedLocalDate, count = count)
+    jsDate.getFullYear().toString + "-" + monthSection + "-" + daySection
+  }
+
+  def postQuadSets(count: Int) = {
+    val localDate = formattedLocalDate()
+      val exercise = DailyQuantizedExercise(id = None, name = "QuadSets", day = localDate, count = count)
 
       val request = basicRequest
         .body(exercise)
         .post(exerciseUri)
-
 
       println("About to make a request: " + request)
       for {
