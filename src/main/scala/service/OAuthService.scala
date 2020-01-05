@@ -1,9 +1,10 @@
 package service
 
+import cats.data.NonEmptyList
 import cats.effect.{ConcurrentEffect, IO, Sync}
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
-import org.http4s.headers.Authorization
+import org.http4s.headers.{Authorization, Cookie}
 //import com.auth0.SessionUtils
 import fs2.Stream
 import io.chrisdavenport.vault.Key
@@ -134,11 +135,14 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) extends Http4sDsl[F] {
       } yield {
         println("OauthService.callback.flatKey: " + flatKey)
         req.attributes.insert(flatKey, "oauthtoken")
-        Ok("Sure, you good")
+        PermanentRedirect("https://purelyfunctionalserver.herokuapp.com/exercises",
+          Authorization(Credentials.Token(AuthScheme.Bearer, tokenResponse.access_token)),
+          Cookie(NonEmptyList[RequestCookie](RequestCookie("name", "cookieValue"), List()))
+        )
       }).unsafeRunSync()
       println("Key usage: " + keyUsage)
 
-      Ok("We did some stuff!")
+      keyUsage
     }
 
     case GET -> Root / "logout"  =>
