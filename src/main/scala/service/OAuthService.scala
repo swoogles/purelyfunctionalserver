@@ -135,7 +135,7 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) extends Http4sDsl[F] {
       } yield {
         println("OauthService.callback.flatKey: " + flatKey)
         req.attributes.insert(flatKey, "oauthtoken")
-        PermanentRedirect("https://purelyfunctionalserver.herokuapp.com/exercises",
+        PermanentRedirect(Location(Uri.fromString("https://purelyfunctionalserver.herokuapp.com/exercises").right.get),
           Authorization(Credentials.Token(AuthScheme.Bearer, tokenResponse.access_token)),
           Cookie(NonEmptyList[RequestCookie](RequestCookie("name", "cookieValue"), List()))
         )
