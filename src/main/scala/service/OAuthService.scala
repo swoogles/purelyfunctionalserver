@@ -3,6 +3,7 @@ package service
 import cats.effect.{ConcurrentEffect, IO, Sync}
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
+import org.http4s.headers.Authorization
 //import com.auth0.SessionUtils
 import fs2.Stream
 import io.chrisdavenport.vault.Key
@@ -57,8 +58,19 @@ class OAuthLogic[F[_]: Sync](C: Client[IO]) {
 //      jsonOf
 
     C.expect[TokenResponse](postRequest)
-      .map(response => println("Response from token call: " + response))
-      .handleErrorWith( error => IO { println("error : " + error)})
+      .map{response =>
+        println("Response from token call: " + response)
+        C.expect[String](
+        GET(
+          Uri.fromString("https://quiet-glitter-8635.auth0.com/userinfo").right.get,
+          Authorization(Credentials.Token(AuthScheme.Bearer, response.access_token))
+        )
+        ).map(userInfoResponse => println("UserInfoResponse: " + userInfoResponse))
+          .handleErrorWith( error => IO { println("user info request error : " + error)})
+
+
+      }
+      .handleErrorWith( error => IO { println("token request error : " + error)})
 //    C.expect[String](postRequest)
       //        .map( forecastWithoutLocationName => forecastWithoutLocationName.copy(location = Some(gpsCoordinates.locationName)))
 //      .adaptError { case t =>
