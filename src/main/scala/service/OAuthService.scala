@@ -33,7 +33,7 @@ class OAuthLogic[F[_]: Sync](C: Client[IO]) {
         "client_id" -> clientId,
         "client_secret" -> clientSecret,
         "redirect_uri" -> callbackUrl,
-        "code" -> code
+        "code" -> (code + "BOTCHED IT!")
       ),
       Uri.fromString("https://quiet-glitter-8635.auth0.com/oauth/token").right.get,
     )
