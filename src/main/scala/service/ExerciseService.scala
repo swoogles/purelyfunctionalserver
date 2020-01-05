@@ -55,6 +55,7 @@ F: Sync[F],
 
 
     case req @ POST -> Root => {
+      req.headers.foreach(header=>println("Header: " + header))
       println("Request: " + req)
       for {
         newExercise <- req.decodeJson[DailyQuantizedExercise]
