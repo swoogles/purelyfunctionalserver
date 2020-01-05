@@ -35,7 +35,7 @@ class OAuthLogic[F[_]: Sync](C: Client[IO]) {
         "redirect_uri" -> callbackUrl,
         "code" -> code
       ),
-      Uri.fromString("https://my-lovely-api.com/oauth2/token").right.get,
+      Uri.fromString("https://quiet-glitter-8635.auth0.com/oauth/token").right.get,
     )
 
     implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, OauthConfig] =
