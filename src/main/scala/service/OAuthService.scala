@@ -3,7 +3,6 @@ package service
 import cats.effect.{ConcurrentEffect, IO, Sync}
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
-import repository.ForeCast
 //import com.auth0.SessionUtils
 import fs2.Stream
 import io.chrisdavenport.vault.Key
@@ -14,6 +13,20 @@ import org.http4s._
 import org.http4s.client.Client
 
 case class OauthConfig(domain: String, clientId: String, clientSecret: String)
+
+case class TokenResponse(access_token: String, id_token: String, scope: String, expires_in: Int, token_type: String)
+
+/*
+"""
+{"access_token":"zS3jo79RvUDNJ83G4wVOBVyorKhtQnID",
+"id_token":"eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImtpZCI6Ik5qVkZOemMzTlRNNU9UWTBOak0yTnpZeVJFVTBSak5ETkRVelF6Y3lNMEZHT0RneE1ESkdOZyJ9.eyJpc3MiOiJodHRwczovL3F1aWV0LWdsaXR0ZXItODYzNS5hdXRoMC5jb20vIiwic3ViIjoiYXV0aDB8NWUxMTFiZWI5YzAyN2EwZTllNDZhZGVlIiwiYXVkIjoiRUFsSG1GdTN6QWtQUHF4ekpYVGhuTFhKUHl4OXFSZ1MiLCJpYXQiOjE1NzgxOTA3ODMsImV4cCI6MTU3ODE5MDk2M30.m-hAsqcVzghuOFvNnsjF3X5VR-_GCgzXBIJ_KEFk4xg65lbK5hk_Z_BXNv7L1ysBkd3YHzSDvCfXl00xrz9Hm9oBpDVN9NCLKtDChCiH8IJ2IRIhlVRX69Ta6SusB1kGb9qAeMG3HI3YCacpgWKMFGhxe1vYlIRoRa_gxWhfH3w3aX7JJ5M69Ikf0NLHVn_cwBPAEQQ7oQoZU7m9Amj0iKx-WGXKMuqCQmJTZP2lfVHylltQvEoWKC04LBQB0fUPFnBjvt6pbVq3LAZKynnwuCO4DAvlAwWqRpuXL1yM3hlbd3mqOrtuXlEJdq3-aZpi_MHBOZnyKWnCckdFt5NDjQ",
+"scope":"openid",
+"expires_in":86400,
+"token_type":"Bearer"
+}
+"""
+
+ */
 
 class OAuthLogic[F[_]: Sync](C: Client[IO]) {
   import org.http4s.Method._
@@ -33,17 +46,17 @@ class OAuthLogic[F[_]: Sync](C: Client[IO]) {
         "client_id" -> clientId,
         "client_secret" -> clientSecret,
         "redirect_uri" -> callbackUrl,
-        "code" -> (code + "BOTCHED IT!")
+        "code" -> code
       ),
       Uri.fromString("https://quiet-glitter-8635.auth0.com/oauth/token").right.get,
     )
 
-    implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, OauthConfig] =
+    implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, TokenResponse] =
       jsonOf
 //    implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, ForeCast] =
 //      jsonOf
 
-    C.expect[String](postRequest)
+    C.expect[TokenResponse](postRequest)
       .map(response => println("Response from token call: " + response))
       .handleErrorWith( error => IO { println("error : " + error)})
 //    C.expect[String](postRequest)
