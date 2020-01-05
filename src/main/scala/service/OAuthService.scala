@@ -39,6 +39,17 @@ class OAuthLogic[F[_]: Sync](C: Client[IO]) {
   val clientSecret = System.getenv("OAUTH_CLIENT_SECRET")
   val callbackUrl = "https://purelyfunctionalserver.herokuapp.com/oauth/callback" // TODO make this a property or something
   val parameterisedUri = "https://quiet-glitter-8635.auth0.com/oauth/token"
+  def getUserInfo(accessToken: String) = {
+    C.expect[String](
+      GET(
+        Uri.fromString("https://quiet-glitter-8635.auth0.com/userinfo").right.get,
+        Authorization(Credentials.Token(AuthScheme.Bearer, accessToken))
+      )
+    ).map(userInfoResponse => println("UserInfoResponse: " + userInfoResponse))
+      .handleErrorWith( error => IO { println("user info request error : " + error)})
+
+
+  }
   def doStuff(code: String) = {
 
     val postRequest: IO[Request[IO]] = POST[UrlForm](
@@ -60,17 +71,10 @@ class OAuthLogic[F[_]: Sync](C: Client[IO]) {
     C.expect[TokenResponse](postRequest)
       .map{response =>
         println("Response from token call: " + response)
-        C.expect[String](
-        GET(
-          Uri.fromString("https://quiet-glitter-8635.auth0.com/userinfo").right.get,
-          Authorization(Credentials.Token(AuthScheme.Bearer, response.access_token))
-        )
-        ).map(userInfoResponse => println("UserInfoResponse: " + userInfoResponse))
-          .handleErrorWith( error => IO { println("user info request error : " + error)})
-
+        response
 
       }
-      .handleErrorWith( error => IO { println("token request error : " + error)})
+//      .handleErrorWith( error => IO { println("token request error : " + error)})
 //    C.expect[String](postRequest)
       //        .map( forecastWithoutLocationName => forecastWithoutLocationName.copy(location = Some(gpsCoordinates.locationName)))
 //      .adaptError { case t =>
@@ -125,7 +129,8 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) extends Http4sDsl[F] {
       val newKey: IO[Key[String]] = Key.newKey[IO, String]
       val keyUsage = (for {
         flatKey <- newKey
-      _ <- authLogic.doStuff(auth0code)
+      tokenResponse <- authLogic.doStuff(auth0code)
+      _ <- authLogic.getUserInfo(tokenResponse.access_token)
       } yield {
         println("OauthService.callback.flatKey: " + flatKey)
         req.attributes.insert(flatKey, "oauthtoken")
