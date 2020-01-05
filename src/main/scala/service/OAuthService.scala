@@ -1,6 +1,6 @@
 package service
 
-import cats.effect.{IO, Sync}
+import cats.effect.{ConcurrentEffect, IO, Sync}
 import com.auth0.SessionUtils
 import fs2.Stream
 import io.chrisdavenport.vault.Key
@@ -11,10 +11,15 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Location, `Content-Type`}
 import org.http4s.{HttpRoutes, MediaType, Response, Uri}
 import repository.Github
+import java.io.InputStream
+
+import io.circe.Json
+import org.http4s.circe._
+import org.http4s._
 
 case class OauthConfig(domain: String, clientId: String, clientSecret: String)
 
-class OAuthService[F[_]: Sync]() extends Http4sDsl[F] {
+class OAuthService[F[_]: ConcurrentEffect]() extends Http4sDsl[F] {
   val domain = System.getenv("OAUTH_DOMAIN")
   val clientId = System.getenv("OAUTH_CLIENT_ID")
   val clientSecret = System.getenv("OAUTH_CLIENT_SECRET")
@@ -51,8 +56,16 @@ class OAuthService[F[_]: Sync]() extends Http4sDsl[F] {
     }
 
     case req @ GET -> Root / "callback"  => {
-      println("req.bodyAsText: " + req.bodyAsText)
+      req.params.foreach( param => println("Req.param key: " + param._1 + "  value: " + param._2))
+      val auth0code = req.params("code")
+      val decodedCode = jwkProvider.get(auth0code)
+      println("DecodedCode: " + decodedCode)
+//      controller.handle()
+//      controller.handle(req.)
+//      val x: F[Json] = Stream.eval(req.as[Json]).compile.toVector.r
       println("req.attributes: " + req.attributes)
+//      println("req.decoded body: " + req.decode[String])
+      val x: Stream[F, String] = req.body.map(_.toChar).fold("")(_ + _)
       val newKey: IO[Key[String]] = Key.newKey[IO, String]
       val keyUsage = (for {
         flatKey <- newKey
