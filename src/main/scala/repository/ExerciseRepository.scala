@@ -84,7 +84,7 @@ class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends Exe
    */
 
   def updateQuantizedExercise(exercise: DailyQuantizedExercise, reps: Int): IO[Either[ExerciseNotFoundError.type, DailyQuantizedExercise]] = {
-    sql"UPDATE daily_quantized_exercises SET count = ${exercise.count + reps} WHERE day = ${exercise.day} AND name = ${exercise.name}"
+    sql"UPDATE daily_quantized_exercises SET count = ${exercise.count + reps} WHERE day = ${exercise.day} AND name = ${exercise.name} AND user_id = ${exercise.userId}"
       .update
       .run
       .transact(transactor)
