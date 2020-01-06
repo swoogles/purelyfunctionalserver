@@ -19,6 +19,8 @@ case class TokenResponse(
                           token_type: String
                         )
 
+case class UserInfo(sub: String)
+
 class OAuthLogic[F[_]: Sync](C: Client[IO])
 {
   val domain = System.getenv("OAUTH_DOMAIN")
@@ -26,14 +28,17 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
   val clientSecret = System.getenv("OAUTH_CLIENT_SECRET")
   val callbackUrl = "https://purelyfunctionalserver.herokuapp.com/oauth/callback" // TODO make this a property or something
   val parameterisedUri = "https://quiet-glitter-8635.auth0.com/oauth/token" // TODO Use  Oauth domain
+
+  implicit def userInfoDecoder[F[_]: Sync]: EntityDecoder[F, UserInfo] =
+    jsonOf
   def getUserInfo(accessToken: String) = {
-    C.expect[String](
+    C.expect[UserInfo](
       GET(
         Uri.fromString("https://quiet-glitter-8635.auth0.com/userinfo").right.get,
         Authorization(Credentials.Token(AuthScheme.Bearer, accessToken))
       )
-    ).map{userInfoResponse => println("UserInfoResponse: " + userInfoResponse); userInfoResponse.toString}
-      .handleErrorWith( error => IO { println("user info request error : " + error); error.getMessage})
+    ).map{userInfoResponse => println("UserInfoResponse: " + userInfoResponse); userInfoResponse}
+//      .handleErrorWith( error => IO { println("user info request error : " + error); error.getMessage})
 
 
   }

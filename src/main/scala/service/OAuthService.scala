@@ -123,15 +123,13 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) ( implicit
       val auth0code = req.params("code")
 
       println("req.attributes: " + req.attributes)
-      val newKey: IO[Key[String]] = Key.newKey[IO, String]
       val keyUsage: F[Response[F]] = (for {
-        flatKey <- newKey
       tokenResponse <- authLogic.doStuff(auth0code)
-      _ <- authLogic.getUserInfo(tokenResponse.access_token)
+      userInfo <- authLogic.getUserInfo(tokenResponse.access_token)
       } yield {
-        println("OauthService.callback.flatKey: " + flatKey)
-        req.attributes.insert(flatKey, "oauthtoken")
-        PermanentRedirect(Location(Uri.fromString("https://purelyfunctionalserver.herokuapp.com/exercises").right.get),
+        println("UserInfo: " + userInfo)
+        val uri = Uri.fromString(s"https://purelyfunctionalserver.herokuapp.com/resources/html/index.html?access_token=${tokenResponse.access_token}").right.get
+        PermanentRedirect(Location(uri),
           Authorization(Credentials.Token(AuthScheme.Bearer, tokenResponse.access_token)),
           Cookie(NonEmptyList[RequestCookie](RequestCookie("name", "cookieValue"), List()))
         )

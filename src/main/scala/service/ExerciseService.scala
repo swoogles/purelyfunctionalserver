@@ -2,7 +2,7 @@ package service
 
 import java.time.ZoneId
 
-import auth.OAuthLogic
+import auth.{OAuthLogic, UserInfo}
 import cats.effect.{Clock, ConcurrentEffect, IO, Sync}
 import fs2.Stream
 import io.circe.generic.auto._
@@ -33,7 +33,8 @@ F: Sync[F],
     case request @ GET -> Root => {
       val accessToken = request.params.get("access_token")
       if (accessToken.isDefined) {
-        val userInfo: String = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
+        val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
+        println("userInfo: " + userInfo)
       }
       Ok(
         Stream("[") ++
