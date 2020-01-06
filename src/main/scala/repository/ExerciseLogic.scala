@@ -20,10 +20,11 @@ class ExerciseLogic[F[_] : Sync](exerciseRepository: ExerciseRepository[F]) {
 
   def createOrUpdate(dailyQuantizedExercise: DailyQuantizedExercise): IO[Either[ IllegalStateException, DailyQuantizedExercise]] = {
 
-      exerciseRepository.getExercise(dailyQuantizedExercise.name, dailyQuantizedExercise.day)
+      exerciseRepository.getExercise(dailyQuantizedExercise.name, dailyQuantizedExercise.day, dailyQuantizedExercise.userId)
         .flatMap{
 
           case Some(existingExercise) =>
+            println("updating existing exercises: " + existingExercise)
             exerciseRepository.updateQuantizedExercise(existingExercise, dailyQuantizedExercise.count)
               .map {
                 case Right(updatedExercise) => Right(updatedExercise)
@@ -31,6 +32,7 @@ class ExerciseLogic[F[_] : Sync](exerciseRepository: ExerciseRepository[F]) {
               }
 
           case None =>
+            println("Going to creat a new exercise")
             exerciseRepository.createExercise(dailyQuantizedExercise)
             .map(Right(_))
         }

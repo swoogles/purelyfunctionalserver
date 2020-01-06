@@ -10,7 +10,7 @@ import model.{DailyQuantizedExercise, ExerciseNotFoundError}
 
 trait ExerciseRepository[F[_]] {
   // TODO Push F throughout the rest of this file
-  def getExercise(name: String, day: LocalDate): IO[Option[DailyQuantizedExercise]]
+  def getExercise(name: String, day: LocalDate, userId: Option[String]): IO[Option[DailyQuantizedExercise]]
   def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise]
   def getExerciseHistoryForUser(name: String, userId: String): Stream[IO, DailyQuantizedExercise]
   def createExercise(exercise: DailyQuantizedExercise): IO[DailyQuantizedExercise]
@@ -18,7 +18,7 @@ trait ExerciseRepository[F[_]] {
 }
 
 class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends ExerciseRepository[F] {
-//  private implicit val importanceMeta: Meta[Importance] = Meta[String].timap(Importance.unsafeFromString)( _.value)
+  //  private implicit val importanceMeta: Meta[Importance] = Meta[String].timap(Importance.unsafeFromString)( _.value)
 
   def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise] =
     sql"SELECT id, name, day, count, user_id FROM daily_quantized_exercises WHERE name = $name ORDER BY day DESC"
@@ -32,11 +32,12 @@ class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends Exe
       .stream
       .transact(transactor)
 
-  def getExercise(name: String, day: LocalDate): IO[Option[DailyQuantizedExercise]] =
-    sql"SELECT id, name, day, count, user_id FROM daily_quantized_exercises WHERE name = $name AND day = $day"
+  def getExercise(name: String, day: LocalDate, userId: Option[String]): IO[Option[DailyQuantizedExercise]] = {
+    sql"""SELECT id, name, day, count, user_id FROM daily_quantized_exercises WHERE name = $name AND day = $day AND user_id=${userId}"""
       .query[DailyQuantizedExercise]
       .option
       .transact(transactor)
+  }
 
   /*
   def getTodo(id: Long): IO[Either[ExerciseNotFoundError.type, Todo]] = {
@@ -63,7 +64,7 @@ class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends Exe
          |  ${exercise.day},
          |  ${exercise.count},
          |  ${exercise.userId}
-         |         |)""".stripMargin
+         |  )""".stripMargin
       .update
       .withUniqueGeneratedKeys[Long]("id")
       .transact(transactor).map { id => exercise.copy(id = Some(id))
