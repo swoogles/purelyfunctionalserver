@@ -32,7 +32,9 @@ case class OauthConfig(domain: String, clientId: String, clientSecret: String)
 
 
 
-class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) ( implicit
+class OAuthService[F[_]: ConcurrentEffect](C: Client[IO],
+                                           authLogic: OAuthLogic[IO]
+                                          ) ( implicit
                                                             f: Sync[F]
 )extends Http4sDsl[F] {
   val domain = System.getenv("OAUTH_DOMAIN")
@@ -118,7 +120,6 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) ( implicit
       )
 
     case req @ GET -> Root / "callback"  => {
-      val authLogic = new OAuthLogic[IO](C)
       req.params.foreach( param => println("Req.param key: " + param._1 + "  value: " + param._2))
       val auth0code = req.params("code")
 

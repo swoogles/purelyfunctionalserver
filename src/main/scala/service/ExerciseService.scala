@@ -39,6 +39,7 @@ F: Sync[F],
       } else {
         None
       }
+      println("Going to retrieve exercises for sub: " + userId)
       Ok(
         Stream("[") ++
           exerciseLogic.getExerciseHistoriesFor("QuadSets", userId)
@@ -78,6 +79,7 @@ F: Sync[F],
         completedExercise <- IO {
           if (accessToken.isDefined) {
             val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
+            println("Accepting a new POST from sub: " + userInfo.sub)
             newExercise.copy(userId = Some(userInfo.sub))
           } else {
             newExercise

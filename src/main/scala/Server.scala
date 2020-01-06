@@ -110,7 +110,7 @@ object Server extends IOApp with Http4sDsl[IO] {
     }
     val homePageService = new HomePageService[IO](blocker).routes
     val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
-    val authService = new OAuthService[IO](client).service
+    val authService = new OAuthService[IO](client, authLogic).service
     val authenticationBackends = new AuthenticationBackends(
       InMemoryAuthBackends.bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer,
       InMemoryAuthBackends.userStoreThatShouldBeInstantiatedOnceByTheServer,
