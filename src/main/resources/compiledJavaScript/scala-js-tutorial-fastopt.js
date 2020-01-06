@@ -2778,7 +2778,14 @@ $c_Lbillding_Meta$.prototype.init___ = (function() {
     var x$2 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
     var this$32 = new $c_sci_StringOps().init___T(x$2);
     var queryParameters = $f_sci_StringLike__split__C__AT(this$32, 63).get(1);
-    var jsx$1 = new $c_s_Some().init___O($as_T(queryParameters.split("access_token=").join("")))
+    var tokenWithPossibleHash = $as_T(queryParameters.split("access_token=").join(""));
+    if ($m_sjsr_RuntimeString$().endsWith__T__T__Z(tokenWithPossibleHash, "#")) {
+      var this$36 = new $c_sci_StringOps().init___T(tokenWithPossibleHash);
+      var cleanToken = $as_T($f_sc_IndexedSeqOptimized__dropRight__I__O(this$36, 1))
+    } else {
+      var cleanToken = tokenWithPossibleHash
+    };
+    var jsx$1 = new $c_s_Some().init___O(cleanToken)
   } else {
     var jsx$1 = $m_s_None$()
   };
@@ -10993,18 +11000,14 @@ function $h_sjsr_RuntimeString$() {
   /*<skip>*/
 }
 $h_sjsr_RuntimeString$.prototype = $c_sjsr_RuntimeString$.prototype;
+$c_sjsr_RuntimeString$.prototype.endsWith__T__T__Z = (function(thiz, suffix) {
+  return ($as_T(thiz.substring((($uI(thiz.length) - $uI(suffix.length)) | 0))) === suffix)
+});
 $c_sjsr_RuntimeString$.prototype.init___ = (function() {
   return this
 });
 $c_sjsr_RuntimeString$.prototype.valueOf__C__T = (function(c) {
   return $as_T($g.String.fromCharCode(c))
-});
-$c_sjsr_RuntimeString$.prototype.split__T__T__I__AT = (function(thiz, regex, limit) {
-  if ((thiz === null)) {
-    throw new $c_jl_NullPointerException().init___()
-  };
-  var this$1 = $m_ju_regex_Pattern$();
-  return this$1.compile__T__I__ju_regex_Pattern(regex, 0).split__jl_CharSequence__I__AT(thiz, limit)
 });
 $c_sjsr_RuntimeString$.prototype.toCharArray__T__AC = (function(thiz) {
   var length = $uI(thiz.length);
@@ -11017,6 +11020,13 @@ $c_sjsr_RuntimeString$.prototype.toCharArray__T__AC = (function(thiz) {
     i = ((1 + i) | 0)
   };
   return result
+});
+$c_sjsr_RuntimeString$.prototype.split__T__T__I__AT = (function(thiz, regex, limit) {
+  if ((thiz === null)) {
+    throw new $c_jl_NullPointerException().init___()
+  };
+  var this$1 = $m_ju_regex_Pattern$();
+  return this$1.compile__T__I__ju_regex_Pattern(regex, 0).split__jl_CharSequence__I__AT(thiz, limit)
 });
 $c_sjsr_RuntimeString$.prototype.getBytes__T__T__AB = (function(thiz, charsetName) {
   return $m_sjsr_RuntimeString$().getBytes__T__Ljava_nio_charset_Charset__AB(thiz, $m_Ljava_nio_charset_Charset$().forName__T__Ljava_nio_charset_Charset(charsetName))
@@ -50962,6 +50972,9 @@ function $f_sc_IndexedSeqOptimized__negLength__psc_IndexedSeqOptimized__I__I($th
 }
 function $f_sc_IndexedSeqOptimized__takeRight__I__O($thiz, n) {
   return $thiz.slice__I__I__O((($thiz.length__I() - ((n > 0) ? n : 0)) | 0), $thiz.length__I())
+}
+function $f_sc_IndexedSeqOptimized__dropRight__I__O($thiz, n) {
+  return $thiz.slice__I__I__O(0, (($thiz.length__I() - ((n > 0) ? n : 0)) | 0))
 }
 function $f_sc_LinearSeqOptimized__apply__I__O($thiz, n) {
   var rest = $thiz.drop__I__sc_LinearSeqOptimized(n);

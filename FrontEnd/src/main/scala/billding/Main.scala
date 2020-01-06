@@ -47,7 +47,13 @@ object Meta {
       if (document.URL.contains("?")) {
         val queryParameters =
           document.URL.split('?')(1)
-        Some(queryParameters.replace("access_token=", ""))
+        val tokenWithPossibleHash = queryParameters.replace("access_token=", "")
+        val cleanToken =
+        if(tokenWithPossibleHash.endsWith("#"))
+          tokenWithPossibleHash.dropRight(1)
+        else
+          tokenWithPossibleHash
+        Some(cleanToken)
       } else {
         None
       }
