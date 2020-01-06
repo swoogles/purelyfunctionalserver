@@ -2,6 +2,7 @@ package service
 
 import java.time.ZoneId
 
+import auth.OAuthLogic
 import cats.effect.{Clock, ConcurrentEffect, IO, Sync}
 import fs2.Stream
 import io.circe.generic.auto._
@@ -16,7 +17,8 @@ import repository.ExerciseLogic
 import scala.concurrent.duration.MILLISECONDS
 
 class ExerciseService[F[_]: ConcurrentEffect](
-                                                  exerciseLogic: ExerciseLogic[F]
+                                                  exerciseLogic: ExerciseLogic[F],
+                                                  authLogic: OAuthLogic[IO]
                                                 )(implicit
 F: Sync[F],
                                                   clock: Clock[F] // TODO Why can't this be F?
@@ -30,7 +32,9 @@ F: Sync[F],
   val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
     case request @ GET -> Root => {
       val accessToken = request.params.get("access_token")
-      if (accessToken.isDefined) println("Request has an access token: " + accessToken.get)
+      if (accessToken.isDefined) {
+        val userInfo: String = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
+      }
       Ok(
         Stream("[") ++
           exerciseLogic.getExercisesFor("QuadSets")

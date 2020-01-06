@@ -1,5 +1,6 @@
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
+import auth.OAuthLogic
 import cats.data.Kleisli
 import cats.effect.{Blocker, Clock, ConcurrentEffect, ExitCode, IO, IOApp}
 import cats.implicits._
@@ -94,11 +95,14 @@ object Server extends IOApp with Http4sDsl[IO] {
                                  ): Kleisli[IO, Request[IO], Response[IO]] = {
 
     val todoService = new TodoService[IO](new TodoRepository[IO](transactor)).service
+
+    val authLogic = new OAuthLogic[IO](client)
     val exerciseService =
       new ExerciseService[IO](
         new ExerciseLogic[IO](
           new ExerciseRepositoryImpl[IO](transactor)
-        )
+        ),
+        authLogic
       ).service
 
     val githubService = {
