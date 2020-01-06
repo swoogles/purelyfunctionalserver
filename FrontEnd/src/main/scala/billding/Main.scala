@@ -129,11 +129,22 @@ object Meta {
     val localDate = Time.formattedLocalDate()
       val exercise = DailyQuantizedExercise(name = "QuadSets", day = localDate, count = count)
 
-      val request = basicRequest
+      basicRequest
         .body(exercise)
-        .post(exerciseUri)
+        .post(exerciseUri.param("access_token", Meta.accessToken.get))
 
-      println("About to make a request: " + request)
+    val request =
+      if (Meta.accessToken.isDefined) {
+        basicRequest
+          .body(exercise)
+          .post(exerciseUri.param("access_token", Meta.accessToken.get))
+      } else {
+        basicRequest
+          .body(exercise)
+          .post(exerciseUri)
+      }
+
+    println("About to make a request: " + request)
       for {
         response: Response[Either[String, String]] <- request.send()
       } {
