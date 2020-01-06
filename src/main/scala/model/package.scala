@@ -18,7 +18,7 @@ package object model {
 
   case object TodoNotFoundError
 
-  case class DailyQuantizedExercise(id: Option[Long], name: String, day: LocalDate, count: Int)
+  case class DailyQuantizedExercise(id: Option[Long], name: String, day: LocalDate, count: Int, userId: Option[String])
 
   case object ExerciseNotFoundError
 }

@@ -1,0 +1,1 @@
+ALTER TABLE daily_quantized_exercises ADD COLUMN user_id TEXT ;

@@ -12,6 +12,7 @@ trait ExerciseRepository[F[_]] {
   // TODO Push F throughout the rest of this file
   def getExercise(name: String, day: LocalDate): IO[Option[DailyQuantizedExercise]]
   def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise]
+  def getExerciseHistoryForUser(name: String, userId: String): Stream[IO, DailyQuantizedExercise]
   def createExercise(exercise: DailyQuantizedExercise): IO[DailyQuantizedExercise]
   def updateQuantizedExercise(exercise: DailyQuantizedExercise, reps: Int): IO[Either[ExerciseNotFoundError.type, DailyQuantizedExercise]]
 }
@@ -20,19 +21,19 @@ class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends Exe
 //  private implicit val importanceMeta: Meta[Importance] = Meta[String].timap(Importance.unsafeFromString)( _.value)
 
   def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise] =
-    sql"SELECT id, name, day, count FROM daily_quantized_exercises WHERE name = $name ORDER BY day DESC"
+    sql"SELECT id, name, day, count, user_id FROM daily_quantized_exercises WHERE name = $name ORDER BY day DESC"
       .query[DailyQuantizedExercise]
       .stream
       .transact(transactor)
 
-  def getExerciseHistoryForUser(name: String): Stream[IO, DailyQuantizedExercise] =
-    sql"SELECT id, name, day, count FROM daily_quantized_exercises WHERE name = $name ORDER BY day DESC"
+  def getExerciseHistoryForUser(name: String, userId: String): Stream[IO, DailyQuantizedExercise] =
+    sql"SELECT id, name, day, count, user_id FROM daily_quantized_exercises WHERE name = $name AND user_id = ${userId} ORDER BY day DESC"
       .query[DailyQuantizedExercise]
       .stream
       .transact(transactor)
 
   def getExercise(name: String, day: LocalDate): IO[Option[DailyQuantizedExercise]] =
-    sql"SELECT id, name, day, count FROM daily_quantized_exercises WHERE name = $name AND day = $day"
+    sql"SELECT id, name, day, count, user_id FROM daily_quantized_exercises WHERE name = $name AND day = $day"
       .query[DailyQuantizedExercise]
       .option
       .transact(transactor)
@@ -55,12 +56,14 @@ class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends Exe
          |INSERT INTO daily_quantized_exercises (
          |  name,
          |  day,
-         |  count
+         |  count,
+         |  user_id
          |) VALUES (
          |  ${exercise.name},
          |  ${exercise.day},
-         |  ${exercise.count}
-         |)""".stripMargin
+         |  ${exercise.count},
+         |  ${exercise.userId}
+         |         |)""".stripMargin
       .update
       .withUniqueGeneratedKeys[Long]("id")
       .transact(transactor).map { id => exercise.copy(id = Some(id))

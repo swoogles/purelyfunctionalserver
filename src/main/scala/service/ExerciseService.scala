@@ -32,13 +32,16 @@ F: Sync[F],
   val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
     case request @ GET -> Root => {
       val accessToken = request.params.get("access_token")
+      val userId =
       if (accessToken.isDefined) {
         val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
-        println("userInfo: " + userInfo)
+        Some(userInfo.sub)
+      } else {
+        None
       }
       Ok(
         Stream("[") ++
-          exerciseLogic.getExercisesFor("QuadSets")
+          exerciseLogic.getExerciseHistoriesFor("QuadSets", userId)
             .map(_.asJson.noSpaces)
             .intersperse(",") ++ Stream("]")
         , `Content-Type`(MediaType.application.json)
@@ -65,12 +68,26 @@ F: Sync[F],
     case req @ POST -> Root => {
       req.headers.foreach(header=>println("Header: " + header))
       println("Request: " + req)
+      val accessToken = req.params.get("access_token")
+      if (accessToken.isDefined) {
+        val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
+        println("userInfo: " + userInfo)
+      }
       for {
         newExercise <- req.decodeJson[DailyQuantizedExercise]
+        completedExercise <- IO {
+          if (accessToken.isDefined) {
+            val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
+            newExercise.copy(userId = Some(userInfo.sub))
+          } else {
+            newExercise
+          }
+
+        }
         _ <- IO {
           println("postedExercise day: " + newExercise.day)
         }
-        wrappedResult <- exerciseLogic.createOrUpdate(newExercise) map {
+        wrappedResult <- exerciseLogic.createOrUpdate(completedExercise) map {
           case Right(successfullyCreatedExercise) =>
             Created(
               successfullyCreatedExercise.count.toString,
