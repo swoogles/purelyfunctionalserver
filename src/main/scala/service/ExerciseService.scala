@@ -69,6 +69,7 @@ F: Sync[F],
     case req @ POST -> Root => {
       req.headers.foreach(header=>println("Header: " + header))
       println("Request: " + req)
+      req.params.foreach{case (key, value) => println("Exercise POST key: " + key + "   value: " + value)}
       val accessToken = req.params.get("access_token")
       if (accessToken.isDefined) {
         val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
