@@ -25,6 +25,12 @@ class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends Exe
       .stream
       .transact(transactor)
 
+  def getExerciseHistoryForUser(name: String): Stream[IO, DailyQuantizedExercise] =
+    sql"SELECT id, name, day, count FROM daily_quantized_exercises WHERE name = $name ORDER BY day DESC"
+      .query[DailyQuantizedExercise]
+      .stream
+      .transact(transactor)
+
   def getExercise(name: String, day: LocalDate): IO[Option[DailyQuantizedExercise]] =
     sql"SELECT id, name, day, count FROM daily_quantized_exercises WHERE name = $name AND day = $day"
       .query[DailyQuantizedExercise]
