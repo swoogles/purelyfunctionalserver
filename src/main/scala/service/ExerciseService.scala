@@ -28,14 +28,17 @@ F: Sync[F],
 
 
   val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
-    case GET -> Root =>
-        Ok(
-          Stream("[") ++
-            exerciseLogic.getExercisesFor("QuadSets")
-              .map(_.asJson.noSpaces)
-              .intersperse(",") ++ Stream("]")
-          , `Content-Type`(MediaType.application.json)
-        )
+    case request @ GET -> Root => {
+      val accessToken = request.params.get("access_token")
+      if (accessToken.isDefined) println("Request has an access token: " + accessToken.get)
+      Ok(
+        Stream("[") ++
+          exerciseLogic.getExercisesFor("QuadSets")
+            .map(_.asJson.noSpaces)
+            .intersperse(",") ++ Stream("]")
+        , `Content-Type`(MediaType.application.json)
+      )
+    }
 
 
       /*

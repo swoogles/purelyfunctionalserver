@@ -2493,45 +2493,33 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
       if ((x1 instanceof $c_s_util_Right)) {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
+        var jsx$1 = $m_Lbillding_Main$();
         var this$13 = new $c_sci_StringOps().init___T(jsonBody);
         var this$15 = $m_jl_Integer$();
         var $$this = this$13.repr$1;
-        var x$1 = ("jsonBody.toInt: " + this$15.parseInt__T__I__I($$this, 10));
-        var this$17 = $m_s_Console$();
-        var this$18 = $as_Ljava_io_PrintStream(this$17.outVar$2.v$1);
-        this$18.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
-        var jsx$1 = $m_Lbillding_Main$();
-        var this$20 = new $c_sci_StringOps().init___T(jsonBody);
-        var this$22 = $m_jl_Integer$();
-        var $$this$1 = this$20.repr$1;
-        jsx$1.dailyTotal$1 = this$22.parseInt__T__I__I($$this$1, 10);
+        jsx$1.dailyTotal$1 = this$15.parseInt__T__I__I($$this, 10);
         $m_Lbillding_Main$().count$1 = 0;
         var jsx$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-        var this$23 = $m_Lbillding_Main$().count$1;
-        jsx$2.innerHTML = ("" + this$23);
+        var this$16 = $m_Lbillding_Main$().count$1;
+        jsx$2.innerHTML = ("" + this$16);
         var jsx$3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("daily_total");
-        var this$25 = $m_Lbillding_Main$().dailyTotal$1;
-        jsx$3.innerHTML = ("" + this$25)
+        var this$18 = $m_Lbillding_Main$().dailyTotal$1;
+        jsx$3.innerHTML = ("" + this$18)
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3 = $as_s_util_Left(x1);
         var failure = $as_T(x3.value$2);
-        var x$2 = ("Failed to submit quadsets with error: " + failure);
-        var this$28 = $m_s_Console$();
-        var this$29 = $as_Ljava_io_PrintStream(this$28.outVar$2.v$1);
-        this$29.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
+        var x$1 = ("Failed to submit quadsets with error: " + failure);
+        var this$21 = $m_s_Console$();
+        var this$22 = $as_Ljava_io_PrintStream(this$21.outVar$2.v$1);
+        this$22.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"))
       } else {
         throw new $c_s_MatchError().init___O(x1)
-      };
-      var x$3 = response.headers$1;
-      var this$31 = $m_s_Console$();
-      var this$32 = $as_Ljava_io_PrintStream(this$31.outVar$2.v$1);
-      this$32.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$3 + "\n"));
-      return "hi"
+      }
     })
   })(this)), this.ec$1)
 });
 $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
-  var request = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
+  var request = ($m_Lbillding_Meta$().accessToken$1.isDefined__Z() ? $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().accessToken$1.get__O()))) : $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1));
   var backend = this.backend$1;
   var this$2 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
   var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
@@ -2637,12 +2625,16 @@ $c_Lbillding_Main$.prototype.init___ = (function() {
   return this
 });
 $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
+  var x = ("access_token: " + $m_Lbillding_Meta$().accessToken$1);
+  var this$2 = $m_s_Console$();
+  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
+  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   $m_Lbillding_ApiInteractions$().getQuadSetHistory__V();
   $m_Lbillding_ApiInteractions$().postQuadSets__I__V(this.count$1);
   $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: green");
   var jsx$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-  var this$1 = this.count$1;
-  jsx$1.innerHTML = ("" + this$1);
+  var this$4 = this.count$1;
+  jsx$1.innerHTML = ("" + this$4);
   $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().setInterval((function() {
     $m_Lbillding_Main$().toggleColor__V()
   }), 10000.0);
@@ -2688,7 +2680,8 @@ function $c_Lbillding_Meta$() {
   $c_O.call(this);
   this.x$1$1 = null;
   this.host$1 = null;
-  this.path$1 = null
+  this.path$1 = null;
+  this.accessToken$1 = null
 }
 $c_Lbillding_Meta$.prototype = new $h_O();
 $c_Lbillding_Meta$.prototype.constructor = $c_Lbillding_Meta$;
@@ -2763,6 +2756,16 @@ $c_Lbillding_Meta$.prototype.init___ = (function() {
   this.x$1$1 = new $c_T2().init___O__O(_1, _2);
   this.host$1 = $as_T(this.x$1$1.$$und1__O());
   this.path$1 = $as_T(this.x$1$1.$$und2__O());
+  var thiz$1 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+  if (($uI(thiz$1.indexOf("?")) !== (-1))) {
+    var x$2 = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().URL);
+    var this$32 = new $c_sci_StringOps().init___T(x$2);
+    var queryParameters = $f_sci_StringLike__split__C__AT(this$32, 63).get(1);
+    var jsx$1 = new $c_s_Some().init___O($as_T(queryParameters.split("access_token=").join("")))
+  } else {
+    var jsx$1 = $m_s_None$()
+  };
+  this.accessToken$1 = jsx$1;
   return this
 });
 var $d_Lbillding_Meta$ = new $TypeData().initClass({
@@ -33317,6 +33320,9 @@ $c_Lsttp_model_Uri.prototype.equals__O__Z = (function(x$1) {
     return false
   }
 });
+$c_Lsttp_model_Uri.prototype.host__T__Lsttp_model_Uri = (function(h) {
+  return this.hostSegment__Lsttp_model_Uri$Segment__Lsttp_model_Uri(new $c_Lsttp_model_Uri$Segment().init___T__F1(h, $m_Lsttp_model_Uri$HostEncoding$().Standard__F1()))
+});
 $c_Lsttp_model_Uri.prototype.productElement__I__O = (function(x$1) {
   switch (x$1) {
     case 0: {
@@ -33351,9 +33357,6 @@ $c_Lsttp_model_Uri.prototype.productElement__I__O = (function(x$1) {
       throw new $c_jl_IndexOutOfBoundsException().init___T(("" + x$1))
     }
   }
-});
-$c_Lsttp_model_Uri.prototype.host__T__Lsttp_model_Uri = (function(h) {
-  return this.hostSegment__Lsttp_model_Uri$Segment__Lsttp_model_Uri(new $c_Lsttp_model_Uri$Segment().init___T__F1(h, $m_Lsttp_model_Uri$HostEncoding$().Standard__F1()))
 });
 $c_Lsttp_model_Uri.prototype.toString__T = (function() {
   var schemeS = $m_Lsttp_model_internal_Rfc3986$().encode__sci_Set__Z__Z__T__T($m_Lsttp_model_internal_Rfc3986$().Scheme__sci_Set(), ($m_Lsttp_model_internal_Rfc3986$(), false), ($m_Lsttp_model_internal_Rfc3986$(), false), this.scheme$1);
@@ -33396,6 +33399,43 @@ $c_Lsttp_model_Uri.prototype.toString__T = (function() {
     var fragS = ("#" + $as_T(s.encoding$1.apply__O__O(s.v$1)))
   };
   return (((((((((schemeS + "://") + userInfoS) + hostS) + portS) + pathPrefixS) + pathS) + queryPrefixS) + queryS) + fragS)
+});
+$c_Lsttp_model_Uri.prototype.param__T__T__Lsttp_model_Uri = (function(k, v) {
+  var array = [new $c_T2().init___O__O(k, v)];
+  var jsx$1 = this.querySegments$1;
+  $m_sc_Seq$();
+  $m_sjs_js_WrappedArray$();
+  var b = new $c_sjs_js_WrappedArray().init___();
+  var x1 = $uI(array.length);
+  switch (x1) {
+    case (-1): {
+      break
+    }
+  };
+  var i = 0;
+  var len = $uI(array.length);
+  while ((i < len)) {
+    var index = i;
+    var arg1 = array[index];
+    var x0$1 = $as_T2(arg1);
+    if ((x0$1 === null)) {
+      throw new $c_s_MatchError().init___O(x0$1)
+    };
+    var k$1 = $as_T(x0$1.$$und1__O());
+    var v$1 = $as_T(x0$1.$$und2__O());
+    var elem = new $c_Lsttp_model_Uri$QuerySegment$KeyValue().init___T__T__F1__F1(k$1, v$1, $m_Lsttp_model_Uri$QuerySegmentEncoding$().Standard__F1(), $m_Lsttp_model_Uri$QuerySegmentEncoding$().Standard__F1());
+    b.array$6.push(elem);
+    i = ((1 + i) | 0)
+  };
+  var this$9 = $m_sci_Seq$();
+  var x$1 = $as_sci_Seq(jsx$1.$$plus$plus__sc_GenTraversableOnce__scg_CanBuildFrom__O(b, this$9.ReusableCBFInstance$2));
+  var x$2 = this.scheme$1;
+  var x$3 = this.userInfo$1;
+  var x$4 = this.hostSegment$1;
+  var x$5 = this.port$1;
+  var x$6 = this.pathSegments$1;
+  var x$7 = this.fragmentSegment$1;
+  return new $c_Lsttp_model_Uri().init___T__s_Option__Lsttp_model_Uri$Segment__s_Option__sci_Seq__sci_Seq__s_Option(x$2, x$3, x$4, x$5, x$6, x$1, x$7)
 });
 $c_Lsttp_model_Uri.prototype.hostSegment__Lsttp_model_Uri$Segment__Lsttp_model_Uri = (function(s) {
   var x$2 = this.scheme$1;
@@ -33454,10 +33494,6 @@ $c_Lsttp_model_Uri.prototype.fragmentSegment__s_Option__Lsttp_model_Uri = (funct
   var x$7 = this.querySegments$1;
   return new $c_Lsttp_model_Uri().init___T__s_Option__Lsttp_model_Uri$Segment__s_Option__sci_Seq__sci_Seq__s_Option(x$2, x$3, x$4, x$5, x$6, x$7, s)
 });
-$c_Lsttp_model_Uri.prototype.hashCode__I = (function() {
-  var this$2 = $m_s_util_hashing_MurmurHash3$();
-  return this$2.productHash__s_Product__I__I(this, (-889275714))
-});
 $c_Lsttp_model_Uri.prototype.path__sc_Seq__Lsttp_model_Uri = (function(ps) {
   var this$3 = ps.toList__sci_List();
   var f = (function($this) {
@@ -33497,8 +33533,22 @@ $c_Lsttp_model_Uri.prototype.path__sc_Seq__Lsttp_model_Uri = (function(ps) {
   };
   return this.pathSegments__sc_Seq__Lsttp_model_Uri($as_sc_Seq(jsx$1))
 });
+$c_Lsttp_model_Uri.prototype.hashCode__I = (function() {
+  var this$2 = $m_s_util_hashing_MurmurHash3$();
+  return this$2.productHash__s_Product__I__I(this, (-889275714))
+});
 $c_Lsttp_model_Uri.prototype.productIterator__sc_Iterator = (function() {
   return new $c_sr_ScalaRunTime$$anon$1().init___s_Product(this)
+});
+$c_Lsttp_model_Uri.prototype.userInfo__T__T__Lsttp_model_Uri = (function(username, password) {
+  var x$1 = new $c_s_Some().init___O(new $c_Lsttp_model_Uri$UserInfo().init___T__s_Option(username, new $c_s_Some().init___O(password)));
+  var x$2 = this.scheme$1;
+  var x$3 = this.hostSegment$1;
+  var x$4 = this.port$1;
+  var x$5 = this.pathSegments$1;
+  var x$6 = this.querySegments$1;
+  var x$7 = this.fragmentSegment$1;
+  return new $c_Lsttp_model_Uri().init___T__s_Option__Lsttp_model_Uri$Segment__s_Option__sci_Seq__sci_Seq__s_Option(x$2, x$1, x$3, x$4, x$5, x$6, x$7)
 });
 $c_Lsttp_model_Uri.prototype.encodeQuerySegments$1__p1__sci_List__Z__scm_StringBuilder__T = (function(qss, previousWasPlain, sb) {
   _encodeQuerySegments: while (true) {
@@ -33562,16 +33612,6 @@ $c_Lsttp_model_Uri.prototype.encodeQuerySegments$1__p1__sci_List__Z__scm_StringB
     };
     throw new $c_s_MatchError().init___O(x1)
   }
-});
-$c_Lsttp_model_Uri.prototype.userInfo__T__T__Lsttp_model_Uri = (function(username, password) {
-  var x$1 = new $c_s_Some().init___O(new $c_Lsttp_model_Uri$UserInfo().init___T__s_Option(username, new $c_s_Some().init___O(password)));
-  var x$2 = this.scheme$1;
-  var x$3 = this.hostSegment$1;
-  var x$4 = this.port$1;
-  var x$5 = this.pathSegments$1;
-  var x$6 = this.querySegments$1;
-  var x$7 = this.fragmentSegment$1;
-  return new $c_Lsttp_model_Uri().init___T__s_Option__Lsttp_model_Uri$Segment__s_Option__sci_Seq__sci_Seq__s_Option(x$2, x$1, x$3, x$4, x$5, x$6, x$7)
 });
 $c_Lsttp_model_Uri.prototype.encodeUserInfo$1__p1__Lsttp_model_Uri$UserInfo__T = (function(ui) {
   var jsx$2 = $m_Lsttp_model_internal_Rfc3986$().encode__sci_Set__Z__Z__T__T($m_Lsttp_model_internal_Rfc3986$().UserInfo__sci_Set(), ($m_Lsttp_model_internal_Rfc3986$(), false), ($m_Lsttp_model_internal_Rfc3986$(), false), ui.username$1);
@@ -51176,6 +51216,9 @@ var $d_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5 = new $TypeData().in
   s_Equals: 1
 });
 $c_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5.prototype.$classData = $d_Lio_circe_JsonObject$LinkedHashMapJsonObject$$anon$5;
+function $f_sci_StringLike__escape__psci_StringLike__C__T($thiz, ch) {
+  return (((((ch >= 97) && (ch <= 122)) || ((ch >= 65) && (ch <= 90))) || ((ch >= 48) && (ch <= 57))) ? $as_T($g.String.fromCharCode(ch)) : ("\\" + new $c_jl_Character().init___C(ch)))
+}
 function $f_sci_StringLike__unwrapArg__psci_StringLike__O__O($thiz, arg) {
   if ((arg instanceof $c_s_math_ScalaNumber)) {
     var x2 = $as_s_math_ScalaNumber(arg);
@@ -51196,6 +51239,11 @@ function $f_sci_StringLike__slice__I__I__O($thiz, from, until) {
     var x = $as_T(thiz.substring(start, end));
     return $as_scm_Builder(jsx$1.$$plus$plus$eq__sc_TraversableOnce__scg_Growable(new $c_sci_StringOps().init___T(x))).result__O()
   }
+}
+function $f_sci_StringLike__split__C__AT($thiz, separator) {
+  var thiz = $thiz.toString__T();
+  var regex = $f_sci_StringLike__escape__psci_StringLike__C__T($thiz, separator);
+  return $m_sjsr_RuntimeString$().split__T__T__I__AT(thiz, regex, 0)
 }
 /** @constructor */
 function $c_sc_AbstractIterable() {

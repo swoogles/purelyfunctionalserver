@@ -2,6 +2,7 @@ package service
 
 import cats.data.NonEmptyList
 import cats.effect.{ConcurrentEffect, IO, Sync}
+import io.chrisdavenport.vault.Vault
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
 import org.http4s.headers.{Authorization, Cookie}
@@ -30,7 +31,8 @@ case class TokenResponse(access_token: String, id_token: String, scope: String, 
 
  */
 
-class OAuthLogic[F[_]: Sync](C: Client[IO]) {
+class OAuthLogic[F[_]: Sync](C: Client[IO])
+{
   import org.http4s.Method._
   import org.http4s.{EntityDecoder, Uri}
   import org.http4s.client.dsl.io._
@@ -85,7 +87,9 @@ class OAuthLogic[F[_]: Sync](C: Client[IO]) {
 
 }
 
-class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) extends Http4sDsl[F] {
+class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) ( implicit
+                                                            f: Sync[F]
+)extends Http4sDsl[F] {
   val domain = System.getenv("OAUTH_DOMAIN")
   val clientId = System.getenv("OAUTH_CLIENT_ID")
   val clientSecret = System.getenv("OAUTH_CLIENT_SECRET")
@@ -102,6 +106,9 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) extends Http4sDsl[F] {
       clientId,
       clientSecret
     ).withJwkProvider(jwkProvider).build
+
+  val newKey: IO[Key[String]] = Key.newKey[IO, String]
+
 
   val service: HttpRoutes[F] = HttpRoutes.of[F] {
     case req @ GET -> Root / "login"  => {
@@ -121,6 +128,50 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) extends Http4sDsl[F] {
 
     }
 
+    case req @ GET -> Root / "get_token" => {
+      val keyUsage = (for {
+        flatKey <- newKey
+      } yield {
+        println("OauthService.callback.flatKey: " + flatKey)
+        req.attributes.insert(flatKey, "oauthtoken")
+//        Ok(
+//          Authorization(Credentials.Token(AuthScheme.Bearer, "some_token")),
+//          Cookie(NonEmptyList[RequestCookie](RequestCookie("name", "cookieValue"), List()))
+//        )
+        flatKey
+      }).unsafeRunSync()
+      val vault = Vault.empty.insert(keyUsage, "secret token from vault!!")
+      val retrievedValue: Option[String] = vault.lookup(keyUsage)
+      println("key from vault: " + retrievedValue.get)
+
+//      import org.http4s.dsl.io._, org.http4s.implicits._
+
+      val uri = Uri.fromString("http://localhost:8080/resources/html/index.html?access_token=needARealToken").right.get
+      println("parsed uri with query param: " + uri)
+      PermanentRedirect(
+        Location(uri),
+        Authorization(Credentials.Token(AuthScheme.Bearer, "SECRET TOKEN OF SUCCESS!"))
+      )
+
+    }
+
+    case req @ GET -> Root / "check_token" =>
+      val lookupKey = (for {
+        flatKey <- newKey
+      } yield {
+        println("OauthService.callback.flatKey: " + flatKey)
+        flatKey
+      }).unsafeRunSync()
+
+      println("*some* attribute exists: " + req.attributes.isEmpty)
+      println("req.authType: " + req.authType)
+
+      Ok(
+        "Probably didn't have a token :(",
+        Authorization(Credentials.Token(AuthScheme.Bearer, "some_token")),
+        Cookie(NonEmptyList[RequestCookie](RequestCookie("name", "cookieValue"), List()))
+      )
+
     case req @ GET -> Root / "callback"  => {
       val authLogic = new OAuthLogic[IO](C)
       req.params.foreach( param => println("Req.param key: " + param._1 + "  value: " + param._2))
@@ -128,7 +179,7 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO]) extends Http4sDsl[F] {
 
       println("req.attributes: " + req.attributes)
       val newKey: IO[Key[String]] = Key.newKey[IO, String]
-      val keyUsage = (for {
+      val keyUsage: F[Response[F]] = (for {
         flatKey <- newKey
       tokenResponse <- authLogic.doStuff(auth0code)
       _ <- authLogic.getUserInfo(tokenResponse.access_token)

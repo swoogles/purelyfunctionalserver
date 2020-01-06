@@ -7,9 +7,9 @@ import sttp.model.Uri
 import sttp.client.circe._
 
 import scala.concurrent.ExecutionContext.global
-import scala.scalajs.js.Date
-
-import io.circe.generic.auto._, io.circe.syntax._
+import scala.scalajs.js.{Date, URIUtils}
+import io.circe.generic.auto._
+import io.circe.syntax._
 
 case class DailyQuantizedExercise(name: String, day: String, count: Int)
 
@@ -42,9 +42,19 @@ object Meta {
     document.URL.split("/").splitAt(3) match {
       case (a, b) => (a.mkString("/"), b.mkString("/"))
     }
+
+  val accessToken = {
+      if (document.URL.contains("?")) {
+        val queryParameters =
+          document.URL.split('?')(1)
+        Some(queryParameters.replace("access_token=", ""))
+      } else {
+        None
+      }
+  }
 }
 
-object ApiInteractions {
+  object ApiInteractions {
   import sttp.client._
 
   val exerciseUri: Uri = uri"${Meta.host}/exercises"
@@ -83,8 +93,14 @@ object ApiInteractions {
     )
 
   def getQuadSetHistory() = {
-    val request = basicRequest
-      .get(exerciseUri)
+    val request =
+      if (Meta.accessToken.isDefined) {
+        basicRequest
+          .get(exerciseUri.param("access_token", Meta.accessToken.get))
+    } else {
+        basicRequest
+          .get(exerciseUri)
+      }
 
 
     for {
@@ -148,6 +164,7 @@ object Main {
     }
 
   def main(args: Array[String]): Unit = {
+    println("access_token: " + Meta.accessToken)
     ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(count) // Doing this to get the initial count
     document.body.setAttribute("style", "background-color: green")
