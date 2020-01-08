@@ -6,7 +6,7 @@ import org.http4s.dsl.io._
 import tsec.authentication._
 import tsec.common.SecureRandomId
 
-import AuthHelpers.{Role, User}
+import AuthBackingStores.{Role, User}
 
 class AuthenticatedEndpoint(
                              bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]]

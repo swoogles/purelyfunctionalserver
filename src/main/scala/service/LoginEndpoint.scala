@@ -6,7 +6,7 @@ import cats.effect.{Effect, IO, Sync}
 import io.chrisdavenport.vault.Key
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
-import service.AuthHelpers.User
+import service.AuthBackingStores.User
 import tsec.authentication.{BackingStore, TSecBearerToken}
 import tsec.common.SecureRandomId
 

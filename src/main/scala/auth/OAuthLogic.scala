@@ -42,7 +42,7 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
 
 
   }
-  def doStuff(code: String) = {
+  def getTokenFromCallbackCode(code: String) = {
 
     val postRequest: IO[Request[IO]] = POST[UrlForm](
       UrlForm(

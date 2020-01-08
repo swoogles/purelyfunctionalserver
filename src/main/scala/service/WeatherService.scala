@@ -8,7 +8,7 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.`Content-Type`
 import org.http4s.{HttpRoutes, MediaType}
 import repository.{GpsCoordinates, WeatherApi}
-import service.AuthHelpers.User
+import service.AuthBackingStores.User
 import tsec.authentication.{TSecAuthService, TSecBearerToken}
 import tsec.authentication._
 

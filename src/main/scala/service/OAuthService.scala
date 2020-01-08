@@ -125,7 +125,7 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO],
 
       println("req.attributes: " + req.attributes)
       val keyUsage: F[Response[F]] = (for {
-      tokenResponse <- authLogic.doStuff(auth0code)
+      tokenResponse <- authLogic.getTokenFromCallbackCode(auth0code)
       userInfo <- authLogic.getUserInfo(tokenResponse.access_token)
       } yield {
         println("UserInfo: " + userInfo)

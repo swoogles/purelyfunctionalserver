@@ -1,7 +1,7 @@
 package db
 
 import cats.effect.IO
-import service.AuthHelpers.{User, dummyBackingStore}
+import service.AuthBackingStores.{User, dummyBackingStore}
 import tsec.authentication.{BackingStore, TSecBearerToken}
 import tsec.common.SecureRandomId
 

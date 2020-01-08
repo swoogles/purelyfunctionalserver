@@ -1,7 +1,7 @@
 package service
 
 import cats.effect.IO
-import service.AuthHelpers.User
+import service.AuthBackingStores.User
 import tsec.authentication.{BackingStore, BearerTokenAuthenticator, SecuredRequestHandler, TSecAuthService, TSecBearerToken, TSecTokenSettings}
 import tsec.common.SecureRandomId
 import scala.concurrent.duration._
