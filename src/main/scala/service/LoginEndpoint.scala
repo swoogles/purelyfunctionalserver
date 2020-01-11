@@ -56,8 +56,7 @@ class LoginEndpoint [F[_]: Sync](
   def loginLogicWithUserCreation(userId: String) =
     userStore.get(userId.toInt).value.unsafeRunSync() match {
       case None => createUserWithBearerToken(userId)
-      case Some(existingUser) => createBearerTokenForExistingUserIfNeeded(existingUser)
-    }
+      case Some(existingUser) => createBearerTokenForExistingUserIfNeeded(existingUser)}
   val service = HttpRoutes.of[F] {
     case request @ GET -> Root / userId => {
       println(s"Attempting to login userId=$userId")

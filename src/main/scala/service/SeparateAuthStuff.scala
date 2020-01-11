@@ -8,14 +8,14 @@ import org.http4s.{AuthedRequest, Request, Response}
 
 case class AuthorizedRequest[F[_]](sub: String, request: Request[F])
 
+case class Sub(id: String)
+
+case class AccessToken(value: String)
 
 class SeparateAuthStuff[F[_]: ConcurrentEffect]()(implicit f: Sync[F]) extends Http4sDsl[IO] {
 
   val PublicChaoticUser  = Sub("PUBLIC_CHAOTIC_USER")
   case class AuthorizedRequest[G[_]](sub: Sub, request: Request[G])
-
-  case class Sub(id: String)
-  case class AccessToken(value: String)
 
   def getFederatedSubFromAccessToken(accessToken: AccessToken): Option[Sub] =
     ???

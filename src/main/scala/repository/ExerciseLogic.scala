@@ -1,7 +1,5 @@
 package repository
 
-import java.time.LocalDate
-
 import cats.effect.{IO, Sync}
 import fs2.Stream
 import model.DailyQuantizedExercise
@@ -11,12 +9,8 @@ class ExerciseLogic[F[_] : Sync](exerciseRepository: ExerciseRepository[F]) {
   def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise] =
     exerciseRepository.getExercisesFor(name)
 
-  def getExerciseHistoriesFor(name: String, userIdOpt: Option[String]): Stream[IO, DailyQuantizedExercise] =
-    userIdOpt match {
-      case Some(userId) =>exerciseRepository.getExerciseHistoryForUser(name, userId)
-      case None => exerciseRepository.getExercisesFor(name)
-    }
-
+  def getExerciseHistoriesFor(name: String, userIdOpt: String): Stream[IO, DailyQuantizedExercise] =
+    exerciseRepository.getExerciseHistoryForUser(name, userIdOpt)
 
   def createOrUpdate(dailyQuantizedExercise: DailyQuantizedExercise): IO[Either[ IllegalStateException, DailyQuantizedExercise]] = {
 

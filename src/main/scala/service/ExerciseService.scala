@@ -19,9 +19,9 @@ import scala.concurrent.duration.MILLISECONDS
 class ExerciseService[F[_]: ConcurrentEffect](
                                                   exerciseLogic: ExerciseLogic[F],
                                                   authLogic: OAuthLogic[IO]
-                                                )(implicit
-F: Sync[F],
-                                                  clock: Clock[F] // TODO Why can't this be F?
+                                             )(implicit
+                                               F: ConcurrentEffect[F],
+                                               clock: Clock[F] // TODO Why can't this be F?
 ) extends Http4sDsl[IO] {
 
   val clocky: F[Long] = clock.monotonic(MILLISECONDS)
@@ -31,21 +31,26 @@ F: Sync[F],
       //  def authAuthChecks(pf: PartialFunction[AuthorizedRequest[F], F[Response[F]]])
       //    : PartialFunction[Request[F], F[Response[F]]] =
 
+  val chaoticPublicUser = "ChaoticPublicUser"
+
+  def getUserFromRequest(request: Request[IO]): Sub = {
+    val accessToken = request.params.get("access_token")
+    if (accessToken.isDefined) {
+      val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
+      Sub(userInfo.sub)
+    } else {
+      Sub(chaoticPublicUser)
+    }
+  }
+
   val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
-        // pf: PartialFunction[Request[F], F[Response[F]]]
+    // pf: PartialFunction[Request[F], F[Response[F]]]
         case request @ GET -> Root => {
-          val accessToken = request.params.get("access_token")
-          val userId =
-            if (accessToken.isDefined) {
-              val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
-              Some(userInfo.sub)
-            } else {
-              None
-            }
-          println("Going to retrieve exercises for sub: " + userId)
+          val user = getUserFromRequest(request)
+          println("Going to retrieve exercises for sub: " + user)
           Ok(
             Stream("[") ++
-              exerciseLogic.getExerciseHistoriesFor("QuadSets", userId)
+              exerciseLogic.getExerciseHistoriesFor("QuadSets", user.id)
                 .map(_.asJson.noSpaces)
                 .intersperse(",") ++ Stream("]")
             , `Content-Type`(MediaType.application.json)
@@ -65,14 +70,9 @@ F: Sync[F],
           for {
             newExercise <- req.decodeJson[DailyQuantizedExercise]
             completedExercise <- IO {
-              if (accessToken.isDefined) {
-                val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
-                println("Accepting a new POST from sub: " + userInfo.sub)
-                newExercise.copy(userId = Some(userInfo.sub))
-              } else {
-                newExercise
-              }
-
+              val user = getUserFromRequest(req)
+              println("Accepting a new POST from sub: " + user)
+              newExercise.copy(userId = Some(user.id))
             }
             _ <- IO {
               println("postedExercise day: " + newExercise.day)
