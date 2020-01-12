@@ -101,15 +101,26 @@ object Meta {
     )
 
   def getQuadSetHistory() = {
-    val request =
-      if (Meta.accessToken.isDefined) {
+
+    val storage = org.scalajs.dom.window.localStorage
+    val request = {
+    if (storage.getItem("access_token_fromJS").nonEmpty) {
+      println("We have a stored token. Use it for getting authorized info")
+      basicRequest
+        .get(exerciseUri)
+        .header(Header.authorization("Bearer", storage.getItem("access_token_fromJS")))
+    }
+    else if (Meta.accessToken.isDefined) {
+      println("We queryParameter token. Use it for getting authorized info. Non-ideal.")
         basicRequest
           .get(exerciseUri.param("access_token", Meta.accessToken.get))
           .header(Header.authorization("Bearer", Meta.accessToken.get))
-    } else {
+      } else {
+      println("We have no token. Request information for public, chaotic user.")
         basicRequest
           .get(exerciseUri)
       }
+    }
 
 
     for {

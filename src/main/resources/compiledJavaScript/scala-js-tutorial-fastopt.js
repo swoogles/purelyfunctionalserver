@@ -2536,15 +2536,31 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
   })(this)), this.ec$1)
 });
 $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
-  if ($m_Lbillding_Meta$().accessToken$1.isDefined__Z()) {
-    var qual$1 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().accessToken$1.get__O())));
-    var x$1 = $m_Lsttp_model_Header$().authorization__T__T__Lsttp_model_Header("Bearer", $as_T($m_Lbillding_Meta$().accessToken$1.get__O()));
+  var storage = $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().localStorage;
+  var x = $as_T(storage.getItem("access_token_fromJS"));
+  var this$2 = new $c_sci_StringOps().init___T(x);
+  if ($f_sc_TraversableOnce__nonEmpty__Z(this$2)) {
+    var this$4 = $m_s_Console$();
+    var this$5 = $as_Ljava_io_PrintStream(this$4.outVar$2.v$1);
+    this$5.java$lang$JSConsoleBasedPrintStream$$printString__T__V("We have a stored token. Use it for getting authorized info\n");
+    var qual$1 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
+    var x$1 = $m_Lsttp_model_Header$().authorization__T__T__Lsttp_model_Header("Bearer", $as_T(storage.getItem("access_token_fromJS")));
     var request = qual$1.header__Lsttp_model_Header__Z__Lsttp_client_RequestT(x$1, false)
+  } else if ($m_Lbillding_Meta$().accessToken$1.isDefined__Z()) {
+    var this$7 = $m_s_Console$();
+    var this$8 = $as_Ljava_io_PrintStream(this$7.outVar$2.v$1);
+    this$8.java$lang$JSConsoleBasedPrintStream$$printString__T__V("We queryParameter token. Use it for getting authorized info. Non-ideal.\n");
+    var qual$2 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().accessToken$1.get__O())));
+    var x$3 = $m_Lsttp_model_Header$().authorization__T__T__Lsttp_model_Header("Bearer", $as_T($m_Lbillding_Meta$().accessToken$1.get__O()));
+    var request = qual$2.header__Lsttp_model_Header__Z__Lsttp_client_RequestT(x$3, false)
   } else {
+    var this$10 = $m_s_Console$();
+    var this$11 = $as_Ljava_io_PrintStream(this$10.outVar$2.v$1);
+    this$11.java$lang$JSConsoleBasedPrintStream$$printString__T__V("We have no token. Request information for public, chaotic user.\n");
     var request = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1)
   };
   var backend = this.backend$1;
-  var this$2 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
+  var this$13 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
   var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
     return (function(check$ifrefutable$1$2) {
       var check$ifrefutable$1 = $as_Lsttp_client_Response(check$ifrefutable$1$2);
@@ -2552,14 +2568,14 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
     })
   })(this));
   var executor = this.ec$1;
-  this$2.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
+  this$13.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$2$1) {
     return (function(response$2) {
       var response = $as_Lsttp_client_Response(response$2);
       var x1 = $as_s_util_Either(response.body$1);
       if ((x1 instanceof $c_s_util_Right)) {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
-        var this$8 = $m_Lsttp_client_circe_package$();
+        var this$19 = $m_Lsttp_client_circe_package$();
         $m_Lio_circe_Decoder$();
         $m_Lio_circe_Decoder$();
         var inst$macro$12 = new $c_Lbillding_ApiInteractions$anon$importedDecoder$macro$11$1().init___().inst$macro$1__Lio_circe_generic_decoding_DerivedDecoder();
@@ -2572,21 +2588,21 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
         var exported = $as_Lio_circe_Decoder(lv.value__O());
         var evidence$7 = new $c_Lio_circe_Decoder$$anon$44().init___Lio_circe_Decoder(exported);
         var evidence$8 = $m_Lsttp_client_IsOption$False$();
-        var x1$2 = $as_s_util_Either($f_Lsttp_client_circe_SttpCirceApi__deserializeJson__Lio_circe_Decoder__Lsttp_client_IsOption__F1(this$8, evidence$7, evidence$8).apply__O__O(jsonBody));
+        var x1$2 = $as_s_util_Either($f_Lsttp_client_circe_SttpCirceApi__deserializeJson__Lio_circe_Decoder__Lsttp_client_IsOption__F1(this$19, evidence$7, evidence$8).apply__O__O(jsonBody));
         if ((x1$2 instanceof $c_s_util_Right)) {
           var x2$2 = $as_s_util_Right(x1$2);
           var value = $as_sci_List(x2$2.value$2);
           var jsx$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("exercise_history");
-          var this$9 = $m_Lscalatags_JsDom$all$();
+          var this$20 = $m_Lscalatags_JsDom$all$();
           var e = $m_Lbillding_ApiInteractions$().representQuadSets__sci_List__Lscalatags_JsDom$TypedTag(value).render__Lorg_scalajs_dom_raw_Element();
-          return jsx$1.appendChild(new $c_Lscalatags_LowPriorityImplicits$bindNode().init___Lscalatags_LowPriorityImplicits__Lorg_scalajs_dom_raw_Node(this$9, e).e$1)
+          return jsx$1.appendChild(new $c_Lscalatags_LowPriorityImplicits$bindNode().init___Lscalatags_LowPriorityImplicits__Lorg_scalajs_dom_raw_Node(this$20, e).e$1)
         } else if ((x1$2 instanceof $c_s_util_Left)) {
           var x3 = $as_s_util_Left(x1$2);
           var failure = $as_Lio_circe_Error(x3.value$2);
-          var x = ("Parse failure: " + failure);
-          var this$11 = $m_s_Console$();
-          var this$12 = $as_Ljava_io_PrintStream(this$11.outVar$2.v$1);
-          this$12.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+          var x$2 = ("Parse failure: " + failure);
+          var this$22 = $m_s_Console$();
+          var this$23 = $as_Ljava_io_PrintStream(this$22.outVar$2.v$1);
+          this$23.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
           return (void 0)
         } else {
           throw new $c_s_MatchError().init___O(x1$2)
@@ -2594,10 +2610,10 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3$2 = $as_s_util_Left(x1);
         var failure$2 = $as_T(x3$2.value$2);
-        var x$2 = ("Failure: " + failure$2);
-        var this$14 = $m_s_Console$();
-        var this$15 = $as_Ljava_io_PrintStream(this$14.outVar$2.v$1);
-        this$15.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+        var x$4 = ("Failure: " + failure$2);
+        var this$25 = $m_s_Console$();
+        var this$26 = $as_Ljava_io_PrintStream(this$25.outVar$2.v$1);
+        this$26.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$4 + "\n"));
         return (void 0)
       } else {
         throw new $c_s_MatchError().init___O(x1)
