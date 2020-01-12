@@ -149,8 +149,14 @@ object Meta {
     val localDate = Time.formattedLocalDate()
       val exercise = DailyQuantizedExercise(name = "QuadSets", day = localDate, count = count)
 
+    val storage = org.scalajs.dom.window.localStorage
     val request =
-      if (Meta.accessToken.isDefined) {
+      if (storage.getItem("access_token_fromJS").nonEmpty) {
+        println("We have a stored token. Use it to post authorized info")
+        basicRequest
+          .post(exerciseUri)
+          .auth.bearer(storage.getItem("access_token_fromJS"))
+      } else if (Meta.accessToken.isDefined) {
         basicRequest
           .body(exercise)
           .post(exerciseUri.param("access_token", Meta.accessToken.get))
