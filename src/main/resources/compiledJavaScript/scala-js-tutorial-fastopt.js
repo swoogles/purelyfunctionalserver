@@ -2786,7 +2786,7 @@ $c_Lbillding_Meta$.prototype.init___ = (function() {
       var cleanToken = tokenWithPossibleHash
     };
     var storage = $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().localStorage;
-    storage.setItem("access_token", tokenWithPossibleHash);
+    storage.setItem("access_token_fromJS", tokenWithPossibleHash);
     var jsx$1 = new $c_s_Some().init___O(cleanToken)
   } else {
     var jsx$1 = $m_s_None$()

@@ -54,7 +54,7 @@ object Meta {
         else
           tokenWithPossibleHash
         val storage = org.scalajs.dom.window.localStorage
-        storage.setItem("access_token", tokenWithPossibleHash) // TODO Test this
+        storage.setItem("access_token_fromJS", tokenWithPossibleHash) // TODO Test this
         Some(cleanToken)
       } else {
         None
