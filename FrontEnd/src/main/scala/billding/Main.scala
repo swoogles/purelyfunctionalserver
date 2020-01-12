@@ -182,9 +182,15 @@ object Main {
   def main(args: Array[String]): Unit = {
     println("Cookie: " + document.cookie)
     // TODO remove this if it crazily breaks everything.
+    val storage = org.scalajs.dom.window.localStorage
     if (Meta.accessToken.isDefined) {
       dom.window.location.pathname = "/resources/html/index.html"
     }
+    if (storage.getItem("access_token_fromJS").nonEmpty) {
+      println("Still have a token stored after loading the page without query params :)")
+      println("Value: " + storage.getItem("access_token_fromJS"))
+    }
+
     ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(count) // Doing this to get the initial count
     document.body.setAttribute("style", "background-color: green")

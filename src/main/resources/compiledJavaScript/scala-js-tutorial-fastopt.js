@@ -2652,23 +2652,35 @@ $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
   var this$2 = $m_s_Console$();
   var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
   this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+  var storage = $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().localStorage;
   if ($m_Lbillding_Meta$().accessToken$1.isDefined__Z()) {
     $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.pathname = "/resources/html/index.html"
+  };
+  var x$1 = $as_T(storage.getItem("access_token_fromJS"));
+  var this$5 = new $c_sci_StringOps().init___T(x$1);
+  if ($f_sc_TraversableOnce__nonEmpty__Z(this$5)) {
+    var this$7 = $m_s_Console$();
+    var this$8 = $as_Ljava_io_PrintStream(this$7.outVar$2.v$1);
+    this$8.java$lang$JSConsoleBasedPrintStream$$printString__T__V("Still have a token stored after loading the page without query params :)\n");
+    var x$2 = ("Value: " + $as_T(storage.getItem("access_token_fromJS")));
+    var this$10 = $m_s_Console$();
+    var this$11 = $as_Ljava_io_PrintStream(this$10.outVar$2.v$1);
+    this$11.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
   };
   $m_Lbillding_ApiInteractions$().getQuadSetHistory__V();
   $m_Lbillding_ApiInteractions$().postQuadSets__I__V(this.count$1);
   $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: green");
   var jsx$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-  var this$4 = this.count$1;
-  jsx$1.innerHTML = ("" + this$4);
+  var this$12 = this.count$1;
+  jsx$1.innerHTML = ("" + this$12);
   $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().setInterval((function() {
     $m_Lbillding_Main$().toggleColor__V()
   }), 10000.0);
   var qual$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("submit_quad_sets");
-  var x$2 = (function(arg1$2) {
+  var x$2$1 = (function(arg1$2) {
     $m_Lbillding_ApiInteractions$().safelyPostQuadSets__I__V($m_Lbillding_Main$().count$1)
   });
-  qual$1.addEventListener("click", x$2);
+  qual$1.addEventListener("click", x$2$1);
   var qual$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("reset_reps");
   var x$5 = (function(arg1$2$1) {
     $m_Lbillding_ApiInteractions$().safeResetReps__V()
