@@ -32,6 +32,7 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
   implicit def userInfoDecoder[F[_]: Sync]: EntityDecoder[F, UserInfo] =
     jsonOf
   def getUserInfo(accessToken: String) = {
+    println("About to retrieve userInfo for token: " + accessToken)
     C.expect[UserInfo](
       GET(
         Uri.fromString("https://quiet-glitter-8635.auth0.com/userinfo").right.get,
