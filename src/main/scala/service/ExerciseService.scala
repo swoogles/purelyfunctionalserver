@@ -35,6 +35,7 @@ class ExerciseService[F[_]: ConcurrentEffect](
   val chaoticPublicUser = "ChaoticPublicUser"
 
   def getUserFromRequest(request: Request[IO]): Sub = {
+    request.headers.foreach(header => "Header  name: " + header.name + "  value: " + header.value)
     val tokenFromAuthorizationHeaderAttempt = request.headers.get(CaseInsensitiveString("Authorization"))
     val token: Option[String] =
       tokenFromAuthorizationHeaderAttempt
