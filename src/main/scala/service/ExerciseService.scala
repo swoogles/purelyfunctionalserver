@@ -11,6 +11,7 @@ import model.DailyQuantizedExercise
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Location, `Content-Type`}
+import org.http4s.util.CaseInsensitiveString
 import org.http4s.{HttpRoutes, MediaType, Request, Response, Uri}
 import repository.ExerciseLogic
 
@@ -34,9 +35,17 @@ class ExerciseService[F[_]: ConcurrentEffect](
   val chaoticPublicUser = "ChaoticPublicUser"
 
   def getUserFromRequest(request: Request[IO]): Sub = {
-    val accessToken = request.params.get("access_token")
-    if (accessToken.isDefined) {
-      val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
+    val tokenFromAuthorizationHeaderAttempt = request.headers.get(CaseInsensitiveString("Authorization"))
+    val token: Option[String] =
+      tokenFromAuthorizationHeaderAttempt
+          .map( header => header.value )
+        .orElse{
+          println("Couldn't get token from Authorization header. Looking at queryParameters now")
+          val queryParamResult = request.params.get("access_token")
+          queryParamResult
+        }
+    if (token.isDefined) {
+      val userInfo: UserInfo = authLogic.getUserInfo(token.get).unsafeRunSync()
       Sub(userInfo.sub)
     } else {
       Sub(chaoticPublicUser)

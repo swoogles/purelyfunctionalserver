@@ -2536,7 +2536,13 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
   })(this)), this.ec$1)
 });
 $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
-  var request = ($m_Lbillding_Meta$().accessToken$1.isDefined__Z() ? $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().accessToken$1.get__O()))) : $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1));
+  if ($m_Lbillding_Meta$().accessToken$1.isDefined__Z()) {
+    var qual$1 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().accessToken$1.get__O())));
+    var x$1 = $m_Lsttp_model_Header$().authorization__T__T__Lsttp_model_Header("Bearer", $as_T($m_Lbillding_Meta$().accessToken$1.get__O()));
+    var request = qual$1.header__Lsttp_model_Header__Z__Lsttp_client_RequestT(x$1, false)
+  } else {
+    var request = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1)
+  };
   var backend = this.backend$1;
   var this$2 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
   var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function($this) {
@@ -2588,10 +2594,10 @@ $c_Lbillding_ApiInteractions$.prototype.getQuadSetHistory__V = (function() {
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3$2 = $as_s_util_Left(x1);
         var failure$2 = $as_T(x3$2.value$2);
-        var x$1 = ("Failure: " + failure$2);
+        var x$2 = ("Failure: " + failure$2);
         var this$14 = $m_s_Console$();
         var this$15 = $as_Ljava_io_PrintStream(this$14.outVar$2.v$1);
-        this$15.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+        this$15.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
         return (void 0)
       } else {
         throw new $c_s_MatchError().init___O(x1)
@@ -2646,6 +2652,9 @@ $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
   var this$2 = $m_s_Console$();
   var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
   this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
+  if ($m_Lbillding_Meta$().accessToken$1.isDefined__Z()) {
+    $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.pathname = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
+  };
   $m_Lbillding_ApiInteractions$().getQuadSetHistory__V();
   $m_Lbillding_ApiInteractions$().postQuadSets__I__V(this.count$1);
   $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: green");
@@ -6168,6 +6177,11 @@ function $h_Lsttp_model_Header$() {
 $h_Lsttp_model_Header$.prototype = $c_Lsttp_model_Header$.prototype;
 $c_Lsttp_model_Header$.prototype.init___ = (function() {
   return this
+});
+$c_Lsttp_model_Header$.prototype.authorization__T__T__Lsttp_model_Header = (function(authType, credentials) {
+  var name = $m_Lsttp_model_HeaderNames$().Authorization__T();
+  var value = ((authType + " ") + credentials);
+  return new $c_Lsttp_model_Header().init___T__T(name, value)
 });
 $c_Lsttp_model_Header$.prototype.unapply__Lsttp_model_Header__s_Option = (function(h) {
   return new $c_s_Some().init___O(new $c_T2().init___O__O(h.name$1, h.value$1))

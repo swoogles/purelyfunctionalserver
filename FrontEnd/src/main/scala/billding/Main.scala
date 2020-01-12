@@ -3,7 +3,7 @@ package billding
 import org.scalajs.dom
 import org.scalajs.dom.Event
 import org.scalajs.dom.document
-import sttp.model.Uri
+import sttp.model.{Header, Uri}
 import sttp.client.circe._
 
 import scala.concurrent.ExecutionContext.global
@@ -105,6 +105,7 @@ object Meta {
       if (Meta.accessToken.isDefined) {
         basicRequest
           .get(exerciseUri.param("access_token", Meta.accessToken.get))
+          .header(Header.authorization("Bearer", Meta.accessToken.get))
     } else {
         basicRequest
           .get(exerciseUri)
@@ -180,6 +181,11 @@ object Main {
 
   def main(args: Array[String]): Unit = {
     println("Cookie: " + document.cookie)
+    // TODO remove this if it crazily breaks everything.
+    // TODO pull path out of url if it doesn't break everything.
+    if (Meta.accessToken.isDefined) {
+      dom.window.location.pathname = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
+    }
     ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(count) // Doing this to get the initial count
     document.body.setAttribute("style", "background-color: green")
