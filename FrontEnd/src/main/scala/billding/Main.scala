@@ -182,9 +182,8 @@ object Main {
   def main(args: Array[String]): Unit = {
     println("Cookie: " + document.cookie)
     // TODO remove this if it crazily breaks everything.
-    // TODO pull path out of url if it doesn't break everything.
     if (Meta.accessToken.isDefined) {
-      dom.window.location.pathname = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
+      dom.window.location.pathname = "/resources/html/index.html"
     }
     ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(count) // Doing this to get the initial count

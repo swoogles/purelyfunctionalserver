@@ -2653,7 +2653,7 @@ $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
   var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
   this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   if ($m_Lbillding_Meta$().accessToken$1.isDefined__Z()) {
-    $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.pathname = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
+    $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.pathname = "/resources/html/index.html"
   };
   $m_Lbillding_ApiInteractions$().getQuadSetHistory__V();
   $m_Lbillding_ApiInteractions$().postQuadSets__I__V(this.count$1);
