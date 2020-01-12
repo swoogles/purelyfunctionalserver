@@ -37,7 +37,7 @@ class ExerciseService[F[_]: ConcurrentEffect](
   def getUserFromRequest(request: Request[IO]): Sub = {
     request.headers.foreach(header => println("Header  name: " + header.name + "  value: " + header.value))
     val tokenFromAuthorizationHeaderAttempt = request.headers.get(CaseInsensitiveString("Authorization"))
-    val token: Option[String] =
+    val tokenWithType: Option[String] =
       tokenFromAuthorizationHeaderAttempt
           .map( header => header.value )
         .orElse{
@@ -45,8 +45,10 @@ class ExerciseService[F[_]: ConcurrentEffect](
           val queryParamResult = request.params.get("access_token")
           queryParamResult
         }
-    if (token.isDefined) {
-      val userInfo: UserInfo = authLogic.getUserInfo(token.get).unsafeRunSync()
+    if (tokenWithType.isDefined) {
+      val tokenValueOnly = tokenWithType.get.split("\\s+")(1)
+      println("tokenValueOnly: " + tokenValueOnly)
+      val userInfo: UserInfo = authLogic.getUserInfo(tokenValueOnly).unsafeRunSync()
       Sub(userInfo.sub)
     } else {
       Sub(chaoticPublicUser)
