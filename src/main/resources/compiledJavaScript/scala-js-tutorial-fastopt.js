@@ -2642,7 +2642,7 @@ $c_Lbillding_Main$.prototype.init___ = (function() {
   return this
 });
 $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
-  var x = ("access_token: " + $m_Lbillding_Meta$().accessToken$1);
+  var x = ("Cookie: " + $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().cookie));
   var this$2 = $m_s_Console$();
   var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
   this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
@@ -2785,6 +2785,8 @@ $c_Lbillding_Meta$.prototype.init___ = (function() {
     } else {
       var cleanToken = tokenWithPossibleHash
     };
+    var storage = $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().localStorage;
+    storage.setItem("access_token", tokenWithPossibleHash);
     var jsx$1 = new $c_s_Some().init___O(cleanToken)
   } else {
     var jsx$1 = $m_s_None$()

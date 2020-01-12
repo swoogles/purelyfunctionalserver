@@ -132,7 +132,7 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO],
         val uri = Uri.fromString(s"https://purelyfunctionalserver.herokuapp.com/resources/html/index.html?access_token=${tokenResponse.access_token}").right.get
         PermanentRedirect(Location(uri),
           Authorization(Credentials.Token(AuthScheme.Bearer, tokenResponse.access_token)),
-          Cookie(NonEmptyList[RequestCookie](RequestCookie("name", "cookieValue"), List()))
+          Cookie(NonEmptyList[RequestCookie](RequestCookie("accessTokenFromCallback", tokenResponse.access_token), List()))
         )
       }).unsafeRunSync()
       println("Key usage: " + keyUsage)

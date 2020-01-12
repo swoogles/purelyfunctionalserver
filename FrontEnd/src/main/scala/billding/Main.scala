@@ -53,6 +53,8 @@ object Meta {
           tokenWithPossibleHash.dropRight(1)
         else
           tokenWithPossibleHash
+        val storage = org.scalajs.dom.window.localStorage
+        storage.setItem("access_token", tokenWithPossibleHash) // TODO Test this
         Some(cleanToken)
       } else {
         None
@@ -177,7 +179,7 @@ object Main {
     }
 
   def main(args: Array[String]): Unit = {
-    println("access_token: " + Meta.accessToken)
+    println("Cookie: " + document.cookie)
     ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(count) // Doing this to get the initial count
     document.body.setAttribute("style", "background-color: green")

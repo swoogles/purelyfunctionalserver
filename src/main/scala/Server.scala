@@ -8,7 +8,7 @@ import config.{Config, ConfigData, DatabaseConfig}
 import db.{Database, InMemoryAuthBackends}
 import doobie.hikari.HikariTransactor
 import fs2.Stream
-import org.http4s.{Request, Response}
+import org.http4s.{Header, Request, Response}
 import org.http4s.client.Client
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.dsl.Http4sDsl
@@ -105,12 +105,14 @@ object Server extends IOApp with Http4sDsl[IO] {
         authLogic
       ).service
 
+
     val githubService = {
       new GithubService(Github.impl[IO](client)).service
     }
     val homePageService = new HomePageService[IO](blocker).routes
     val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
     val authService = new OAuthService[IO](client, authLogic).service
+    val authServiceWithExtraHeaders = MyMiddle(authService, Header("SomeKey", "SomeValue"))
     val authenticationBackends = new AuthenticationBackends(
       InMemoryAuthBackends.bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer,
       InMemoryAuthBackends.userStoreThatShouldBeInstantiatedOnceByTheServer,
@@ -136,13 +138,13 @@ object Server extends IOApp with Http4sDsl[IO] {
       )
 
     Router(
-      "/" -> homePageService,
+      "/" -> MyMiddle(homePageService, Header("SomeKey", "SomeValue")),
       "/resources" -> resourceService,
       "/todo" -> todoService,
       "/github" -> githubService,
       "/exercises" -> exerciseService,
       "/weather" -> weatherService,
-      "/oauth" -> authService,
+      "/oauth" -> authServiceWithExtraHeaders,
       "/tsec" -> authenticatedEndpoint,
       "/login" -> loginService
     ).orNotFound
