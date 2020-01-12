@@ -156,6 +156,7 @@ object Meta {
         basicRequest
           .post(exerciseUri)
           .auth.bearer(storage.getItem("access_token_fromJS"))
+          .body(exercise)
       } else if (Meta.accessToken.isDefined) {
         basicRequest
           .body(exercise)

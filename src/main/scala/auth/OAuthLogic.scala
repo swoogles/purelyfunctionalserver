@@ -37,7 +37,11 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
         Uri.fromString("https://quiet-glitter-8635.auth0.com/userinfo").right.get,
         Authorization(Credentials.Token(AuthScheme.Bearer, accessToken))
       )
-    ).map{userInfoResponse => println("UserInfoResponse: " + userInfoResponse); userInfoResponse}
+    ).map{userInfoResponse: UserInfo => println("UserInfoResponse: " + userInfoResponse); userInfoResponse}
+      .handleErrorWith( error => {
+        println("error getting user info: " + error)
+        IO {  throw new RuntimeException(error)}
+      })
 //      .handleErrorWith( error => IO { println("user info request error : " + error); error.getMessage})
 
 

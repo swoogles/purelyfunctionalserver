@@ -2467,9 +2467,7 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
     var this$5 = $as_Ljava_io_PrintStream(this$4.outVar$2.v$1);
     this$5.java$lang$JSConsoleBasedPrintStream$$printString__T__V("We have a stored token. Use it to post authorized info\n");
     var this$6 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1);
-    var request = new $c_Lsttp_client_SpecifyAuthScheme().init___T__Lsttp_client_RequestT__T($m_Lsttp_model_HeaderNames$().Authorization__T(), this$6, $m_Lsttp_client_DigestAuthenticationBackend$().DigestAuthTag__T()).bearer__T__Lsttp_client_RequestT($as_T(storage.getItem("access_token_fromJS")))
-  } else if ($m_Lbillding_Meta$().accessToken$1.isDefined__Z()) {
-    var this$12 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+    var this$12 = new $c_Lsttp_client_SpecifyAuthScheme().init___T__Lsttp_client_RequestT__T($m_Lsttp_model_HeaderNames$().Authorization__T(), this$6, $m_Lsttp_client_DigestAuthenticationBackend$().DigestAuthTag__T()).bearer__T__Lsttp_client_RequestT($as_T(storage.getItem("access_token_fromJS")));
     var this$11 = $m_Lsttp_client_circe_package$();
     $m_Lio_circe_Encoder$();
     var inst$macro$12 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1().init___().inst$macro$1__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
@@ -2482,8 +2480,8 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
     var exported = $as_Lio_circe_Encoder$AsObject(lv.value__O());
     var printer = $m_Lio_circe_Printer$().noSpaces$1;
     var evidence$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$11, exported, printer);
-    var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$12, exercise, evidence$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().accessToken$1.get__O())))
-  } else {
+    var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$12, exercise, evidence$1)
+  } else if ($m_Lbillding_Meta$().accessToken$1.isDefined__Z()) {
     var this$18 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
     var this$17 = $m_Lsttp_client_circe_package$();
     $m_Lio_circe_Encoder$();
@@ -2497,22 +2495,37 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
     var exported$1 = $as_Lio_circe_Encoder$AsObject(lv$1.value__O());
     var printer$1 = $m_Lio_circe_Printer$().noSpaces$1;
     var evidence$1$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$17, exported$1, printer$1);
-    var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$18, exercise, evidence$1$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1)
+    var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$18, exercise, evidence$1$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().accessToken$1.get__O())))
+  } else {
+    var this$24 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+    var this$23 = $m_Lsttp_client_circe_package$();
+    $m_Lio_circe_Encoder$();
+    var inst$macro$36 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1().init___().inst$macro$25__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
+    var t$2 = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function(this$3$1, inst$macro$36$1) {
+      return (function() {
+        return inst$macro$36$1
+      })
+    })(this, inst$macro$36));
+    var lv$2 = new $c_Lshapeless_Lazy$$anon$1().init___F0(t$2);
+    var exported$2 = $as_Lio_circe_Encoder$AsObject(lv$2.value__O());
+    var printer$2 = $m_Lio_circe_Printer$().noSpaces$1;
+    var evidence$1$2 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$23, exported$2, printer$2);
+    var request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$24, exercise, evidence$1$2).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.exerciseUri$1)
   };
   var x$1 = ("About to make a request: " + request);
-  var this$20 = $m_s_Console$();
-  var this$21 = $as_Ljava_io_PrintStream(this$20.outVar$2.v$1);
-  this$21.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+  var this$26 = $m_s_Console$();
+  var this$27 = $as_Ljava_io_PrintStream(this$26.outVar$2.v$1);
+  this$27.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
   var backend = this.backend$1;
-  var this$23 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
-  var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$3$1) {
+  var this$29 = $as_s_concurrent_Future(backend.send__Lsttp_client_RequestT__O(request));
+  var p = new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
     return (function(check$ifrefutable$2$2) {
       var check$ifrefutable$2 = $as_Lsttp_client_Response(check$ifrefutable$2$2);
       return (check$ifrefutable$2 !== null)
     })
   })(this));
   var executor = this.ec$1;
-  this$23.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$4$1) {
+  this$29.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1().init___sjs_js_Function1((function(this$5$1) {
     return (function(response$2) {
       var response = $as_Lsttp_client_Response(response$2);
       var x1 = $as_s_util_Either(response.body$1);
@@ -2520,24 +2533,24 @@ $c_Lbillding_ApiInteractions$.prototype.postQuadSets__I__V = (function(count) {
         var x2 = $as_s_util_Right(x1);
         var jsonBody = $as_T(x2.value$2);
         var jsx$1 = $m_Lbillding_Main$();
-        var this$25 = new $c_sci_StringOps().init___T(jsonBody);
-        var this$27 = $m_jl_Integer$();
-        var $$this = this$25.repr$1;
-        jsx$1.dailyTotal$1 = this$27.parseInt__T__I__I($$this, 10);
+        var this$31 = new $c_sci_StringOps().init___T(jsonBody);
+        var this$33 = $m_jl_Integer$();
+        var $$this = this$31.repr$1;
+        jsx$1.dailyTotal$1 = this$33.parseInt__T__I__I($$this, 10);
         $m_Lbillding_Main$().count$1 = 0;
         var jsx$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-        var this$28 = $m_Lbillding_Main$().count$1;
-        jsx$2.innerHTML = ("" + this$28);
+        var this$34 = $m_Lbillding_Main$().count$1;
+        jsx$2.innerHTML = ("" + this$34);
         var jsx$3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("daily_total");
-        var this$30 = $m_Lbillding_Main$().dailyTotal$1;
-        jsx$3.innerHTML = ("" + this$30)
+        var this$36 = $m_Lbillding_Main$().dailyTotal$1;
+        jsx$3.innerHTML = ("" + this$36)
       } else if ((x1 instanceof $c_s_util_Left)) {
         var x3 = $as_s_util_Left(x1);
         var failure = $as_T(x3.value$2);
         var x$2 = ("Failed to submit quadsets with error: " + failure);
-        var this$33 = $m_s_Console$();
-        var this$34 = $as_Ljava_io_PrintStream(this$33.outVar$2.v$1);
-        this$34.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
+        var this$39 = $m_s_Console$();
+        var this$40 = $as_Ljava_io_PrintStream(this$39.outVar$2.v$1);
+        this$40.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
       } else {
         throw new $c_s_MatchError().init___O(x1)
       }
@@ -17968,6 +17981,81 @@ var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1 = new $TypeData
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1;
 /** @constructor */
+function $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1() {
+  $c_O.call(this);
+  this.inst$macro$34$1 = null;
+  this.inst$macro$25$1 = null;
+  this.bitmap$0$1 = 0
+}
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1;
+/** @constructor */
+function $h_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1() {
+  /*<skip>*/
+}
+$h_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype.init___ = (function() {
+  return this
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype.inst$macro$25__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function() {
+  return (((((2 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$25$lzycompute__p1__Lio_circe_generic_encoding_DerivedAsObjectEncoder() : this.inst$macro$25$1)
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype.inst$macro$34$lzycompute__p1__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function() {
+  if (((((1 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    this.inst$macro$34$1 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7().init___Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1(this);
+    this.bitmap$0$1 = (((1 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.inst$macro$34$1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype.inst$macro$25$lzycompute__p1__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function() {
+  if (((((2 & this.bitmap$0$1) << 24) >> 24) === 0)) {
+    new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8().init___Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1(this);
+    var gen = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1().init___Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1(this);
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    var zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().hnilZipWithKeys$1;
+    $m_Lshapeless_Witness$();
+    var this$1 = $m_s_Symbol$();
+    var value0 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "count"));
+    new $c_Lshapeless_Witness$$anon$1().init___O(value0);
+    var zipWithKeys$1 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys);
+    $m_Lshapeless_Witness$();
+    var this$4 = $m_s_Symbol$();
+    var value0$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$4, "day"));
+    new $c_Lshapeless_Witness$$anon$1().init___O(value0$1);
+    var zipWithKeys$2 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$1);
+    $m_Lshapeless_Witness$();
+    var this$7 = $m_s_Symbol$();
+    var value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$7, "name"));
+    new $c_Lshapeless_Witness$$anon$1().init___O(value0$2);
+    var zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$110().init___Lshapeless_ops_hlist$ZipWithKeys(zipWithKeys$2);
+    var ev = $m_s_Predef$().singleton$und$less$colon$less$2;
+    var gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1().init___Lshapeless_Generic__Lshapeless_ops_hlist$ZipWithKeys__s_Predef$$less$colon$less(gen, zip, ev);
+    var t = new $c_sjsr_AnonFunction0().init___sjs_js_Function0((function($this) {
+      return (function() {
+        return $this.inst$macro$34__Lio_circe_generic_encoding_ReprAsObjectEncoder()
+      })
+    })(this));
+    var encode = new $c_Lshapeless_Lazy$$anon$1().init___F0(t);
+    this.inst$macro$25$1 = new $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1().init___Lshapeless_Lazy__Lshapeless_LabelledGeneric(encode, gen$1);
+    this.bitmap$0$1 = (((2 | this.bitmap$0$1) << 24) >> 24)
+  };
+  return this.inst$macro$25$1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype.inst$macro$34__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function() {
+  return (((((1 & this.bitmap$0$1) << 24) >> 24) === 0) ? this.inst$macro$34$lzycompute__p1__Lio_circe_generic_encoding_ReprAsObjectEncoder() : this.inst$macro$34$1)
+});
+var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$35$1", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1: 1,
+  O: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1;
+/** @constructor */
 function $c_Lcats_Show$() {
   $c_O.call(this);
   this.catsContravariantForShow$1 = null
@@ -25409,6 +25497,59 @@ var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$anon$macro$21$1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$anon$macro$21$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$anon$macro$21$1;
 /** @constructor */
+function $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1() {
+  $c_O.call(this)
+}
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1;
+/** @constructor */
+function $h_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1() {
+  /*<skip>*/
+}
+$h_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1.prototype = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1.prototype;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1.prototype.init___Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1 = (function($$outer) {
+  return this
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1.prototype.from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise = (function(p) {
+  if ((p !== null)) {
+    var pat$macro$30 = $as_T(p.head$1);
+    var p2 = $as_Lshapeless_$colon$colon(p.tail$1);
+    if ((p2 !== null)) {
+      var pat$macro$31 = $as_T(p2.head$1);
+      var p3 = $as_Lshapeless_$colon$colon(p2.tail$1);
+      if ((p3 !== null)) {
+        var pat$macro$32 = $uI(p3.head$1);
+        var p4 = $as_Lshapeless_HNil(p3.tail$1);
+        var x = $m_Lshapeless_HNil$();
+        if ((x === p4)) {
+          return new $c_Lbillding_DailyQuantizedExercise().init___T__T__I(pat$macro$30, pat$macro$31, pat$macro$32)
+        }
+      }
+    }
+  };
+  throw new $c_s_MatchError().init___O(p)
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1.prototype.to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon = (function(p) {
+  if ((p !== null)) {
+    var pat$macro$30 = p.name$1;
+    var pat$macro$31 = p.day$1;
+    var pat$macro$32 = p.count$1;
+    return new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$30, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$31, new $c_Lshapeless_$colon$colon().init___O__Lshapeless_HList(pat$macro$32, $m_Lshapeless_HNil$())))
+  } else {
+    throw new $c_s_MatchError().init___O(p)
+  }
+});
+var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1;
+/** @constructor */
 function $c_Lcats_SemigroupK$$anon$1() {
   $c_O.call(this);
   this.$$outer$1 = null
@@ -31679,6 +31820,31 @@ var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$6 = new $
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$6.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$6;
 /** @constructor */
+function $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8() {
+  $c_O.call(this)
+}
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8.prototype = new $h_O();
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8;
+/** @constructor */
+function $h_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8() {
+  /*<skip>*/
+}
+$h_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8.prototype = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8.prototype;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8.prototype.init___Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1 = (function($$outer) {
+  return this
+});
+var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8: 1,
+  O: 1,
+  Lshapeless_DefaultSymbolicLabelling: 1,
+  Lshapeless_package$DepFn0: 1,
+  s_Serializable: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8;
+/** @constructor */
 function $c_Lbillding_DailyQuantizedExercise() {
   $c_O.call(this);
   this.name$1 = null;
@@ -36691,6 +36857,75 @@ var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$5 = new $
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$5.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$5;
+/** @constructor */
+function $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7() {
+  $c_Lio_circe_generic_encoding_ReprAsObjectEncoder.call(this);
+  this.circeGenericEncoderForday$2 = null;
+  this.circeGenericEncoderForcount$2 = null
+}
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7.prototype = new $h_Lio_circe_generic_encoding_ReprAsObjectEncoder();
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7.prototype.constructor = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7;
+/** @constructor */
+function $h_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7() {
+  /*<skip>*/
+}
+$h_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7.prototype = $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7.prototype;
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7.prototype.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject = (function(a) {
+  if ((a !== null)) {
+    var circeGenericHListBindingForname = $as_T(a.head$1);
+    var p2 = $as_Lshapeless_$colon$colon(a.tail$1);
+    if ((p2 !== null)) {
+      var circeGenericHListBindingForday = $as_T(p2.head$1);
+      var p3 = $as_Lshapeless_$colon$colon(p2.tail$1);
+      if ((p3 !== null)) {
+        var circeGenericHListBindingForcount = $uI(p3.head$1);
+        var p4 = $as_Lshapeless_HNil(p3.tail$1);
+        var x = $m_Lshapeless_HNil$();
+        if ((x === p4)) {
+          var jsx$2 = $m_Lio_circe_JsonObject$();
+          var this$3 = $m_sci_Vector$();
+          var array = [new $c_T2().init___O__O("name", this.circeGenericEncoderForday$2.apply__O__Lio_circe_Json(circeGenericHListBindingForname)), new $c_T2().init___O__O("day", this.circeGenericEncoderForday$2.apply__O__Lio_circe_Json(circeGenericHListBindingForday)), new $c_T2().init___O__O("count", this.circeGenericEncoderForcount$2.apply__O__Lio_circe_Json(circeGenericHListBindingForcount))];
+          if (($uI(array.length) === 0)) {
+            var jsx$1 = this$3.NIL$6
+          } else {
+            var b = new $c_sci_VectorBuilder().init___();
+            var i = 0;
+            var len = $uI(array.length);
+            while ((i < len)) {
+              var index = i;
+              var arg1 = array[index];
+              b.$$plus$eq__O__sci_VectorBuilder(arg1);
+              i = ((1 + i) | 0)
+            };
+            var jsx$1 = b.result__sci_Vector()
+          };
+          return jsx$2.fromIterable__sc_Iterable__Lio_circe_JsonObject(jsx$1)
+        }
+      }
+    }
+  };
+  throw new $c_s_MatchError().init___O(a)
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7.prototype.init___Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1 = (function($$outer) {
+  this.circeGenericEncoderForday$2 = $m_Lio_circe_Encoder$().encodeString$1;
+  this.circeGenericEncoderForcount$2 = $m_Lio_circe_Encoder$().encodeInt$1;
+  return this
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7.prototype.encodeObject__O__Lio_circe_JsonObject = (function(a) {
+  return this.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject($as_Lshapeless_$colon$colon(a))
+});
+var $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7: 1,
+  Lio_circe_generic_encoding_ReprAsObjectEncoder: 1,
+  O: 1,
+  Lio_circe_Encoder$AsObject: 1,
+  Lio_circe_Encoder$AsRoot: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7;
 /** @constructor */
 function $c_Lcats_NonEmptyReducible() {
   $c_O.call(this);
