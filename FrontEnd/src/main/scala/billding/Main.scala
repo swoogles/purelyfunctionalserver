@@ -108,7 +108,7 @@ object Meta {
       println("We have a stored token. Use it for getting authorized info")
       basicRequest
         .get(exerciseUri)
-        .header(Header.authorization("Bearer", storage.getItem("access_token_fromJS")))
+        .auth.bearer(storage.getItem("access_token_fromJS"))
     }
     else if (Meta.accessToken.isDefined) {
       println("We queryParameter token. Use it for getting authorized info. Non-ideal.")
