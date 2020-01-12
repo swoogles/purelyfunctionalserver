@@ -71,16 +71,11 @@ class ExerciseService[F[_]: ConcurrentEffect](
         case req @ POST -> Root => {
           req.headers.foreach(header=>println("Header: " + header))
           println("Request: " + req)
+          val user = getUserFromRequest(req)
           req.params.foreach{case (key, value) => println("Exercise POST key: " + key + "   value: " + value)}
-          val accessToken = req.params.get("access_token")
-          if (accessToken.isDefined) {
-            val userInfo: UserInfo = authLogic.getUserInfo(accessToken.get).unsafeRunSync()
-            println("userInfo: " + userInfo)
-          }
           for {
             newExercise <- req.decodeJson[DailyQuantizedExercise]
             completedExercise <- IO {
-              val user = getUserFromRequest(req)
               println("Accepting a new POST from sub: " + user)
               newExercise.copy(userId = Some(user.id))
             }
