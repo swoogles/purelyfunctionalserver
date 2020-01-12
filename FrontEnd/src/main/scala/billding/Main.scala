@@ -184,7 +184,7 @@ object Main {
     // TODO remove this if it crazily breaks everything.
     val storage = org.scalajs.dom.window.localStorage
     if (Meta.accessToken.isDefined) {
-      dom.window.location.pathname = "/resources/html/index.html"
+      dom.window.location.href = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
     }
     if (storage.getItem("access_token_fromJS").nonEmpty) {
       println("Still have a token stored after loading the page without query params :)")
