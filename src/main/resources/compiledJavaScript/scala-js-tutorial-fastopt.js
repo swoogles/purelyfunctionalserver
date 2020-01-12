@@ -2648,14 +2648,13 @@ $c_Lbillding_Main$.prototype.init___ = (function() {
   return this
 });
 $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
-  $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.href = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html";
   var x = ("Cookie: " + $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().cookie));
   var this$2 = $m_s_Console$();
   var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
   this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var storage = $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().localStorage;
   if ($m_Lbillding_Meta$().accessToken$1.isDefined__Z()) {
-    $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.pathname = "/resources/html/index.html"
+    $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.href = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
   };
   var x$1 = $as_T(storage.getItem("access_token_fromJS"));
   var this$5 = new $c_sci_StringOps().init___T(x$1);
