@@ -43,7 +43,7 @@ class MyMiddle[F[_]: ConcurrentEffect](
             val result: IO[Response[IO]] = service.apply(request).value.map{
               case Some(response: Response[IO]) => {
                 println("Got a response from the underlying service: " + response)
-                response
+                response.withStatus(Ok)
               }
               case None => NotFound("Dunno what to do with you.").unsafeRunSync()
             }
