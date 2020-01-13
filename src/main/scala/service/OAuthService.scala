@@ -129,7 +129,7 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO],
       userInfo <- authLogic.getUserInfo(tokenResponse.access_token)
       } yield {
         println("UserInfo: " + userInfo)
-        val uri = Uri.fromString(s"https://purelyfunctionalserver.herokuapp.com/resources/html/index.html?access_token=${tokenResponse.access_token}").right.get
+        val uri = Uri.fromString(s"/resources/html/index.html?access_token=${tokenResponse.access_token}").right.get
         PermanentRedirect(Location(uri),
           Authorization(Credentials.Token(AuthScheme.Bearer, tokenResponse.access_token)),
           Cookie(NonEmptyList[RequestCookie](RequestCookie("accessTokenFromCallback", tokenResponse.access_token), List()))
