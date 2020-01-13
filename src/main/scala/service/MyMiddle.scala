@@ -1,11 +1,11 @@
 package service
 
 import auth.OAuthLogic
-import cats.data.NonEmptyList
+import cats.data.{Kleisli, NonEmptyList, OptionT}
 import cats.effect.{ConcurrentEffect, IO}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Cookie, Location}
-import org.http4s.{Header, HttpRoutes, RequestCookie, Response, Status, Uri}
+import org.http4s.{Header, HttpRoutes, Request, RequestCookie, Response, Status, Uri}
 
 class MyMiddle[F[_]: ConcurrentEffect](
                                         authLogic: OAuthLogic[IO]
@@ -28,13 +28,31 @@ class MyMiddle[F[_]: ConcurrentEffect](
   def apply(service: HttpRoutes[IO], header: Header): HttpRoutes[IO] =
     service.map(addHeader(_, header)).map(addCookie)
 
+//  val authUser: Kleisli[OptionT[IO, Exception], Request[IO], Sub] =
+//    authLogic.getOptionalUserFromRequest _
+//    Kleisli(_ => OptionT.liftF(IO(???)))
+
   def applyBeforeLogic(service: HttpRoutes[IO]) = {
     HttpRoutes.of[IO] {
       // pf: PartialFunction[Request[F], F[Response[F]]]
       case request @ GET -> Root => {
+        println("Before actual resource behavior")
         authLogic.getOptionalUserFromRequest(request) match {
-          case Some(user) => service.apply(request).getOrElseF(NotFound("Dunno what to do with you."))
-          case None => PermanentRedirect(Location(Uri.fromString("https://purelyfunctionalserver.herokuapp.com/oauth/login").right.get))
+          case Some(user) => {
+            println("user from accessToken: " + user)
+            val result: IO[Response[IO]] = service.apply(request).value.map{
+              case Some(response: Response[IO]) => {
+                println("Got a response from the underlying service: " + response)
+                response
+              }
+              case None => NotFound("Dunno what to do with you.").unsafeRunSync()
+            }
+            result
+          }
+          case None => {
+            println("No access token. Need to login immediately.")
+            PermanentRedirect(Location(Uri.fromString("https://purelyfunctionalserver.herokuapp.com/oauth/login").right.get))
+          }
         }
       }
     }
