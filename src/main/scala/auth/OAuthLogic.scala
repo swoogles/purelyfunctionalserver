@@ -1,7 +1,6 @@
 package auth
 
 import org.http4s.{AuthScheme, Credentials, Request, UrlForm}
-
 import cats.effect.{IO, Sync}
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
@@ -9,7 +8,9 @@ import org.http4s.headers.{Authorization, Cookie}
 import org.http4s.client.Client
 import org.http4s.Method._
 import org.http4s.client.dsl.io._
+import org.http4s.util.CaseInsensitiveString
 import org.http4s.{EntityDecoder, Uri}
+import service.Sub
 
 case class TokenResponse(
                           access_token: String,
@@ -28,6 +29,8 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
   val clientSecret = System.getenv("OAUTH_CLIENT_SECRET")
   val callbackUrl = "https://purelyfunctionalserver.herokuapp.com/oauth/callback" // TODO make this a property or something
   val parameterisedUri = "https://quiet-glitter-8635.auth0.com/oauth/token" // TODO Use  Oauth domain
+
+  val chaoticPublicUser = "ChaoticPublicUser"
 
   implicit def userInfoDecoder[F[_]: Sync]: EntityDecoder[F, UserInfo] =
     jsonOf
@@ -77,6 +80,27 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
 //      .adaptError { case t =>
 //        println("error: " + t)
 //        WeatherError(t) } // Prevent Client Json Decoding Failure Leaking
+  }
+
+  def getUserFromRequest(request: Request[IO]): Sub = {
+    request.headers.foreach(header => println("Header  name: " + header.name + "  value: " + header.value))
+    val tokenFromAuthorizationHeaderAttempt = request.headers.get(CaseInsensitiveString("Authorization"))
+    val tokenWithType: Option[String] =
+      tokenFromAuthorizationHeaderAttempt
+        .map( header => header.value )
+        .orElse{
+          println("Couldn't get token from Authorization header. Looking at queryParameters now")
+          val queryParamResult = request.params.get("access_token")
+          queryParamResult
+        }
+    if (tokenWithType.isDefined) {
+      val tokenValueOnly = tokenWithType.get.split("\\s+")(1)
+      println("tokenValueOnly: " + tokenValueOnly)
+      val userInfo: UserInfo = getUserInfo(tokenValueOnly).unsafeRunSync()
+      Sub(userInfo.sub)
+    } else {
+      Sub(chaoticPublicUser)
+    }
   }
 
 }

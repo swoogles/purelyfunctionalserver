@@ -11,7 +11,6 @@ import model.DailyQuantizedExercise
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Location, `Content-Type`}
-import org.http4s.util.CaseInsensitiveString
 import org.http4s.{HttpRoutes, MediaType, Request, Response, Uri}
 import repository.ExerciseLogic
 
@@ -32,33 +31,10 @@ class ExerciseService[F[_]: ConcurrentEffect](
       //  def authAuthChecks(pf: PartialFunction[AuthorizedRequest[F], F[Response[F]]])
       //    : PartialFunction[Request[F], F[Response[F]]] =
 
-  val chaoticPublicUser = "ChaoticPublicUser"
-
-  def getUserFromRequest(request: Request[IO]): Sub = {
-    request.headers.foreach(header => println("Header  name: " + header.name + "  value: " + header.value))
-    val tokenFromAuthorizationHeaderAttempt = request.headers.get(CaseInsensitiveString("Authorization"))
-    val tokenWithType: Option[String] =
-      tokenFromAuthorizationHeaderAttempt
-          .map( header => header.value )
-        .orElse{
-          println("Couldn't get token from Authorization header. Looking at queryParameters now")
-          val queryParamResult = request.params.get("access_token")
-          queryParamResult
-        }
-    if (tokenWithType.isDefined) {
-      val tokenValueOnly = tokenWithType.get.split("\\s+")(1)
-      println("tokenValueOnly: " + tokenValueOnly)
-      val userInfo: UserInfo = authLogic.getUserInfo(tokenValueOnly).unsafeRunSync()
-      Sub(userInfo.sub)
-    } else {
-      Sub(chaoticPublicUser)
-    }
-  }
-
   val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
     // pf: PartialFunction[Request[F], F[Response[F]]]
         case request @ GET -> Root => {
-          val user = getUserFromRequest(request)
+          val user = authLogic.getUserFromRequest(request)
           println("Going to retrieve exercises for sub: " + user)
           Ok(
             Stream("[") ++
@@ -73,7 +49,7 @@ class ExerciseService[F[_]: ConcurrentEffect](
         case req @ POST -> Root => {
           req.headers.foreach(header=>println("Header: " + header))
           println("Request: " + req)
-          val user = getUserFromRequest(req)
+          val user = authLogic.getUserFromRequest(req)
           req.params.foreach{case (key, value) => println("Exercise POST key: " + key + "   value: " + value)}
           for {
             newExercise <- req.decodeJson[DailyQuantizedExercise]
