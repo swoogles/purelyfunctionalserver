@@ -87,12 +87,12 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
     val tokenFromAuthorizationHeaderAttempt = request.headers.get(CaseInsensitiveString("Authorization"))
       tokenFromAuthorizationHeaderAttempt
         .map( header => header.value )
+        .map(_.split("\\s+")(1)) // This is how I turn "Bearer yz3423..." into just the value "yz3423..."
         .orElse{
           println("Couldn't get token from Authorization header. Looking at queryParameters now")
           val queryParamResult = request.params.get("access_token")
           queryParamResult
         }
-      .map(_.split("\\s+")(1)) // This is how I turn "Bearer yz3423..." into just the value "yz3423..."
   }
 
   def getUserFromRequest(request: Request[IO]): Sub = {
