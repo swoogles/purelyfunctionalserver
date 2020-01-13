@@ -32,10 +32,12 @@ class MyMiddle[F[_]: ConcurrentEffect](
 //    authLogic.getOptionalUserFromRequest _
 //    Kleisli(_ => OptionT.liftF(IO(???)))
 
+  object AccessTokenParamMatcher extends QueryParamDecoderMatcher[String]("access_token")
+
   def applyBeforeLogic(service: HttpRoutes[IO]) = {
     HttpRoutes.of[IO] {
       // pf: PartialFunction[Request[F], F[Response[F]]]
-      case request @ GET -> Root / "html" / "index.html"=> {
+      case request @ GET -> Root / "html" / "index.html" :? AccessTokenParamMatcher(accessToken)=> {
         println("Before actual resource behavior")
         authLogic.getOptionalUserFromRequest(request) match {
           case Some(user) => {
