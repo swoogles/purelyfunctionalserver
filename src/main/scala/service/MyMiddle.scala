@@ -57,6 +57,27 @@ class MyMiddle[F[_]: ConcurrentEffect](
           }
         }
       }
+        // TODO de-duplicate logic
+      case request @ GET -> Root / "html" / "index.html" => {
+        println("Before actual resource behavior")
+        authLogic.getOptionalUserFromRequest(request) match {
+          case Some(user) => {
+            println("user from accessToken: " + user)
+            val result: IO[Response[IO]] = service.apply(request).value.map{
+              case Some(response: Response[IO]) => {
+                println("Got a response from the underlying service: " + response)
+                response.withStatus(Ok)
+              }
+              case None => NotFound("Dunno what to do with you.").unsafeRunSync()
+            }
+            result
+          }
+          case None => {
+            println("No access token. Need to login immediately.")
+            PermanentRedirect(Location(Uri.fromString("https://purelyfunctionalserver.herokuapp.com/oauth/login").right.get))
+          }
+        }
+      }
       case request => {
         val result: IO[Response[IO]] = service.apply(request).value.map{
           case Some(response: Response[IO]) => {
