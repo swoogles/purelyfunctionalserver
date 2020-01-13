@@ -141,7 +141,8 @@ object Server extends IOApp with Http4sDsl[IO] {
 
     Router(
       "/" -> myMiddle(homePageService, Header("SomeKey", "SomeValue")),
-      "/resources" -> myMiddle.applyBeforeLogic(resourceService),
+//      "/resources" -> myMiddle.applyBeforeLogic(resourceService),
+      "/resources" -> resourceService,
       "/todo" -> todoService,
       "/github" -> githubService,
       "/exercises" -> exerciseService,
