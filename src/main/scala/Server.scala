@@ -112,7 +112,9 @@ object Server extends IOApp with Http4sDsl[IO] {
     val homePageService = new HomePageService[IO](blocker).routes
     val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
     val authService = new OAuthService[IO](client, authLogic).service
-    val authServiceWithExtraHeaders = MyMiddle(authService, Header("SomeKey", "SomeValue"))
+
+    val myMiddle = new MyMiddle[IO](authLogic)
+    val authServiceWithExtraHeaders = myMiddle(authService, Header("SomeKey", "SomeValue"))
     val authenticationBackends = new AuthenticationBackends(
       InMemoryAuthBackends.bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer,
       InMemoryAuthBackends.userStoreThatShouldBeInstantiatedOnceByTheServer,
@@ -138,8 +140,8 @@ object Server extends IOApp with Http4sDsl[IO] {
       )
 
     Router(
-      "/" -> MyMiddle(homePageService, Header("SomeKey", "SomeValue")),
-      "/resources" -> resourceService,
+      "/" -> myMiddle(homePageService, Header("SomeKey", "SomeValue")),
+      "/resources" -> myMiddle.applyBeforeLogic(resourceService),
       "/todo" -> todoService,
       "/github" -> githubService,
       "/exercises" -> exerciseService,

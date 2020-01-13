@@ -82,10 +82,9 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
 //        WeatherError(t) } // Prevent Client Json Decoding Failure Leaking
   }
 
-  def getUserFromRequest(request: Request[IO]): Sub = {
+  def getTokenFromRequest(request: Request[IO]) = {
     request.headers.foreach(header => println("Header  name: " + header.name + "  value: " + header.value))
     val tokenFromAuthorizationHeaderAttempt = request.headers.get(CaseInsensitiveString("Authorization"))
-    val tokenWithType: Option[String] =
       tokenFromAuthorizationHeaderAttempt
         .map( header => header.value )
         .orElse{
@@ -93,14 +92,25 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
           val queryParamResult = request.params.get("access_token")
           queryParamResult
         }
-    if (tokenWithType.isDefined) {
-      val tokenValueOnly = tokenWithType.get.split("\\s+")(1)
-      println("tokenValueOnly: " + tokenValueOnly)
-      val userInfo: UserInfo = getUserInfo(tokenValueOnly).unsafeRunSync()
-      Sub(userInfo.sub)
-    } else {
-      Sub(chaoticPublicUser)
-    }
+      .map(_.split("\\s+")(1)) // This is how I turn "Bearer yz3423..." into just the value "yz3423..."
+  }
+
+  def getUserFromRequest(request: Request[IO]): Sub = {
+    getTokenFromRequest(request)
+      .map(token => {
+        println("tokenValueOnly: " + token)
+        val userInfo: UserInfo = getUserInfo(token).unsafeRunSync()
+        Sub(userInfo.sub)
+      })
+      .getOrElse(Sub(chaoticPublicUser))
+  }
+
+  def getOptionalUserFromRequest(request: Request[IO]): Option[Sub] = {
+    getTokenFromRequest(request)
+      .map(token => {
+        val userInfo: UserInfo = getUserInfo(token).unsafeRunSync()
+        Sub(userInfo.sub)
+      })
   }
 
 }
