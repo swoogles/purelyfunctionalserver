@@ -35,7 +35,7 @@ class MyMiddle[F[_]: ConcurrentEffect](
   def applyBeforeLogic(service: HttpRoutes[IO]) = {
     HttpRoutes.of[IO] {
       // pf: PartialFunction[Request[F], F[Response[F]]]
-      case request @ GET -> Root => {
+      case request => {
         println("Before actual resource behavior")
         authLogic.getOptionalUserFromRequest(request) match {
           case Some(user) => {
