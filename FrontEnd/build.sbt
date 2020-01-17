@@ -23,7 +23,12 @@ libraryDependencies ++= Seq(
   "com.pauldijou" %% "jwt-core" % "4.2.0",
   "com.pauldijou" %% "jwt-circe" % "4.2.0",
   "com.lihaoyi" %%% "scalatags" % "0.8.2",
+  "org.querki" %%% "jquery-facade" % "1.2"
 )
 
 // This is an application with a main method
 scalaJSUseMainModuleInitializer := true
+
+skip in packageJSDependencies := false
+jsDependencies += // TODO Check for current version of JS
+  "org.webjars" % "jquery" % "2.2.1" / "jquery.js" minified "jquery.min.js"
