@@ -22,7 +22,7 @@ libraryDependencies ++= Seq(
   "com.softwaremill.sttp.client" %%% "circe" % "2.0.0-RC5",
   "com.pauldijou" %% "jwt-core" % "4.2.0",
   "com.pauldijou" %% "jwt-circe" % "4.2.0",
-  "com.lihaoyi" %%% "scalatags" % "0.8.2"
+  "com.lihaoyi" %%% "scalatags" % "0.8.2",
 )
 
 // This is an application with a main method

@@ -1,0 +1,129 @@
+body {
+    height: 90vh;
+    text-align: center;
+    font-family: "Times New Roman";
+    background:
+            linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5)),
+            url(http://ataredo.com/external/image/marble.jpg);
+    margin: 10vh 0 0;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+}
+
+#machine {
+    height: 116px;
+    overflow: hidden;
+}
+
+.reel {
+    width: 70px;
+    height: 100%;
+    display: inline-block;
+    position: relative;
+    font-size: 35px;
+    line-height: 50px;
+}
+
+.quota, .quota div, .quota:before, .quota:after {
+    width: 100%;
+    height: 50px;
+    position: absolute;
+}
+
+.quota {
+    top: 33px;
+    pointer-events: none;
+    -webkit-perspective: 230px;
+    perspective: 230px;
+}
+
+.reel:first-child .quota {
+    -webkit-perspective-origin: 120px 50%;
+    perspective-origin: 120px 50%;
+}
+
+.reel:last-child .quota {
+    -webkit-perspective-origin: -50px 50%;
+    perspective-origin: -50px 50%;
+}
+
+.quota div, .quota:before, .quota:after {
+    -webkit-transform-origin: inherit;
+    transform-origin: inherit;
+}
+
+.quota div {
+    left: 0;
+    background: url(http://ataredo.com/external/image/elect.png);
+    background-size: 100% 100%;
+    border-left: 2px solid #2e363e;
+    border-right: 2px solid #2e363e;
+    outline: 1px solid transparent;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    pointer-events: auto;
+}
+
+.rotate div {
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-duration: inherit;
+    transition-duration: inherit;
+    -webkit-transition-timing-function: linear;
+    transition-timing-function: linear;
+}
+
+.quota:before, .quota:after {
+    content: "";
+    left: 0;
+    z-index: 1;
+}
+
+.quota:before {
+    background: -webkit-linear-gradient(rgba(50,50,50,0.7) 10%, transparent);
+    background: linear-gradient(rgba(50,50,50,0.7) 10%, transparent);
+    -webkit-transform: rotateX(36deg);
+    transform: rotateX(36deg);
+}
+
+.quota:after {
+    background: -webkit-linear-gradient(transparent, rgba(50,50,50,0.7) 70%);
+    background: linear-gradient(transparent, rgba(50,50,50,0.7) 70%);
+    -webkit-transform: rotateX(-36deg);
+    transform: rotateX(-36deg);
+}
+
+.reel:first-child .quota:before {
+    -webkit-clip-path: polygon(3% 0, 100% 0, 100% 100%, 0 100%, 0 30%);
+    clip-path: polygon(3% 0, 100% 0, 100% 100%, 0 100%, 0 30%);
+}
+
+.reel:first-child .quota:after {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 100%, 3% 100%, 0 70%);
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 3% 100%, 0 70%);
+}
+
+.reel:last-child .quota:before {
+    -webkit-clip-path: polygon(0 0, 97% 0, 100% 30%, 100% 100%, 0 100%);
+    clip-path: polygon(0 0, 97% 0, 100% 30%, 100% 100%, 0 100%);
+}
+
+.reel:last-child .quota:after {
+    -webkit-clip-path: polygon(0 0, 100% 0, 100% 70%, 97% 100%, 0 100%);
+    clip-path: polygon(0 0, 100% 0, 100% 70%, 97% 100%, 0 100%);
+}
+
+#outcome {
+    width: 70px;
+    height: 25px;
+    font-size: 15px;
+    color: white;
+    line-height: 25px;
+    letter-spacing: 3px;
+    box-shadow: 0 0 3px black;
+    margin: 30px auto;
+}

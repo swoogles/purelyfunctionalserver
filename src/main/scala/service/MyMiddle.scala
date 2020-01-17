@@ -53,6 +53,7 @@ class MyMiddle[F[_]: ConcurrentEffect](
           }
           case None => {
             println("No access token. Need to login immediately.")
+            throw new RuntimeException("Shouldn't actually hit this!")
             PermanentRedirect(Location(Uri.fromString("https://purelyfunctionalserver.herokuapp.com/oauth/login").right.get))
           }
         }
