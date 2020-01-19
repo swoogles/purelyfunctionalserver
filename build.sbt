@@ -74,6 +74,7 @@ lazy val root = (project in file("."))
       "com.lihaoyi"           %% "utest"                % uTestVersion % "test",
       "dev.zio"               %% "zio"                  % zioVersion,
       "dev.zio"               %% "zio-interop-cats"     % "2.0.0.0-RC10",
+      "dev.zio"               %% "zio-macros-core"     % "0.5.0",
       "javax.servlet" % "javax.servlet-api" % "3.1.0", // No good for Scala
 //      "com.nulab-inc" %% "scala-oauth2-core" % "1.5.0",
       "com.auth0" % "mvc-auth-commons" % "1.1.0",
