@@ -3,11 +3,14 @@ import java.net.URI
 import cats.effect.{IO, Sync}
 import com.typesafe.config.ConfigFactory
 import pureconfig.error.{ConfigReaderException, ConfigReaderFailures}
+import cats.implicits._
+import config.ConfigData
 
 package object config {
   trait Config {
-    def load(configFile: String = "application.conf"): IO[ConfigData]
-    def loadDatabaseEnvironmentVariables(): IO[config.DatabaseConfig]
+    //    def load(configFile: String = "application.conf"): IO[ConfigData]
+    //    def loadDatabaseEnvironmentVariables(): IO[config.DatabaseConfig]
+    def configSteps(): IO[ConfigData]
   }
   case class ServerConfig(host: String ,port: Int)
 
@@ -24,7 +27,16 @@ package object config {
     // DATABASE_URL:         postgres://qmhxdoddwnnxxf:08629a4539f1d422eaa411d98cdd044411726505b6c3a7e56e796d60777073a5@ec2-107-22-211-248.compute-1.amazonaws.com:5432/da3c6qh0l04kkb
     def impl(): Config = new Config {
 
-      def load(configFile: String = "application.conf"): IO[ConfigData] = {
+      def configSteps(): IO[ConfigData] = {
+        load().flatMap {
+          configFromFile =>
+            loadDatabaseEnvironmentVariables()
+              .map(envDbConfig => configFromFile.copy(database = envDbConfig))
+              .orElse(IO.pure(configFromFile))
+        }
+      }
+
+      protected def load(configFile: String = "application.conf"): IO[ConfigData] = {
         ConfigSource.fromConfig(ConfigFactory.load(configFile)).load[ConfigData]
           match {
             case Left(e) => IO.raiseError[ConfigData](new ConfigReaderException[ConfigData](e))
@@ -34,7 +46,7 @@ package object config {
 
       import java.sql.DriverManager
 
-      def loadDatabaseEnvironmentVariables(): IO[DatabaseConfig] = {
+      protected def loadDatabaseEnvironmentVariables(): IO[DatabaseConfig] = {
         try {
           val dbUri = new URI(System.getenv("DATABASE_URL"))
           val username = dbUri.getUserInfo.split(":")(0)
@@ -45,6 +57,7 @@ package object config {
           IO(DatabaseConfig("org.postgresql.Driver", dbUrl, username, password))
         } catch { case nullPointerException: NullPointerException => IO.raiseError[DatabaseConfig](nullPointerException)}
       }
+
     }
   }
 }

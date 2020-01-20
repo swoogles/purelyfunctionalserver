@@ -1,16 +1,13 @@
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
-import cats.data.Kleisli
-import cats.effect.{Blocker, Clock, ExitCode, IO, IOApp}
+import cats.effect.{Blocker, ExitCode, IO, IOApp}
 import cats.implicits._
-import config.{Config, ConfigData, DatabaseConfig}
+import config.{Config, DatabaseConfig}
 import db.Database
 import fs2.Stream
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.dsl.Http4sDsl
 import org.http4s.server.blaze.BlazeServerBuilder
-import org.http4s.server.middleware._
-import org.http4s.{Request, Response}
 import service._
 import zio.{DefaultRuntime, Runtime, ZEnv}
 
@@ -32,9 +29,10 @@ object Server extends IOApp with Http4sDsl[IO] {
     }).compile.drain.as(ExitCode.Success)
 
   def stream(args: List[String], requestShutdown: IO[Unit]): Stream[IO, ExitCode] = {
+    val configImpl = Config.impl()
     for {
       fullyBakedConfig <- Stream.eval(
-        configSteps()
+        configImpl.configSteps()
       )
       transactor <- Stream.resource(Database.transactor(fullyBakedConfig.database)(ec))
       client <- BlazeClientBuilder[IO](global).stream
@@ -48,18 +46,6 @@ object Server extends IOApp with Http4sDsl[IO] {
         .withHttpApp(httpApp)
         .serve
     } yield exitCode
-  }
-
-  def configSteps(): IO[ConfigData] = {
-    val configImpl = Config.impl()
-
-    configImpl.load().flatMap {
-      configFromFile =>
-        configImpl
-          .loadDatabaseEnvironmentVariables()
-          .map(envDbConfig => configFromFile.copy(database = envDbConfig))
-          .orElse(IO.pure(configFromFile))
-    }
   }
 
 }
