@@ -23,6 +23,7 @@ import zio.interop.catz._
 import zio.interop.catz.implicits._
 import zio.interop.catz._
 
+/*
 object ZioSimpleApp extends zio.App {
 //  implicit val env = environment.
   type AppEnvironment = Clock
@@ -40,7 +41,7 @@ object ZioSimpleApp extends zio.App {
 
   val z = ZEnv
 
-  val routes: HttpRoutes[ZIO] = ???
+//  val routes: HttpRoutes[ZIO] = ???
 
 
 
@@ -81,3 +82,5 @@ object ZioSimpleApp extends zio.App {
     } yield (1)
 
 }
+
+ */

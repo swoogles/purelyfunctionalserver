@@ -88,16 +88,8 @@ object Meta {
 
   def safelyPostQuadSets(count: Int) = {
     val confirmed = org.scalajs.dom.window.confirm(s"Are you sure you want to submit $count quadsets?")
-    println("This is fresh bus material")
     if (confirmed) {
-      println("Should execute a 2nd confirmation now.")
-      val useCustomCount = org.scalajs.dom.window.confirm(s"Do you want to use the custom wheel_count? " + getCurrentWheelCount())
-      if ( useCustomCount ) {
-        println("Okay, submitting the wheelcount: " + getCurrentWheelCount())
-        postQuadSets(getCurrentWheelCount())
-      } else {
         postQuadSets(count)
-      }
     } else
       println("Fine, I won't do anything then!")
   }
@@ -210,14 +202,13 @@ object Main {
     }
 
   def main(args: Array[String]): Unit = {
-    println("WHAT IS GOING ON!?!?!")
     println("Cookie: " + document.cookie)
     // TODO remove this if it crazily breaks everything.
     val storage = org.scalajs.dom.window.localStorage
     // TODO Restore when live
-//    if (Meta.accessToken.isDefined) {
-//      dom.window.location.href = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
-//    }
+    if (Meta.accessToken.isDefined) {
+      dom.window.location.href = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
+    }
     if (storage.getItem("access_token_fromJS").nonEmpty) {
       println("Still have a token stored after loading the page without query params :)")
       println("Value: " + storage.getItem("access_token_fromJS"))
