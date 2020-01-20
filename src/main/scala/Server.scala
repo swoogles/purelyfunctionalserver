@@ -1,30 +1,21 @@
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
-import auth.OAuthLogic
 import cats.data.Kleisli
-import cats.effect.{Blocker, Clock, ConcurrentEffect, ExitCode, IO, IOApp}
+import cats.effect.{Blocker, Clock, ExitCode, IO, IOApp}
 import cats.implicits._
 import config.{Config, ConfigData, DatabaseConfig}
-import db.{Database, InMemoryAuthBackends}
-import doobie.hikari.HikariTransactor
+import db.Database
 import fs2.Stream
-import org.http4s.{Header, Request, Response}
-import org.http4s.client.Client
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.dsl.Http4sDsl
-import org.http4s.implicits._
-import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
 import org.http4s.server.middleware._
-import org.http4s.server.staticcontent.{FileService, fileService}
-import pureconfig.error.ConfigReaderException
-import repository._
+import org.http4s.{Request, Response}
 import service._
 import zio.{DefaultRuntime, Runtime, ZEnv}
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
-import scala.concurrent.duration._
 import scala.util.Properties
 
 object Server extends IOApp with Http4sDsl[IO] {
@@ -45,18 +36,16 @@ object Server extends IOApp with Http4sDsl[IO] {
       fullyBakedConfig <- Stream.eval(
         configSteps()
       )
-      clock: Clock[IO] = timer.clock
       transactor <- Stream.resource(Database.transactor(fullyBakedConfig.database)(ec))
       client <- BlazeClientBuilder[IO](global).stream
       _ <- Stream.eval(Database.initialize(transactor))
       blocker <- Stream.resource(Blocker[IO])
-      httpApp = initializeServicesAndRoutes[IO](transactor, client, blocker)
-      appWithMiddleWare = applyMiddleWareToHttpApp(httpApp)
+      httpApp = AllServices.initializeServicesAndRoutes[IO](transactor, client, blocker)
 
       _ <- Stream.eval(RepeatShit.infiniteIO(0).combine(RepeatShit.infiniteWeatherCheck))
       exitCode <- BlazeServerBuilder[IO]
         .bindHttp(Properties.envOrElse("PORT", "8080").toInt, "0.0.0.0")
-        .withHttpApp(appWithMiddleWare)
+        .withHttpApp(httpApp)
         .serve
     } yield exitCode
   }
@@ -73,78 +62,4 @@ object Server extends IOApp with Http4sDsl[IO] {
     }
   }
 
-  def applyMiddleWareToHttpApp(httpApp: Kleisli[IO, Request[IO], Response[IO]]) = {
-    val originConfig = CORSConfig(
-      anyOrigin = false,
-      allowedOrigins = Set("quadsets.netlify.com"),
-      allowCredentials = false,
-      maxAge = 1.day.toSeconds)
-    val corsApp = CORS(httpApp, originConfig) // TODO Use this eventually
-    httpApp
-  }
-
-  def initializeServicesAndRoutes[F[_]: ConcurrentEffect](
-                                   transactor: HikariTransactor[IO],
-                                   client: Client[IO],
-                                   blocker: Blocker
-                                 ): Kleisli[IO, Request[IO], Response[IO]] = {
-
-    val todoService = new TodoService(new TodoRepository(transactor)).service
-
-    val authLogic = new OAuthLogic(client)
-    val exerciseService =
-      new ExerciseService(
-        new ExerciseLogic(
-          new ExerciseRepositoryImpl(transactor)
-        ),
-        authLogic
-      ).service
-
-
-    val githubService = {
-      new GithubService(Github.impl(client)).service
-    }
-    val homePageService = new HomePageService(blocker).routes
-    val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
-    val authService = new OAuthService(client, authLogic).service
-
-    val myMiddle = new MyMiddle(authLogic)
-    val authServiceWithExtraHeaders = myMiddle(authService, Header("SomeKey", "SomeValue"))
-    val authenticationBackends = new AuthenticationBackends(
-      InMemoryAuthBackends.bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer,
-      InMemoryAuthBackends.userStoreThatShouldBeInstantiatedOnceByTheServer,
-    )
-    val Auth = authenticationBackends.Auth
-
-    val loginService =
-      new LoginEndpoint(
-        authenticationBackends.userStore,
-        authenticationBackends.bearerTokenStore,
-      ).service
-
-    val weatherService =
-      Auth.liftService(
-        new WeatherService(WeatherApi.impl(client)).service
-      )
-
-    val authenticatedEndpoint =
-      Auth.liftService(
-        new AuthenticatedEndpoint(
-          authenticationBackends.bearerTokenStore
-        ).service
-      )
-
-    Router(
-      "/" -> myMiddle(homePageService, Header("SomeKey", "SomeValue")),
-//      "/resources" -> myMiddle.applyBeforeLogic(resourceService),
-      "/resources" -> resourceService,
-      "/todo" -> todoService,
-      "/github" -> githubService,
-      "/exercises" -> exerciseService,
-      "/weather" -> weatherService,
-      "/oauth" -> authService,
-      "/tsec" -> authenticatedEndpoint,
-      "/login" -> loginService
-    ).orNotFound
-  }
 }

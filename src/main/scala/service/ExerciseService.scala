@@ -17,13 +17,7 @@ import scala.concurrent.duration.MILLISECONDS
 class ExerciseService(
                                                   exerciseLogic: ExerciseLogic,
                                                   authLogic: OAuthLogic
-                                             )(implicit
-                                               F: ConcurrentEffect[IO],
-                                               clock: Clock[IO]
-) extends Http4sDsl[IO] {
-
-  val clocky: IO[Long] = clock.monotonic(MILLISECONDS)
-  val shittyJavaClock = java.time.Clock.systemDefaultZone()
+                                             ) extends Http4sDsl[IO] {
 
 
       //  def authAuthChecks(pf: PartialFunction[AuthorizedRequest[F], F[Response[F]]])
