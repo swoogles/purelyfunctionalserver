@@ -1,7 +1,7 @@
 package repository
 
 import cats.Applicative
-import cats.effect.Sync
+import cats.effect.{IO, Sync}
 import cats.implicits._
 import io.circe.generic.auto._
 import org.http4s.Method._
@@ -11,15 +11,13 @@ import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.{EntityDecoder, EntityEncoder, Uri}
 import java.time.Instant
 
-trait Github[F[_]] {
-  def get(userName: String, repoName: String): F[Github.Tree]
+trait Github {
+  def get(userName: String, repoName: String): IO[Github.Tree]
 
-  def getUsersRecentActivity(userName: String): F[List[Github.RepoActivity]]
+  def getUsersRecentActivity(userName: String): IO[List[Github.RepoActivity]]
 }
 
 object Github {
-  def apply[F[_]](implicit ev: Github[F]): Github[F] = ev
-
   final case class Author(name: String, email: String, date: Option[Instant] = None)
 
   final case class Commit(author: Author, message: String)
@@ -66,17 +64,17 @@ object Github {
 
   final case class GithubError(e: Throwable) extends RuntimeException
 
-  def impl[F[_]: Sync](C: Client[F]): Github[F] = new Github[F]{
-    val dsl = new Http4sClientDsl[F]{}
+  def impl(C: Client[IO]): Github = new Github{
+    val dsl = new Http4sClientDsl[IO]{}
     import dsl._
 
-    def get(userName: String, repoName: String): F[Github.Tree] = {
+    def get(userName: String, repoName: String): IO[Github.Tree] = {
       val parameterisedUri = s"https://api.github.com/repos/$userName/$repoName/commits/master"
       C.expect[Github.Tree](GET(Uri.unsafeFromString(parameterisedUri)))
         .adaptError{ case t => GithubError(t)} // Prevent Client Json Decoding Failure Leaking
     }
 
-    def getUsersRecentActivity(userName: String): F[List[Github.RepoActivity]] = {
+    def getUsersRecentActivity(userName: String): IO[List[Github.RepoActivity]] = {
       val parameterisedUri = s"https://api.github.com/users/$userName/events/public"
       C.expect[List[Github.UserActivityEvent]](GET(Uri.unsafeFromString(parameterisedUri)))
         .map{ userActivityEvents =>

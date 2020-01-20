@@ -62,12 +62,7 @@ object Server extends IOApp with Http4sDsl[IO] {
   }
 
   def configSteps(): IO[ConfigData] = {
-    val configImpl =
-      Config.impl[IO](
-        (ex) => IO.raiseError[ConfigData](new ConfigReaderException[ConfigData](ex)),
-        IO.pure,
-        IO.pure,
-        (ex) => IO.raiseError[DatabaseConfig](ex))
+    val configImpl = Config.impl()
 
     configImpl.load().flatMap {
       configFromFile =>
@@ -107,7 +102,7 @@ object Server extends IOApp with Http4sDsl[IO] {
 
 
     val githubService = {
-      new GithubService(Github.impl[IO](client)).service
+      new GithubService(Github.impl(client)).service
     }
     val homePageService = new HomePageService[IO](blocker).routes
     val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))

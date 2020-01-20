@@ -1,6 +1,6 @@
 package service
 
-import cats.effect.Sync
+import cats.effect.IO
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
@@ -9,9 +9,9 @@ import org.http4s.headers.`Content-Type`
 import org.http4s.{HttpRoutes, MediaType}
 import repository.Github
 
-class GithubService[F[_]: Sync](repository: Github[F]) extends Http4sDsl[F] {
+class GithubService(repository: Github) extends Http4sDsl[IO] {
 
-  val service: HttpRoutes[F] = HttpRoutes.of[F] {
+  val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
     case GET -> Root / "user" / user / "repoName" / repoName  =>
       Ok(
         Stream("[") ++
