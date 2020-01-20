@@ -1,4 +1,5 @@
-import Server.{configSteps, ec}
+/*
+import Server.{ec}
 import cats.Eval
 import cats.effect.{Blocker, ExitCode, IO}
 import cats.effect.internals.IOAppPlatform
@@ -23,7 +24,6 @@ import zio.interop.catz._
 import zio.interop.catz.implicits._
 import zio.interop.catz._
 
-/*
 object ZioSimpleApp extends zio.App {
 //  implicit val env = environment.
   type AppEnvironment = Clock
