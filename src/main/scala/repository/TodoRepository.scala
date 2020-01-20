@@ -1,13 +1,13 @@
 package repository
 
-import cats.effect.{IO, Sync}
+import cats.effect.{IO}
 import doobie.util.transactor.Transactor
 import fs2.Stream
 import model.{Importance, Todo, TodoNotFoundError}
 import doobie._
 import doobie.implicits._
 
-class TodoRepository[F[_]: Sync](transactor: Transactor[IO]) {
+class TodoRepository(transactor: Transactor[IO]) {
   private implicit val importanceMeta: Meta[Importance] = Meta[String].timap(Importance.unsafeFromString)( _.value)
 
 

@@ -94,7 +94,7 @@ object Server extends IOApp with Http4sDsl[IO] {
                                    blocker: Blocker
                                  ): Kleisli[IO, Request[IO], Response[IO]] = {
 
-    val todoService = new TodoService[IO](new TodoRepository[IO](transactor)).service
+    val todoService = new TodoService(new TodoRepository(transactor)).service
 
     val authLogic = new OAuthLogic[IO](client)
     val exerciseService =
