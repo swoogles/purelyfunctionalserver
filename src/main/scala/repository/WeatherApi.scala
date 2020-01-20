@@ -1,6 +1,6 @@
 package repository
 
-import cats.effect.Sync
+import cats.effect.IO
 import cats.implicits._
 import io.circe.generic.auto._
 import org.http4s.Method._
@@ -45,23 +45,23 @@ object GpsCoordinates {
   }
 }
 
-trait WeatherApi[F[_]] {
-    def get(gpsCoordinates: GpsCoordinates): F[ForeCast]
+trait WeatherApi {
+    def get(gpsCoordinates: GpsCoordinates): IO[ForeCast]
 }
 object WeatherApi {
   // TODO Put this in a better spot, that will error out predictably
   val DARK_SKY_TOKEN: String = System.getenv("DARK_SKY_TOKEN")
 
   final case class WeatherError(e: Throwable) extends RuntimeException
-  implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, ForeCast] =
+  implicit def commitEntityDecoder: EntityDecoder[IO, ForeCast] =
     jsonOf
 
-  def impl[F[_] : Sync](C: Client[F]): WeatherApi[F] = new WeatherApi[F] {
-    val dsl = new Http4sClientDsl[F] {}
+  def impl(C: Client[IO]): WeatherApi = new WeatherApi {
+    val dsl = new Http4sClientDsl[IO] {}
 
     import dsl._
 
-    def get(gpsCoordinates: GpsCoordinates): F[ForeCast] = {
+    def get(gpsCoordinates: GpsCoordinates): IO[ForeCast] = {
       println("token: " + DARK_SKY_TOKEN)
       val parameterisedUri = s"https://api.darksky.net/forecast/" + DARK_SKY_TOKEN + s"/${gpsCoordinates.latitude},${gpsCoordinates.longitude}"
       C.expect[ForeCast](GET(Uri.unsafeFromString(parameterisedUri)))

@@ -1,7 +1,7 @@
 package auth
 
 import org.http4s.{AuthScheme, Credentials, Request, UrlForm}
-import cats.effect.{IO, Sync}
+import cats.effect.IO
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
 import org.http4s.headers.{Authorization, Cookie}
@@ -22,7 +22,7 @@ case class TokenResponse(
 
 case class UserInfo(sub: String)
 
-class OAuthLogic[F[_]: Sync](C: Client[IO])
+class OAuthLogic(C: Client[IO])
 {
   val domain = System.getenv("OAUTH_DOMAIN")
   val clientId = System.getenv("OAUTH_CLIENT_ID")
@@ -32,7 +32,7 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
 
   val chaoticPublicUser = "ChaoticPublicUser"
 
-  implicit def userInfoDecoder[F[_]: Sync]: EntityDecoder[F, UserInfo] =
+  implicit def userInfoDecoder: EntityDecoder[IO, UserInfo] =
     jsonOf
   def getUserInfo(accessToken: String) = {
     println("About to retrieve userInfo for token: " + accessToken)
@@ -63,10 +63,8 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
       Uri.fromString("https://quiet-glitter-8635.auth0.com/oauth/token").right.get,
     )
 
-    implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, TokenResponse] =
+    implicit def commitEntityDecoder: EntityDecoder[IO, TokenResponse] =
       jsonOf
-//    implicit def commitEntityDecoder[F[_]: Sync]: EntityDecoder[F, ForeCast] =
-//      jsonOf
 
     C.expect[TokenResponse](postRequest)
       .map{response =>
@@ -74,12 +72,6 @@ class OAuthLogic[F[_]: Sync](C: Client[IO])
         response
 
       }
-//      .handleErrorWith( error => IO { println("token request error : " + error)})
-//    C.expect[String](postRequest)
-      //        .map( forecastWithoutLocationName => forecastWithoutLocationName.copy(location = Some(gpsCoordinates.locationName)))
-//      .adaptError { case t =>
-//        println("error: " + t)
-//        WeatherError(t) } // Prevent Client Json Decoding Failure Leaking
   }
 
   def getTokenFromRequest(request: Request[IO]) = {

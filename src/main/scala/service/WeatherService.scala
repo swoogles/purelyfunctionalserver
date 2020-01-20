@@ -1,6 +1,6 @@
 package service
 
-import cats.effect.{Effect, IO, Sync}
+import cats.effect.IO
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
@@ -12,10 +12,8 @@ import service.AuthBackingStores.User
 import tsec.authentication.{TSecAuthService, TSecBearerToken}
 import tsec.authentication._
 
-class WeatherService[F[_]: Sync](weatherApi: WeatherApi[F])(
-  implicit ev: Effect[F]
-) extends Http4sDsl[F] {
-  type AuthService = TSecAuthService[User, TSecBearerToken[Int], F]
+class WeatherService(weatherApi: WeatherApi) extends Http4sDsl[IO] {
+  type AuthService = TSecAuthService[User, TSecBearerToken[Int], IO]
 
   val service: AuthService = TSecAuthService {
     case GET -> Root asAuthed user =>
@@ -23,7 +21,7 @@ class WeatherService[F[_]: Sync](weatherApi: WeatherApi[F])(
         Stream.eval(
           weatherApi.get(GpsCoordinates.resorts.CrestedButte)
         ).map(_.asJson.noSpaces)
-          .handleErrorWith( error => Stream.eval( ev.pure { println(s"error: $error" ); """{"error": "Couldn't find weather info" } """}))
+          .handleErrorWith( error => Stream.eval( IO.pure { println(s"error: $error" ); """{"error": "Couldn't find weather info" } """}))
         ,
         `Content-Type`(MediaType.application.json)
       )

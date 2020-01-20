@@ -7,8 +7,8 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Cookie, Location}
 import org.http4s.{Header, HttpRoutes, Request, RequestCookie, Response, Status, Uri}
 
-class MyMiddle[F[_]: ConcurrentEffect](
-                                        authLogic: OAuthLogic[IO]
+class MyMiddle(
+                                        authLogic: OAuthLogic
                                       ) extends Http4sDsl[IO] {
   def addHeader(resp: Response[IO], header: Header) =
     resp match {

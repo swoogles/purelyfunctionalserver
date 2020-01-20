@@ -91,7 +91,7 @@ object Server extends IOApp with Http4sDsl[IO] {
 
     val todoService = new TodoService(new TodoRepository(transactor)).service
 
-    val authLogic = new OAuthLogic[IO](client)
+    val authLogic = new OAuthLogic(client)
     val exerciseService =
       new ExerciseService(
         new ExerciseLogic(
@@ -104,11 +104,11 @@ object Server extends IOApp with Http4sDsl[IO] {
     val githubService = {
       new GithubService(Github.impl(client)).service
     }
-    val homePageService = new HomePageService[IO](blocker).routes
+    val homePageService = new HomePageService(blocker).routes
     val resourceService = fileService[IO](FileService.Config("./src/main/resources", blocker))
-    val authService = new OAuthService[IO](client, authLogic).service
+    val authService = new OAuthService(client, authLogic).service
 
-    val myMiddle = new MyMiddle[IO](authLogic)
+    val myMiddle = new MyMiddle(authLogic)
     val authServiceWithExtraHeaders = myMiddle(authService, Header("SomeKey", "SomeValue"))
     val authenticationBackends = new AuthenticationBackends(
       InMemoryAuthBackends.bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer,
@@ -117,14 +117,14 @@ object Server extends IOApp with Http4sDsl[IO] {
     val Auth = authenticationBackends.Auth
 
     val loginService =
-      new LoginEndpoint[IO](
+      new LoginEndpoint(
         authenticationBackends.userStore,
         authenticationBackends.bearerTokenStore,
       ).service
 
     val weatherService =
       Auth.liftService(
-        new WeatherService[IO](WeatherApi.impl[IO](client)).service
+        new WeatherService(WeatherApi.impl(client)).service
       )
 
     val authenticatedEndpoint =

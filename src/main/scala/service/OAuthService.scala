@@ -32,11 +32,9 @@ case class OauthConfig(domain: String, clientId: String, clientSecret: String)
 
 
 
-class OAuthService[F[_]: ConcurrentEffect](C: Client[IO],
-                                           authLogic: OAuthLogic[IO]
-                                          ) ( implicit
-                                                            f: Sync[F]
-)extends Http4sDsl[F] {
+class OAuthService(C: Client[IO],
+                                           authLogic: OAuthLogic
+                                          ) extends Http4sDsl[IO] {
   val domain = System.getenv("OAUTH_DOMAIN")
   val clientId = System.getenv("OAUTH_CLIENT_ID")
   val clientSecret = System.getenv("OAUTH_CLIENT_SECRET")
@@ -57,10 +55,10 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO],
   val newKey: IO[Key[String]] = Key.newKey[IO, String]
 
 
-  val service: HttpRoutes[F] = HttpRoutes.of[F] {
+  val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
     case req @ GET -> Root / "login"  => {
       val newKey: IO[Key[String]] = Key.newKey[IO, String]
-      val keyUsage: IO[F[Response[F]]] = for {
+      val keyUsage: IO[IO[Response[IO]]] = for {
         flatKey <- newKey
       } yield {
         println("OauthService.callback.flatKey: " + flatKey)
@@ -124,7 +122,7 @@ class OAuthService[F[_]: ConcurrentEffect](C: Client[IO],
       val auth0code = req.params("code")
 
       println("req.attributes: " + req.attributes)
-      val keyUsage: F[Response[F]] = (for {
+      val keyUsage: IO[Response[IO]] = (for {
       tokenResponse <- authLogic.getTokenFromCallbackCode(auth0code)
       userInfo <- authLogic.getUserInfo(tokenResponse.access_token)
       } yield {

@@ -2,7 +2,7 @@ package service
 
 import java.time.Instant
 
-import cats.effect.{Effect, IO, Sync}
+import cats.effect.IO
 import io.chrisdavenport.vault.Key
 import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
@@ -10,13 +10,10 @@ import service.AuthBackingStores.User
 import tsec.authentication.{BackingStore, TSecBearerToken}
 import tsec.common.SecureRandomId
 
-class LoginEndpoint [F[_]: Sync](
-  // TODO Get rid of these IO refs
-                                  userStore: BackingStore[IO, Int, User],
-                                  bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]]
-                                )(
-                                  implicit ev: Effect[F]
-                                ) extends Http4sDsl[F] {
+class LoginEndpoint (
+                      userStore: BackingStore[IO, Int, User],
+                      bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]]
+                    ) extends Http4sDsl[IO] {
   case class RequestWithToken(token: String)
   def contactOAuthProvider(userId: Int): RequestWithToken = {
     RequestWithToken(s"Fresh token for $userId")
@@ -45,7 +42,7 @@ class LoginEndpoint [F[_]: Sync](
           bearerTokenStore.update(newBearerToken)
             .map(ignoredToken => s"User exists, but needed to replace an expired token")
         } else {
-          ev.pure(s"User exists with a valid token")
+          IO.pure(s"User exists with a valid token")
         }
     }.getOrElseF {
       val newBearerToken = generateNewTokenFor(existingUser)
@@ -57,7 +54,7 @@ class LoginEndpoint [F[_]: Sync](
     userStore.get(userId.toInt).value.unsafeRunSync() match {
       case None => createUserWithBearerToken(userId)
       case Some(existingUser) => createBearerTokenForExistingUserIfNeeded(existingUser)}
-  val service = HttpRoutes.of[F] {
+  val service = HttpRoutes.of[IO] {
     case request @ GET -> Root / userId => {
       println(s"Attempting to login userId=$userId")
       val result = loginLogicWithUserCreation(userId)

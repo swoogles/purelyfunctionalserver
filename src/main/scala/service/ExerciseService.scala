@@ -16,7 +16,7 @@ import scala.concurrent.duration.MILLISECONDS
 
 class ExerciseService(
                                                   exerciseLogic: ExerciseLogic,
-                                                  authLogic: OAuthLogic[IO]
+                                                  authLogic: OAuthLogic
                                              )(implicit
                                                F: ConcurrentEffect[IO],
                                                clock: Clock[IO]

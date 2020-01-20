@@ -7,10 +7,10 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.server.staticcontent._
 import org.http4s.{HttpRoutes, StaticFile}
 
-class HomePageService[F[_] : Sync](blocker: Blocker)(implicit cs: ContextShift[F], ev: Effect[F]) extends Http4sDsl[F] {
-  val rootFileService: HttpRoutes[F] = fileService[F](FileService.Config(".", blocker))
+class HomePageService(blocker: Blocker)(implicit cs: ContextShift[IO], ev: Effect[IO]) extends Http4sDsl[IO] {
+  val rootFileService: HttpRoutes[IO] = fileService[IO](FileService.Config(".", blocker))
 
-  val routes = HttpRoutes.of[F] {
+  val routes = HttpRoutes.of[IO] {
     case request@GET -> Root => {
       val servedFile = new File("./src/main/resources/html/index.html")
       println("got a file. dunno if it exists")
