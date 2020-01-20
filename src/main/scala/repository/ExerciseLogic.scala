@@ -1,10 +1,10 @@
 package repository
 
-import cats.effect.{IO, Sync}
+import cats.effect.{IO}
 import fs2.Stream
 import model.DailyQuantizedExercise
 
-class ExerciseLogic[F[_] : Sync](exerciseRepository: ExerciseRepository[F]) {
+class ExerciseLogic(exerciseRepository: ExerciseRepository) {
 
   def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise] =
     exerciseRepository.getExercisesFor(name)

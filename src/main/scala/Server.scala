@@ -61,7 +61,7 @@ object Server extends IOApp with Http4sDsl[IO] {
     } yield exitCode
   }
 
-  def configSteps() = {
+  def configSteps(): IO[ConfigData] = {
     val configImpl =
       Config.impl[IO](
         (ex) => IO.raiseError[ConfigData](new ConfigReaderException[ConfigData](ex)),
@@ -98,9 +98,9 @@ object Server extends IOApp with Http4sDsl[IO] {
 
     val authLogic = new OAuthLogic[IO](client)
     val exerciseService =
-      new ExerciseService[IO](
-        new ExerciseLogic[IO](
-          new ExerciseRepositoryImpl[IO](transactor)
+      new ExerciseService(
+        new ExerciseLogic(
+          new ExerciseRepositoryImpl(transactor)
         ),
         authLogic
       ).service
@@ -147,7 +147,7 @@ object Server extends IOApp with Http4sDsl[IO] {
       "/github" -> githubService,
       "/exercises" -> exerciseService,
       "/weather" -> weatherService,
-      "/oauth" -> authServiceWithExtraHeaders,
+      "/oauth" -> authService,
       "/tsec" -> authenticatedEndpoint,
       "/login" -> loginService
     ).orNotFound

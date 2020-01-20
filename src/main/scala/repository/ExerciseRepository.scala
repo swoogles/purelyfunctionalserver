@@ -2,13 +2,13 @@ package repository
 
 import java.time.LocalDate
 
-import cats.effect.{IO, Sync}
+import cats.effect.{IO}
 import doobie.implicits._
 import doobie.util.transactor.Transactor
 import fs2.Stream
 import model.{DailyQuantizedExercise, ExerciseNotFoundError}
 
-trait ExerciseRepository[F[_]] {
+trait ExerciseRepository {
   // TODO Push F throughout the rest of this file
   def getExercise(name: String, day: LocalDate, userId: Option[String]): IO[Option[DailyQuantizedExercise]]
   def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise]
@@ -17,7 +17,7 @@ trait ExerciseRepository[F[_]] {
   def updateQuantizedExercise(exercise: DailyQuantizedExercise, reps: Int): IO[Either[ExerciseNotFoundError.type, DailyQuantizedExercise]]
 }
 
-class ExerciseRepositoryImpl[F[_]: Sync](transactor: Transactor[IO]) extends ExerciseRepository[F] {
+class ExerciseRepositoryImpl(transactor: Transactor[IO]) extends ExerciseRepository {
   //  private implicit val importanceMeta: Meta[Importance] = Meta[String].timap(Importance.unsafeFromString)( _.value)
 
   def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise] =
