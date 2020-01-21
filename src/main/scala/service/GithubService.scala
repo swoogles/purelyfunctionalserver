@@ -8,10 +8,12 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.`Content-Type`
 import org.http4s.{HttpRoutes, MediaType}
 import repository.Github
+import zio.Task
+import zio.interop.catz._
 
-class GithubService(repository: Github) extends Http4sDsl[IO] {
+class GithubService(repository: Github) extends Http4sDsl[Task] {
 
-  val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
+  val service: HttpRoutes[Task] = HttpRoutes.of[Task] {
     case GET -> Root / "user" / user / "repoName" / repoName  =>
       Ok(
         Stream("[") ++

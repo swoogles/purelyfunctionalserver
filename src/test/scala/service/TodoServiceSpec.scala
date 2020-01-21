@@ -10,7 +10,7 @@ import org.http4s.dsl.io._
 import org.http4s.{Request, Response, Status, Uri}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, WordSpec}
-import repository.TodoRepository
+
 
 /*
 class TodoServiceSpec extends WordSpec with MockFactory with Matchers {

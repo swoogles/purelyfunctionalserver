@@ -9,11 +9,14 @@ import org.http4s.dsl.Http4sDsl
 import service.AuthBackingStores.User
 import tsec.authentication.{BackingStore, TSecBearerToken}
 import tsec.common.SecureRandomId
+import zio.{DefaultRuntime, Runtime, Task}
+import zio.interop.catz._
 
 class LoginEndpoint (
-                      userStore: BackingStore[IO, Int, User],
-                      bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]]
-                    ) extends Http4sDsl[IO] {
+                      userStore: BackingStore[Task, Int, User],
+                      bearerTokenStore: BackingStore[Task, SecureRandomId, TSecBearerToken[Int]]
+                    ) extends Http4sDsl[Task] {
+  implicit val runtime: Runtime[Any] = new DefaultRuntime {}
   case class RequestWithToken(token: String)
   def contactOAuthProvider(userId: Int): RequestWithToken = {
     RequestWithToken(s"Fresh token for $userId")
@@ -42,7 +45,7 @@ class LoginEndpoint (
           bearerTokenStore.update(newBearerToken)
             .map(ignoredToken => s"User exists, but needed to replace an expired token")
         } else {
-          IO.pure(s"User exists with a valid token")
+          Task.succeed(s"User exists with a valid token")
         }
     }.getOrElseF {
       val newBearerToken = generateNewTokenFor(existingUser)
@@ -51,14 +54,14 @@ class LoginEndpoint (
     }
   }
   def loginLogicWithUserCreation(userId: String) =
-    userStore.get(userId.toInt).value.unsafeRunSync() match {
+    runtime.unsafeRun(userStore.get(userId.toInt).value) match {
       case None => createUserWithBearerToken(userId)
       case Some(existingUser) => createBearerTokenForExistingUserIfNeeded(existingUser)}
-  val service = HttpRoutes.of[IO] {
+  val service = HttpRoutes.of[Task] {
     case request @ GET -> Root / userId => {
       println(s"Attempting to login userId=$userId")
       val result = loginLogicWithUserCreation(userId)
-      Ok(result.unsafeRunSync().toString)
+      Ok(runtime.unsafeRun(result).toString)
     }
   }
 

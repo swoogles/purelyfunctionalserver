@@ -16,8 +16,8 @@ import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.dsl.Http4sDsl
 import org.http4s.server.Router
 import org.http4s.server.blaze.BlazeServerBuilder
-import repository.{Github, TodoRepository}
-import service.{GithubService, TodoService}
+import repository.Github
+import service.GithubService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.ExecutionContext

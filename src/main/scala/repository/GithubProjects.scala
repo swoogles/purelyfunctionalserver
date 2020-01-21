@@ -1,7 +1,7 @@
 package repository
 
 import cats.Applicative
-import cats.effect.{IO, Sync}
+import cats.effect.Sync
 import cats.implicits._
 import io.circe.generic.auto._
 import org.http4s.Method._
@@ -11,10 +11,13 @@ import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.{EntityDecoder, EntityEncoder, Uri}
 import java.time.Instant
 
-trait Github {
-  def get(userName: String, repoName: String): IO[Github.Tree]
+import zio.{Task, ZIO}
+import zio.interop.catz._
 
-  def getUsersRecentActivity(userName: String): IO[List[Github.RepoActivity]]
+trait Github {
+  def get(userName: String, repoName: String): Task[Github.Tree]
+
+  def getUsersRecentActivity(userName: String): Task[List[Github.RepoActivity]]
 }
 
 object Github {
@@ -64,17 +67,17 @@ object Github {
 
   final case class GithubError(e: Throwable) extends RuntimeException
 
-  def impl(C: Client[IO]): Github = new Github{
-    val dsl = new Http4sClientDsl[IO]{}
+  def impl(C: Client[Task]): Github = new Github{
+    implicit val dsl = new Http4sClientDsl[Task]{}
     import dsl._
 
-    def get(userName: String, repoName: String): IO[Github.Tree] = {
+    def get(userName: String, repoName: String): Task[Github.Tree] = {
       val parameterisedUri = s"https://api.github.com/repos/$userName/$repoName/commits/master"
       C.expect[Github.Tree](GET(Uri.unsafeFromString(parameterisedUri)))
-        .adaptError{ case t => GithubError(t)} // Prevent Client Json Decoding Failure Leaking
+        .catchAll{ case t => Task.fail(GithubError(t))} // Prevent Client Json Decoding Failure Leaking
     }
 
-    def getUsersRecentActivity(userName: String): IO[List[Github.RepoActivity]] = {
+    def getUsersRecentActivity(userName: String): Task[List[Github.RepoActivity]] = {
       val parameterisedUri = s"https://api.github.com/users/$userName/events/public"
       C.expect[List[Github.UserActivityEvent]](GET(Uri.unsafeFromString(parameterisedUri)))
         .map{ userActivityEvents =>
@@ -90,9 +93,7 @@ object Github {
               .toList
           result
           }
-        .adaptError{ case t =>
-          println("error:" + t)
-          GithubError(t)} // Prevent Client Json Decoding Failure Leaking
+        .catchAll{ case t => Task.fail(GithubError(t))} // Prevent Client Json Decoding Failure Leaking
     }
   }
 }

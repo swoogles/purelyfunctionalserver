@@ -10,8 +10,6 @@ import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
 import io.circe.optics.JsonPath._
 import org.http4s.server.{Server => Http4sServer}
 import org.http4s.server.blaze.BlazeBuilder
-import repository.TodoRepository
-import service.TodoService
 import scala.concurrent.ExecutionContext.global
 
 /*

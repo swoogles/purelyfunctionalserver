@@ -5,14 +5,16 @@ import cats.syntax.semigroupk._
 import org.http4s.dsl.io._
 import tsec.authentication._
 import tsec.common.SecureRandomId
-
 import AuthBackingStores.{Role, User}
+import zio.Task
+import zio.interop.catz._
 
+/*
 class AuthenticatedEndpoint(
-                             bearerTokenStore: BackingStore[IO, SecureRandomId, TSecBearerToken[Int]]
+                             bearerTokenStore: BackingStore[Task, SecureRandomId, TSecBearerToken[Int]]
                            ) {
 
-  type AuthService = TSecAuthService[User, TSecBearerToken[Int], IO]
+  type AuthService = TSecAuthService[User, TSecBearerToken[Int], Task]
 
   val service: AuthService = TSecAuthService {
     case request @ GET -> Root / "api" asAuthed user =>
@@ -23,13 +25,13 @@ class AuthenticatedEndpoint(
       3. The identity (i.e in this case, User)
        */
 
-      val r: SecuredRequest[IO, User, TSecBearerToken[Int]] = request
+      val r: SecuredRequest[Task, User, TSecBearerToken[Int]] = request
       println(s"SecureRequest: $r")
       println("Authenticated User is: " + user)
       Ok("Super secure info")  // TODO Unsafe. Leaking the whole User
 
     case request @ GET -> Root / "logout" asAuthed user => {
-      val r: SecuredRequest[IO, User, TSecBearerToken[Int]] = request
+      val r: SecuredRequest[Task, User, TSecBearerToken[Int]] = request
       Ok(
         bearerTokenStore.delete(SecureRandomId.coerce(user.idInt.toString))
           .toString()
@@ -44,3 +46,5 @@ class AuthenticatedEndpoint(
 
   private val composedService: AuthService = service <+> authedService2
 }
+
+ */

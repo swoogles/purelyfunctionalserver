@@ -7,6 +7,7 @@ import io.chrisdavenport.vault.Vault
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
 import org.http4s.headers.{Authorization, Cookie}
+import zio.{DefaultRuntime, Runtime, Task}
 //import com.auth0.SessionUtils
 import fs2.Stream
 import io.chrisdavenport.vault.Key
@@ -15,6 +16,8 @@ import org.http4s.headers.{Location, `Content-Type`}
 import org.http4s.{HttpRoutes, MediaType, Response, Uri}
 import org.http4s._
 import org.http4s.client.Client
+import zio.interop.catz._
+import zio.interop.catz.implicits._
 
 case class OauthConfig(domain: String, clientId: String, clientSecret: String)
 
@@ -32,9 +35,9 @@ case class OauthConfig(domain: String, clientId: String, clientSecret: String)
 
 
 
-class OAuthService(C: Client[IO],
-                                           authLogic: OAuthLogic
-                                          ) extends Http4sDsl[IO] {
+class OAuthService(C: Client[Task],
+                   authLogic: OAuthLogic
+                                          ) extends Http4sDsl[Task] {
   val domain = System.getenv("OAUTH_DOMAIN")
   val clientId = System.getenv("OAUTH_CLIENT_ID")
   val clientSecret = System.getenv("OAUTH_CLIENT_SECRET")
@@ -52,13 +55,14 @@ class OAuthService(C: Client[IO],
       clientSecret
     ).withJwkProvider(jwkProvider).build
 
-  val newKey: IO[Key[String]] = Key.newKey[IO, String]
+  val newKey: Task[Key[String]] = Key.newKey[Task, String]
 
+  implicit val uglyRuntime: Runtime[Any] = new DefaultRuntime {}
 
-  val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
+  val service: HttpRoutes[Task] = HttpRoutes.of[Task] {
     case req @ GET -> Root / "login"  => {
-      val newKey: IO[Key[String]] = Key.newKey[IO, String]
-      val keyUsage: IO[IO[Response[IO]]] = for {
+      val newKey: Task[Key[String]] = Key.newKey[Task, String]
+      val keyUsage: Task[Task[Response[Task]]] = for {
         flatKey <- newKey
       } yield {
         println("OauthService.callback.flatKey: " + flatKey)
@@ -73,8 +77,9 @@ class OAuthService(C: Client[IO],
 
     }
 
+
     case req @ GET -> Root / "get_token" => {
-      val keyUsage = (for {
+      val keyUsage = uglyRuntime.unsafeRun(for {
         flatKey <- newKey
       } yield {
         println("OauthService.callback.flatKey: " + flatKey)
@@ -84,7 +89,7 @@ class OAuthService(C: Client[IO],
 //          Cookie(NonEmptyList[RequestCookie](RequestCookie("name", "cookieValue"), List()))
 //        )
         flatKey
-      }).unsafeRunSync()
+      })
       val vault = Vault.empty.insert(keyUsage, "secret token from vault!!")
       val retrievedValue: Option[String] = vault.lookup(keyUsage)
       println("key from vault: " + retrievedValue.get)
@@ -101,12 +106,12 @@ class OAuthService(C: Client[IO],
     }
 
     case req @ GET -> Root / "check_token" =>
-      val lookupKey = (for {
+      val lookupKey = uglyRuntime.unsafeRun(for {
         flatKey <- newKey
       } yield {
         println("OauthService.callback.flatKey: " + flatKey)
         flatKey
-      }).unsafeRunSync()
+      })
 
       println("*some* attribute exists: " + req.attributes.isEmpty)
       println("req.authType: " + req.authType)
@@ -122,7 +127,7 @@ class OAuthService(C: Client[IO],
       val auth0code = req.params("code")
 
       println("req.attributes: " + req.attributes)
-      val keyUsage: IO[Response[IO]] = (for {
+      val keyUsage: Task[Response[Task]] = uglyRuntime.unsafeRun(for {
       tokenResponse <- authLogic.getTokenFromCallbackCode(auth0code)
       userInfo <- authLogic.getUserInfo(tokenResponse.access_token)
       } yield {
@@ -132,7 +137,7 @@ class OAuthService(C: Client[IO],
           Authorization(Credentials.Token(AuthScheme.Bearer, tokenResponse.access_token)),
           Cookie(NonEmptyList[RequestCookie](RequestCookie("accessTokenFromCallback", tokenResponse.access_token), List()))
         )
-      }).unsafeRunSync()
+      })
       println("Key usage: " + keyUsage)
 
       keyUsage

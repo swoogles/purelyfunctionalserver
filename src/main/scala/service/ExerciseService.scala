@@ -11,19 +11,21 @@ import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Location, `Content-Type`}
 import org.http4s.{HttpRoutes, MediaType, Request, Response, Uri}
 import repository.ExerciseLogic
+import zio.Task
+import zio.interop.catz._
 
 import scala.concurrent.duration.MILLISECONDS
 
 class ExerciseService(
                                                   exerciseLogic: ExerciseLogic,
                                                   authLogic: OAuthLogic
-                                             ) extends Http4sDsl[IO] {
+                                             ) extends Http4sDsl[Task] {
 
 
       //  def authAuthChecks(pf: PartialFunction[AuthorizedRequest[F], F[Response[F]]])
       //    : PartialFunction[Request[F], F[Response[F]]] =
 
-  val service: HttpRoutes[IO] = HttpRoutes.of[IO] {
+  val service: HttpRoutes[Task] = HttpRoutes.of[Task] {
     // pf: PartialFunction[Request[F], F[Response[F]]]
         case request @ GET -> Root => {
           val user = authLogic.getUserFromRequest(request)
@@ -45,11 +47,11 @@ class ExerciseService(
           req.params.foreach{case (key, value) => println("Exercise POST key: " + key + "   value: " + value)}
           for {
             newExercise <- req.decodeJson[DailyQuantizedExercise]
-            completedExercise <- IO {
+            completedExercise <- Task {
               println("Accepting a new POST from sub: " + user)
               newExercise.copy(userId = Some(user.id))
             }
-            _ <- IO {
+            _ <- Task {
               println("postedExercise day: " + newExercise.day)
             }
             wrappedResult <- exerciseLogic.createOrUpdate(completedExercise) map {

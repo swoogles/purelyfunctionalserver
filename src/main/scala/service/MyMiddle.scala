@@ -6,17 +6,21 @@ import cats.effect.{ConcurrentEffect, IO}
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Cookie, Location}
 import org.http4s.{Header, HttpRoutes, Request, RequestCookie, Response, Status, Uri}
+import zio.{DefaultRuntime, Runtime, Task}
+import zio.interop.catz._
 
 class MyMiddle(
                                         authLogic: OAuthLogic
-                                      ) extends Http4sDsl[IO] {
-  def addHeader(resp: Response[IO], header: Header) =
+                                      ) extends Http4sDsl[Task] {
+  val uglyRuntime: Runtime[Any] = new DefaultRuntime {}
+
+  def addHeader(resp: Response[Task], header: Header) =
     resp match {
       case Status.Successful(resp) => resp.putHeaders(header)
       case resp => resp
     }
 
-  def addCookie(resp: Response[IO]) =
+  def addCookie(resp: Response[Task]) =
     resp match {
       case Status.Successful(resp) => {
         resp.addCookie("access_token", "NEED_A_REAL_TOKEN_VALUE")
@@ -25,29 +29,29 @@ class MyMiddle(
     }
 
   //  Cookie(NonEmptyList[RequestCookie](RequestCookie("name", "cookieValue"), List()))
-  def apply(service: HttpRoutes[IO], header: Header): HttpRoutes[IO] =
-    service.map(addHeader(_, header)).map(addCookie)
+//  def apply(service: HttpRoutes[Task], header: Header): HttpRoutes[Task] =
+//    service.map(addHeader(_, header)).map(addCookie)
 
-//  val authUser: Kleisli[OptionT[IO, Exception], Request[IO], Sub] =
+//  val authUser: Kleisli[OptionT[Task, Exception], Request[Task], Sub] =
 //    authLogic.getOptionalUserFromRequest _
-//    Kleisli(_ => OptionT.liftF(IO(???)))
+//    Kleisli(_ => OptionT.liftF(Task(???)))
 
   object AccessTokenParamMatcher extends QueryParamDecoderMatcher[String]("access_token")
 
-  def applyBeforeLogic(service: HttpRoutes[IO]) = {
-    HttpRoutes.of[IO] {
+  def applyBeforeLogic(service: HttpRoutes[Task]) = {
+    HttpRoutes.of[Task] {
       // pf: PartialFunction[Request[F], F[Response[F]]]
       case request @ GET -> Root / "html" / "index.html" :? AccessTokenParamMatcher(accessToken)=> {
         println("Before actual resource behavior")
         authLogic.getOptionalUserFromRequest(request) match {
           case Some(user) => {
             println("user from accessToken: " + user)
-            val result: IO[Response[IO]] = service.apply(request).value.map{
-              case Some(response: Response[IO]) => {
+            val result: Task[Response[Task]] = service.apply(request).value.map{
+              case Some(response: Response[Task]) => {
                 println("Got a response from the underlying service: " + response)
                 response.withStatus(Ok)
               }
-              case None => NotFound("Dunno what to do with you.").unsafeRunSync()
+              case None => uglyRuntime.unsafeRun(NotFound("Dunno what to do with you."))
             }
             result
           }
@@ -64,12 +68,12 @@ class MyMiddle(
         authLogic.getOptionalUserFromRequest(request) match {
           case Some(user) => {
             println("user from accessToken: " + user)
-            val result: IO[Response[IO]] = service.apply(request).value.map{
-              case Some(response: Response[IO]) => {
+            val result: Task[Response[Task]] = service.apply(request).value.map{
+              case Some(response: Response[Task]) => {
                 println("Got a response from the underlying service: " + response)
                 response.withStatus(Ok)
               }
-              case None => NotFound("Dunno what to do with you.").unsafeRunSync()
+              case None => uglyRuntime.unsafeRun(NotFound("Dunno what to do with you."))
             }
             result
           }
@@ -80,12 +84,12 @@ class MyMiddle(
         }
       }
       case request => {
-        val result: IO[Response[IO]] = service.apply(request).value.map{
-          case Some(response: Response[IO]) => {
+        val result: Task[Response[Task]] = service.apply(request).value.map{
+          case Some(response: Response[Task]) => {
             println("Got a response from the underlying service: " + response)
             response.withStatus(Ok)
           }
-          case None => NotFound("Dunno what to do with you.").unsafeRunSync()
+          case None => uglyRuntime.unsafeRun(NotFound("Dunno what to do with you."))
         }
         result
 

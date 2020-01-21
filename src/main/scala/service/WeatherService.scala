@@ -11,9 +11,11 @@ import repository.{GpsCoordinates, WeatherApi}
 import service.AuthBackingStores.User
 import tsec.authentication.{TSecAuthService, TSecBearerToken}
 import tsec.authentication._
+import zio.Task
+import zio.interop.catz._
 
-class WeatherService(weatherApi: WeatherApi) extends Http4sDsl[IO] {
-  type AuthService = TSecAuthService[User, TSecBearerToken[Int], IO]
+class WeatherService(weatherApi: WeatherApi) extends Http4sDsl[Task] {
+  type AuthService = TSecAuthService[User, TSecBearerToken[Int], Task]
 
   val service: AuthService = TSecAuthService {
     case GET -> Root asAuthed user =>
@@ -21,7 +23,7 @@ class WeatherService(weatherApi: WeatherApi) extends Http4sDsl[IO] {
         Stream.eval(
           weatherApi.get(GpsCoordinates.resorts.CrestedButte)
         ).map(_.asJson.noSpaces)
-          .handleErrorWith( error => Stream.eval( IO.pure { println(s"error: $error" ); """{"error": "Couldn't find weather info" } """}))
+          .handleErrorWith( error => Stream.eval( Task.succeed { println(s"error: $error" ); """{"error": "Couldn't find weather info" } """}))
         ,
         `Content-Type`(MediaType.application.json)
       )

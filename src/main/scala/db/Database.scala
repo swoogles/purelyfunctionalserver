@@ -1,18 +1,21 @@
 package db
 
-import cats.effect.{Blocker, IO, Resource}
+import cats.effect.{Blocker, ContextShift, IO, Resource}
 import config.DatabaseConfig
 import doobie.hikari.HikariTransactor
 import org.flywaydb.core.Flyway
+import zio.Task
+import zio.interop.catz._
 
 import scala.concurrent.ExecutionContext
 
 object Database {
-  def transactor(config: DatabaseConfig)(ec: ExecutionContext): Resource[IO, HikariTransactor[IO]] = {
+  def transactor(config: DatabaseConfig)(ec: ExecutionContext): Resource[Task, HikariTransactor[Task]] = {
 
     Blocker.liftExecutionContext(ec)
-    implicit val cs = IO.contextShift(ec)
-    HikariTransactor.newHikariTransactor[IO](
+    implicit val cs: ContextShift[Task] = zio.interop.catz.zioContextShift
+    implicit val async = zio.interop.catz.taskConcurrentInstance
+    HikariTransactor.newHikariTransactor[Task](
       config.driver,
       config.url,
       config.user,
@@ -22,9 +25,9 @@ object Database {
     )
   }
 
-  def initialize(transactor: HikariTransactor[IO]): IO[Unit] = {
+  def initialize(transactor: HikariTransactor[Task]): Task[Unit] = {
     transactor.configure { dataSource =>
-      IO {
+      Task[Unit] {
         val flyWay = Flyway.configure().dataSource(dataSource).load()
         flyWay.migrate()
         ()

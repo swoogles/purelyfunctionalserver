@@ -1,18 +1,19 @@
 package repository
 
-import cats.effect.{IO}
+import cats.effect.IO
 import fs2.Stream
 import model.DailyQuantizedExercise
+import zio.Task
 
 class ExerciseLogic(exerciseRepository: ExerciseRepository) {
 
-  def getExercisesFor(name: String): Stream[IO, DailyQuantizedExercise] =
+  def getExercisesFor(name: String): Stream[Task, DailyQuantizedExercise] =
     exerciseRepository.getExercisesFor(name)
 
-  def getExerciseHistoriesFor(name: String, userIdOpt: String): Stream[IO, DailyQuantizedExercise] =
+  def getExerciseHistoriesFor(name: String, userIdOpt: String): Stream[Task, DailyQuantizedExercise] =
     exerciseRepository.getExerciseHistoryForUser(name, userIdOpt)
 
-  def createOrUpdate(dailyQuantizedExercise: DailyQuantizedExercise): IO[Either[ IllegalStateException, DailyQuantizedExercise]] = {
+  def createOrUpdate(dailyQuantizedExercise: DailyQuantizedExercise): Task[Either[ IllegalStateException, DailyQuantizedExercise]] = {
 
       exerciseRepository.getExercise(dailyQuantizedExercise.name, dailyQuantizedExercise.day, dailyQuantizedExercise.userId)
         .flatMap{

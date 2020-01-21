@@ -2,15 +2,19 @@ package auth
 
 import org.http4s.{AuthScheme, Credentials, Request, UrlForm}
 import cats.effect.IO
+import cats.implicits._
 import org.http4s.circe.jsonOf
 import io.circe.generic.auto._
 import org.http4s.headers.{Authorization, Cookie}
 import org.http4s.client.Client
 import org.http4s.Method._
+import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.client.dsl.io._
 import org.http4s.util.CaseInsensitiveString
 import org.http4s.{EntityDecoder, Uri}
 import service.Sub
+import zio.{DefaultRuntime, Runtime, Task, ZIO}
+import zio.interop.catz._
 
 case class TokenResponse(
                           access_token: String,
@@ -22,7 +26,7 @@ case class TokenResponse(
 
 case class UserInfo(sub: String)
 
-class OAuthLogic(C: Client[IO])
+class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task]
 {
   val domain = System.getenv("OAUTH_DOMAIN")
   val clientId = System.getenv("OAUTH_CLIENT_ID")
@@ -32,7 +36,7 @@ class OAuthLogic(C: Client[IO])
 
   val chaoticPublicUser = "ChaoticPublicUser"
 
-  implicit def userInfoDecoder: EntityDecoder[IO, UserInfo] =
+  implicit def userInfoDecoder: EntityDecoder[Task, UserInfo] =
     jsonOf
   def getUserInfo(accessToken: String) = {
     println("About to retrieve userInfo for token: " + accessToken)
@@ -42,9 +46,9 @@ class OAuthLogic(C: Client[IO])
         Authorization(Credentials.Token(AuthScheme.Bearer, accessToken))
       )
     ).map{userInfoResponse: UserInfo => println("UserInfoResponse: " + userInfoResponse); userInfoResponse}
-      .handleErrorWith( error => {
+      .catchAll( error => {
         println("error getting user info: " + error)
-        IO {  throw new RuntimeException(error)}
+        ZIO {  throw new RuntimeException(error)}
       })
 //      .handleErrorWith( error => IO { println("user info request error : " + error); error.getMessage})
 
@@ -52,7 +56,7 @@ class OAuthLogic(C: Client[IO])
   }
   def getTokenFromCallbackCode(code: String) = {
 
-    val postRequest: IO[Request[IO]] = POST[UrlForm](
+    val postRequest: Task[Request[Task]] = POST[UrlForm](
       UrlForm(
         "grant_type" -> "authorization_code",
         "client_id" -> clientId,
@@ -63,7 +67,7 @@ class OAuthLogic(C: Client[IO])
       Uri.fromString("https://quiet-glitter-8635.auth0.com/oauth/token").right.get,
     )
 
-    implicit def commitEntityDecoder: EntityDecoder[IO, TokenResponse] =
+    implicit def commitEntityDecoder: EntityDecoder[Task, TokenResponse] =
       jsonOf
 
     C.expect[TokenResponse](postRequest)
@@ -74,7 +78,7 @@ class OAuthLogic(C: Client[IO])
       }
   }
 
-  def getTokenFromRequest(request: Request[IO]) = {
+  def getTokenFromRequest(request: Request[Task]) = {
     request.headers.foreach(header => println("Header  name: " + header.name + "  value: " + header.value))
     val tokenFromAuthorizationHeaderAttempt = request.headers.get(CaseInsensitiveString("Authorization"))
       tokenFromAuthorizationHeaderAttempt
@@ -87,21 +91,20 @@ class OAuthLogic(C: Client[IO])
         }
   }
 
-  def getUserFromRequest(request: Request[IO]): Sub = {
+  implicit val runtime: Runtime[Any] = new DefaultRuntime {}
+  def getUserFromRequest(request: Request[Task]): Sub = {
     getTokenFromRequest(request)
       .map(token => {
         println("tokenValueOnly: " + token)
-        val userInfo: UserInfo = getUserInfo(token).unsafeRunSync()
-        Sub(userInfo.sub)
+        runtime.unsafeRun(getUserInfo(token).fold(failure => throw new RuntimeException("ack!"), userInfo => Sub(userInfo.sub)))
       })
       .getOrElse(Sub(chaoticPublicUser))
   }
 
-  def getOptionalUserFromRequest(request: Request[IO]): Option[Sub] = {
+  def getOptionalUserFromRequest(request: Request[Task]): Option[Sub] = {
     getTokenFromRequest(request)
       .map(token => {
-        val userInfo: UserInfo = getUserInfo(token).unsafeRunSync()
-        Sub(userInfo.sub)
+        runtime.unsafeRun(getUserInfo(token).fold(failure => throw new RuntimeException("ack!"), userInfo => Sub(userInfo.sub)))
       })
   }
 
