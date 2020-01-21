@@ -1,6 +1,6 @@
-name := "QuadSetTimer"
+name := "QuadSet Counter"
 
-version := "0.1"
+version := "0.2"
 
 //scalaVersion := "2.13.1"
 scalaVersion := "2.12.10"
@@ -8,8 +8,6 @@ scalaVersion := "2.12.10"
 lazy val CirceVersion = "0.12.3" // Options and java-8 modules are preventing me from further upgrades
 
 enablePlugins(ScalaJSPlugin)
-
-name := "Scala.js Tutorial"
 
 libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "0.9.7"
 libraryDependencies += "com.softwaremill.sttp.client" %%% "core" % "2.0.0-RC5"

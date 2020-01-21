@@ -63414,4 +63414,4 @@ var $d_scm_ArrayBuffer = new $TypeData().initClass({
 $c_scm_ArrayBuffer.prototype.$classData = $d_scm_ArrayBuffer;
 $m_Lbillding_Main$().main__AT__V($makeNativeArrayWrapper($d_T.getArrayOf(), []));
 }).call(this);
-//# sourceMappingURL=scala-js-tutorial-fastopt.js.map
+//# sourceMappingURL=quadset-counter-fastopt.js.map
