@@ -42,9 +42,7 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
   }
 
   def deleteEmptyExerciseRecords(name: String, day: LocalDate, userId: Option[String]): Task[Int] = {
-    sql"""
-         | DELETE FROM daily_quantized_exercises WHERE name = $name AND day = $day AND user_id=${userId} AND count = 0
-         |"""
+    sql"""DELETE FROM daily_quantized_exercises WHERE name = $name AND day = $day AND user_id=${userId} AND count = 0"""
       .update
       .run
       .transact(transactor)
