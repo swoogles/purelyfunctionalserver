@@ -48,18 +48,6 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
       .transact(transactor)
   }
 
-  /*
-  def getTodo(id: Long): Task[Either[ExerciseNotFoundError.type, Todo]] = {
-    sql"SELECT id, description, importance FROM todo WHERE id = $id"
-      .query[Todo]
-      .option
-      .transact(transactor).map {
-      case Some(todo) => Right(todo)
-      case None => Left(ExerciseNotFoundError)
-    }
-  }
-
-   */
 //  id: Long, name: String, day: LocalDate, count: Int
   def createExercise(exercise: DailyQuantizedExercise): Task[DailyQuantizedExercise] = {
     sql"""
