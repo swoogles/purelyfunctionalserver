@@ -12,6 +12,7 @@ import zio.interop.catz._
 trait ExerciseRepository {
   // TODO Push F throughout the rest of this file
   def getExercise(name: String, day: LocalDate, userId: Option[String]): Task[Option[DailyQuantizedExercise]]
+  def deleteEmptyExerciseRecords(name: String, day: LocalDate, userId: Option[String]): Task[Int]
   def getExercisesFor(name: String): Stream[Task, DailyQuantizedExercise]
   def getExerciseHistoryForUser(name: String, userId: String): Stream[Task, DailyQuantizedExercise]
   def createExercise(exercise: DailyQuantizedExercise): Task[DailyQuantizedExercise]
@@ -37,6 +38,15 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
     sql"""SELECT id, name, day, count, user_id FROM daily_quantized_exercises WHERE name = $name AND day = $day AND user_id=${userId}"""
       .query[DailyQuantizedExercise]
       .option
+      .transact(transactor)
+  }
+
+  def deleteEmptyExerciseRecords(name: String, day: LocalDate, userId: Option[String]): Task[Int] = {
+    sql"""
+         | DELETE FROM daily_quantized_exercises WHERE name = $name AND day = $day AND user_id=${userId} AND count = 0
+         |"""
+      .update
+      .run
       .transact(transactor)
   }
 

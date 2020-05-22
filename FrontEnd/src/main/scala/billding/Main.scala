@@ -201,7 +201,7 @@ object Main {
       document.body.setAttribute("style", "background-color: green")
     }
 
-  def main(args: Array[String]): Unit = {
+  defmain(args: Array[String]): Unit = {
     println("Cookie: " + document.cookie)
     // TODO remove this if it crazily breaks everything.
     val storage = org.scalajs.dom.window.localStorage
