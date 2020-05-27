@@ -195,10 +195,10 @@ object Main {
   def toggleColor() =
     if (document.body.getAttribute("style").contains("green")) {
       document.body.setAttribute("style", "background-color: red")
-      document.getElementById("user_instruction").innertHTML = "Fire Quad!"
+      document.getElementById("user_instruction").innerHTML = "Fire Quad!"
     } else {
       count += 1
-      document.getElementById("user_instruction").innertHTML = "Relax"
+      document.getElementById("user_instruction").innerHTML = "Relax"
       document.getElementById("counter").innerHTML = count.toString
       document.body.setAttribute("style", "background-color: green")
     }

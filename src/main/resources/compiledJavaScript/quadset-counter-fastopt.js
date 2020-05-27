@@ -2727,9 +2727,11 @@ $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
 $c_Lbillding_Main$.prototype.toggleColor__V = (function() {
   var thiz = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.getAttribute("style"));
   if (($uI(thiz.indexOf("green")) !== (-1))) {
-    $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: red")
+    $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: red");
+    $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("user_instruction").innerHTML = "Fire Quad!"
   } else {
     this.count$1 = ((1 + this.count$1) | 0);
+    $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("user_instruction").innerHTML = "Relax";
     var jsx$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
     var this$4 = this.count$1;
     jsx$1.innerHTML = ("" + this$4);
