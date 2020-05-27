@@ -195,13 +195,15 @@ object Main {
   def toggleColor() =
     if (document.body.getAttribute("style").contains("green")) {
       document.body.setAttribute("style", "background-color: red")
+      document.getElementById("user_instruction").innertHTML = "Fire Quad!"
     } else {
       count += 1
+      document.getElementById("user_instruction").innertHTML = "Relax"
       document.getElementById("counter").innerHTML = count.toString
       document.body.setAttribute("style", "background-color: green")
     }
 
-  defmain(args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit = {
     println("Cookie: " + document.cookie)
     // TODO remove this if it crazily breaks everything.
     val storage = org.scalajs.dom.window.localStorage
