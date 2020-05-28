@@ -5,6 +5,7 @@ import org.scalajs.dom.Event
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.Element
 import org.scalajs.dom.raw.HTMLAudioElement
+import org.scalajs.dom.raw.HTMLInputElement
 import org.scalajs.dom.raw.AudioContext
 import sttp.model.{Header, Uri}
 import sttp.client.circe._
@@ -202,7 +203,6 @@ object Main {
     sound.setAttribute("preload", "auto")
     sound.setAttribute("controls", "none")
     sound.style.display = "none"
-    sound.play()
     document.body.appendChild(sound)
 //    this.play = function(){
 //      this.sound.play();
@@ -216,7 +216,10 @@ object Main {
   val startSound = sound("/resources/audio/startQuadSet/metronome_tock.wav");
   val completeSound = sound("/resources/audio/completeQuadSet/metronome_tink.wav");
 
-  def toggleColor() =
+  def toggleColor() = {
+    println("audo button is checked: " +
+      document.getElementById("play-audio").asInstanceOf[HTMLInputElement].getAttribute("checked")
+    )
     if (document.body.getAttribute("style").contains("green")) {
       document.body.setAttribute("style", "background-color: red")
       document.getElementById("user_instruction").innerHTML = "Fire Quad!"
@@ -228,6 +231,7 @@ object Main {
       document.body.setAttribute("style", "background-color: green")
       completeSound.play()
     }
+  }
 
   def main(args: Array[String]): Unit = {
     println("Cookie: " + document.cookie)
