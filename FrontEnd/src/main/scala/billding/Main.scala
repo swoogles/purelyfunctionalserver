@@ -3,6 +3,8 @@ package billding
 import org.scalajs.dom
 import org.scalajs.dom.Event
 import org.scalajs.dom.document
+import org.scalajs.dom.raw.Element
+import org.scalajs.dom.raw.HTMLAudioElement
 import sttp.model.{Header, Uri}
 import sttp.client.circe._
 
@@ -192,15 +194,37 @@ object Main {
   var count = 0
   var dailyTotal = 0
 
+  def sound(src: String): HTMLAudioElement = {
+    val sound: HTMLAudioElement = document.createElement("audio").asInstanceOf[HTMLAudioElement]
+    sound.src = src
+    sound.setAttribute("preload", "auto")
+    sound.setAttribute("controls", "none")
+    sound.style.display = "none"
+    sound.play()
+    document.body.appendChild(sound)
+//    this.play = function(){
+//      this.sound.play();
+//    }
+//    this.stop = function(){
+//      this.sound.pause();
+//    }
+    sound
+  }
+
+  val startSound = sound("/resources/audio/startQuadSet/metronome_tock.wav");
+  val completeSound = sound("/resources/audio/completeQuadSet/metronome_tink.wav");
+
   def toggleColor() =
     if (document.body.getAttribute("style").contains("green")) {
       document.body.setAttribute("style", "background-color: red")
       document.getElementById("user_instruction").innerHTML = "Fire Quad!"
+      startSound.play()
     } else {
       count += 1
       document.getElementById("user_instruction").innerHTML = "Relax"
       document.getElementById("counter").innerHTML = count.toString
       document.body.setAttribute("style", "background-color: green")
+      completeSound.play()
     }
 
   def main(args: Array[String]): Unit = {

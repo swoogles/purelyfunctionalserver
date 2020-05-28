@@ -2670,7 +2670,9 @@ function $m_Lbillding_ApiInteractions$() {
 function $c_Lbillding_Main$() {
   $c_O.call(this);
   this.count$1 = 0;
-  this.dailyTotal$1 = 0
+  this.dailyTotal$1 = 0;
+  this.startSound$1 = null;
+  this.completeSound$1 = null
 }
 $c_Lbillding_Main$.prototype = new $h_O();
 $c_Lbillding_Main$.prototype.constructor = $c_Lbillding_Main$;
@@ -2680,8 +2682,11 @@ function $h_Lbillding_Main$() {
 }
 $h_Lbillding_Main$.prototype = $c_Lbillding_Main$.prototype;
 $c_Lbillding_Main$.prototype.init___ = (function() {
+  $n_Lbillding_Main$ = this;
   this.count$1 = 0;
   this.dailyTotal$1 = 0;
+  this.startSound$1 = this.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement("/resources/audio/startQuadSet/metronome_tock.wav");
+  this.completeSound$1 = this.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement("/resources/audio/completeQuadSet/metronome_tink.wav");
   return this
 });
 $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
@@ -2711,31 +2716,46 @@ $c_Lbillding_Main$.prototype.main__AT__V = (function(args) {
   var this$12 = this.count$1;
   jsx$1.innerHTML = ("" + this$12);
   $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().setInterval((function() {
+    $m_Lbillding_Main$();
     $m_Lbillding_Main$().toggleColor__V()
   }), 10000.0);
   var qual$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("submit_quad_sets");
   var x$2$1 = (function(arg1$2) {
+    $m_Lbillding_Main$();
     $m_Lbillding_ApiInteractions$().safelyPostQuadSets__I__V($m_Lbillding_Main$().count$1)
   });
   qual$1.addEventListener("click", x$2$1);
   var qual$2 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("reset_reps");
   var x$5 = (function(arg1$2$1) {
+    $m_Lbillding_Main$();
     $m_Lbillding_ApiInteractions$().safeResetReps__V()
   });
   qual$2.addEventListener("click", x$5)
+});
+$c_Lbillding_Main$.prototype.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement = (function(src) {
+  var sound = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().createElement("audio");
+  sound.src = src;
+  sound.setAttribute("preload", "auto");
+  sound.setAttribute("controls", "none");
+  sound.style.display = "none";
+  sound.play();
+  $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.appendChild(sound);
+  return sound
 });
 $c_Lbillding_Main$.prototype.toggleColor__V = (function() {
   var thiz = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.getAttribute("style"));
   if (($uI(thiz.indexOf("green")) !== (-1))) {
     $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: red");
-    $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("user_instruction").innerHTML = "Fire Quad!"
+    $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("user_instruction").innerHTML = "Fire Quad!";
+    this.startSound$1.play()
   } else {
     this.count$1 = ((1 + this.count$1) | 0);
     $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("user_instruction").innerHTML = "Relax";
     var jsx$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
     var this$4 = this.count$1;
     jsx$1.innerHTML = ("" + this$4);
-    $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: green")
+    $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: green");
+    this.completeSound$1.play()
   }
 });
 var $d_Lbillding_Main$ = new $TypeData().initClass({
