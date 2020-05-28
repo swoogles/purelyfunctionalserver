@@ -5,6 +5,7 @@ import org.scalajs.dom.Event
 import org.scalajs.dom.document
 import org.scalajs.dom.raw.Element
 import org.scalajs.dom.raw.HTMLAudioElement
+import org.scalajs.dom.raw.AudioContext
 import sttp.model.{Header, Uri}
 import sttp.client.circe._
 
@@ -193,6 +194,7 @@ object Meta {
 object Main {
   var count = 0
   var dailyTotal = 0
+  var audioContext = new AudioContext()
 
   def sound(src: String): HTMLAudioElement = {
     val sound: HTMLAudioElement = document.createElement("audio").asInstanceOf[HTMLAudioElement]

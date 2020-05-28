@@ -2671,6 +2671,7 @@ function $c_Lbillding_Main$() {
   $c_O.call(this);
   this.count$1 = 0;
   this.dailyTotal$1 = 0;
+  this.audioContext$1 = null;
   this.startSound$1 = null;
   this.completeSound$1 = null
 }
@@ -2685,6 +2686,7 @@ $c_Lbillding_Main$.prototype.init___ = (function() {
   $n_Lbillding_Main$ = this;
   this.count$1 = 0;
   this.dailyTotal$1 = 0;
+  this.audioContext$1 = new $g.AudioContext();
   this.startSound$1 = this.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement("/resources/audio/startQuadSet/metronome_tock.wav");
   this.completeSound$1 = this.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement("/resources/audio/completeQuadSet/metronome_tink.wav");
   return this
