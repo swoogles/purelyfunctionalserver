@@ -2744,23 +2744,23 @@ $c_Lbillding_Main$.prototype.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement = (
   return sound
 });
 $c_Lbillding_Main$.prototype.toggleColor__V = (function() {
-  var x = ("audo button is checked: " + $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("play-audio").getAttribute("checked")));
-  var this$2 = $m_s_Console$();
-  var this$3 = $as_Ljava_io_PrintStream(this$2.outVar$2.v$1);
-  this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
   var thiz = $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.getAttribute("style"));
   if (($uI(thiz.indexOf("green")) !== (-1))) {
     $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: red");
     $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("user_instruction").innerHTML = "Fire Quad!";
-    this.startSound$1.play()
+    if ($uZ($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("play-audio").checked)) {
+      this.startSound$1.play()
+    }
   } else {
     this.count$1 = ((1 + this.count$1) | 0);
     $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("user_instruction").innerHTML = "Relax";
     var jsx$1 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("counter");
-    var this$7 = this.count$1;
-    jsx$1.innerHTML = ("" + this$7);
+    var this$4 = this.count$1;
+    jsx$1.innerHTML = ("" + this$4);
     $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.setAttribute("style", "background-color: green");
-    this.completeSound$1.play()
+    if ($uZ($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("play-audio").checked)) {
+      this.completeSound$1.play()
+    }
   }
 });
 var $d_Lbillding_Main$ = new $TypeData().initClass({

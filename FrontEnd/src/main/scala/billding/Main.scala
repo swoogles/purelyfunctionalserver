@@ -217,19 +217,20 @@ object Main {
   val completeSound = sound("/resources/audio/completeQuadSet/metronome_tink.wav");
 
   def toggleColor() = {
-    println("audo button is checked: " +
-      document.getElementById("play-audio").asInstanceOf[HTMLInputElement].getAttribute("checked")
-    )
     if (document.body.getAttribute("style").contains("green")) {
       document.body.setAttribute("style", "background-color: red")
       document.getElementById("user_instruction").innerHTML = "Fire Quad!"
-      startSound.play()
+      if(document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
+        startSound.play()
+      }
     } else {
       count += 1
       document.getElementById("user_instruction").innerHTML = "Relax"
       document.getElementById("counter").innerHTML = count.toString
       document.body.setAttribute("style", "background-color: green")
-      completeSound.play()
+      if(document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
+        completeSound.play()
+      }
     }
   }
 
