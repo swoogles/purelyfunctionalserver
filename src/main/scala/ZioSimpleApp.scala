@@ -52,7 +52,7 @@ object ZioSimpleApp extends zio.App {
     val todoService = new TodoService[ZIO](new TodoRepository[ZIO](transactor)).service
        } yield ()
 
-   */
+ */
 
   val server: ZIO[ZEnv, Throwable, Unit] = ZIO.runtime[ZEnv]
     .flatMap {

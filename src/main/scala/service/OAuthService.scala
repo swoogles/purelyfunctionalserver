@@ -12,7 +12,7 @@ import zio.{DefaultRuntime, Runtime, Task}
 import fs2.Stream
 import io.chrisdavenport.vault.Key
 import org.http4s.dsl.Http4sDsl
-import org.http4s.headers.{Location, `Content-Type`}
+import org.http4s.headers.{`Content-Type`, Location}
 import org.http4s.{HttpRoutes, MediaType, Response, Uri}
 import org.http4s._
 import org.http4s.client.Client
@@ -33,11 +33,7 @@ case class OauthConfig(domain: String, clientId: String, clientSecret: String)
 
  */
 
-
-
-class OAuthService(C: Client[Task],
-                   authLogic: OAuthLogic
-                                          ) extends Http4sDsl[Task] {
+class OAuthService(C: Client[Task], authLogic: OAuthLogic) extends Http4sDsl[Task] {
   val domain = System.getenv("OAUTH_DOMAIN")
   val clientId = System.getenv("OAUTH_CLIENT_ID")
   val clientSecret = System.getenv("OAUTH_CLIENT_SECRET")
@@ -48,19 +44,23 @@ class OAuthService(C: Client[Task],
   import com.auth0.jwk.JwkProviderBuilder
 
   val jwkProvider: JwkProvider = new JwkProviderBuilder(domain).build
+
   val controller: AuthenticationController =
-    AuthenticationController.newBuilder(
-      domain,
-      clientId,
-      clientSecret
-    ).withJwkProvider(jwkProvider).build
+    AuthenticationController
+      .newBuilder(
+        domain,
+        clientId,
+        clientSecret
+      )
+      .withJwkProvider(jwkProvider)
+      .build
 
   val newKey: Task[Key[String]] = Key.newKey[Task, String]
 
   implicit val uglyRuntime: Runtime[Any] = new DefaultRuntime {}
 
   val service: HttpRoutes[Task] = HttpRoutes.of[Task] {
-    case req @ GET -> Root / "login"  => {
+    case req @ GET -> Root / "login" => {
       val newKey: Task[Key[String]] = Key.newKey[Task, String]
       val keyUsage: Task[Task[Response[Task]]] = for {
         flatKey <- newKey
@@ -76,7 +76,6 @@ class OAuthService(C: Client[Task],
       PermanentRedirect(Location(Uri.fromString(authorizeUrl.build()).right.get)) // TODO Unsafe parsing
 
     }
-
 
     case req @ GET -> Root / "get_token" => {
       val keyUsage = uglyRuntime.unsafeRun(for {
@@ -96,7 +95,10 @@ class OAuthService(C: Client[Task],
 
 //      import org.http4s.dsl.io._, org.http4s.implicits._
 
-      val uri = Uri.fromString("http://localhost:8080/resources/html/index.html?access_token=needARealToken").right.get
+      val uri = Uri
+        .fromString("http://localhost:8080/resources/html/index.html?access_token=needARealToken")
+        .right
+        .get
       println("parsed uri with query param: " + uri)
       PermanentRedirect(
         Location(uri),
@@ -122,20 +124,30 @@ class OAuthService(C: Client[Task],
         Cookie(NonEmptyList[RequestCookie](RequestCookie("name", "cookieValue"), List()))
       )
 
-    case req @ GET -> Root / "callback"  => {
-      req.params.foreach( param => println("Req.param key: " + param._1 + "  value: " + param._2))
+    case req @ GET -> Root / "callback" => {
+      req.params.foreach(param => println("Req.param key: " + param._1 + "  value: " + param._2))
       val auth0code = req.params("code")
 
       println("req.attributes: " + req.attributes)
       val keyUsage: Task[Response[Task]] = uglyRuntime.unsafeRun(for {
-      tokenResponse <- authLogic.getTokenFromCallbackCode(auth0code)
-      userInfo <- authLogic.getUserInfo(tokenResponse.access_token)
+        tokenResponse <- authLogic.getTokenFromCallbackCode(auth0code)
+        userInfo      <- authLogic.getUserInfo(tokenResponse.access_token)
       } yield {
         println("UserInfo: " + userInfo)
-        val uri = Uri.fromString(s"https://purelyfunctionalserver.herokuapp.com/resources/html/index.html?access_token=${tokenResponse.access_token}").right.get
-        PermanentRedirect(Location(uri),
+        val uri = Uri
+          .fromString(
+            s"https://purelyfunctionalserver.herokuapp.com/resources/html/index.html?access_token=${tokenResponse.access_token}"
+          )
+          .right
+          .get
+        PermanentRedirect(
+          Location(uri),
           Authorization(Credentials.Token(AuthScheme.Bearer, tokenResponse.access_token)),
-          Cookie(NonEmptyList[RequestCookie](RequestCookie("accessTokenFromCallback", tokenResponse.access_token), List()))
+          Cookie(
+            NonEmptyList[RequestCookie](RequestCookie("accessTokenFromCallback",
+                                                      tokenResponse.access_token),
+                                        List())
+          )
         )
       })
       println("Key usage: " + keyUsage)
@@ -143,10 +155,8 @@ class OAuthService(C: Client[Task],
       keyUsage
     }
 
-    case GET -> Root / "logout"  =>
-      Ok(
-        "Yo bro. You logged out"
-        , `Content-Type`(MediaType.text.plain))
+    case GET -> Root / "logout" =>
+      Ok("Yo bro. You logged out", `Content-Type`(MediaType.text.plain))
   }
 
 }

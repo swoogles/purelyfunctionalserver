@@ -2,17 +2,24 @@ package service
 
 import cats.effect.IO
 import service.AuthBackingStores.User
-import tsec.authentication.{BackingStore, BearerTokenAuthenticator, SecuredRequestHandler, TSecAuthService, TSecBearerToken, TSecTokenSettings}
+import tsec.authentication.{
+  BackingStore,
+  BearerTokenAuthenticator,
+  SecuredRequestHandler,
+  TSecAuthService,
+  TSecBearerToken,
+  TSecTokenSettings
+}
 import tsec.common.SecureRandomId
 import zio.Task
 import zio.interop.catz._
 
 import scala.concurrent.duration._
 
-class AuthenticationBackends (
-                             val bearerTokenStore: BackingStore[Task, SecureRandomId, TSecBearerToken[Int]],
-                             val userStore: BackingStore[Task, Int, User]
-                           ) {
+class AuthenticationBackends(
+  val bearerTokenStore: BackingStore[Task, SecureRandomId, TSecBearerToken[Int]],
+  val userStore: BackingStore[Task, Int, User]
+) {
 
   type AuthService = TSecAuthService[User, TSecBearerToken[Int], Task]
 
@@ -27,7 +34,6 @@ class AuthenticationBackends (
       userStore,
       settings
     )
-
 
   val Auth: SecuredRequestHandler[Task, Int, User, TSecBearerToken[Int]] =
     SecuredRequestHandler(bearerTokenAuth)

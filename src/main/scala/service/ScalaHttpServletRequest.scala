@@ -5,19 +5,32 @@ import java.security.Principal
 import java.util
 import java.util.Locale
 
-import javax.servlet.{AsyncContext, DispatcherType, RequestDispatcher, ServletContext, ServletInputStream, ServletRequest, ServletResponse}
-import javax.servlet.http.{Cookie, HttpServletRequest, HttpServletResponse, HttpSession, HttpUpgradeHandler, Part}
+import javax.servlet.{
+  AsyncContext,
+  DispatcherType,
+  RequestDispatcher,
+  ServletContext,
+  ServletInputStream,
+  ServletRequest,
+  ServletResponse
+}
+import javax.servlet.http.{
+  Cookie,
+  HttpServletRequest,
+  HttpServletResponse,
+  HttpSession,
+  HttpUpgradeHandler,
+  Part
+}
 import org.http4s.Request
 
-class ScalaHttpServletRequest[F[_]](req: Request[F]) extends HttpServletRequest{
+class ScalaHttpServletRequest[F[_]](req: Request[F]) extends HttpServletRequest {
 
-  override def getSession(create: Boolean): HttpSession = {
+  override def getSession(create: Boolean): HttpSession =
     new ScalaHttpSession
-  }
 
-  override def getSession: HttpSession = {
+  override def getSession: HttpSession =
     ???
-  }
 
   override def getAuthType: String = ???
 
@@ -143,7 +156,8 @@ class ScalaHttpServletRequest[F[_]](req: Request[F]) extends HttpServletRequest{
 
   override def startAsync(): AsyncContext = ???
 
-  override def startAsync(servletRequest: ServletRequest, servletResponse: ServletResponse): AsyncContext = ???
+  override def startAsync(servletRequest: ServletRequest,
+                          servletResponse: ServletResponse): AsyncContext = ???
 
   override def isAsyncStarted: Boolean = ???
 

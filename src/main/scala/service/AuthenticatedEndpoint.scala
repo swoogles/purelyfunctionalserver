@@ -23,7 +23,7 @@ class AuthenticatedEndpoint(
       1. The request
       2. The Authenticator (i.e token)
       3. The identity (i.e in this case, User)
-       */
+ */
 
       val r: SecuredRequest[Task, User, TSecBearerToken[Int]] = request
       println(s"SecureRequest: $r")

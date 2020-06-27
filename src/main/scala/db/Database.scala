@@ -10,7 +10,10 @@ import zio.interop.catz._
 import scala.concurrent.ExecutionContext
 
 object Database {
-  def transactor(config: DatabaseConfig)(ec: ExecutionContext): Resource[Task, HikariTransactor[Task]] = {
+
+  def transactor(
+    config: DatabaseConfig
+  )(ec: ExecutionContext): Resource[Task, HikariTransactor[Task]] = {
 
     Blocker.liftExecutionContext(ec)
     implicit val cs: ContextShift[Task] = zio.interop.catz.zioContextShift
@@ -25,7 +28,7 @@ object Database {
     )
   }
 
-  def initialize(transactor: HikariTransactor[Task]): Task[Unit] = {
+  def initialize(transactor: HikariTransactor[Task]): Task[Unit] =
     transactor.configure { dataSource =>
       Task[Unit] {
         val flyWay = Flyway.configure().dataSource(dataSource).load()
@@ -33,5 +36,4 @@ object Database {
         ()
       }
     }
-  }
 }

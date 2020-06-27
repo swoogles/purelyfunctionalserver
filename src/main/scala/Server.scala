@@ -33,8 +33,9 @@ object Server extends zio.App with Http4sDsl[Task] {
   def run(args: List[String]): ZIO[ZEnv, Nothing, Int] = {
     val streamResult: ZIO[Any, Throwable, Int] = streamZio(args, Task {
       println("shutting down")
-    }).compile.drain.as(ExitCode.Success)
-      .map( exitCode => exitCode.code)
+    }).compile.drain
+      .as(ExitCode.Success)
+      .map(exitCode => exitCode.code)
 
     val catchResult: ZIO[Any, Nothing, Int] = streamResult
       .catchAll(error => ZIO.succeed(0))
@@ -48,9 +49,9 @@ object Server extends zio.App with Http4sDsl[Task] {
         configImpl.configSteps()
       )
       transactor <- Stream.resource(Database.transactor(fullyBakedConfig.database)(ec))
-      client <- BlazeClientBuilder[Task](global).stream
-      _ <- Stream.eval(Database.initialize(transactor))
-      blocker <- Stream.resource(Blocker[Task])
+      client     <- BlazeClientBuilder[Task](global).stream
+      _          <- Stream.eval(Database.initialize(transactor))
+      blocker    <- Stream.resource(Blocker[Task])
       httpApp = AllServices.initializeServicesAndRoutes[Task](transactor, client, blocker)
 
 //      _ <- Stream.eval(RepeatShit.infiniteIO(0).combine(RepeatShit.infiniteWeatherCheck))

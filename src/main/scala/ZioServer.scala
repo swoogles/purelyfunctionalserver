@@ -34,7 +34,7 @@ object ZioServer extends zio.App with Http4sDsl[ZIO]{
     override def clock: Clock[ZIO] = zio.clock.Clock.Live.clock
     override def sleep(duration: FiniteDuration): ZIO[Unit] = ???
   }
-   */
+ */
   implicit def f[ZIO]: ConcurrentEffect[ZIO] = ZIO[_]
   def run(args: List[String]): ZIO[ZEnv, Nothing, Int] = {
     for {

@@ -20,11 +20,17 @@ class WeatherService(weatherApi: WeatherApi) extends Http4sDsl[Task] {
   val service: AuthService = TSecAuthService {
     case GET -> Root asAuthed user =>
       Ok(
-        Stream.eval(
-          weatherApi.get(GpsCoordinates.resorts.CrestedButte)
-        ).map(_.asJson.noSpaces)
-          .handleErrorWith( error => Stream.eval( Task.succeed { println(s"error: $error" ); """{"error": "Couldn't find weather info" } """}))
-        ,
+        Stream
+          .eval(
+            weatherApi.get(GpsCoordinates.resorts.CrestedButte)
+          )
+          .map(_.asJson.noSpaces)
+          .handleErrorWith(
+            error =>
+              Stream.eval(Task.succeed {
+                println(s"error: $error"); """{"error": "Couldn't find weather info" } """
+              })
+          ),
         `Content-Type`(MediaType.application.json)
       )
   }

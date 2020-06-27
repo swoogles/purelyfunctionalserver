@@ -14,18 +14,19 @@ import zio.interop.catz._
 class GithubService(repository: Github) extends Http4sDsl[Task] {
 
   val service: HttpRoutes[Task] = HttpRoutes.of[Task] {
-    case GET -> Root / "user" / user / "repoName" / repoName  =>
-      Ok(
-        Stream("[") ++
-          Stream.eval(repository.get(user, repoName))
-            .map(_.asJson.noSpaces) ++
-          Stream("]")
-        , `Content-Type`(MediaType.application.json))
+    case GET -> Root / "user" / user / "repoName" / repoName =>
+      Ok(Stream("[") ++
+         Stream
+           .eval(repository.get(user, repoName))
+           .map(_.asJson.noSpaces) ++
+         Stream("]"),
+         `Content-Type`(MediaType.application.json))
 
-    case GET -> Root / "user" / user  =>
+    case GET -> Root / "user" / user =>
       //      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"), `Content-Type`(MediaType.`application/json`))
       Ok(Stream("[") ++
-        Stream.eval(repository.getUsersRecentActivity(user)).map(_.asJson.noSpaces) ++ Stream("]"), `Content-Type`(MediaType.application.json))
+         Stream.eval(repository.getUsersRecentActivity(user)).map(_.asJson.noSpaces) ++ Stream("]"),
+         `Content-Type`(MediaType.application.json))
 
   }
 

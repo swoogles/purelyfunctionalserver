@@ -8,7 +8,7 @@ import doobie.hikari.HikariTransactor
 import org.http4s.client.Client
 import org.http4s.implicits._
 import org.http4s.server.Router
-import org.http4s.server.staticcontent.{FileService, fileService}
+import org.http4s.server.staticcontent.{fileService, FileService}
 import org.http4s.{Header, HttpRoutes, Request, Response}
 import repository._
 import zio.{Runtime, Task}
@@ -18,11 +18,11 @@ import zio.interop.catz.implicits._
 object AllServices {
 
   def initializeServicesAndRoutes[F[_]: ConcurrentEffect](
-                                                           transactor: HikariTransactor[Task],
-                                                           client: Client[Task],
-                                                           blocker: Blocker
-                                                         )(implicit cs: ContextShift[Task], runtime: Runtime[Any])
-  : Kleisli[Task, Request[Task], Response[Task]] = {
+    transactor: HikariTransactor[Task],
+    client: Client[Task],
+    blocker: Blocker
+  )(implicit cs: ContextShift[Task],
+    runtime: Runtime[Any]): Kleisli[Task, Request[Task], Response[Task]] = {
     implicit val cs: ContextShift[Task] = zio.interop.catz.zioContextShift
 
     val authLogic = new OAuthLogic(client)
@@ -34,26 +34,26 @@ object AllServices {
         authLogic
       ).service
 
-
     val githubService = {
       new GithubService(Github.impl(client)).service
     }
     val homePageService: HttpRoutes[Task] = new HomePageService(blocker).routes
-    val resourceService: HttpRoutes[Task] = fileService[Task](FileService.Config("./src/main/resources", blocker))
+    val resourceService: HttpRoutes[Task] =
+      fileService[Task](FileService.Config("./src/main/resources", blocker))
     val authService: HttpRoutes[Task] = new OAuthService(client, authLogic).service
 
     val myMiddle = new MyMiddle(authLogic)
 //    val authServiceWithExtraHeaders = myMiddle(authService, Header("SomeKey", "SomeValue"))
     val authenticationBackends = new AuthenticationBackends(
       InMemoryAuthBackends.bearerTokenStoreThatShouldBeInstantiatedOnceByTheServer,
-      InMemoryAuthBackends.userStoreThatShouldBeInstantiatedOnceByTheServer,
+      InMemoryAuthBackends.userStoreThatShouldBeInstantiatedOnceByTheServer
     )
     val Auth = authenticationBackends.Auth
 
     val loginService: HttpRoutes[Task] =
       new LoginEndpoint(
         authenticationBackends.userStore,
-        authenticationBackends.bearerTokenStore,
+        authenticationBackends.bearerTokenStore
       ).service
 
     val weatherService =
@@ -72,10 +72,10 @@ object AllServices {
       "/" -> homePageService,
       //      "/resources" -> myMiddle.applyBeforeLogic(resourceService),
       "/resources" -> resourceService,
-      "/github" -> githubService,
+      "/github"    -> githubService,
       "/exercises" -> exerciseService,
-      "/weather" -> weatherService,
-      "/oauth" -> authService,
+      "/weather"   -> weatherService,
+      "/oauth"     -> authService,
 //      "/tsec" -> authenticatedEndpoint,
       "/login" -> loginService
     ).orNotFound

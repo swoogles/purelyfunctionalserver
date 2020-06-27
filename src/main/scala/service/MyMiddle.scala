@@ -10,14 +10,14 @@ import zio.{DefaultRuntime, Runtime, Task}
 import zio.interop.catz._
 
 class MyMiddle(
-                                        authLogic: OAuthLogic
-                                      ) extends Http4sDsl[Task] {
+  authLogic: OAuthLogic
+) extends Http4sDsl[Task] {
   val uglyRuntime: Runtime[Any] = new DefaultRuntime {}
 
   def addHeader(resp: Response[Task], header: Header) =
     resp match {
       case Status.Successful(resp) => resp.putHeaders(header)
-      case resp => resp
+      case resp                    => resp
     }
 
   def addCookie(resp: Response[Task]) =
@@ -38,15 +38,15 @@ class MyMiddle(
 
   object AccessTokenParamMatcher extends QueryParamDecoderMatcher[String]("access_token")
 
-  def applyBeforeLogic(service: HttpRoutes[Task]) = {
+  def applyBeforeLogic(service: HttpRoutes[Task]) =
     HttpRoutes.of[Task] {
       // pf: PartialFunction[Request[F], F[Response[F]]]
-      case request @ GET -> Root / "html" / "index.html" :? AccessTokenParamMatcher(accessToken)=> {
+      case request @ GET -> Root / "html" / "index.html" :? AccessTokenParamMatcher(accessToken) => {
         println("Before actual resource behavior")
         authLogic.getOptionalUserFromRequest(request) match {
           case Some(user) => {
             println("user from accessToken: " + user)
-            val result: Task[Response[Task]] = service.apply(request).value.map{
+            val result: Task[Response[Task]] = service.apply(request).value.map {
               case Some(response: Response[Task]) => {
                 println("Got a response from the underlying service: " + response)
                 response.withStatus(Ok)
@@ -58,17 +58,21 @@ class MyMiddle(
           case None => {
             println("No access token. Need to login immediately.")
             throw new RuntimeException("Shouldn't actually hit this!")
-            PermanentRedirect(Location(Uri.fromString("https://purelyfunctionalserver.herokuapp.com/oauth/login").right.get))
+            PermanentRedirect(
+              Location(
+                Uri.fromString("https://purelyfunctionalserver.herokuapp.com/oauth/login").right.get
+              )
+            )
           }
         }
       }
-        // TODO de-duplicate logic
+      // TODO de-duplicate logic
       case request @ GET -> Root / "html" / "index.html" => {
         println("Before actual resource behavior")
         authLogic.getOptionalUserFromRequest(request) match {
           case Some(user) => {
             println("user from accessToken: " + user)
-            val result: Task[Response[Task]] = service.apply(request).value.map{
+            val result: Task[Response[Task]] = service.apply(request).value.map {
               case Some(response: Response[Task]) => {
                 println("Got a response from the underlying service: " + response)
                 response.withStatus(Ok)
@@ -79,12 +83,16 @@ class MyMiddle(
           }
           case None => {
             println("No access token. Need to login immediately.")
-            PermanentRedirect(Location(Uri.fromString("https://purelyfunctionalserver.herokuapp.com/oauth/login").right.get))
+            PermanentRedirect(
+              Location(
+                Uri.fromString("https://purelyfunctionalserver.herokuapp.com/oauth/login").right.get
+              )
+            )
           }
         }
       }
       case request => {
-        val result: Task[Response[Task]] = service.apply(request).value.map{
+        val result: Task[Response[Task]] = service.apply(request).value.map {
           case Some(response: Response[Task]) => {
             println("Got a response from the underlying service: " + response)
             response.withStatus(Ok)
@@ -95,6 +103,5 @@ class MyMiddle(
 
       }
     }
-  }
 
 }

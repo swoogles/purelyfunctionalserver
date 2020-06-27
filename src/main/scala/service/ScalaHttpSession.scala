@@ -23,9 +23,8 @@ class ScalaHttpSession extends HttpSession {
 
   override def getSessionContext: HttpSessionContext = ???
 
-  override def getAttribute(name: String): AnyRef = {
+  override def getAttribute(name: String): AnyRef =
     sessionVars.get(name)
-  }
 
   override def getValue(name: String): AnyRef = ???
 
