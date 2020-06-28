@@ -1,6 +1,6 @@
 package service
 
-import auth.OAuthLogic
+import auth.{AuthenticationBackends, LoginEndpoint, OAuthLogic, OAuthService}
 import cats.data.Kleisli
 import cats.effect.{Blocker, ConcurrentEffect, ContextShift, IO}
 import db.InMemoryAuthBackends

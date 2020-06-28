@@ -1,17 +1,13 @@
-package service
+package auth
 
-import auth.OAuthLogic
 import cats.data.NonEmptyList
-import io.chrisdavenport.vault.Vault
-import org.http4s.headers.{Authorization, Cookie}
-import zio.{DefaultRuntime, Runtime, Task}
-import io.chrisdavenport.vault.Key
-import org.http4s.dsl.Http4sDsl
-import org.http4s.headers.{`Content-Type`, Location}
-import org.http4s.{HttpRoutes, MediaType, Response, Uri}
-import org.http4s._
+import io.chrisdavenport.vault.{Key, Vault}
 import org.http4s.client.Client
+import org.http4s.dsl.Http4sDsl
+import org.http4s.headers.{Authorization, Cookie, Location, `Content-Type`}
+import org.http4s.{HttpRoutes, MediaType, Response, Uri, _}
 import zio.interop.catz._
+import zio.{DefaultRuntime, Runtime, Task}
 
 case class OauthConfig(domain: String, clientId: String, clientSecret: String)
 
@@ -34,8 +30,7 @@ class OAuthService(C: Client[Task], authLogic: OAuthLogic) extends Http4sDsl[Tas
   val fullConfig = OauthConfig(domain, clientId, clientSecret)
 
   import com.auth0.AuthenticationController
-  import com.auth0.jwk.JwkProvider
-  import com.auth0.jwk.JwkProviderBuilder
+  import com.auth0.jwk.{JwkProvider, JwkProviderBuilder}
 
   val jwkProvider: JwkProvider = new JwkProviderBuilder(domain).build
 

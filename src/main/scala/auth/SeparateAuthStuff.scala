@@ -1,10 +1,8 @@
-package service
+package auth
 
-import auth.OAuthLogic
-import cats.data.OptionT
-import cats.effect.{Clock, ConcurrentEffect, IO, Sync}
+import cats.effect.{ConcurrentEffect, IO, Sync}
 import org.http4s.dsl.Http4sDsl
-import org.http4s.{AuthedRequest, Request, Response}
+import org.http4s.{Request, Response}
 
 case class AuthorizedRequest[F[_]](sub: String, request: Request[F])
 

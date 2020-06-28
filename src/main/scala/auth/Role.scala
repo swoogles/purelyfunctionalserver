@@ -1,8 +1,8 @@
-package service
+package auth
 
 import cats.Eq
-import tsec.authorization.{AuthGroup, SimpleAuthEnum}
 import cats.implicits._
+import tsec.authorization.{AuthGroup, SimpleAuthEnum}
 
 /*
 In our example, we will demonstrate how to use SimpleAuthEnum, as well as

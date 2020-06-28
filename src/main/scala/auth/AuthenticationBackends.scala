@@ -1,13 +1,6 @@
-package service
+package auth
 
-import tsec.authentication.{
-  BackingStore,
-  BearerTokenAuthenticator,
-  SecuredRequestHandler,
-  TSecAuthService,
-  TSecBearerToken,
-  TSecTokenSettings
-}
+import tsec.authentication.{BackingStore, BearerTokenAuthenticator, SecuredRequestHandler, TSecAuthService, TSecBearerToken, TSecTokenSettings}
 import tsec.common.SecureRandomId
 import zio.Task
 import zio.interop.catz._

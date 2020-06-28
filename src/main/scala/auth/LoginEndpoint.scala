@@ -1,4 +1,4 @@
-package service
+package auth
 
 import java.time.Instant
 
@@ -6,8 +6,8 @@ import org.http4s.HttpRoutes
 import org.http4s.dsl.Http4sDsl
 import tsec.authentication.{BackingStore, TSecBearerToken}
 import tsec.common.SecureRandomId
-import zio.{DefaultRuntime, Runtime, Task}
 import zio.interop.catz._
+import zio.{DefaultRuntime, Runtime, Task}
 
 class LoginEndpoint(
   userStore: BackingStore[Task, Int, User],

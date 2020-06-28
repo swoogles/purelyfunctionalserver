@@ -12,7 +12,6 @@ import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.client.dsl.io._
 import org.http4s.util.CaseInsensitiveString
 import org.http4s.{EntityDecoder, Uri}
-import service.Sub
 import zio.{DefaultRuntime, Runtime, Task, ZIO}
 import zio.interop.catz._
 

@@ -1,12 +1,8 @@
-package service
+package auth
 
-import auth.OAuthLogic
-import cats._
 import cats.data.OptionT
 import cats.effect.Sync
-import cats.implicits._
-import tsec.authentication._
-import tsec.authorization._
+import tsec.authentication.BackingStore
 
 import scala.collection.mutable
 
