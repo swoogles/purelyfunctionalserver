@@ -6,7 +6,7 @@ import io.circe.syntax._
 import org.http4s.MediaType
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.`Content-Type`
-import service.AuthBackingStores.User
+import service.User
 import tsec.authentication.{TSecAuthService, TSecBearerToken, _}
 import zio.Task
 import zio.interop.catz._

@@ -1,7 +1,8 @@
 package db
 
 import cats.effect.IO
-import service.AuthBackingStores.{dummyBackingStore, User}
+import service.AuthBackingStores.dummyBackingStore
+import service.User
 import tsec.authentication.{BackingStore, TSecBearerToken}
 import tsec.common.SecureRandomId
 import zio.Task

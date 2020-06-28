@@ -5,7 +5,6 @@ import cats.syntax.semigroupk._
 import org.http4s.dsl.io._
 import tsec.authentication._
 import tsec.common.SecureRandomId
-import AuthBackingStores.{Role, User}
 import zio.Task
 import zio.interop.catz._
 

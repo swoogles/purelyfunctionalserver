@@ -108,43 +108,5 @@ object AuthBackingStores {
         }
     }
 
-  /*
-  In our example, we will demonstrate how to use SimpleAuthEnum, as well as
-  Role based authorization
-   */
-  sealed case class Role(roleRepr: String)
 
-  object Role extends SimpleAuthEnum[Role, String] {
-
-    val Administrator: Role = Role("Administrator")
-    val Customer: Role = Role("User")
-    val Seller: Role = Role("Seller")
-
-    implicit val E: Eq[Role] = Eq.fromUniversalEquals[Role]
-
-    protected val values: AuthGroup[Role] = AuthGroup(Administrator, Customer, Seller)
-
-    //    override val getRepr: Role => String = role => getReprDef(role)
-    //    override val orElse: Role = ???
-    override def getRepr(t: Role): String = {
-      println("hit getrepr")
-      t.roleRepr
-    }
-  }
-
-  case class User(idInt: Int, age: Int, name: String, role: Role = Role.Customer)
-
-  object User {
-
-    implicit def authRole[F[_]](
-      implicit F: MonadError[F, Throwable]
-    ): AuthorizationInfo[F, Role, User] =
-      new AuthorizationInfo[F, Role, User] {
-
-        def fetchInfo(u: User): F[Role] = {
-          println("Anything?!")
-          F.pure(u.role)
-        }
-      }
-  }
 }

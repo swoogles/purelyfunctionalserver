@@ -1,7 +1,5 @@
 package service
 
-import cats.effect.IO
-import service.AuthBackingStores.User
 import tsec.authentication.{
   BackingStore,
   BearerTokenAuthenticator,
