@@ -1,16 +1,13 @@
-package service
+package weather
 
-import cats.effect.IO
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
+import org.http4s.MediaType
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.`Content-Type`
-import org.http4s.{HttpRoutes, MediaType}
-import repository.{GpsCoordinates, WeatherApi}
 import service.AuthBackingStores.User
-import tsec.authentication.{TSecAuthService, TSecBearerToken}
-import tsec.authentication._
+import tsec.authentication.{TSecAuthService, TSecBearerToken, _}
 import zio.Task
 import zio.interop.catz._
 

@@ -1,4 +1,4 @@
-package repository
+package exercises
 
 import java.time.LocalDate
 

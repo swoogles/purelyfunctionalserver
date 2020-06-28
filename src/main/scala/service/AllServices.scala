@@ -5,12 +5,14 @@ import cats.data.Kleisli
 import cats.effect.{Blocker, ConcurrentEffect, ContextShift, IO}
 import db.InMemoryAuthBackends
 import doobie.hikari.HikariTransactor
+import exercises.{ExerciseLogic, ExerciseRepositoryImpl, ExerciseService}
 import org.http4s.client.Client
 import org.http4s.implicits._
 import org.http4s.server.Router
-import org.http4s.server.staticcontent.{fileService, FileService}
+import org.http4s.server.staticcontent.{FileService, fileService}
 import org.http4s.{Header, HttpRoutes, Request, Response}
 import repository._
+import weather.{WeatherApi, WeatherService}
 import zio.{Runtime, Task}
 import zio.interop.catz._
 import zio.interop.catz.implicits._

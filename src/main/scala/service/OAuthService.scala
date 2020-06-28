@@ -2,14 +2,9 @@ package service
 
 import auth.OAuthLogic
 import cats.data.NonEmptyList
-import cats.effect.{ConcurrentEffect, IO, Sync}
 import io.chrisdavenport.vault.Vault
-import org.http4s.circe.jsonOf
-import io.circe.generic.auto._
 import org.http4s.headers.{Authorization, Cookie}
 import zio.{DefaultRuntime, Runtime, Task}
-//import com.auth0.SessionUtils
-import fs2.Stream
 import io.chrisdavenport.vault.Key
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{`Content-Type`, Location}
@@ -17,7 +12,6 @@ import org.http4s.{HttpRoutes, MediaType, Response, Uri}
 import org.http4s._
 import org.http4s.client.Client
 import zio.interop.catz._
-import zio.interop.catz.implicits._
 
 case class OauthConfig(domain: String, clientId: String, clientSecret: String)
 

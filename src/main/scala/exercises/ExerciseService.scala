@@ -1,4 +1,4 @@
-package service
+package exercises
 
 import auth.OAuthLogic
 import fs2.Stream
@@ -9,7 +9,6 @@ import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Location, `Content-Type`}
 import org.http4s.{HttpRoutes, MediaType, Uri}
-import repository.ExerciseLogic
 import zio.Task
 import zio.interop.catz._
 

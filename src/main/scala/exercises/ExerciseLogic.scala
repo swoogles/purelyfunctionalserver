@@ -1,6 +1,5 @@
-package repository
+package exercises
 
-import cats.effect.IO
 import fs2.Stream
 import model.DailyQuantizedExercise
 import zio.Task

@@ -1,15 +1,13 @@
-package repository
+package weather
 
-import cats.effect.IO
-import cats.implicits._
 import io.circe.generic.auto._
 import org.http4s.Method._
 import org.http4s.circe._
 import org.http4s.client.Client
 import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.{EntityDecoder, Uri}
-import zio.{Task, ZIO}
 import zio.interop.catz._
+import zio.{Task, ZIO}
 
 case class TimePeriodData(
   summary: String, // This isn't handling some symbols, like '<'

@@ -1,6 +1,5 @@
 package service
 
-import cats.effect.IO
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
@@ -23,7 +22,6 @@ class GithubService(repository: Github) extends Http4sDsl[Task] {
          `Content-Type`(MediaType.application.json))
 
     case GET -> Root / "user" / user =>
-      //      Ok(Stream("[") ++ repository.getTodos.map(_.asJson.noSpaces).intersperse(",") ++ Stream("]"), `Content-Type`(MediaType.`application/json`))
       Ok(Stream("[") ++
          Stream.eval(repository.getUsersRecentActivity(user)).map(_.asJson.noSpaces) ++ Stream("]"),
          `Content-Type`(MediaType.application.json))

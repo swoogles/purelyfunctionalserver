@@ -1,12 +1,13 @@
 package repository
 
 import java.util.concurrent.Executors
-import fs2.Stream
 
+import fs2.Stream
 import cats.effect.{ContextShift, IO, Timer}
 import org.scalamock.scalatest.MockFactory
 import org.scalatest.{Matchers, WordSpec}
 import org.http4s.client.blaze.BlazeClientBuilder
+import weather.{ForeCast, GpsCoordinates, WeatherApi}
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
