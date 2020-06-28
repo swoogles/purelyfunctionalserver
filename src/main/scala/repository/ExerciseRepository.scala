@@ -63,9 +63,7 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
          |  )""".stripMargin.update
       .withUniqueGeneratedKeys[Long]("id")
       .transact(transactor)
-      .map { id =>
-        exercise.copy(id = Some(id))
-      }
+      .map(id => exercise.copy(id = Some(id)))
 
   def updateQuantizedExercise(
     exercise: DailyQuantizedExercise,

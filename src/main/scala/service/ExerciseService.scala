@@ -1,34 +1,27 @@
 package service
 
-import auth.{OAuthLogic, UserInfo}
-import cats.effect.{Clock, ConcurrentEffect, IO}
+import auth.OAuthLogic
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
 import model.DailyQuantizedExercise
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-import org.http4s.headers.{`Content-Type`, Location}
-import org.http4s.{HttpRoutes, MediaType, Request, Response, Uri}
+import org.http4s.headers.{Location, `Content-Type`}
+import org.http4s.{HttpRoutes, MediaType, Uri}
 import repository.ExerciseLogic
 import zio.Task
 import zio.interop.catz._
-
-import scala.concurrent.duration.MILLISECONDS
 
 class ExerciseService(
   exerciseLogic: ExerciseLogic,
   authLogic: OAuthLogic
 ) extends Http4sDsl[Task] {
 
-  //  def authAuthChecks(pf: PartialFunction[AuthorizedRequest[F], F[Response[F]]])
-  //    : PartialFunction[Request[F], F[Response[F]]] =
-
   val service: HttpRoutes[Task] = HttpRoutes.of[Task] {
     // pf: PartialFunction[Request[F], F[Response[F]]]
     case request @ GET -> Root => {
       val user = authLogic.getUserFromRequest(request)
-      println("Going to retrieve exercises for sub: " + user)
       Ok(
         Stream("[") ++
         exerciseLogic
@@ -42,26 +35,16 @@ class ExerciseService(
     case req @ POST -> Root => {
       val user = authLogic.getUserFromRequest(req)
       for {
-        newExercise <- req.decodeJson[DailyQuantizedExercise]
-        completedExercise <- Task {
-          println("Accepting a new POST from sub: " + user)
-          newExercise.copy(userId = Some(user.id))
-        }
-        _ <- Task {
-          println("postedExercise day: " + newExercise.day)
-        }
+        newExercise       <- req.decodeJson[DailyQuantizedExercise]
+        completedExercise <- Task { newExercise.copy(userId = Some(user.id)) }
         wrappedResult <- exerciseLogic.createOrUpdate(completedExercise).map {
           case Right(successfullyCreatedExercise) =>
             Created(
               successfullyCreatedExercise.count.toString,
               Location(Uri.unsafeFromString(s"/exercises/${successfullyCreatedExercise.id.get}"))
             )
-          case Left(illegalStateException) => {
-            print(
-              "IllegalStateException wihle posting exercise: " + illegalStateException.getMessage
-            )
-            InternalServerError("We failed you.")
-          }
+          case Left(illegalStateException) =>
+            InternalServerError("IllegalStateException while posting exercise: " + illegalStateException.getMessage)
         }
         bigResult <- wrappedResult
       } yield {
