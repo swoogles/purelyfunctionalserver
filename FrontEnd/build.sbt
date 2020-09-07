@@ -2,8 +2,8 @@ name := "QuadSet Counter"
 
 version := "0.2"
 
-//scalaVersion := "2.13.1"
-scalaVersion := "2.12.10"
+scalaVersion := "2.13.1"
+//scalaVersion := "2.12.10"
 
 lazy val CirceVersion = "0.13.0" // Options and java-8 modules are preventing me from further upgrades
 
