@@ -266,17 +266,6 @@ object Main {
     )
   }
 
-  /*
-  def safelyPostQuadSets(count: Int) = {
-    val confirmed = org.scalajs.dom.window.confirm(s"Are you sure you want to submit $count quadsets?")
-    if (confirmed) {
-      postQuadSets(count)
-    } else
-      println("Fine, I won't do anything then!")
-  }
-
-   */
-
   def Hello(
              helloNameStream: EventStream[String],
              helloColorStream: EventStream[String]
@@ -317,7 +306,6 @@ object Main {
   def main(args: Array[String]): Unit = {
     laminarStuff()
 
-    /*
     println("Cookie: " + document.cookie)
     val storage = org.scalajs.dom.window.localStorage
     if (Meta.accessToken.isDefined) {
@@ -338,8 +326,6 @@ object Main {
 
     document.getElementById("reset_reps")
       .addEventListener("click", (event: Event) => ApiInteractions.safeResetReps())
-
-     */
 
   }
 }
