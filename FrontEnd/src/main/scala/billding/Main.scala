@@ -1,5 +1,6 @@
 package billding
 
+import com.raquo.airstream.core.Observable
 import org.scalajs.dom
 import org.scalajs.dom.Event
 import org.scalajs.dom.document
@@ -14,6 +15,11 @@ import scala.concurrent.ExecutionContext.global
 import scala.scalajs.js.{Date, URIUtils}
 import io.circe.generic.auto._
 import io.circe.syntax._
+import com.raquo.laminar.api.L._
+import com.raquo.laminar.nodes.ReactiveElement
+import com.raquo.laminar.nodes.ReactiveElement.Base
+
+import scala.concurrent.duration.FiniteDuration
 
 case class DailyQuantizedExercise(name: String, day: String, count: Int)
 
@@ -234,11 +240,64 @@ object Main {
     }
   }
 
+  case class RepeatingElement () extends RepeatWithIntervalHelper
+
+  def Counter() = {
+    val repeater = RepeatingElement()
+
+    val diffBus = new EventBus[Int]
+    val $count = diffBus.events.foldLeft(0)(_ + _)
+    div(
+      b(child.text <-- $count.map(_.toString)),
+      button("+", onClick.mapTo(1) --> diffBus),
+
+      repeater.repeatWithInterval(1, new FiniteDuration(1, scala.concurrent.duration.SECONDS)) --> diffBus
+    )
+  }
+
+  def Hello(
+             helloNameStream: EventStream[String],
+             helloColorStream: EventStream[String]
+           ): Div = {
+    div(
+      fontSize := "20px", // static CSS property
+      color <-- helloColorStream, // dynamic CSS property
+      strong("Hello, "), // static child element with a grandchild text node
+      child.text <-- helloNameStream // dynamic child (text node in this case)
+    )
+  }
+
+  def laminarStuff() = {
+    val nameBus = new EventBus[String]
+    val colorStream: EventStream[String] = nameBus.events.map { name =>
+      if (name == "Sébastien") "red" else "unset" // make Sébastien feel special
+    }
+
+    val appDiv: Div = div(
+      h1("User Welcomer 9000"),
+      div(
+        "Please enter your name:",
+        input(
+          typ := "text",
+          inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
+        )
+      ),
+      div(
+        "Please accept our greeting: ",
+        Hello(nameBus.events, colorStream)
+      ),
+      Counter()
+    )
+
+    render(dom.document.querySelector("#laminarApp"), appDiv)
+  }
+
   def main(args: Array[String]): Unit = {
+    laminarStuff()
+
+    /*
     println("Cookie: " + document.cookie)
-    // TODO remove this if it crazily breaks everything.
     val storage = org.scalajs.dom.window.localStorage
-    // TODO Restore when live
     if (Meta.accessToken.isDefined) {
       dom.window.location.href = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
     }
@@ -257,6 +316,8 @@ object Main {
 
     document.getElementById("reset_reps")
       .addEventListener("click", (event: Event) => ApiInteractions.safeResetReps())
+
+     */
 
   }
 }

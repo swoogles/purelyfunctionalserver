@@ -11,6 +11,7 @@ enablePlugins(ScalaJSPlugin)
 
 libraryDependencies += "org.scala-js" %%% "scalajs-dom" % "1.1.0"
 libraryDependencies ++= Seq(
+  "com.raquo" %%% "laminar" % "0.10.2",   // Scala.js 1.x only
   "com.softwaremill.sttp.client" %%% "core" % "2.2.7",
 
 "com.softwaremill.sttp.client" %%% "circe" % "2.2.7",
