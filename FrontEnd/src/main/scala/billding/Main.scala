@@ -100,8 +100,10 @@ object Meta {
     val confirmed = org.scalajs.dom.window.confirm(s"Are you sure you want to submit $count quadsets?")
     if (confirmed) {
         postQuadSets(count)
+      0
     } else
       println("Fine, I won't do anything then!")
+    1
   }
 
   import scalatags.JsDom.all._
@@ -255,10 +257,25 @@ object Main {
       b(child.text <-- $count.map(_.toString)),
       button("+", onClick.mapTo(1) --> diffBus),
       button("reset", onClick.mapTo(0) --> diffBus),
+      button("submit",
+      dataAttr("count") <-- $count.map(_.toString),
+        inContext( context =>
+        onClick.mapTo(ApiInteractions.safelyPostQuadSets(context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBus)),
 
       repeater.repeatWithInterval(1, new FiniteDuration(1, scala.concurrent.duration.SECONDS)) --> diffBus
     )
   }
+
+  /*
+  def safelyPostQuadSets(count: Int) = {
+    val confirmed = org.scalajs.dom.window.confirm(s"Are you sure you want to submit $count quadsets?")
+    if (confirmed) {
+      postQuadSets(count)
+    } else
+      println("Fine, I won't do anything then!")
+  }
+
+   */
 
   def Hello(
              helloNameStream: EventStream[String],
@@ -279,18 +296,18 @@ object Main {
     }
 
     val appDiv: Div = div(
-      h1("User Welcomer 9000"),
-      div(
-        "Please enter your name:",
-        input(
-          typ := "text",
-          inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
-        )
-      ),
-      div(
-        "Please accept our greeting: ",
-        Hello(nameBus.events, colorStream)
-      ),
+//      h1("User Welcomer 9000"),
+//      div(
+//        "Please enter your name:",
+//        input(
+//          typ := "text",
+//          inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
+//        )
+//      ),
+//      div(
+//        "Please accept our greeting: ",
+//        Hello(nameBus.events, colorStream)
+//      ),
       Counter()
     )
 
