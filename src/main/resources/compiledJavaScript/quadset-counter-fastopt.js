@@ -742,13 +742,14 @@ class $c_Lbillding_ApiInteractions$ extends $c_O {
   safelyPostQuadSets__I__I(count) {
     const confirmed = $uZ($m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().confirm((("Are you sure you want to submit " + count) + " quadsets?")));
     if (confirmed) {
-      this.postQuadSets__I__V(count)
+      this.postQuadSets__I__V(count);
+      return 0
     } else {
       const this$2 = $m_s_Console$();
       const this$3 = this$2.out__Ljava_io_PrintStream();
-      this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("Fine, I won't do anything then!\n")
-    };
-    return 1
+      this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("Fine, I won't do anything then!\n");
+      return 1
+    }
   };
   representQuadSets__sci_List__Lscalatags_JsDom$TypedTag(quadsets) {
     const this$1 = $m_Lscalatags_JsDom$all$();

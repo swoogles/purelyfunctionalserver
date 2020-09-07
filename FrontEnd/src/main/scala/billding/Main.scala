@@ -101,9 +101,10 @@ object Meta {
     if (confirmed) {
         postQuadSets(count)
       0
-    } else
+    } else {
       println("Fine, I won't do anything then!")
-    1
+      1
+    }
   }
 
   import scalatags.JsDom.all._
