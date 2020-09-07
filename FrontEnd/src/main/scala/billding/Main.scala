@@ -254,15 +254,15 @@ object Main {
         else
       acc + next)
     div(
-      b(child.text <-- $count.map(_.toString)),
+      div(cls("session-counter"), child.text <-- $count.map(_.toString)),
       button("+", onClick.mapTo(1) --> diffBus),
-      button("reset", onClick.mapTo(0) --> diffBus),
-      button("submit",
+      button("Reset", onClick.mapTo(0) --> diffBus),
+      button("Submit Quad Sets",
       dataAttr("count") <-- $count.map(_.toString),
         inContext( context =>
         onClick.mapTo(ApiInteractions.safelyPostQuadSets(context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBus)),
 
-      repeater.repeatWithInterval(1, new FiniteDuration(1, scala.concurrent.duration.SECONDS)) --> diffBus
+      repeater.repeatWithInterval(1, new FiniteDuration(20, scala.concurrent.duration.SECONDS)) --> diffBus
     )
   }
 
