@@ -246,10 +246,15 @@ object Main {
     val repeater = RepeatingElement()
 
     val diffBus = new EventBus[Int]
-    val $count = diffBus.events.foldLeft(0)(_ + _)
+    val $count: Signal[Int] = diffBus.events.foldLeft(0)((acc, next) =>
+      if(next == 0)
+        0
+        else
+      acc + next)
     div(
       b(child.text <-- $count.map(_.toString)),
       button("+", onClick.mapTo(1) --> diffBus),
+      button("reset", onClick.mapTo(0) --> diffBus),
 
       repeater.repeatWithInterval(1, new FiniteDuration(1, scala.concurrent.duration.SECONDS)) --> diffBus
     )
