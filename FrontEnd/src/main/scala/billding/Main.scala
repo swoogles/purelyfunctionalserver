@@ -85,7 +85,7 @@ object Meta {
   }
 
   def resetReps() = {
-    Main.count = 0
+    println("not actually resetting the counter anymore...")
   }
 
   def safeResetReps() = {
@@ -191,8 +191,6 @@ object Meta {
         response.body match {
           case Right(jsonBody) => {
             Main.dailyTotal = jsonBody.toInt
-            Main.count = 0
-            document.getElementById("counter").innerHTML = Main.count.toString
             document.getElementById("daily_total").innerHTML = Main.dailyTotal.toString
           }
           case Left(failure) => println("Failed to submit quadsets with error: " + failure)
@@ -233,9 +231,7 @@ object Main {
         startSound.play()
       }
     } else {
-      count += 1
       document.getElementById("user_instruction").innerHTML = "Relax"
-      document.getElementById("counter").innerHTML = count.toString
       document.body.setAttribute("style", "background-color: green")
       if(document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
         completeSound.play()
@@ -256,7 +252,6 @@ object Main {
       acc + next)
     div(
       div(cls("session-counter"), child.text <-- $count.map(_.toString)),
-      button("+", onClick.mapTo(1) --> diffBus),
       button("Reset Session",
         cls := "button is-danger is-rounded",
         onClick.mapTo(0) --> diffBus),
@@ -321,9 +316,8 @@ object Main {
     }
 
     ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
-    ApiInteractions.postQuadSets(count) // Doing this to get the initial count
+    ApiInteractions.postQuadSets(0) // Doing this to get the initial count
     document.body.setAttribute("style", "background-color: green")
-    document.getElementById("counter").innerHTML = count.toString
     dom.window.setInterval(() => toggleColor(), 10000)
     document.getElementById("submit_quad_sets")
       .addEventListener("click", (event: Event) => ApiInteractions.safelyPostQuadSets(count))
