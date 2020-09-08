@@ -1,3 +1,7 @@
+#daily_total_section {
+    text-align: center;
+    font-size: 2em
+}
 .session-counter {
     text-align: center;
     font-size: 14em
@@ -21,7 +25,7 @@ a.button {
 input[type='checkbox'] {
     -webkit-appearance:none;
     width:6em;
-    height:6em;
+    height:em;
     background:white;
     border-radius:5px;
     border:2px solid #555;

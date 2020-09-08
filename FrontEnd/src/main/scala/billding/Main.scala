@@ -257,8 +257,11 @@ object Main {
     div(
       div(cls("session-counter"), child.text <-- $count.map(_.toString)),
       button("+", onClick.mapTo(1) --> diffBus),
-      button("Reset", onClick.mapTo(0) --> diffBus),
+      button("Reset",
+        cls := "button is-danger",
+        onClick.mapTo(0) --> diffBus),
       button("Submit Quad Sets",
+        cls := "button is-link",
       dataAttr("count") <-- $count.map(_.toString),
         inContext( context =>
         onClick.mapTo(ApiInteractions.safelyPostQuadSets(context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBus)),
