@@ -253,7 +253,7 @@ object Main {
     div(
       div(cls("session-counter"), child.text <-- $count.map(_.toString)),
       button("Reset Session",
-        cls := "button is-danger is-rounded",
+        cls := "button is-warning is-rounded",
         onClick.mapTo(0) --> diffBus),
       button("Submit Quad Sets",
         cls := "button is-link is-rounded",
