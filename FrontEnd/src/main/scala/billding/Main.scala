@@ -285,9 +285,6 @@ object Main {
       dataAttr("noise") <-- noises.observable.map(_ => "noise!"),
       styleAttr <-- $color.map(color=> s"background: $color"),
       div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
-      button("Reset",
-        cls := "button is-warning is-rounded",
-        onClick.mapTo(ResetCount) --> diffBusT),
       button("Submit",
         cls := "button is-link is-rounded",
         dataAttr("count") <-- $countT.map(_.value.toString),
@@ -296,7 +293,16 @@ object Main {
             ApiInteractions.postQuadSetsTyped(
               context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBusT)),
      //  <a href href="/login">Login</a>
+      button("Reset",
+        cls := "button is-warning is-rounded",
+        onClick.mapTo(ResetCount) --> diffBusT),
+      div(styleAttr:="font-size: 4em", cls:="box",
+        span(
+        "Play Sounds:"),
+        input(typ:="checkbox",idAttr:="play-audio",name:="play-audio",value:="true")
+      ),
       a(href:="/", cls := "button is-link is-rounded", "Re-login"),
+      div(idAttr:="exercise_history"),
 
       repeater.repeatWithInterval(
         Increment(1).asInstanceOf[CounterAction],

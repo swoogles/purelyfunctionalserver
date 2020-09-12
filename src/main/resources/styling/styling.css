@@ -8,9 +8,11 @@
 }
 button.button {
     font-size: 6em;
+    margin: 15px;
 }
 
 a.button {
+    margin: 15px;
     font-size: 6em;
     -webkit-appearance: button;
     -moz-appearance: button;
