@@ -11,7 +11,7 @@ button.button {
 }
 
 a.button {
-    font-size: 20vh;
+    font-size: 6em;
     -webkit-appearance: button;
     -moz-appearance: button;
 
