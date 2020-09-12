@@ -1,5 +1,6 @@
 package billding
 
+import billding.Main.{Increment, ResetCount}
 import com.raquo.airstream.core.Observable
 import org.scalajs.dom
 import org.scalajs.dom.Event
@@ -95,6 +96,13 @@ object Meta {
     else
       println("I won't throw away those sweet reps!")
   }
+
+    def postQuadSetsTyped(count: Int): Main.CounterAction =
+      safelyPostQuadSets(count) match {
+        case 0 => ResetCount
+        case 1 => Increment(0) // todo better value
+        case other => throw new RuntimeException("ouch. bad status code from safelyPostQuadSets")
+      }
 
   def safelyPostQuadSets(count: Int) = {
     val confirmed = org.scalajs.dom.window.confirm(s"Are you sure you want to submit $count quadsets?")
@@ -238,30 +246,44 @@ object Main {
       }
     }
   }
+  case class Counter(value: Int)
+  sealed trait CounterAction
+  case object ResetCount extends CounterAction
+  case class Increment(value: Int) extends CounterAction
+
+  object CounterAction {
+    def update(counterAction: CounterAction, counter: Counter) =
+      counterAction match {
+        case ResetCount => new Counter(0)
+        case increment: Increment => counter.copy(counter.value+increment.value)
+      }
+  }
 
   case class RepeatingElement () extends RepeatWithIntervalHelper
 
-  def Counter() = {
+  def CounterComponent() = {
     val repeater = RepeatingElement()
 
     val diffBus = new EventBus[Int]
-    val $count: Signal[Int] = diffBus.events.foldLeft(0)((acc, next) =>
-      if(next == 0)
-        0
-        else
-      acc + next)
+
+
+    val diffBusT = new EventBus[CounterAction]
+    val $countT: Signal[Counter] = diffBusT.events.foldLeft(Counter(0))((acc, next) =>
+      CounterAction.update(next, acc)
+    )
+
     div(
-      div(cls("session-counter"), child.text <-- $count.map(_.toString)),
+      div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
       button("Reset Session",
         cls := "button is-warning is-rounded",
-        onClick.mapTo(0) --> diffBus),
+        onClick.mapTo(ResetCount) --> diffBusT),
       button("Submit Quad Sets",
         cls := "button is-link is-rounded",
-      dataAttr("count") <-- $count.map(_.toString),
+      dataAttr("count") <-- $countT.map(_.value.toString),
         inContext( context =>
-        onClick.mapTo(ApiInteractions.safelyPostQuadSets(context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBus)),
+        onClick.mapTo(value = ApiInteractions.postQuadSetsTyped(context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBusT)),
 
-      repeater.repeatWithInterval(1, new FiniteDuration(20, scala.concurrent.duration.SECONDS)) --> diffBus
+      repeater.repeatWithInterval(Increment(1).asInstanceOf[CounterAction], new FiniteDuration(20, scala.concurrent.duration.SECONDS)) --> diffBusT
     )
   }
 
@@ -296,7 +318,7 @@ object Main {
 //        "Please accept our greeting: ",
 //        Hello(nameBus.events, colorStream)
 //      ),
-      Counter()
+      CounterComponent()
     )
 
     render(dom.document.querySelector("#laminarApp"), appDiv)
