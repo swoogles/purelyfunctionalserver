@@ -254,7 +254,7 @@ object Main {
   object CounterAction {
     def update(counterAction: CounterAction, counter: Counter) =
       counterAction match {
-        case ResetCount => new Counter(0)
+        case ResetCount => Counter(0)
         case increment: Increment => counter.copy(counter.value+increment.value)
       }
   }
@@ -264,26 +264,49 @@ object Main {
   def CounterComponent() = {
     val repeater = RepeatingElement()
 
-    val diffBus = new EventBus[Int]
-
-
-    val diffBusT = new EventBus[CounterAction]
+    val clockTicks = new EventBus[Int]
+    val $color: Signal[String] = clockTicks.events.foldLeft("red")((color, _) => if(color=="red") "green" else "red")
+    val noises = $color.map(color => {
+      if(color == "green" && document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
+        startSound.play()
+      }
+      else if(document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
+        completeSound.play()
+      }
+    })
+    val diffBusT =  new EventBus[CounterAction]()
+//    diffBusT.writer.addSource(clockTicks.events.map(Increment)),
+    //    val diffBusT = clockTicks.events.map(tick => Increment(tick)) new EventBus[CounterAction]
     val $countT: Signal[Counter] = diffBusT.events.foldLeft(Counter(0))((acc, next) =>
       CounterAction.update(next, acc)
     )
+    val duration = new FiniteDuration(2, scala.concurrent.duration.SECONDS)
 
     div(
+      dataAttr("noise") <-- noises.observable.map((_) => "noise!"),
+      styleAttr <-- $color.map(color=> s"background: $color"),
       div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
-      button("Reset Session",
+      button("Reset",
         cls := "button is-warning is-rounded",
         onClick.mapTo(ResetCount) --> diffBusT),
-      button("Submit Quad Sets",
+      button("Submit",
         cls := "button is-link is-rounded",
-      dataAttr("count") <-- $countT.map(_.value.toString),
+        dataAttr("count") <-- $countT.map(_.value.toString),
         inContext( context =>
-        onClick.mapTo(value = ApiInteractions.postQuadSetsTyped(context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBusT)),
+          onClick.mapTo(value =
+            ApiInteractions.postQuadSetsTyped(
+              context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBusT)),
 
-      repeater.repeatWithInterval(Increment(1).asInstanceOf[CounterAction], new FiniteDuration(20, scala.concurrent.duration.SECONDS)) --> diffBusT
+      repeater.repeatWithInterval(
+        Increment(1).asInstanceOf[CounterAction],
+        duration*2
+//        new FiniteDuration(20, scala.concurrent.duration.SECONDS) // todo restore after dev
+    ) --> diffBusT,
+        repeater.repeatWithInterval(
+      1,
+          duration
+      //        new FiniteDuration(20, scala.concurrent.duration.SECONDS) // todo restore after dev
+    ) --> clockTicks
     )
   }
 
@@ -340,7 +363,7 @@ object Main {
     ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(0) // Doing this to get the initial count
     document.body.setAttribute("style", "background-color: green")
-    dom.window.setInterval(() => toggleColor(), 10000)
+//    dom.window.setInterval(() => toggleColor(), 10000)
     document.getElementById("submit_quad_sets")
       .addEventListener("click", (event: Event) => ApiInteractions.safelyPostQuadSets(count))
 
