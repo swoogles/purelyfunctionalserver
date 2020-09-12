@@ -275,15 +275,14 @@ object Main {
       }
     })
     val diffBusT =  new EventBus[CounterAction]()
-//    diffBusT.writer.addSource(clockTicks.events.map(Increment)),
-    //    val diffBusT = clockTicks.events.map(tick => Increment(tick)) new EventBus[CounterAction]
     val $countT: Signal[Counter] = diffBusT.events.foldLeft(Counter(0))((acc, next) =>
       CounterAction.update(next, acc)
     )
     val duration = new FiniteDuration(2, scala.concurrent.duration.SECONDS)
 
     div(
-      dataAttr("noise") <-- noises.observable.map((_) => "noise!"),
+      cls:="centered",
+      dataAttr("noise") <-- noises.observable.map(_ => "noise!"),
       styleAttr <-- $color.map(color=> s"background: $color"),
       div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
       button("Reset",
@@ -296,6 +295,8 @@ object Main {
           onClick.mapTo(value =
             ApiInteractions.postQuadSetsTyped(
               context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBusT)),
+     //  <a href href="/login">Login</a>
+      a(href:="/", cls := "button is-link is-rounded", "Re-login"),
 
       repeater.repeatWithInterval(
         Increment(1).asInstanceOf[CounterAction],
@@ -362,13 +363,5 @@ object Main {
 
     ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(0) // Doing this to get the initial count
-    document.body.setAttribute("style", "background-color: green")
-//    dom.window.setInterval(() => toggleColor(), 10000)
-    document.getElementById("submit_quad_sets")
-      .addEventListener("click", (event: Event) => ApiInteractions.safelyPostQuadSets(count))
-
-    document.getElementById("reset_reps")
-      .addEventListener("click", (event: Event) => ApiInteractions.safeResetReps())
-
   }
 }
