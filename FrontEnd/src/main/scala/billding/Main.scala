@@ -265,7 +265,7 @@ object Main {
     val repeater = RepeatingElement()
 
     val clockTicks = new EventBus[Int]
-    val $color: Signal[String] = clockTicks.events.foldLeft("red")((color, _) => if(color=="red") "green" else "red")
+    val $color: Signal[String] = clockTicks.events.foldLeft("green")((color, _) => if(color=="red") "green" else "red")
     val noises = $color.map(color => {
       if(color == "green" && document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
         startSound.play()
@@ -278,7 +278,7 @@ object Main {
     val $countT: Signal[Counter] = diffBusT.events.foldLeft(Counter(0))((acc, next) =>
       CounterAction.update(next, acc)
     )
-    val duration = new FiniteDuration(2, scala.concurrent.duration.SECONDS)
+    val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
 
     div(
       cls:="centered",

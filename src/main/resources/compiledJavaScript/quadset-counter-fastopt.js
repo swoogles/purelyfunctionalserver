@@ -1019,7 +1019,7 @@ class $c_Lbillding_Main$ extends $c_O {
       $uI(x$2$2);
       return ((color === "red") ? "green" : "red")
     }))(this));
-    const \u03b4color = $f_Lcom_raquo_airstream_eventstream_EventStream__foldLeft__O__F2__Lcom_raquo_airstream_signal_Signal(this$2, "red", fn);
+    const \u03b4color = $f_Lcom_raquo_airstream_eventstream_EventStream__foldLeft__O__F2__Lcom_raquo_airstream_signal_Signal(this$2, "green", fn);
     const project = new $c_sjsr_AnonFunction1(((this$2$1) => ((color$3$2) => {
       const color$3 = $as_T(color$3$2);
       if (((color$3 === "green") && $uZ($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("play-audio").checked))) {
@@ -1038,7 +1038,7 @@ class $c_Lbillding_Main$ extends $c_O {
       return $m_Lbillding_Main$CounterAction$().update__Lbillding_Main$CounterAction__Lbillding_Main$Counter__Lbillding_Main$Counter(next, acc)
     }))(this));
     const \u03b4countT = $f_Lcom_raquo_airstream_eventstream_EventStream__foldLeft__O__F2__Lcom_raquo_airstream_signal_Signal(this$4, initial, fn$1);
-    const duration = new $c_s_concurrent_duration_FiniteDuration(new $c_RTLong(2, 0), $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_SECONDS);
+    const duration = new $c_s_concurrent_duration_FiniteDuration(new $c_RTLong(10, 0), $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_SECONDS);
     const this$5 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const $$x37 = this$5.div__Lcom_raquo_laminar_builders_HtmlTag();
     const this$6 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
