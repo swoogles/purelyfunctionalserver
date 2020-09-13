@@ -713,6 +713,8 @@ class $c_Lbillding_ApiInteractions$ extends $c_O {
   constructor() {
     super();
     this.Lbillding_ApiInteractions$__f_exerciseUri = null;
+    this.Lbillding_ApiInteractions$__f_quadSetUri = null;
+    this.Lbillding_ApiInteractions$__f_armStretchesUri = null;
     this.Lbillding_ApiInteractions$__f_backend = null;
     this.Lbillding_ApiInteractions$__f_ec = null;
     $n_Lbillding_ApiInteractions$ = this;
@@ -723,6 +725,20 @@ class $c_Lbillding_ApiInteractions$ extends $c_O {
     const array$1 = [$m_Lbillding_Meta$().Lbillding_Meta$__f_host];
     const args = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1);
     this.Lbillding_ApiInteractions$__f_exerciseUri = $m_Lsttp_model_UriInterpolator$().interpolate__s_StringContext__sci_Seq__Lsttp_model_Uri(this$8.Lsttp_model_UriInterpolator$UriContext__f_sc, args);
+    const this$12 = $m_Lsttp_client_package$();
+    const array$2 = ["", "/exercises/QuadSets"];
+    const sc$1 = new $c_s_StringContext($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2));
+    const this$16 = new $c_Lsttp_model_UriInterpolator$UriContext(this$12, sc$1);
+    const array$3 = [$m_Lbillding_Meta$().Lbillding_Meta$__f_host];
+    const args$1 = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$3);
+    this.Lbillding_ApiInteractions$__f_quadSetUri = $m_Lsttp_model_UriInterpolator$().interpolate__s_StringContext__sci_Seq__Lsttp_model_Uri(this$16.Lsttp_model_UriInterpolator$UriContext__f_sc, args$1);
+    const this$20 = $m_Lsttp_client_package$();
+    const array$4 = ["", "/exercises/arm_stretches"];
+    const sc$2 = new $c_s_StringContext($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$4));
+    const this$24 = new $c_Lsttp_model_UriInterpolator$UriContext(this$20, sc$2);
+    const array$5 = [$m_Lbillding_Meta$().Lbillding_Meta$__f_host];
+    const args$2 = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$5);
+    this.Lbillding_ApiInteractions$__f_armStretchesUri = $m_Lsttp_model_UriInterpolator$().interpolate__s_StringContext__sci_Seq__Lsttp_model_Uri(this$24.Lsttp_model_UriInterpolator$UriContext__f_sc, args$2);
     const x$1 = $m_Lsttp_client_FetchOptions$().Default__Lsttp_client_FetchOptions();
     const x$2 = $m_Lsttp_client_FetchBackend$().apply$default$2__F1();
     const x$3 = $m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor();
@@ -812,7 +828,7 @@ class $c_Lbillding_ApiInteractions$ extends $c_O {
       const this$4 = $m_s_Console$();
       const this$5 = this$4.out__Ljava_io_PrintStream();
       this$5.java$lang$JSConsoleBasedPrintStream$$printString__T__V("We have a stored token. Use it for getting authorized info\n");
-      const this$6 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri);
+      const this$6 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_quadSetUri);
       request = new $c_Lsttp_client_SpecifyAuthScheme($m_Lsttp_model_HeaderNames$().Authorization__T(), this$6, $m_Lsttp_client_DigestAuthenticationBackend$().DigestAuthTag__T()).bearer__T__Lsttp_client_RequestT($as_T(storage.getItem("access_token_fromJS")))
     } else {
       const this$7 = $m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken;
@@ -820,14 +836,14 @@ class $c_Lbillding_ApiInteractions$ extends $c_O {
         const this$9 = $m_s_Console$();
         const this$10 = this$9.out__Ljava_io_PrintStream();
         this$10.java$lang$JSConsoleBasedPrintStream$$printString__T__V("We queryParameter token. Use it for getting authorized info. Non-ideal.\n");
-        const qual$1 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken.get__O())));
+        const qual$1 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_quadSetUri.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken.get__O())));
         const x$1 = $m_Lsttp_model_Header$().authorization__T__T__Lsttp_model_Header("Bearer", $as_T($m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken.get__O()));
         request = qual$1.header__Lsttp_model_Header__Z__Lsttp_client_RequestT(x$1, false)
       } else {
         const this$12 = $m_s_Console$();
         const this$13 = this$12.out__Ljava_io_PrintStream();
         this$13.java$lang$JSConsoleBasedPrintStream$$printString__T__V("We have no token. Request information for public, chaotic user.\n");
-        request = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri)
+        request = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().get__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_quadSetUri)
       }
     };
     const $$x1 = this.Lbillding_ApiInteractions$__f_backend;
@@ -968,6 +984,93 @@ class $c_Lbillding_ApiInteractions$ extends $c_O {
       }
     }))(this)), this.Lbillding_ApiInteractions$__f_ec)
   };
+  postArmStretchSession__s_concurrent_Future() {
+    const localDate = $m_Lbillding_Time$().formattedLocalDate__T();
+    const exercise = new $c_Lbillding_DailyQuantizedExercise("shoulder_stretches", localDate, 1);
+    const storage = $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().localStorage;
+    const x = $as_T(storage.getItem("access_token_fromJS"));
+    let request;
+    if ((x !== "")) {
+      const this$4 = $m_s_Console$();
+      const this$5 = this$4.out__Ljava_io_PrintStream();
+      this$5.java$lang$JSConsoleBasedPrintStream$$printString__T__V("We have a stored token. Use it to post authorized info\n");
+      const this$6 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri);
+      const this$13 = new $c_Lsttp_client_SpecifyAuthScheme($m_Lsttp_model_HeaderNames$().Authorization__T(), this$6, $m_Lsttp_client_DigestAuthenticationBackend$().DigestAuthTag__T()).bearer__T__Lsttp_client_RequestT($as_T(storage.getItem("access_token_fromJS")));
+      const this$12 = $m_Lsttp_client_circe_package$();
+      $m_Lio_circe_Encoder$();
+      const inst$macro$12 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2().inst$macro$1__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
+      const t = new $c_sjsr_AnonFunction0(((this$7, inst$macro$12$1) => (() => inst$macro$12$1))(this, inst$macro$12));
+      const lv = new $c_Lshapeless_Lazy$$anon$1(t);
+      const exported = $as_Lio_circe_Encoder$AsObject(lv.value__O());
+      const printer = $m_Lio_circe_Printer$().Lio_circe_Printer$__f_noSpaces;
+      const evidence$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$12, exported, printer);
+      request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$13, exercise, evidence$1)
+    } else {
+      const this$14 = $m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken;
+      if ((!this$14.isEmpty__Z())) {
+        const this$20 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+        const this$19 = $m_Lsttp_client_circe_package$();
+        $m_Lio_circe_Encoder$();
+        const inst$macro$24 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2().inst$macro$13__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
+        const t$1 = new $c_sjsr_AnonFunction0(((this$2$1, inst$macro$24$1) => (() => inst$macro$24$1))(this, inst$macro$24));
+        const lv$1 = new $c_Lshapeless_Lazy$$anon$1(t$1);
+        const exported$1 = $as_Lio_circe_Encoder$AsObject(lv$1.value__O());
+        const printer$1 = $m_Lio_circe_Printer$().Lio_circe_Printer$__f_noSpaces;
+        const evidence$1$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$19, exported$1, printer$1);
+        request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$20, exercise, evidence$1$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken.get__O())))
+      } else {
+        const this$26 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+        const this$25 = $m_Lsttp_client_circe_package$();
+        $m_Lio_circe_Encoder$();
+        const inst$macro$36 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2().inst$macro$25__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
+        const t$2 = new $c_sjsr_AnonFunction0(((this$3$1, inst$macro$36$1) => (() => inst$macro$36$1))(this, inst$macro$36));
+        const lv$2 = new $c_Lshapeless_Lazy$$anon$1(t$2);
+        const exported$2 = $as_Lio_circe_Encoder$AsObject(lv$2.value__O());
+        const printer$2 = $m_Lio_circe_Printer$().Lio_circe_Printer$__f_noSpaces;
+        const evidence$1$2 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$25, exported$2, printer$2);
+        request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$26, exercise, evidence$1$2).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri)
+      }
+    };
+    const x$1 = ("About to make a request: " + request);
+    const this$28 = $m_s_Console$();
+    const this$29 = this$28.out__Ljava_io_PrintStream();
+    this$29.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
+    const $$x1 = this.Lbillding_ApiInteractions$__f_backend;
+    const this$30 = $m_s_$less$colon$less$();
+    const this$31 = $as_s_concurrent_Future(request.send__Lsttp_client_SttpBackend__s_$eq$colon$eq__O($$x1, this$30.s_$less$colon$less$__f_singleton));
+    const p = new $c_sjsr_AnonFunction1(((this$4$1) => ((check$ifrefutable$3$2) => {
+      const check$ifrefutable$3 = $as_Lsttp_client_Response(check$ifrefutable$3$2);
+      return (check$ifrefutable$3 !== null)
+    }))(this));
+    const executor = this.Lbillding_ApiInteractions$__f_ec;
+    return this$31.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$5$1) => ((response$2) => {
+      const response = $as_Lsttp_client_Response(response$2);
+      const x1 = $as_s_util_Either(response.Lsttp_client_Response__f_body);
+      if ((x1 instanceof $c_s_util_Right)) {
+        const x2 = $as_s_util_Right(x1);
+        const jsonBody = $as_T(x2.s_util_Right__f_value);
+        const $$x2 = $m_Lbillding_Main$();
+        const this$34 = $m_jl_Integer$();
+        $$x2.Lbillding_Main$__f_shoulderStretchTotal = this$34.parseInt__T__I__I(jsonBody, 10);
+        const $$x3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("shoulder_stretches_daily_total");
+        const this$37 = $m_jl_Integer$();
+        const this$38 = this$37.parseInt__T__I__I(jsonBody, 10);
+        $$x3.innerHTML = ("" + this$38);
+        const this$42 = $m_jl_Integer$();
+        return this$42.parseInt__T__I__I(jsonBody, 10)
+      } else if ((x1 instanceof $c_s_util_Left)) {
+        const x3 = $as_s_util_Left(x1);
+        const failure = $as_T(x3.s_util_Left__f_value);
+        const x$2 = ("Failed to submit armstretches with error: " + failure);
+        const this$44 = $m_s_Console$();
+        const this$45 = this$44.out__Ljava_io_PrintStream();
+        this$45.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+        return 0
+      } else {
+        throw new $c_s_MatchError(x1)
+      }
+    }))(this)), this.Lbillding_ApiInteractions$__f_ec)
+  };
 }
 const $d_Lbillding_ApiInteractions$ = new $TypeData().initClass({
   Lbillding_ApiInteractions$: 0
@@ -991,12 +1094,14 @@ class $c_Lbillding_Main$ extends $c_O {
     super();
     this.Lbillding_Main$__f_count = 0;
     this.Lbillding_Main$__f_dailyTotal = 0;
+    this.Lbillding_Main$__f_shoulderStretchTotal = 0;
     this.Lbillding_Main$__f_audioContext = null;
     this.Lbillding_Main$__f_startSound = null;
     this.Lbillding_Main$__f_completeSound = null;
     $n_Lbillding_Main$ = this;
     this.Lbillding_Main$__f_count = 0;
     this.Lbillding_Main$__f_dailyTotal = 0;
+    this.Lbillding_Main$__f_shoulderStretchTotal = 0;
     this.Lbillding_Main$__f_audioContext = new AudioContext();
     this.Lbillding_Main$__f_startSound = this.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement("/resources/audio/startQuadSet/metronome_tock.wav");
     this.Lbillding_Main$__f_completeSound = this.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement("/resources/audio/completeQuadSet/metronome_tink.wav")
@@ -1010,7 +1115,72 @@ class $c_Lbillding_Main$ extends $c_O {
     $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().body.appendChild(sound);
     return sound
   };
-  CounterComponent__Lcom_raquo_laminar_nodes_ReactiveHtmlElement() {
+  ArmStretchComponent__I__Lcom_raquo_laminar_modifiers_Binder__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(id, displayCode) {
+    const clockTicks = new $c_Lcom_raquo_airstream_eventbus_EventBus();
+    const future = $m_Lbillding_ApiInteractions$().postArmStretchSession__s_concurrent_Future();
+    const callbackResult = new $c_Lcom_raquo_airstream_signal_FutureSignal(future);
+    const this$3 = clockTicks.Lcom_raquo_airstream_eventbus_EventBus__f_events;
+    const fn = new $c_sjsr_AnonFunction2(((this$2) => ((acc$2, next$2) => {
+      const acc = $uI(acc$2);
+      const next = $uI(next$2);
+      return ((acc + next) | 0)
+    }))(this));
+    const \u03b4shoulderStretchTotal = $f_Lcom_raquo_airstream_eventstream_EventStream__foldLeft__O__F2__Lcom_raquo_airstream_signal_Signal(this$3, 0, fn);
+    const this$4 = $f_Lcom_raquo_airstream_signal_Signal__combineWith__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_airstream_signal_Signal(callbackResult, \u03b4shoulderStretchTotal);
+    const project = new $c_sjsr_AnonFunction1(((this$2$1) => ((x0$1$2) => {
+      const x0$1 = $as_T2(x0$1$2);
+      if ((x0$1 !== null)) {
+        const optResult = $as_s_Option(x0$1._1__O());
+        const latestResult = $uI(x0$1._2__O());
+        return ((!optResult.isEmpty__Z()) ? (($uI(optResult.get__O()) + latestResult) | 0) : latestResult)
+      } else {
+        throw new $c_s_MatchError(x0$1)
+      }
+    }))(this));
+    const \u03b4res = new $c_Lcom_raquo_airstream_signal_MapSignal(this$4, project, $m_s_None$());
+    const this$5 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x11 = this$5.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$6 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x10 = this$6.button__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$7 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$8 = this$7.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const $$x9 = this$8.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-link is-rounded", this$8.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const this$10 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$9 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const eventProp = this$9.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
+    const this$11 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$10, eventProp).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$3$1) => (() => {
+      $m_Lbillding_ApiInteractions$().postArmStretchSession__s_concurrent_Future();
+      return 1
+    }))(this)));
+    const observer = clockTicks.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
+    const array = [$$x9, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer, this$11.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$11.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$11.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Submit"))];
+    const $$x8 = $$x10.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array));
+    const this$16 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x7 = this$16.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$17 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x6 = this$17.span__Lcom_raquo_laminar_builders_HtmlTag();
+    const array$1 = [($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Total:"))];
+    const $$x5 = $$x6.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1));
+    const this$22 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x4 = this$22.span__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$23 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x3 = this$23.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("shoulder_stretches_daily_total");
+    const $$x2 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child;
+    const project$1 = new $c_sjsr_AnonFunction1(((this$4$1) => ((count$2) => {
+      const count = $uI(count$2);
+      const this$24 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+      const $$x1 = this$24.div__Lcom_raquo_laminar_builders_HtmlTag();
+      $m_Lcom_raquo_laminar_api_package$();
+      const text = ("" + count);
+      const array$2 = [new $c_Lcom_raquo_laminar_nodes_TextNode(text)];
+      return $$x1.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2))
+    }))(this));
+    const array$3 = [$$x3, $$x2.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4res, project$1, $m_s_None$()))];
+    const array$4 = [$$x5, $$x4.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$3))];
+    const array$5 = [$$x8, $$x7.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$4))];
+    return $$x11.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$5))
+  };
+  CounterComponent__I__Lcom_raquo_laminar_modifiers_Binder__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(id, displayCode) {
     const repeater = new $c_Lbillding_Main$RepeatingElement();
     const clockTicks = new $c_Lcom_raquo_airstream_eventbus_EventBus();
     const this$2 = clockTicks.Lcom_raquo_airstream_eventbus_EventBus__f_events;
@@ -1040,12 +1210,16 @@ class $c_Lbillding_Main$ extends $c_O {
     const \u03b4countT = $f_Lcom_raquo_airstream_eventstream_EventStream__foldLeft__O__F2__Lcom_raquo_airstream_signal_Signal(this$4, initial, fn$1);
     const duration = new $c_s_concurrent_duration_FiniteDuration(new $c_RTLong(10, 0), $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_SECONDS);
     const this$5 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x44 = this$5.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x46 = this$5.div__Lcom_raquo_laminar_builders_HtmlTag();
     const this$6 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$7 = this$6.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x43 = this$7.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("centered", this$7.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
-    const this$8 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x42 = $f_Lcom_raquo_laminar_defs_ReactiveComplexHtmlKeys__dataAttr__T__Lcom_raquo_laminar_keys_ReactiveHtmlAttr(this$8, "noise");
+    const $$x45 = this$6.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter(("counter_component_" + id));
+    const this$7 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$8 = this$7.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const $$x44 = this$8.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("centered", this$8.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const this$9 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x43 = this$9.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$10 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x42 = $f_Lcom_raquo_laminar_defs_ReactiveComplexHtmlKeys__dataAttr__T__Lcom_raquo_laminar_keys_ReactiveHtmlAttr(this$10, "noise");
     $m_Lcom_raquo_laminar_api_package$();
     const project$1 = new $c_sjsr_AnonFunction1(((this$4$1) => ((x$3$2) => {
       $as_jl_Void(x$3$2);
@@ -1058,134 +1232,135 @@ class $c_Lbillding_Main$ extends $c_O {
       return ("background: " + color$4)
     }))(this));
     const $$x39 = $$x40.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Binder(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4color, project$2, $m_s_None$()));
-    const this$10 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x38 = this$10.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$11 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$12 = this$11.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x37 = this$12.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("session-counter", this$12.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const this$12 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x38 = this$12.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$13 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$14 = this$13.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const $$x37 = this$14.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("session-counter", this$14.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const $$x36 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child.Lcom_raquo_laminar_receivers_ChildReceiver$__f_text;
     const project$3 = new $c_sjsr_AnonFunction1(((this$6$1) => ((x$4$2) => {
       const x$4 = $as_Lbillding_Main$Counter(x$4$2);
-      const this$13 = x$4.Lbillding_Main$Counter__f_value;
-      return ("" + this$13)
+      const this$15 = x$4.Lbillding_Main$Counter__f_value;
+      return ("" + this$15)
     }))(this));
     const array = [$$x37, $$x36.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4countT, project$3, $m_s_None$()))];
     const $$x35 = $$x38.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array));
-    const this$18 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x34 = this$18.button__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$20 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x34 = this$20.button__Lcom_raquo_laminar_builders_HtmlTag();
     $m_Lcom_raquo_laminar_api_package$();
     const $$x33 = new $c_Lcom_raquo_laminar_nodes_TextNode("Submit");
-    const this$20 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$21 = this$20.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x32 = this$21.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-link is-rounded", this$21.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const this$22 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x31 = $f_Lcom_raquo_laminar_defs_ReactiveComplexHtmlKeys__dataAttr__T__Lcom_raquo_laminar_keys_ReactiveHtmlAttr(this$22, "count");
+    const this$23 = this$22.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const $$x32 = this$23.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-link is-rounded", this$23.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const this$24 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x31 = $f_Lcom_raquo_laminar_defs_ReactiveComplexHtmlKeys__dataAttr__T__Lcom_raquo_laminar_keys_ReactiveHtmlAttr(this$24, "count");
     const project$4 = new $c_sjsr_AnonFunction1(((this$7$1) => ((x$5$2) => {
       const x$5 = $as_Lbillding_Main$Counter(x$5$2);
-      const this$23 = x$5.Lbillding_Main$Counter__f_value;
-      return ("" + this$23)
+      const this$25 = x$5.Lbillding_Main$Counter__f_value;
+      return ("" + this$25)
     }))(this));
     const $$x30 = $$x31.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Binder(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4countT, project$4, $m_s_None$()));
     $m_Lcom_raquo_laminar_api_package$();
     const makeModifier = new $c_sjsr_AnonFunction1(((this$8$1, diffBusT$1) => ((context$2) => {
       const context = $as_Lcom_raquo_laminar_nodes_ReactiveHtmlElement(context$2);
-      const this$26 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-      const this$25 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-      const eventProp = this$25.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
-      const this$31 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$26, eventProp).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$27, context$1) => (() => {
+      const this$28 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+      const this$27 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+      const eventProp = this$27.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
+      const this$33 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$28, eventProp).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$29, context$1) => (() => {
         const $$x29 = $m_Lbillding_ApiInteractions$();
         const x = $as_T(context$1.Lcom_raquo_laminar_nodes_ReactiveHtmlElement__f_ref.attributes.getNamedItem("data-count").value);
-        const this$30 = $m_jl_Integer$();
-        return $$x29.postQuadSetsTyped__I__Lbillding_Main$CounterAction(this$30.parseInt__T__I__I(x, 10))
+        const this$32 = $m_jl_Integer$();
+        return $$x29.postQuadSetsTyped__I__Lbillding_Main$CounterAction(this$32.parseInt__T__I__I(x, 10))
       }))(this$8$1, context)));
       const observer = diffBusT$1.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
-      return $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer, this$31.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$31.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$31.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor)
+      return $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer, this$33.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$33.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$33.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor)
     }))(this, diffBusT));
     const array$1 = [$$x33, $$x32, $$x30, new $c_Lcom_raquo_laminar_api_Laminar$$anon$6(makeModifier)];
     const $$x28 = $$x34.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1));
-    const this$36 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x27 = this$36.button__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$38 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x27 = this$38.button__Lcom_raquo_laminar_builders_HtmlTag();
     $m_Lcom_raquo_laminar_api_package$();
     const $$x26 = new $c_Lcom_raquo_laminar_nodes_TextNode("Reset");
-    const this$38 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$39 = this$38.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x25 = this$39.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-warning is-rounded", this$39.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
-    const this$41 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const this$40 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const eventProp$1 = this$40.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
-    const this$42 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$41, eventProp$1).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$9$1) => (() => $m_Lbillding_Main$ResetCount$()))(this)));
+    const this$41 = this$40.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const $$x25 = this$41.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-warning is-rounded", this$41.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const this$43 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$42 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const eventProp$1 = this$42.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
+    const this$44 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$43, eventProp$1).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$9$1) => (() => $m_Lbillding_Main$ResetCount$()))(this)));
     const observer$1 = diffBusT.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
-    const array$2 = [$$x26, $$x25, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$1, this$42.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$42.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$42.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor)];
+    const array$2 = [$$x26, $$x25, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$1, this$44.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$44.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$44.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor)];
     const $$x24 = $$x27.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2));
-    const this$46 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x23 = this$46.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$48 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x23 = this$48.div__Lcom_raquo_laminar_builders_HtmlTag();
     const $$x22 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.styleAttr__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("font-size: 4em");
-    const this$47 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$48 = this$47.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x21 = this$48.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("box", this$48.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const this$49 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x20 = this$49.span__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$50 = this$49.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const $$x21 = this$50.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("box", this$50.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const this$51 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x20 = this$51.span__Lcom_raquo_laminar_builders_HtmlTag();
     const array$3 = [($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Play Sounds:"))];
     const $$x19 = $$x20.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$3));
-    const this$54 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x18 = this$54.input__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$55 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x17 = this$55.typ__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("checkbox");
     const this$56 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x16 = this$56.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("play-audio");
+    const $$x18 = this$56.input__Lcom_raquo_laminar_builders_HtmlTag();
     const this$57 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x15 = this$57.name__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("play-audio");
+    const $$x17 = this$57.typ__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("checkbox");
     const this$58 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const array$4 = [$$x17, $$x16, $$x15, this$58.value__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("true")];
+    const $$x16 = this$58.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("play-audio");
+    const this$59 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x15 = this$59.name__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("play-audio");
+    const this$60 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const array$4 = [$$x17, $$x16, $$x15, this$60.value__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("true")];
     const array$5 = [$$x22, $$x21, $$x19, $$x18.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$4))];
     const $$x14 = $$x23.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$5));
-    const this$65 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x13 = this$65.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$66 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x12 = this$66.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("daily_total_section");
-    const $$x11 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.styleAttr__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("text-align: center; font-size: 2em");
     const this$67 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x10 = this$67.span__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x13 = this$67.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$68 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x12 = this$68.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("daily_total_section");
+    const $$x11 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.styleAttr__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("text-align: center; font-size: 2em");
+    const this$69 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x10 = this$69.span__Lcom_raquo_laminar_builders_HtmlTag();
     const array$6 = [($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Daily Total:"))];
     const $$x9 = $$x10.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$6));
-    const this$72 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x8 = this$72.span__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$73 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const array$7 = [this$73.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("daily_total"), $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.styleAttr__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("font-size: 2em")];
+    const this$74 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x8 = this$74.span__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$75 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const array$7 = [this$75.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("daily_total"), $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.styleAttr__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("font-size: 2em")];
     const array$8 = [$$x12, $$x11, $$x9, $$x8.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$7))];
     const $$x7 = $$x13.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$8));
-    const this$80 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x6 = this$80.a__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$81 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x5 = this$81.href__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("/");
     const this$82 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$83 = this$82.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const array$9 = [$$x5, this$83.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-link is-rounded", this$83.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Re-login"))];
+    const $$x6 = this$82.a__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$83 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x5 = this$83.href__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("/");
+    const this$84 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$85 = this$84.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const array$9 = [$$x5, this$85.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-link is-rounded", this$85.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Re-login"))];
     const $$x4 = $$x6.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$9));
-    const this$88 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x3 = this$88.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$89 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const array$10 = [this$89.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("exercise_history")];
+    const this$90 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x3 = this$90.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$91 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const array$10 = [this$91.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("exercise_history")];
     const $$x2 = $$x3.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$10));
     const value = new $c_Lbillding_Main$Increment(1);
     const interval = duration.$times__J__s_concurrent_duration_FiniteDuration(new $c_RTLong(2, 0));
-    const this$93 = new $c_Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver(repeater, value, interval);
-    const this$95 = this$93.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_$outer;
-    const value$1 = this$93.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_billding$RepeatWithIntervalHelper$RepeatWithIntervalReceiver$$value;
-    const interval$1 = this$93.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_billding$RepeatWithIntervalHelper$RepeatWithIntervalReceiver$$interval;
-    const onNext = new $c_sjsr_AnonFunction1(((this$94, eventBus) => ((t$2) => {
+    const this$95 = new $c_Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver(repeater, value, interval);
+    const this$97 = this$95.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_$outer;
+    const value$1 = this$95.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_billding$RepeatWithIntervalHelper$RepeatWithIntervalReceiver$$value;
+    const interval$1 = this$95.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_billding$RepeatWithIntervalHelper$RepeatWithIntervalReceiver$$interval;
+    const onNext = new $c_sjsr_AnonFunction1(((this$96, eventBus) => ((t$2) => {
       eventBus.Lcom_raquo_airstream_eventbus_EventBus__f_writer.onNext__O__V(t$2)
-    }))(this$93, diffBusT));
-    const $$x1 = new $c_Lbillding_RepeatWithIntervalHelper$$anon$1(this$95, interval$1, onNext, value$1);
-    const this$96 = new $c_Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver(repeater, 1, duration);
-    const this$98 = this$96.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_$outer;
-    const value$2 = this$96.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_billding$RepeatWithIntervalHelper$RepeatWithIntervalReceiver$$value;
-    const interval$2 = this$96.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_billding$RepeatWithIntervalHelper$RepeatWithIntervalReceiver$$interval;
-    const onNext$1 = new $c_sjsr_AnonFunction1(((this$97, eventBus$1) => ((t$2$1) => {
+    }))(this$95, diffBusT));
+    const $$x1 = new $c_Lbillding_RepeatWithIntervalHelper$$anon$1(this$97, interval$1, onNext, value$1);
+    const this$98 = new $c_Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver(repeater, 1, duration);
+    const this$100 = this$98.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_$outer;
+    const value$2 = this$98.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_billding$RepeatWithIntervalHelper$RepeatWithIntervalReceiver$$value;
+    const interval$2 = this$98.Lbillding_RepeatWithIntervalHelper$RepeatWithIntervalReceiver__f_billding$RepeatWithIntervalHelper$RepeatWithIntervalReceiver$$interval;
+    const onNext$1 = new $c_sjsr_AnonFunction1(((this$99, eventBus$1) => ((t$2$1) => {
       eventBus$1.Lcom_raquo_airstream_eventbus_EventBus__f_writer.onNext__O__V(t$2$1)
-    }))(this$96, clockTicks));
-    const array$11 = [$$x43, $$x41, $$x39, $$x35, $$x28, $$x24, $$x14, $$x7, $$x4, $$x2, $$x1, new $c_Lbillding_RepeatWithIntervalHelper$$anon$1(this$98, interval$2, onNext$1, value$2)];
-    return $$x44.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$11))
+    }))(this$98, clockTicks));
+    const array$11 = [$$x41, $$x39, $$x35, $$x28, $$x24, $$x14, $$x7, $$x4, $$x2, $$x1, new $c_Lbillding_RepeatWithIntervalHelper$$anon$1(this$100, interval$2, onNext$1, value$2)];
+    const array$12 = [displayCode, $$x45, $$x44, $$x43.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$11))];
+    return $$x46.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$12))
   };
   laminarStuff__Lcom_raquo_laminar_nodes_RootNode() {
     const nameBus = new $c_Lcom_raquo_airstream_eventbus_EventBus();
@@ -1195,10 +1370,65 @@ class $c_Lbillding_Main$ extends $c_O {
       return ((name === "S\u00e9bastien") ? "red" : "unset")
     }))(this));
     new $c_Lcom_raquo_airstream_eventstream_MapEventStream(this$2, project, $m_s_None$());
-    const this$3 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x1 = this$3.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const array = [this.CounterComponent__Lcom_raquo_laminar_nodes_ReactiveHtmlElement()];
-    const appDiv = $$x1.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array));
+    const componentSelections = new $c_Lcom_raquo_airstream_eventbus_EventBus();
+    const this$3 = componentSelections.Lcom_raquo_airstream_eventbus_EventBus__f_events;
+    const fn = new $c_sjsr_AnonFunction2(((this$2$1) => ((x$6$2, selection$2) => {
+      $uI(x$6$2);
+      const selection = $uI(selection$2);
+      return selection
+    }))(this));
+    const \u03b4selectedComponent = $f_Lcom_raquo_airstream_eventstream_EventStream__foldLeft__O__F2__Lcom_raquo_airstream_signal_Signal(this$3, 1, fn);
+    const $$x1 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.styleAttr__Lcom_raquo_laminar_keys_ReactiveHtmlAttr();
+    const project$1 = new $c_sjsr_AnonFunction1(((this$3$1) => ((selection$3$2) => {
+      const selection$3 = $uI(selection$3$2);
+      return ("display: " + ((selection$3 === 1) ? "inline" : "none"))
+    }))(this));
+    $$x1.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Binder(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4selectedComponent, project$1, $m_s_None$()));
+    const this$4 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x14 = this$4.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$5 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x13 = this$5.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("full_laminar_app");
+    const this$6 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x12 = this$6.button__Lcom_raquo_laminar_builders_HtmlTag();
+    $m_Lcom_raquo_laminar_api_package$();
+    const $$x11 = new $c_Lcom_raquo_laminar_nodes_TextNode("QuadSets");
+    const this$8 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$9 = this$8.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const $$x10 = this$9.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-primary is-rounded small", this$9.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const this$11 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$10 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const eventProp = this$10.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
+    const this$12 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$11, eventProp).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$4$1) => (() => 1))(this)));
+    const observer = componentSelections.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
+    const array = [$$x11, $$x10, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer, this$12.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$12.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$12.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor)];
+    const $$x9 = $$x12.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array));
+    const this$16 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x8 = this$16.button__Lcom_raquo_laminar_builders_HtmlTag();
+    $m_Lcom_raquo_laminar_api_package$();
+    const $$x7 = new $c_Lcom_raquo_laminar_nodes_TextNode("Shoulder Stretches");
+    const this$18 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$19 = this$18.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const $$x6 = this$19.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-primary is-rounded small", this$19.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const this$21 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$20 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const eventProp$1 = this$20.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
+    const this$22 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$21, eventProp$1).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$5$1) => (() => 2))(this)));
+    const observer$1 = componentSelections.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
+    const array$1 = [$$x7, $$x6, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$1, this$22.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$22.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$22.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor)];
+    const $$x5 = $$x8.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1));
+    const $$x4 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.styleAttr__Lcom_raquo_laminar_keys_ReactiveHtmlAttr();
+    const project$2 = new $c_sjsr_AnonFunction1(((this$6$1) => ((selection$4$2) => {
+      const selection$4 = $uI(selection$4$2);
+      return ("display: " + ((selection$4 === 1) ? "inline" : "none"))
+    }))(this));
+    const $$x3 = this.CounterComponent__I__Lcom_raquo_laminar_modifiers_Binder__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(1, $$x4.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Binder(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4selectedComponent, project$2, $m_s_None$())));
+    const $$x2 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.styleAttr__Lcom_raquo_laminar_keys_ReactiveHtmlAttr();
+    const project$3 = new $c_sjsr_AnonFunction1(((this$7$1) => ((selection$5$2) => {
+      const selection$5 = $uI(selection$5$2);
+      return ("display: " + ((selection$5 === 2) ? "inline" : "none"))
+    }))(this));
+    const array$2 = [$$x13, $$x9, $$x5, $$x3, this.ArmStretchComponent__I__Lcom_raquo_laminar_modifiers_Binder__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(2, $$x2.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Binder(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4selectedComponent, project$3, $m_s_None$())))];
+    const appDiv = $$x14.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2));
     $m_Lcom_raquo_laminar_api_package$();
     const container = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().querySelector("#laminarApp");
     return new $c_Lcom_raquo_laminar_nodes_RootNode(container, appDiv)
@@ -1470,6 +1700,25 @@ function $isArrayOf_Lcom_raquo_airstream_core_InternalObserver(obj, depth) {
 function $asArrayOf_Lcom_raquo_airstream_core_InternalObserver(obj, depth) {
   return (($isArrayOf_Lcom_raquo_airstream_core_InternalObserver(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcom.raquo.airstream.core.InternalObserver;", depth))
 }
+class $c_Lcom_raquo_airstream_core_InternalObserver$ extends $c_O {
+  fromTry__F2__Lcom_raquo_airstream_core_InternalObserver(onTry) {
+    return new $c_Lcom_raquo_airstream_core_InternalObserver$$anon$2(onTry)
+  };
+}
+const $d_Lcom_raquo_airstream_core_InternalObserver$ = new $TypeData().initClass({
+  Lcom_raquo_airstream_core_InternalObserver$: 0
+}, false, "com.raquo.airstream.core.InternalObserver$", {
+  Lcom_raquo_airstream_core_InternalObserver$: 1,
+  O: 1
+});
+$c_Lcom_raquo_airstream_core_InternalObserver$.prototype.$classData = $d_Lcom_raquo_airstream_core_InternalObserver$;
+let $n_Lcom_raquo_airstream_core_InternalObserver$ = (void 0);
+function $m_Lcom_raquo_airstream_core_InternalObserver$() {
+  if ((!$n_Lcom_raquo_airstream_core_InternalObserver$)) {
+    $n_Lcom_raquo_airstream_core_InternalObserver$ = new $c_Lcom_raquo_airstream_core_InternalObserver$()
+  };
+  return $n_Lcom_raquo_airstream_core_InternalObserver$
+}
 const $p_Lcom_raquo_airstream_core_Observable__numAllObservers__I = (function($thiz) {
   const this$ = $thiz.externalObservers__sjs_js_Array();
   const $$x1 = $uI(this$.length);
@@ -1609,7 +1858,7 @@ class $c_Lcom_raquo_airstream_core_Transaction extends $c_O {
     this.Lcom_raquo_airstream_core_Transaction__f_com$raquo$airstream$core$Transaction$$code = code;
     this.Lcom_raquo_airstream_core_Transaction__f_pendingObservables = new $c_Lcom_raquo_airstream_util_JsPriorityQueue(new $c_sjsr_AnonFunction1(((this$1) => ((x$1$2) => {
       const x$1 = $as_Lcom_raquo_airstream_core_SyncObservable(x$1$2);
-      return x$1.topoRank__I()
+      return x$1.Lcom_raquo_airstream_signal_CombineSignal2__f_topoRank
     }))(this)));
     $m_Lcom_raquo_airstream_core_Transaction$().com$raquo$airstream$core$Transaction$$add__Lcom_raquo_airstream_core_Transaction__V(this)
   };
@@ -1656,7 +1905,8 @@ const $p_Lcom_raquo_airstream_core_Transaction$__run__Lcom_raquo_airstream_core_
       if (($uI(this$2.Lcom_raquo_airstream_util_JsPriorityQueue__f_com$raquo$airstream$util$JsPriorityQueue$$queue.length) === 0)) {
         throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O($ct_jl_Exception__T__(new $c_jl_Exception(), "Unable to dequeue an empty JsPriorityQueue"))
       };
-      $as_Lcom_raquo_airstream_core_SyncObservable(this$2.Lcom_raquo_airstream_util_JsPriorityQueue__f_com$raquo$airstream$util$JsPriorityQueue$$queue.shift()).syncFire__Lcom_raquo_airstream_core_Transaction__V(transaction)
+      const this$3 = $as_Lcom_raquo_airstream_core_SyncObservable(this$2.Lcom_raquo_airstream_util_JsPriorityQueue__f_com$raquo$airstream$util$JsPriorityQueue$$queue.shift());
+      $f_Lcom_raquo_airstream_features_CombineObservable__syncFire__Lcom_raquo_airstream_core_Transaction__V(this$3, transaction)
     } else {
       break
     }
@@ -1767,6 +2017,54 @@ function $m_Lcom_raquo_airstream_eventstream_EventStream$() {
     $n_Lcom_raquo_airstream_eventstream_EventStream$ = new $c_Lcom_raquo_airstream_eventstream_EventStream$()
   };
   return $n_Lcom_raquo_airstream_eventstream_EventStream$
+}
+class $c_Lcom_raquo_airstream_features_CombineObservable$ extends $c_O {
+  guardedCombinator__F2__s_util_Try__s_util_Try__s_util_Try(combinator, try1, try2) {
+    if ((try1.isSuccess__Z() && try2.isSuccess__Z())) {
+      return new $c_s_util_Success(combinator.apply__O__O__O(try1.get__O(), try2.get__O()))
+    } else {
+      $m_sci_List$();
+      const this$1 = try1.toEither__s_util_Either();
+      const $$x1 = new $c_s_util_Either$LeftProjection(this$1).toOption__s_Option();
+      const this$2 = try2.toEither__s_util_Either();
+      const array = [$$x1, new $c_s_util_Either$LeftProjection(this$2).toOption__s_Option()];
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
+      return new $c_s_util_Failure(new $c_Lcom_raquo_airstream_core_AirstreamError$CombinedError($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)))
+    }
+  };
+}
+const $d_Lcom_raquo_airstream_features_CombineObservable$ = new $TypeData().initClass({
+  Lcom_raquo_airstream_features_CombineObservable$: 0
+}, false, "com.raquo.airstream.features.CombineObservable$", {
+  Lcom_raquo_airstream_features_CombineObservable$: 1,
+  O: 1
+});
+$c_Lcom_raquo_airstream_features_CombineObservable$.prototype.$classData = $d_Lcom_raquo_airstream_features_CombineObservable$;
+let $n_Lcom_raquo_airstream_features_CombineObservable$ = (void 0);
+function $m_Lcom_raquo_airstream_features_CombineObservable$() {
+  if ((!$n_Lcom_raquo_airstream_features_CombineObservable$)) {
+    $n_Lcom_raquo_airstream_features_CombineObservable$ = new $c_Lcom_raquo_airstream_features_CombineObservable$()
+  };
+  return $n_Lcom_raquo_airstream_features_CombineObservable$
+}
+class $c_Lcom_raquo_airstream_features_InternalParentObserver$ extends $c_O {
+  fromTry__Lcom_raquo_airstream_core_Observable__F2__Lcom_raquo_airstream_features_InternalParentObserver(parent, onTry) {
+    return new $c_Lcom_raquo_airstream_features_InternalParentObserver$$anon$2(parent, onTry)
+  };
+}
+const $d_Lcom_raquo_airstream_features_InternalParentObserver$ = new $TypeData().initClass({
+  Lcom_raquo_airstream_features_InternalParentObserver$: 0
+}, false, "com.raquo.airstream.features.InternalParentObserver$", {
+  Lcom_raquo_airstream_features_InternalParentObserver$: 1,
+  O: 1
+});
+$c_Lcom_raquo_airstream_features_InternalParentObserver$.prototype.$classData = $d_Lcom_raquo_airstream_features_InternalParentObserver$;
+let $n_Lcom_raquo_airstream_features_InternalParentObserver$ = (void 0);
+function $m_Lcom_raquo_airstream_features_InternalParentObserver$() {
+  if ((!$n_Lcom_raquo_airstream_features_InternalParentObserver$)) {
+    $n_Lcom_raquo_airstream_features_InternalParentObserver$ = new $c_Lcom_raquo_airstream_features_InternalParentObserver$()
+  };
+  return $n_Lcom_raquo_airstream_features_InternalParentObserver$
 }
 const $p_Lcom_raquo_airstream_ownership_DynamicOwner__removeSubscriptionNow__Lcom_raquo_airstream_ownership_DynamicSubscription__V = (function($thiz, subscription) {
   const array = $thiz.Lcom_raquo_airstream_ownership_DynamicOwner__f_com$raquo$airstream$ownership$DynamicOwner$$subscriptions;
@@ -2163,6 +2461,21 @@ class $c_Lcom_raquo_airstream_util_JsPriorityQueue extends $c_O {
     this.Lcom_raquo_airstream_util_JsPriorityQueue__f_com$raquo$airstream$util$JsPriorityQueue$$queue = null;
     this.Lcom_raquo_airstream_util_JsPriorityQueue__f_getRank = getRank;
     this.Lcom_raquo_airstream_util_JsPriorityQueue__f_com$raquo$airstream$util$JsPriorityQueue$$queue = []
+  };
+  enqueue__O__V(item) {
+    let insertAtIndex = 0;
+    let foundHigherRank = false;
+    while (((insertAtIndex < $uI(this.Lcom_raquo_airstream_util_JsPriorityQueue__f_com$raquo$airstream$util$JsPriorityQueue$$queue.length)) && (!foundHigherRank))) {
+      if (($uI(this.Lcom_raquo_airstream_util_JsPriorityQueue__f_getRank.apply__O__O(this.Lcom_raquo_airstream_util_JsPriorityQueue__f_com$raquo$airstream$util$JsPriorityQueue$$queue[insertAtIndex])) <= $uI(this.Lcom_raquo_airstream_util_JsPriorityQueue__f_getRank.apply__O__O(item)))) {
+        foundHigherRank = true
+      };
+      insertAtIndex = ((1 + insertAtIndex) | 0)
+    };
+    this.Lcom_raquo_airstream_util_JsPriorityQueue__f_com$raquo$airstream$util$JsPriorityQueue$$queue.splice(insertAtIndex, 0, item)
+  };
+  contains__O__Z(item) {
+    const array = this.Lcom_raquo_airstream_util_JsPriorityQueue__f_com$raquo$airstream$util$JsPriorityQueue$$queue;
+    return ($m_sjs_js_ArrayOps$().indexOf$extension__sjs_js_Array__O__I__I(array, item, 0) !== (-1))
   };
 }
 const $d_Lcom_raquo_airstream_util_JsPriorityQueue = new $TypeData().initClass({
@@ -2856,6 +3169,12 @@ class $c_Lcom_raquo_laminar_receivers_ChildReceiver$ extends $c_O {
     $n_Lcom_raquo_laminar_receivers_ChildReceiver$ = this;
     this.Lcom_raquo_laminar_receivers_ChildReceiver$__f_maybe = $m_Lcom_raquo_laminar_receivers_MaybeChildReceiver$();
     this.Lcom_raquo_laminar_receivers_ChildReceiver$__f_text = $m_Lcom_raquo_laminar_receivers_TextChildReceiver$()
+  };
+  $less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(\u03b4node) {
+    return $m_Lcom_raquo_laminar_modifiers_ChildInserter$().apply__F1__s_Option__Lcom_raquo_laminar_modifiers_Inserter(new $c_sjsr_AnonFunction1(((this$1, \u03b4node$1) => ((x$1$2) => {
+      $as_Lcom_raquo_laminar_lifecycle_MountContext(x$1$2);
+      return \u03b4node$1
+    }))(this, \u03b4node)), $m_s_None$())
   };
 }
 const $d_Lcom_raquo_laminar_receivers_ChildReceiver$ = new $TypeData().initClass({
@@ -13517,6 +13836,68 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1 = new $TypeDa
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1;
+const $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__inst$macro$1$lzycompute__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function($thiz) {
+  if (((((1 & $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_bitmap$0) << 24) >> 24) === 0)) {
+    new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$9($thiz);
+    const gen = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$anon$macro$9$3($thiz);
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    const zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
+    $m_Lshapeless_Witness$();
+    const this$1 = $m_s_Symbol$();
+    const value0 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "count"));
+    new $c_Lshapeless_Witness$$anon$1(value0);
+    const zipWithKeys$1 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys);
+    $m_Lshapeless_Witness$();
+    const this$4 = $m_s_Symbol$();
+    const value0$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$4, "day"));
+    new $c_Lshapeless_Witness$$anon$1(value0$1);
+    const zipWithKeys$2 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$1);
+    $m_Lshapeless_Witness$();
+    const this$7 = $m_s_Symbol$();
+    const value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$7, "name"));
+    new $c_Lshapeless_Witness$$anon$1(value0$2);
+    const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$2);
+    const this$10 = $m_s_$less$colon$less$();
+    const ev = this$10.s_$less$colon$less$__f_singleton;
+    const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
+    const t = new $c_sjsr_AnonFunction0(((this$12) => (() => this$12.inst$macro$10__Lio_circe_generic_encoding_ReprAsObjectEncoder()))($thiz));
+    const encode = new $c_Lshapeless_Lazy$$anon$1(t);
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_inst$macro$1 = new $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1(encode, gen$1);
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_bitmap$0 = (((1 | $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_inst$macro$1
+});
+const $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__inst$macro$10$lzycompute__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function($thiz) {
+  if (((((2 & $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_inst$macro$10 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10($thiz);
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_bitmap$0 = (((2 | $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_inst$macro$10
+});
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2 extends $c_O {
+  constructor() {
+    super();
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_inst$macro$1 = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_inst$macro$10 = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_bitmap$0 = 0
+  };
+  inst$macro$1__Lio_circe_generic_encoding_DerivedAsObjectEncoder() {
+    return (((((1 & this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__inst$macro$1$lzycompute__Lio_circe_generic_encoding_DerivedAsObjectEncoder(this) : this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_inst$macro$1)
+  };
+  inst$macro$10__Lio_circe_generic_encoding_ReprAsObjectEncoder() {
+    return (((((2 & this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__inst$macro$10$lzycompute__Lio_circe_generic_encoding_ReprAsObjectEncoder(this) : this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2__f_inst$macro$10)
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$11$2", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2: 1,
+  O: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2;
 const $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1__inst$macro$13$lzycompute__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function($thiz) {
   if (((((1 & $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1__f_bitmap$0) << 24) >> 24) === 0)) {
     new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$5($thiz);
@@ -13579,6 +13960,68 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1 = new $TypeDa
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1;
+const $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__inst$macro$13$lzycompute__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function($thiz) {
+  if (((((1 & $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_bitmap$0) << 24) >> 24) === 0)) {
+    new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$11($thiz);
+    const gen = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$anon$macro$21$2($thiz);
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    const zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
+    $m_Lshapeless_Witness$();
+    const this$1 = $m_s_Symbol$();
+    const value0 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "count"));
+    new $c_Lshapeless_Witness$$anon$1(value0);
+    const zipWithKeys$1 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys);
+    $m_Lshapeless_Witness$();
+    const this$4 = $m_s_Symbol$();
+    const value0$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$4, "day"));
+    new $c_Lshapeless_Witness$$anon$1(value0$1);
+    const zipWithKeys$2 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$1);
+    $m_Lshapeless_Witness$();
+    const this$7 = $m_s_Symbol$();
+    const value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$7, "name"));
+    new $c_Lshapeless_Witness$$anon$1(value0$2);
+    const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$2);
+    const this$10 = $m_s_$less$colon$less$();
+    const ev = this$10.s_$less$colon$less$__f_singleton;
+    const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
+    const t = new $c_sjsr_AnonFunction0(((this$12) => (() => this$12.inst$macro$22__Lio_circe_generic_encoding_ReprAsObjectEncoder()))($thiz));
+    const encode = new $c_Lshapeless_Lazy$$anon$1(t);
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_inst$macro$13 = new $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1(encode, gen$1);
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_bitmap$0 = (((1 | $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_inst$macro$13
+});
+const $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__inst$macro$22$lzycompute__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function($thiz) {
+  if (((((2 & $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_inst$macro$22 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12($thiz);
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_bitmap$0 = (((2 | $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_inst$macro$22
+});
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2 extends $c_O {
+  constructor() {
+    super();
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_inst$macro$13 = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_inst$macro$22 = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_bitmap$0 = 0
+  };
+  inst$macro$13__Lio_circe_generic_encoding_DerivedAsObjectEncoder() {
+    return (((((1 & this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__inst$macro$13$lzycompute__Lio_circe_generic_encoding_DerivedAsObjectEncoder(this) : this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_inst$macro$13)
+  };
+  inst$macro$22__Lio_circe_generic_encoding_ReprAsObjectEncoder() {
+    return (((((2 & this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__inst$macro$22$lzycompute__Lio_circe_generic_encoding_ReprAsObjectEncoder(this) : this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2__f_inst$macro$22)
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$23$2", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2: 1,
+  O: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2;
 const $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1__inst$macro$25$lzycompute__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function($thiz) {
   if (((((1 & $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1__f_bitmap$0) << 24) >> 24) === 0)) {
     new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7($thiz);
@@ -13641,6 +14084,68 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1 = new $TypeDa
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1;
+const $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__inst$macro$25$lzycompute__Lio_circe_generic_encoding_DerivedAsObjectEncoder = (function($thiz) {
+  if (((((1 & $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_bitmap$0) << 24) >> 24) === 0)) {
+    new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$13($thiz);
+    const gen = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$anon$macro$33$2($thiz);
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    $m_Lshapeless_ops_hlist$ZipWithKeys$();
+    const zipWithKeys = $m_Lshapeless_ops_hlist$ZipWithKeys$().Lshapeless_ops_hlist$ZipWithKeys$__f_hnilZipWithKeys;
+    $m_Lshapeless_Witness$();
+    const this$1 = $m_s_Symbol$();
+    const value0 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$1, "count"));
+    new $c_Lshapeless_Witness$$anon$1(value0);
+    const zipWithKeys$1 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys);
+    $m_Lshapeless_Witness$();
+    const this$4 = $m_s_Symbol$();
+    const value0$1 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$4, "day"));
+    new $c_Lshapeless_Witness$$anon$1(value0$1);
+    const zipWithKeys$2 = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$1);
+    $m_Lshapeless_Witness$();
+    const this$7 = $m_s_Symbol$();
+    const value0$2 = $as_s_Symbol($c_s_JSUniquenessCache.prototype.apply__T__O.call(this$7, "name"));
+    new $c_Lshapeless_Witness$$anon$1(value0$2);
+    const zip = new $c_Lshapeless_ops_hlist$ZipWithKeys$$anon$158(zipWithKeys$2);
+    const this$10 = $m_s_$less$colon$less$();
+    const ev = this$10.s_$less$colon$less$__f_singleton;
+    const gen$1 = new $c_Lshapeless_LabelledGeneric$$anon$1(zip, gen, ev);
+    const t = new $c_sjsr_AnonFunction0(((this$12) => (() => this$12.inst$macro$34__Lio_circe_generic_encoding_ReprAsObjectEncoder()))($thiz));
+    const encode = new $c_Lshapeless_Lazy$$anon$1(t);
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_inst$macro$25 = new $c_Lio_circe_generic_encoding_DerivedAsObjectEncoder$$anon$1(encode, gen$1);
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_bitmap$0 = (((1 | $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_inst$macro$25
+});
+const $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__inst$macro$34$lzycompute__Lio_circe_generic_encoding_ReprAsObjectEncoder = (function($thiz) {
+  if (((((2 & $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_bitmap$0) << 24) >> 24) === 0)) {
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_inst$macro$34 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14($thiz);
+    $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_bitmap$0 = (((2 | $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_bitmap$0) << 24) >> 24)
+  };
+  return $thiz.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_inst$macro$34
+});
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2 extends $c_O {
+  constructor() {
+    super();
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_inst$macro$25 = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_inst$macro$34 = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_bitmap$0 = 0
+  };
+  inst$macro$25__Lio_circe_generic_encoding_DerivedAsObjectEncoder() {
+    return (((((1 & this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__inst$macro$25$lzycompute__Lio_circe_generic_encoding_DerivedAsObjectEncoder(this) : this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_inst$macro$25)
+  };
+  inst$macro$34__Lio_circe_generic_encoding_ReprAsObjectEncoder() {
+    return (((((2 & this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_bitmap$0) << 24) >> 24) === 0) ? $p_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__inst$macro$34$lzycompute__Lio_circe_generic_encoding_ReprAsObjectEncoder(this) : this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2__f_inst$macro$34)
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$35$2", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2: 1,
+  O: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2;
 class $c_Lcats_Show$ extends $c_O {
   constructor() {
     super();
@@ -13800,6 +14305,30 @@ function $m_Lcom_raquo_airstream_core_AirstreamError$() {
   };
   return $n_Lcom_raquo_airstream_core_AirstreamError$
 }
+class $c_Lcom_raquo_airstream_core_InternalObserver$$anon$2 extends $c_O {
+  constructor(onTryParam$1) {
+    super();
+    this.Lcom_raquo_airstream_core_InternalObserver$$anon$2__f_onTryParam$1 = null;
+    this.Lcom_raquo_airstream_core_InternalObserver$$anon$2__f_onTryParam$1 = onTryParam$1
+  };
+  onNext__O__Lcom_raquo_airstream_core_Transaction__V(nextValue, transaction) {
+    this.onTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V(new $c_s_util_Success(nextValue), transaction)
+  };
+  onError__jl_Throwable__Lcom_raquo_airstream_core_Transaction__V(nextError, transaction) {
+    this.onTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V(new $c_s_util_Failure(nextError), transaction)
+  };
+  onTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V(nextValue, transaction) {
+    this.Lcom_raquo_airstream_core_InternalObserver$$anon$2__f_onTryParam$1.apply__O__O__O(nextValue, transaction)
+  };
+}
+const $d_Lcom_raquo_airstream_core_InternalObserver$$anon$2 = new $TypeData().initClass({
+  Lcom_raquo_airstream_core_InternalObserver$$anon$2: 0
+}, false, "com.raquo.airstream.core.InternalObserver$$anon$2", {
+  Lcom_raquo_airstream_core_InternalObserver$$anon$2: 1,
+  O: 1,
+  Lcom_raquo_airstream_core_InternalObserver: 1
+});
+$c_Lcom_raquo_airstream_core_InternalObserver$$anon$2.prototype.$classData = $d_Lcom_raquo_airstream_core_InternalObserver$$anon$2;
 class $c_Lcom_raquo_airstream_core_Observer$$anon$1 extends $c_O {
   constructor(onNextParam$1, onErrorParam$1) {
     super();
@@ -14069,6 +14598,18 @@ function $f_Lcom_raquo_airstream_features_InternalNextErrorObserver__onTry__s_ut
     this$2.onNext__O__Lcom_raquo_airstream_core_Transaction__V(x$2$2, transaction$2)
   }))($thiz, transaction)))
 }
+function $is_Lcom_raquo_airstream_features_InternalParentObserver(obj) {
+  return (!(!((obj && obj.$classData) && obj.$classData.ancestors.Lcom_raquo_airstream_features_InternalParentObserver)))
+}
+function $as_Lcom_raquo_airstream_features_InternalParentObserver(obj) {
+  return (($is_Lcom_raquo_airstream_features_InternalParentObserver(obj) || (obj === null)) ? obj : $throwClassCastException(obj, "com.raquo.airstream.features.InternalParentObserver"))
+}
+function $isArrayOf_Lcom_raquo_airstream_features_InternalParentObserver(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcom_raquo_airstream_features_InternalParentObserver)))
+}
+function $asArrayOf_Lcom_raquo_airstream_features_InternalParentObserver(obj, depth) {
+  return (($isArrayOf_Lcom_raquo_airstream_features_InternalParentObserver(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcom.raquo.airstream.features.InternalParentObserver;", depth))
+}
 function $f_Lcom_raquo_airstream_features_InternalTryObserver__onNext__O__Lcom_raquo_airstream_core_Transaction__V($thiz, nextValue, transaction) {
   $thiz.onTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V(new $c_s_util_Success(nextValue), transaction)
 }
@@ -14090,6 +14631,14 @@ const $d_Lcom_raquo_airstream_ownership_DynamicOwner$PrivateOwner = new $TypeDat
   Lcom_raquo_airstream_ownership_Owner: 1
 });
 $c_Lcom_raquo_airstream_ownership_DynamicOwner$PrivateOwner.prototype.$classData = $d_Lcom_raquo_airstream_ownership_DynamicOwner$PrivateOwner;
+function $f_Lcom_raquo_airstream_signal_Signal__combineWith__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_airstream_signal_Signal($thiz, otherSignal) {
+  const eta$0$1 = new $c_sjsr_AnonFunction2(((this$1) => ((x$1$2, x$2$2) => $ct_T2__O__O__(new $c_T2(), x$1$2, x$2$2)))($thiz));
+  return new $c_Lcom_raquo_airstream_signal_CombineSignal2($thiz, otherSignal, new $c_sjsr_AnonFunction2(((this$2, eta$0$1$1) => ((try1$2, try2$2) => {
+    const try1 = $as_s_util_Try(try1$2);
+    const try2 = $as_s_util_Try(try2$2);
+    return $m_Lcom_raquo_airstream_features_CombineObservable$().guardedCombinator__F2__s_util_Try__s_util_Try__s_util_Try(eta$0$1$1, try1, try2)
+  }))($thiz, eta$0$1)))
+}
 function $f_Lcom_raquo_airstream_signal_Signal__tryNow__s_util_Try($thiz) {
   const value = $thiz.maybeLastSeenCurrentValue__sjs_js_$bar();
   let $$x1;
@@ -14106,10 +14655,10 @@ function $f_Lcom_raquo_airstream_signal_Signal__setCurrentValue__s_util_Try__V($
   $thiz.maybeLastSeenCurrentValue_$eq__sjs_js_$bar__V($m_sjs_js_defined$().apply__O__sjs_js_$bar(newValue))
 }
 function $f_Lcom_raquo_airstream_signal_Signal__onStart__V($thiz) {
-  $f_Lcom_raquo_airstream_signal_Signal__tryNow__s_util_Try($thiz)
+  $thiz.tryNow__s_util_Try()
 }
 function $f_Lcom_raquo_airstream_signal_Signal__onAddedExternalObserver__Lcom_raquo_airstream_core_Observer__V($thiz, observer) {
-  observer.onTry__s_util_Try__V($f_Lcom_raquo_airstream_signal_Signal__tryNow__s_util_Try($thiz))
+  observer.onTry__s_util_Try__V($thiz.tryNow__s_util_Try())
 }
 function $f_Lcom_raquo_airstream_signal_Signal__fireValue__O__Lcom_raquo_airstream_core_Transaction__V($thiz, nextValue, transaction) {
   const nextValue$1 = new $c_s_util_Success(nextValue);
@@ -14120,7 +14669,7 @@ function $f_Lcom_raquo_airstream_signal_Signal__fireError__jl_Throwable__Lcom_ra
   $f_Lcom_raquo_airstream_signal_Signal__fireTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V($thiz, nextValue, transaction)
 }
 function $f_Lcom_raquo_airstream_signal_Signal__fireTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V($thiz, nextValue, transaction) {
-  const x = $f_Lcom_raquo_airstream_signal_Signal__tryNow__s_util_Try($thiz);
+  const x = $thiz.tryNow__s_util_Try();
   if ((!((x === null) ? (nextValue === null) : x.equals__O__Z(nextValue)))) {
     $f_Lcom_raquo_airstream_signal_Signal__setCurrentValue__s_util_Try__V($thiz, nextValue);
     const isError = nextValue.isFailure__Z();
@@ -22859,6 +23408,49 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$anon$macro$9$2;
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$anon$macro$9$3 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon(p) {
+    if ((p !== null)) {
+      const pat$macro$6 = p.Lbillding_DailyQuantizedExercise__f_name;
+      const pat$macro$7 = p.Lbillding_DailyQuantizedExercise__f_day;
+      const pat$macro$8 = p.Lbillding_DailyQuantizedExercise__f_count;
+      return new $c_Lshapeless_$colon$colon(pat$macro$6, new $c_Lshapeless_$colon$colon(pat$macro$7, new $c_Lshapeless_$colon$colon(pat$macro$8, $m_Lshapeless_HNil$())))
+    } else {
+      throw new $c_s_MatchError(p)
+    }
+  };
+  from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise(p) {
+    if ((p !== null)) {
+      const pat$macro$6 = $as_T(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const pat$macro$7 = $as_T(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const pat$macro$8 = $uI(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_HNil(p3.Lshapeless_$colon$colon__f_tail);
+          const x = $m_Lshapeless_HNil$();
+          if ((x === p4)) {
+            return new $c_Lbillding_DailyQuantizedExercise(pat$macro$6, pat$macro$7, pat$macro$8)
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$anon$macro$9$3 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$anon$macro$9$3: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$11$2$anon$macro$9$3", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$anon$macro$9$3: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$anon$macro$9$3.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$anon$macro$9$3;
 class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$anon$macro$21$1 extends $c_O {
   constructor(outer) {
     super()
@@ -22902,6 +23494,49 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$anon$macro$21
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$anon$macro$21$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$anon$macro$21$1;
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$anon$macro$21$2 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon(p) {
+    if ((p !== null)) {
+      const pat$macro$18 = p.Lbillding_DailyQuantizedExercise__f_name;
+      const pat$macro$19 = p.Lbillding_DailyQuantizedExercise__f_day;
+      const pat$macro$20 = p.Lbillding_DailyQuantizedExercise__f_count;
+      return new $c_Lshapeless_$colon$colon(pat$macro$18, new $c_Lshapeless_$colon$colon(pat$macro$19, new $c_Lshapeless_$colon$colon(pat$macro$20, $m_Lshapeless_HNil$())))
+    } else {
+      throw new $c_s_MatchError(p)
+    }
+  };
+  from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise(p) {
+    if ((p !== null)) {
+      const pat$macro$18 = $as_T(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const pat$macro$19 = $as_T(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const pat$macro$20 = $uI(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_HNil(p3.Lshapeless_$colon$colon__f_tail);
+          const x = $m_Lshapeless_HNil$();
+          if ((x === p4)) {
+            return new $c_Lbillding_DailyQuantizedExercise(pat$macro$18, pat$macro$19, pat$macro$20)
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$anon$macro$21$2 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$anon$macro$21$2: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$23$2$anon$macro$21$2", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$anon$macro$21$2: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$anon$macro$21$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$anon$macro$21$2;
 class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1 extends $c_O {
   constructor(outer) {
     super()
@@ -22945,6 +23580,49 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$anon$macro$33$1;
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$anon$macro$33$2 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+  to__Lbillding_DailyQuantizedExercise__Lshapeless_$colon$colon(p) {
+    if ((p !== null)) {
+      const pat$macro$30 = p.Lbillding_DailyQuantizedExercise__f_name;
+      const pat$macro$31 = p.Lbillding_DailyQuantizedExercise__f_day;
+      const pat$macro$32 = p.Lbillding_DailyQuantizedExercise__f_count;
+      return new $c_Lshapeless_$colon$colon(pat$macro$30, new $c_Lshapeless_$colon$colon(pat$macro$31, new $c_Lshapeless_$colon$colon(pat$macro$32, $m_Lshapeless_HNil$())))
+    } else {
+      throw new $c_s_MatchError(p)
+    }
+  };
+  from__Lshapeless_$colon$colon__Lbillding_DailyQuantizedExercise(p) {
+    if ((p !== null)) {
+      const pat$macro$30 = $as_T(p.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(p.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const pat$macro$31 = $as_T(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const pat$macro$32 = $uI(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_HNil(p3.Lshapeless_$colon$colon__f_tail);
+          const x = $m_Lshapeless_HNil$();
+          if ((x === p4)) {
+            return new $c_Lbillding_DailyQuantizedExercise(pat$macro$30, pat$macro$31, pat$macro$32)
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(p)
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$anon$macro$33$2 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$anon$macro$33$2: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$35$2$anon$macro$33$2", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$anon$macro$33$2: 1,
+  O: 1,
+  Lshapeless_Generic: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$anon$macro$33$2.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$anon$macro$33$2;
 function $f_Lbillding_BinderWithStartStop__stop__V($thiz) {
   if ($thiz.Lbillding_RepeatWithIntervalHelper$$anon$1__f_subscribed) {
     $thiz.doStop__V()
@@ -23251,6 +23929,51 @@ const $d_Lcom_raquo_airstream_eventstream_SeqEventStream = new $TypeData().initC
   Lcom_raquo_airstream_core_Observable: 1
 });
 $c_Lcom_raquo_airstream_eventstream_SeqEventStream.prototype.$classData = $d_Lcom_raquo_airstream_eventstream_SeqEventStream;
+function $f_Lcom_raquo_airstream_features_CombineObservable__syncFire__Lcom_raquo_airstream_core_Transaction__V($thiz, transaction) {
+  const this$1 = $thiz.Lcom_raquo_airstream_signal_CombineSignal2__f_maybeCombinedValue;
+  if ((!this$1.isEmpty__Z())) {
+    const arg1 = this$1.get__O();
+    const combinedValue = $as_s_util_Try(arg1);
+    $thiz.Lcom_raquo_airstream_signal_CombineSignal2__f_maybeCombinedValue = $m_s_None$();
+    $f_Lcom_raquo_airstream_signal_Signal__fireTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V($thiz, combinedValue, transaction)
+  }
+}
+function $f_Lcom_raquo_airstream_features_CombineObservable__onStart__V($thiz) {
+  const array = $thiz.Lcom_raquo_airstream_signal_CombineSignal2__f_parentObservers;
+  const len = $uI(array.length);
+  let i = 0;
+  while ((i < len)) {
+    const arg1 = array[i];
+    const x$1 = $as_Lcom_raquo_airstream_features_InternalParentObserver(arg1);
+    const this$3 = x$1.Lcom_raquo_airstream_features_InternalParentObserver$$anon$2__f_parent;
+    $f_Lcom_raquo_airstream_core_Observable__addInternalObserver__Lcom_raquo_airstream_core_InternalObserver__V(this$3, x$1);
+    i = ((1 + i) | 0)
+  };
+  $f_Lcom_raquo_airstream_signal_Signal__onStart__V($thiz)
+}
+function $f_Lcom_raquo_airstream_features_CombineObservable__onStop__V($thiz) {
+  const array = $thiz.Lcom_raquo_airstream_signal_CombineSignal2__f_parentObservers;
+  const len = $uI(array.length);
+  let i = 0;
+  while ((i < len)) {
+    const arg1 = array[i];
+    const x$2 = $as_Lcom_raquo_airstream_features_InternalParentObserver(arg1);
+    $m_Lcom_raquo_airstream_core_Transaction$().removeInternalObserver__Lcom_raquo_airstream_core_Observable__Lcom_raquo_airstream_core_InternalObserver__V(x$2.Lcom_raquo_airstream_features_InternalParentObserver$$anon$2__f_parent, x$2);
+    i = ((1 + i) | 0)
+  }
+}
+function $f_Lcom_raquo_airstream_features_CombineObservable__$init$__V($thiz) {
+  $thiz.Lcom_raquo_airstream_signal_CombineSignal2__f_maybeCombinedValue = $m_s_None$();
+  $thiz.Lcom_raquo_airstream_signal_CombineSignal2__f_parentObservers = [];
+  $thiz.Lcom_raquo_airstream_signal_CombineSignal2__f_internalObserver = $m_Lcom_raquo_airstream_core_InternalObserver$().fromTry__F2__Lcom_raquo_airstream_core_InternalObserver(new $c_sjsr_AnonFunction2(((this$1) => ((nextValue$2, transaction$2) => {
+    const nextValue = $as_s_util_Try(nextValue$2);
+    const transaction = $as_Lcom_raquo_airstream_core_Transaction(transaction$2);
+    if ((!transaction.Lcom_raquo_airstream_core_Transaction__f_pendingObservables.contains__O__Z(this$1))) {
+      transaction.Lcom_raquo_airstream_core_Transaction__f_pendingObservables.enqueue__O__V(this$1)
+    };
+    this$1.Lcom_raquo_airstream_signal_CombineSignal2__f_maybeCombinedValue = new $c_s_Some(nextValue)
+  }))($thiz)))
+}
 function $f_Lcom_raquo_airstream_features_SingleParentObservable__onStart__V($thiz) {
   const this$1 = $thiz.parent__Lcom_raquo_airstream_core_Observable();
   $f_Lcom_raquo_airstream_core_Observable__addInternalObserver__Lcom_raquo_airstream_core_InternalObserver__V(this$1, $thiz);
@@ -25547,6 +26270,9 @@ function $f_sc_IterableOps__map__F1__O($thiz, f) {
 }
 function $f_sc_IterableOps__flatMap__F1__O($thiz, f) {
   return $thiz.iterableFactory__sc_IterableFactory().from__sc_IterableOnce__O(new $c_sc_View$FlatMap($thiz, f))
+}
+function $f_sc_IterableOps__flatten__F1__O($thiz, asIterable) {
+  return $thiz.iterableFactory__sc_IterableFactory().from__sc_IterableOnce__O(new $c_sc_View$FlatMap($thiz, asIterable))
 }
 function $f_sc_IterableOps__concat__sc_IterableOnce__O($thiz, suffix) {
   const $$x2 = $thiz.iterableFactory__sc_IterableFactory();
@@ -29092,6 +29818,21 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3 = new
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$3;
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$9 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$9 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$9: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$11$2$$anon$9", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$9: 1,
+  O: 1,
+  Lshapeless_DefaultSymbolicLabelling: 1,
+  Lshapeless_package$DepFn0: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$9.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$9;
 class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$5 extends $c_O {
   constructor(outer) {
     super()
@@ -29107,6 +29848,21 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$5 = new
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$5.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$5;
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$11 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$11 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$11: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$23$2$$anon$11", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$11: 1,
+  O: 1,
+  Lshapeless_DefaultSymbolicLabelling: 1,
+  Lshapeless_package$DepFn0: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$11.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$11;
 class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7 extends $c_O {
   constructor(outer) {
     super()
@@ -29122,6 +29878,21 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7 = new
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$7;
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$13 extends $c_O {
+  constructor(outer) {
+    super()
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$13 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$13: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$35$2$$anon$13", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$13: 1,
+  O: 1,
+  Lshapeless_DefaultSymbolicLabelling: 1,
+  Lshapeless_package$DepFn0: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$13.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$13;
 class $c_Lbillding_DailyQuantizedExercise extends $c_O {
   constructor(name, day, count) {
     super();
@@ -29568,6 +30339,117 @@ const $d_Lcats_kernel_instances_ListMonoid = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lcats_kernel_instances_ListMonoid.prototype.$classData = $d_Lcats_kernel_instances_ListMonoid;
+class $c_Lcom_raquo_airstream_features_InternalParentObserver$$anon$2 extends $c_O {
+  constructor(parentParam$2, onTryParam$1) {
+    super();
+    this.Lcom_raquo_airstream_features_InternalParentObserver$$anon$2__f_parent = null;
+    this.Lcom_raquo_airstream_features_InternalParentObserver$$anon$2__f_onTryParam$1 = null;
+    this.Lcom_raquo_airstream_features_InternalParentObserver$$anon$2__f_onTryParam$1 = onTryParam$1;
+    this.Lcom_raquo_airstream_features_InternalParentObserver$$anon$2__f_parent = parentParam$2
+  };
+  onNext__O__Lcom_raquo_airstream_core_Transaction__V(nextValue, transaction) {
+    $f_Lcom_raquo_airstream_features_InternalTryObserver__onNext__O__Lcom_raquo_airstream_core_Transaction__V(this, nextValue, transaction)
+  };
+  onError__jl_Throwable__Lcom_raquo_airstream_core_Transaction__V(nextError, transaction) {
+    $f_Lcom_raquo_airstream_features_InternalTryObserver__onError__jl_Throwable__Lcom_raquo_airstream_core_Transaction__V(this, nextError, transaction)
+  };
+  onTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V(nextValue, transaction) {
+    this.Lcom_raquo_airstream_features_InternalParentObserver$$anon$2__f_onTryParam$1.apply__O__O__O(nextValue, transaction)
+  };
+}
+const $d_Lcom_raquo_airstream_features_InternalParentObserver$$anon$2 = new $TypeData().initClass({
+  Lcom_raquo_airstream_features_InternalParentObserver$$anon$2: 0
+}, false, "com.raquo.airstream.features.InternalParentObserver$$anon$2", {
+  Lcom_raquo_airstream_features_InternalParentObserver$$anon$2: 1,
+  O: 1,
+  Lcom_raquo_airstream_features_InternalParentObserver: 1,
+  Lcom_raquo_airstream_core_InternalObserver: 1,
+  Lcom_raquo_airstream_features_InternalTryObserver: 1
+});
+$c_Lcom_raquo_airstream_features_InternalParentObserver$$anon$2.prototype.$classData = $d_Lcom_raquo_airstream_features_InternalParentObserver$$anon$2;
+class $c_Lcom_raquo_airstream_signal_FutureSignal extends $c_O {
+  constructor(future) {
+    super();
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_future = null;
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_topoRank = 0;
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_maybeLastSeenCurrentValue = null;
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_externalObservers = null;
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_internalObservers = null;
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_future = future;
+    $f_Lcom_raquo_airstream_core_Observable__$init$__V(this);
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_maybeLastSeenCurrentValue = (void 0);
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_topoRank = 1;
+    if ((!future.isCompleted__Z())) {
+      future.onComplete__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$1) => ((value$2) => {
+        const value = $as_s_util_Try(value$2);
+        return new $c_Lcom_raquo_airstream_core_Transaction(new $c_sjsr_AnonFunction1(((this$2, value$1) => ((x$3$2) => {
+          const x$3 = $as_Lcom_raquo_airstream_core_Transaction(x$3$2);
+          const nextValue = value$1.map__F1__s_util_Try(new $c_sjsr_AnonFunction1(((this$3) => ((x$2$2) => new $c_s_Some(x$2$2)))(this$2)));
+          $f_Lcom_raquo_airstream_signal_Signal__fireTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V(this$2, nextValue, x$3)
+        }))(this$1, value)))
+      }))(this)), $m_s_concurrent_ExecutionContext$().global__s_concurrent_ExecutionContextExecutor())
+    }
+  };
+  tryNow__s_util_Try() {
+    return $f_Lcom_raquo_airstream_signal_Signal__tryNow__s_util_Try(this)
+  };
+  onStart__V() {
+    $f_Lcom_raquo_airstream_signal_Signal__onStart__V(this)
+  };
+  onAddedExternalObserver__Lcom_raquo_airstream_core_Observer__V(observer) {
+    $f_Lcom_raquo_airstream_signal_Signal__onAddedExternalObserver__Lcom_raquo_airstream_core_Observer__V(this, observer)
+  };
+  onStop__V() {
+    /*<skip>*/
+  };
+  maybeLastSeenCurrentValue__sjs_js_$bar() {
+    return this.Lcom_raquo_airstream_signal_FutureSignal__f_maybeLastSeenCurrentValue
+  };
+  maybeLastSeenCurrentValue_$eq__sjs_js_$bar__V(x$1) {
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_maybeLastSeenCurrentValue = x$1
+  };
+  externalObservers__sjs_js_Array() {
+    return this.Lcom_raquo_airstream_signal_FutureSignal__f_externalObservers
+  };
+  internalObservers__sjs_js_Array() {
+    return this.Lcom_raquo_airstream_signal_FutureSignal__f_internalObservers
+  };
+  com$raquo$airstream$core$Observable$_setter_$externalObservers_$eq__sjs_js_Array__V(x$1) {
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_externalObservers = x$1
+  };
+  com$raquo$airstream$core$Observable$_setter_$internalObservers_$eq__sjs_js_Array__V(x$1) {
+    this.Lcom_raquo_airstream_signal_FutureSignal__f_internalObservers = x$1
+  };
+  topoRank__I() {
+    return this.Lcom_raquo_airstream_signal_FutureSignal__f_topoRank
+  };
+  initialValue__s_util_Try() {
+    const this$1 = this.Lcom_raquo_airstream_signal_FutureSignal__f_future;
+    const this$2 = $m_s_Option$().apply__O__s_Option($p_s_concurrent_impl_Promise$DefaultPromise__value0__s_util_Try(this$1));
+    let $$x1;
+    if (this$2.isEmpty__Z()) {
+      $$x1 = new $c_s_util_Success($m_s_None$())
+    } else {
+      const arg1 = this$2.get__O();
+      const value = $as_s_util_Try(arg1);
+      $$x1 = value.map__F1__s_util_Try(new $c_sjsr_AnonFunction1(((this$3) => ((x$1$2) => new $c_s_Some(x$1$2)))(this)))
+    };
+    return $as_s_util_Try($$x1)
+  };
+  map__F1__Lcom_raquo_airstream_core_Observable(project) {
+    return new $c_Lcom_raquo_airstream_signal_MapSignal(this, project, $m_s_None$())
+  };
+}
+const $d_Lcom_raquo_airstream_signal_FutureSignal = new $TypeData().initClass({
+  Lcom_raquo_airstream_signal_FutureSignal: 0
+}, false, "com.raquo.airstream.signal.FutureSignal", {
+  Lcom_raquo_airstream_signal_FutureSignal: 1,
+  O: 1,
+  Lcom_raquo_airstream_signal_StrictSignal: 1,
+  Lcom_raquo_airstream_signal_Signal: 1,
+  Lcom_raquo_airstream_core_Observable: 1
+});
+$c_Lcom_raquo_airstream_signal_FutureSignal.prototype.$classData = $d_Lcom_raquo_airstream_signal_FutureSignal;
 class $c_Lcom_raquo_laminar_api_package$ extends $c_O {
   constructor() {
     super();
@@ -34779,6 +35661,15 @@ function $f_sc_StrictOptimizedIterableOps__collect__s_PartialFunction__O($thiz, 
   };
   return b.result__O()
 }
+function $f_sc_StrictOptimizedIterableOps__flatten__F1__O($thiz, toIterableOnce) {
+  const b = $thiz.iterableFactory__sc_IterableFactory().newBuilder__scm_Builder();
+  const it = $thiz.iterator__sc_Iterator();
+  while (it.hasNext__Z()) {
+    const xs = $as_sc_IterableOnce(toIterableOnce.apply__O__O(it.next__O()));
+    b.addAll__sc_IterableOnce__scm_Growable(xs)
+  };
+  return b.result__O()
+}
 function $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O($thiz, pred, isFlipped) {
   const b = $thiz.newSpecificBuilder__scm_Builder();
   const it = $thiz.iterator__sc_Iterator();
@@ -35537,6 +36428,73 @@ function $isArrayOf_s_util_Either(obj, depth) {
 function $asArrayOf_s_util_Either(obj, depth) {
   return (($isArrayOf_s_util_Either(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.util.Either;", depth))
 }
+class $c_s_util_Either$LeftProjection extends $c_O {
+  constructor(e) {
+    super();
+    this.s_util_Either$LeftProjection__f_e = null;
+    this.s_util_Either$LeftProjection__f_e = e
+  };
+  toOption__s_Option() {
+    const x1 = this.s_util_Either$LeftProjection__f_e;
+    if ((x1 instanceof $c_s_util_Left)) {
+      const x2 = $as_s_util_Left(x1);
+      const a = x2.s_util_Left__f_value;
+      return new $c_s_Some(a)
+    } else {
+      return $m_s_None$()
+    }
+  };
+  productPrefix__T() {
+    return "LeftProjection"
+  };
+  productArity__I() {
+    return 1
+  };
+  productElement__I__O(x$1) {
+    return ((x$1 === 0) ? this.s_util_Either$LeftProjection__f_e : $m_sr_Statics$().ioobe__I__O(x$1))
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    const this$2 = $m_s_util_hashing_MurmurHash3$();
+    return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
+  };
+  toString__T() {
+    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if ((x$1 instanceof $c_s_util_Either$LeftProjection)) {
+      const LeftProjection$1 = $as_s_util_Either$LeftProjection(x$1);
+      const x = this.s_util_Either$LeftProjection__f_e;
+      const x$2 = LeftProjection$1.s_util_Either$LeftProjection__f_e;
+      return ((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))
+    } else {
+      return false
+    }
+  };
+}
+function $as_s_util_Either$LeftProjection(obj) {
+  return (((obj instanceof $c_s_util_Either$LeftProjection) || (obj === null)) ? obj : $throwClassCastException(obj, "scala.util.Either$LeftProjection"))
+}
+function $isArrayOf_s_util_Either$LeftProjection(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.s_util_Either$LeftProjection)))
+}
+function $asArrayOf_s_util_Either$LeftProjection(obj, depth) {
+  return (($isArrayOf_s_util_Either$LeftProjection(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lscala.util.Either$LeftProjection;", depth))
+}
+const $d_s_util_Either$LeftProjection = new $TypeData().initClass({
+  s_util_Either$LeftProjection: 0
+}, false, "scala.util.Either$LeftProjection", {
+  s_util_Either$LeftProjection: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_s_util_Either$LeftProjection.prototype.$classData = $d_s_util_Either$LeftProjection;
 class $c_s_util_Try extends $c_O {
 }
 function $as_s_util_Try(obj) {
@@ -37295,6 +38253,89 @@ const $d_Lcom_raquo_airstream_eventbus_EventBusStream = new $TypeData().initClas
   Lcom_raquo_airstream_core_InternalObserver: 1
 });
 $c_Lcom_raquo_airstream_eventbus_EventBusStream.prototype.$classData = $d_Lcom_raquo_airstream_eventbus_EventBusStream;
+class $c_Lcom_raquo_airstream_signal_CombineSignal2 extends $c_O {
+  constructor(parent1, parent2, combinator) {
+    super();
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_parent1 = null;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_parent2 = null;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_combinator = null;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_topoRank = 0;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_maybeCombinedValue = null;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_parentObservers = null;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_internalObserver = null;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_maybeLastSeenCurrentValue = null;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_externalObservers = null;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_internalObservers = null;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_parent1 = parent1;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_parent2 = parent2;
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_combinator = combinator;
+    $f_Lcom_raquo_airstream_core_Observable__$init$__V(this);
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_maybeLastSeenCurrentValue = (void 0);
+    $f_Lcom_raquo_airstream_features_CombineObservable__$init$__V(this);
+    const x = parent1.topoRank__I();
+    const that = parent2.topoRank__I();
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_topoRank = ((1 + ((x > that) ? x : that)) | 0);
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_parentObservers.push($m_Lcom_raquo_airstream_features_InternalParentObserver$().fromTry__Lcom_raquo_airstream_core_Observable__F2__Lcom_raquo_airstream_features_InternalParentObserver(parent1, new $c_sjsr_AnonFunction2(((this$5) => ((nextParent1Value$2, transaction$2) => {
+      const nextParent1Value = $as_s_util_Try(nextParent1Value$2);
+      const transaction = $as_Lcom_raquo_airstream_core_Transaction(transaction$2);
+      this$5.Lcom_raquo_airstream_signal_CombineSignal2__f_internalObserver.onTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V($as_s_util_Try(this$5.Lcom_raquo_airstream_signal_CombineSignal2__f_combinator.apply__O__O__O(nextParent1Value, this$5.Lcom_raquo_airstream_signal_CombineSignal2__f_parent2.tryNow__s_util_Try())), transaction)
+    }))(this))), $m_Lcom_raquo_airstream_features_InternalParentObserver$().fromTry__Lcom_raquo_airstream_core_Observable__F2__Lcom_raquo_airstream_features_InternalParentObserver(parent2, new $c_sjsr_AnonFunction2(((this$2$1) => ((nextParent2Value$2, transaction$3$2) => {
+      const nextParent2Value = $as_s_util_Try(nextParent2Value$2);
+      const transaction$3 = $as_Lcom_raquo_airstream_core_Transaction(transaction$3$2);
+      this$2$1.Lcom_raquo_airstream_signal_CombineSignal2__f_internalObserver.onTry__s_util_Try__Lcom_raquo_airstream_core_Transaction__V($as_s_util_Try(this$2$1.Lcom_raquo_airstream_signal_CombineSignal2__f_combinator.apply__O__O__O(this$2$1.Lcom_raquo_airstream_signal_CombineSignal2__f_parent1.tryNow__s_util_Try(), nextParent2Value)), transaction$3)
+    }))(this))))
+  };
+  onStart__V() {
+    $f_Lcom_raquo_airstream_features_CombineObservable__onStart__V(this)
+  };
+  onStop__V() {
+    $f_Lcom_raquo_airstream_features_CombineObservable__onStop__V(this)
+  };
+  tryNow__s_util_Try() {
+    return $f_Lcom_raquo_airstream_signal_Signal__tryNow__s_util_Try(this)
+  };
+  onAddedExternalObserver__Lcom_raquo_airstream_core_Observer__V(observer) {
+    $f_Lcom_raquo_airstream_signal_Signal__onAddedExternalObserver__Lcom_raquo_airstream_core_Observer__V(this, observer)
+  };
+  maybeLastSeenCurrentValue__sjs_js_$bar() {
+    return this.Lcom_raquo_airstream_signal_CombineSignal2__f_maybeLastSeenCurrentValue
+  };
+  maybeLastSeenCurrentValue_$eq__sjs_js_$bar__V(x$1) {
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_maybeLastSeenCurrentValue = x$1
+  };
+  externalObservers__sjs_js_Array() {
+    return this.Lcom_raquo_airstream_signal_CombineSignal2__f_externalObservers
+  };
+  internalObservers__sjs_js_Array() {
+    return this.Lcom_raquo_airstream_signal_CombineSignal2__f_internalObservers
+  };
+  com$raquo$airstream$core$Observable$_setter_$externalObservers_$eq__sjs_js_Array__V(x$1) {
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_externalObservers = x$1
+  };
+  com$raquo$airstream$core$Observable$_setter_$internalObservers_$eq__sjs_js_Array__V(x$1) {
+    this.Lcom_raquo_airstream_signal_CombineSignal2__f_internalObservers = x$1
+  };
+  topoRank__I() {
+    return this.Lcom_raquo_airstream_signal_CombineSignal2__f_topoRank
+  };
+  initialValue__s_util_Try() {
+    return $as_s_util_Try(this.Lcom_raquo_airstream_signal_CombineSignal2__f_combinator.apply__O__O__O(this.Lcom_raquo_airstream_signal_CombineSignal2__f_parent1.tryNow__s_util_Try(), this.Lcom_raquo_airstream_signal_CombineSignal2__f_parent2.tryNow__s_util_Try()))
+  };
+  map__F1__Lcom_raquo_airstream_core_Observable(project) {
+    return new $c_Lcom_raquo_airstream_signal_MapSignal(this, project, $m_s_None$())
+  };
+}
+const $d_Lcom_raquo_airstream_signal_CombineSignal2 = new $TypeData().initClass({
+  Lcom_raquo_airstream_signal_CombineSignal2: 0
+}, false, "com.raquo.airstream.signal.CombineSignal2", {
+  Lcom_raquo_airstream_signal_CombineSignal2: 1,
+  O: 1,
+  Lcom_raquo_airstream_signal_Signal: 1,
+  Lcom_raquo_airstream_core_Observable: 1,
+  Lcom_raquo_airstream_features_CombineObservable: 1,
+  Lcom_raquo_airstream_core_SyncObservable: 1
+});
+$c_Lcom_raquo_airstream_signal_CombineSignal2.prototype.$classData = $d_Lcom_raquo_airstream_signal_CombineSignal2;
 class $c_Lio_circe_CursorOp$ArrayOp extends $c_Lio_circe_CursorOp {
 }
 class $c_Lio_circe_CursorOp$ObjectOp extends $c_Lio_circe_CursorOp {
@@ -43090,6 +44131,9 @@ class $c_s_util_Failure extends $c_s_util_Try {
   isFailure__Z() {
     return true
   };
+  isSuccess__Z() {
+    return false
+  };
   get__O() {
     throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O(this.s_util_Failure__f_exception)
   };
@@ -43122,6 +44166,9 @@ class $c_s_util_Failure extends $c_s_util_Try {
         throw e
       }
     }
+  };
+  toEither__s_util_Either() {
+    return new $c_s_util_Left(this.s_util_Failure__f_exception)
   };
   fold__F1__F1__O(fa, fb) {
     return fa.apply__O__O(this.s_util_Failure__f_exception)
@@ -43299,6 +44346,9 @@ class $c_s_util_Success extends $c_s_util_Try {
   isFailure__Z() {
     return false
   };
+  isSuccess__Z() {
+    return true
+  };
   get__O() {
     return this.s_util_Success__f_value
   };
@@ -43326,6 +44376,9 @@ class $c_s_util_Success extends $c_s_util_Try {
   };
   recover__s_PartialFunction__s_util_Try(pf) {
     return this
+  };
+  toEither__s_util_Either() {
+    return new $c_s_util_Right(this.s_util_Success__f_value)
   };
   fold__F1__F1__O(fa, fb) {
     try {
@@ -45693,6 +46746,53 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4 = new
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$1$$anon$4;
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10 extends $c_Lio_circe_generic_encoding_ReprAsObjectEncoder {
+  constructor(outer) {
+    super();
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10__f_circeGenericEncoderForday = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10__f_circeGenericEncoderForcount = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10__f_circeGenericEncoderForday = $m_Lio_circe_Encoder$().Lio_circe_Encoder$__f_encodeString;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10__f_circeGenericEncoderForcount = $m_Lio_circe_Encoder$().Lio_circe_Encoder$__f_encodeInt
+  };
+  encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject(a) {
+    if ((a !== null)) {
+      const circeGenericHListBindingForname = $as_T(a.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(a.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const circeGenericHListBindingForday = $as_T(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const circeGenericHListBindingForcount = $uI(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_HNil(p3.Lshapeless_$colon$colon__f_tail);
+          const x = $m_Lshapeless_HNil$();
+          if ((x === p4)) {
+            const $$x1 = $m_Lio_circe_JsonObject$();
+            const this$4 = $m_sci_Vector$();
+            const array = [$ct_T2__O__O__(new $c_T2(), "name", this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10__f_circeGenericEncoderForday.apply__O__Lio_circe_Json(circeGenericHListBindingForname)), $ct_T2__O__O__(new $c_T2(), "day", this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10__f_circeGenericEncoderForday.apply__O__Lio_circe_Json(circeGenericHListBindingForday)), $ct_T2__O__O__(new $c_T2(), "count", this.Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10__f_circeGenericEncoderForcount.apply__O__Lio_circe_Json(circeGenericHListBindingForcount))];
+            const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
+            return $$x1.fromIterable__sc_Iterable__Lio_circe_JsonObject(this$4.from__sc_IterableOnce__sci_Vector(elems))
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(a)
+  };
+  encodeObject__O__Lio_circe_JsonObject(a) {
+    return this.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject($as_Lshapeless_$colon$colon(a))
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10: 1,
+  Lio_circe_generic_encoding_ReprAsObjectEncoder: 1,
+  O: 1,
+  Lio_circe_Encoder$AsObject: 1,
+  Lio_circe_Encoder$AsRoot: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$11$2$$anon$10;
 class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$6 extends $c_Lio_circe_generic_encoding_ReprAsObjectEncoder {
   constructor(outer) {
     super();
@@ -45740,6 +46840,53 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$6 = new
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$6.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$1$$anon$6;
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12 extends $c_Lio_circe_generic_encoding_ReprAsObjectEncoder {
+  constructor(outer) {
+    super();
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12__f_circeGenericEncoderForday = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12__f_circeGenericEncoderForcount = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12__f_circeGenericEncoderForday = $m_Lio_circe_Encoder$().Lio_circe_Encoder$__f_encodeString;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12__f_circeGenericEncoderForcount = $m_Lio_circe_Encoder$().Lio_circe_Encoder$__f_encodeInt
+  };
+  encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject(a) {
+    if ((a !== null)) {
+      const circeGenericHListBindingForname = $as_T(a.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(a.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const circeGenericHListBindingForday = $as_T(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const circeGenericHListBindingForcount = $uI(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_HNil(p3.Lshapeless_$colon$colon__f_tail);
+          const x = $m_Lshapeless_HNil$();
+          if ((x === p4)) {
+            const $$x1 = $m_Lio_circe_JsonObject$();
+            const this$4 = $m_sci_Vector$();
+            const array = [$ct_T2__O__O__(new $c_T2(), "name", this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12__f_circeGenericEncoderForday.apply__O__Lio_circe_Json(circeGenericHListBindingForname)), $ct_T2__O__O__(new $c_T2(), "day", this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12__f_circeGenericEncoderForday.apply__O__Lio_circe_Json(circeGenericHListBindingForday)), $ct_T2__O__O__(new $c_T2(), "count", this.Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12__f_circeGenericEncoderForcount.apply__O__Lio_circe_Json(circeGenericHListBindingForcount))];
+            const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
+            return $$x1.fromIterable__sc_Iterable__Lio_circe_JsonObject(this$4.from__sc_IterableOnce__sci_Vector(elems))
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(a)
+  };
+  encodeObject__O__Lio_circe_JsonObject(a) {
+    return this.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject($as_Lshapeless_$colon$colon(a))
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12: 1,
+  Lio_circe_generic_encoding_ReprAsObjectEncoder: 1,
+  O: 1,
+  Lio_circe_Encoder$AsObject: 1,
+  Lio_circe_Encoder$AsRoot: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$23$2$$anon$12;
 class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8 extends $c_Lio_circe_generic_encoding_ReprAsObjectEncoder {
   constructor(outer) {
     super();
@@ -45787,6 +46934,53 @@ const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8 = new
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$1$$anon$8;
+class $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14 extends $c_Lio_circe_generic_encoding_ReprAsObjectEncoder {
+  constructor(outer) {
+    super();
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14__f_circeGenericEncoderForday = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14__f_circeGenericEncoderForcount = null;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14__f_circeGenericEncoderForday = $m_Lio_circe_Encoder$().Lio_circe_Encoder$__f_encodeString;
+    this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14__f_circeGenericEncoderForcount = $m_Lio_circe_Encoder$().Lio_circe_Encoder$__f_encodeInt
+  };
+  encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject(a) {
+    if ((a !== null)) {
+      const circeGenericHListBindingForname = $as_T(a.Lshapeless_$colon$colon__f_head);
+      const p2 = $as_Lshapeless_$colon$colon(a.Lshapeless_$colon$colon__f_tail);
+      if ((p2 !== null)) {
+        const circeGenericHListBindingForday = $as_T(p2.Lshapeless_$colon$colon__f_head);
+        const p3 = $as_Lshapeless_$colon$colon(p2.Lshapeless_$colon$colon__f_tail);
+        if ((p3 !== null)) {
+          const circeGenericHListBindingForcount = $uI(p3.Lshapeless_$colon$colon__f_head);
+          const p4 = $as_Lshapeless_HNil(p3.Lshapeless_$colon$colon__f_tail);
+          const x = $m_Lshapeless_HNil$();
+          if ((x === p4)) {
+            const $$x1 = $m_Lio_circe_JsonObject$();
+            const this$4 = $m_sci_Vector$();
+            const array = [$ct_T2__O__O__(new $c_T2(), "name", this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14__f_circeGenericEncoderForday.apply__O__Lio_circe_Json(circeGenericHListBindingForname)), $ct_T2__O__O__(new $c_T2(), "day", this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14__f_circeGenericEncoderForday.apply__O__Lio_circe_Json(circeGenericHListBindingForday)), $ct_T2__O__O__(new $c_T2(), "count", this.Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14__f_circeGenericEncoderForcount.apply__O__Lio_circe_Json(circeGenericHListBindingForcount))];
+            const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
+            return $$x1.fromIterable__sc_Iterable__Lio_circe_JsonObject(this$4.from__sc_IterableOnce__sci_Vector(elems))
+          }
+        }
+      }
+    };
+    throw new $c_s_MatchError(a)
+  };
+  encodeObject__O__Lio_circe_JsonObject(a) {
+    return this.encodeObject__Lshapeless_$colon$colon__Lio_circe_JsonObject($as_Lshapeless_$colon$colon(a))
+  };
+}
+const $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14 = new $TypeData().initClass({
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14: 0
+}, false, "billding.ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14", {
+  Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14: 1,
+  Lio_circe_generic_encoding_ReprAsObjectEncoder: 1,
+  O: 1,
+  Lio_circe_Encoder$AsObject: 1,
+  Lio_circe_Encoder$AsRoot: 1,
+  Lio_circe_Encoder: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14.prototype.$classData = $d_Lbillding_ApiInteractions$anon$importedEncoder$macro$35$2$$anon$14;
 class $c_Lcats_instances_package$list$ extends $c_O {
   constructor() {
     super();
@@ -45837,6 +47031,69 @@ function $m_Lcats_kernel_Order$() {
   };
   return $n_Lcats_kernel_Order$
 }
+class $c_Lcom_raquo_airstream_core_AirstreamError$CombinedError extends $c_Lcom_raquo_airstream_core_AirstreamError {
+  constructor(causes) {
+    super();
+    this.Lcom_raquo_airstream_core_AirstreamError$CombinedError__f_causes = null;
+    this.Lcom_raquo_airstream_core_AirstreamError$CombinedError__f_causes = causes;
+    const this$2 = $m_s_$less$colon$less$();
+    const this$3 = $as_sc_IterableOnceOps($as_sc_IterableOps(causes.flatten__F1__O(this$2.s_$less$colon$less$__f_singleton)).map__F1__O(new $c_sjsr_AnonFunction1(((x$1$2) => {
+      const x$1 = $as_jl_Throwable(x$1$2);
+      return x$1.getMessage__T()
+    }))));
+    const message = ("CombinedError: " + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$3, "", "; ", ""));
+    $ct_jl_Throwable__T__jl_Throwable__Z__Z__(this, message, null, true, true)
+  };
+  productPrefix__T() {
+    return "CombinedError"
+  };
+  productArity__I() {
+    return 1
+  };
+  productElement__I__O(x$1) {
+    return ((x$1 === 0) ? this.Lcom_raquo_airstream_core_AirstreamError$CombinedError__f_causes : $m_sr_Statics$().ioobe__I__O(x$1))
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    const this$2 = $m_s_util_hashing_MurmurHash3$();
+    return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if ((x$1 instanceof $c_Lcom_raquo_airstream_core_AirstreamError$CombinedError)) {
+      const CombinedError$1 = $as_Lcom_raquo_airstream_core_AirstreamError$CombinedError(x$1);
+      const x = this.Lcom_raquo_airstream_core_AirstreamError$CombinedError__f_causes;
+      const x$2 = CombinedError$1.Lcom_raquo_airstream_core_AirstreamError$CombinedError__f_causes;
+      return ((x === null) ? (x$2 === null) : x.equals__O__Z(x$2))
+    } else {
+      return false
+    }
+  };
+}
+function $as_Lcom_raquo_airstream_core_AirstreamError$CombinedError(obj) {
+  return (((obj instanceof $c_Lcom_raquo_airstream_core_AirstreamError$CombinedError) || (obj === null)) ? obj : $throwClassCastException(obj, "com.raquo.airstream.core.AirstreamError$CombinedError"))
+}
+function $isArrayOf_Lcom_raquo_airstream_core_AirstreamError$CombinedError(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lcom_raquo_airstream_core_AirstreamError$CombinedError)))
+}
+function $asArrayOf_Lcom_raquo_airstream_core_AirstreamError$CombinedError(obj, depth) {
+  return (($isArrayOf_Lcom_raquo_airstream_core_AirstreamError$CombinedError(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lcom.raquo.airstream.core.AirstreamError$CombinedError;", depth))
+}
+const $d_Lcom_raquo_airstream_core_AirstreamError$CombinedError = new $TypeData().initClass({
+  Lcom_raquo_airstream_core_AirstreamError$CombinedError: 0
+}, false, "com.raquo.airstream.core.AirstreamError$CombinedError", {
+  Lcom_raquo_airstream_core_AirstreamError$CombinedError: 1,
+  Lcom_raquo_airstream_core_AirstreamError: 1,
+  jl_Throwable: 1,
+  O: 1,
+  Ljava_io_Serializable: 1,
+  s_Product: 1,
+  s_Equals: 1
+});
+$c_Lcom_raquo_airstream_core_AirstreamError$CombinedError.prototype.$classData = $d_Lcom_raquo_airstream_core_AirstreamError$CombinedError;
 class $c_Lcom_raquo_airstream_core_AirstreamError$ErrorHandlingError extends $c_Lcom_raquo_airstream_core_AirstreamError {
   constructor(error, cause) {
     super();
@@ -46222,6 +47479,9 @@ class $c_Lcom_raquo_airstream_signal_FoldLeftSignal extends $c_O {
   onStop__V() {
     $f_Lcom_raquo_airstream_features_SingleParentObservable__onStop__V(this)
   };
+  tryNow__s_util_Try() {
+    return $f_Lcom_raquo_airstream_signal_Signal__tryNow__s_util_Try(this)
+  };
   onAddedExternalObserver__Lcom_raquo_airstream_core_Observer__V(observer) {
     $f_Lcom_raquo_airstream_signal_Signal__onAddedExternalObserver__Lcom_raquo_airstream_core_Observer__V(this, observer)
   };
@@ -46304,6 +47564,9 @@ class $c_Lcom_raquo_airstream_signal_MapSignal extends $c_O {
   onStop__V() {
     $f_Lcom_raquo_airstream_features_SingleParentObservable__onStop__V(this)
   };
+  tryNow__s_util_Try() {
+    return $f_Lcom_raquo_airstream_signal_Signal__tryNow__s_util_Try(this)
+  };
   onAddedExternalObserver__Lcom_raquo_airstream_core_Observer__V(observer) {
     $f_Lcom_raquo_airstream_signal_Signal__onAddedExternalObserver__Lcom_raquo_airstream_core_Observer__V(this, observer)
   };
@@ -46381,22 +47644,21 @@ class $c_Lcom_raquo_airstream_signal_MapSignal extends $c_O {
     }))(this, nextParentValue, transaction)))
   };
   initialValue__s_util_Try() {
-    const this$1 = this.Lcom_raquo_airstream_signal_MapSignal__f_parent;
-    const originalValue = $f_Lcom_raquo_airstream_signal_Signal__tryNow__s_util_Try(this$1).map__F1__s_util_Try(this.Lcom_raquo_airstream_signal_MapSignal__f_project);
-    return $as_s_util_Try(originalValue.fold__F1__F1__O(new $c_sjsr_AnonFunction1(((this$2, originalValue$1) => ((nextError$2) => {
+    const originalValue = this.Lcom_raquo_airstream_signal_MapSignal__f_parent.tryNow__s_util_Try().map__F1__s_util_Try(this.Lcom_raquo_airstream_signal_MapSignal__f_project);
+    return $as_s_util_Try(originalValue.fold__F1__F1__O(new $c_sjsr_AnonFunction1(((this$1, originalValue$1) => ((nextError$2) => {
       const nextError = $as_jl_Throwable(nextError$2);
-      const this$3 = this$2.Lcom_raquo_airstream_signal_MapSignal__f_recover;
-      if (this$3.isEmpty__Z()) {
+      const this$2 = this$1.Lcom_raquo_airstream_signal_MapSignal__f_recover;
+      if (this$2.isEmpty__Z()) {
         return originalValue$1
       } else {
-        const arg1 = this$3.get__O();
+        const arg1 = this$2.get__O();
         const pf = $as_s_PartialFunction(arg1);
         let $$x1;
         try {
-          $$x1 = new $c_s_util_Success($as_s_Option(pf.applyOrElse__O__F1__O(nextError, new $c_sjsr_AnonFunction1(((this$5) => ((x$4$2) => {
+          $$x1 = new $c_s_util_Success($as_s_Option(pf.applyOrElse__O__F1__O(nextError, new $c_sjsr_AnonFunction1(((this$4) => ((x$4$2) => {
             $as_jl_Throwable(x$4$2);
             return null
-          }))(this$2)))))
+          }))(this$1)))))
         } catch (e) {
           const e$2 = $m_sjsr_package$().wrapJavaScriptException__O__jl_Throwable(e);
           if ((e$2 !== null)) {
@@ -46418,21 +47680,21 @@ class $c_Lcom_raquo_airstream_signal_MapSignal extends $c_O {
         return $as_s_util_Try($$x1.fold__F1__F1__O(new $c_sjsr_AnonFunction1(((this$2$1, nextError$2$1) => ((tryError$2) => {
           const tryError = $as_jl_Throwable(tryError$2);
           return new $c_s_util_Failure(new $c_Lcom_raquo_airstream_core_AirstreamError$ErrorHandlingError(tryError, nextError$2$1))
-        }))(this$2, nextError)), new $c_sjsr_AnonFunction1(((this$3$1, originalValue$1$1) => ((nextValue$2) => {
+        }))(this$1, nextError)), new $c_sjsr_AnonFunction1(((this$3$1, originalValue$1$1) => ((nextValue$2) => {
           const nextValue = $as_s_Option(nextValue$2);
           if ((nextValue === null)) {
             return originalValue$1$1
           } else {
-            let this$6;
+            let this$5;
             if (nextValue.isEmpty__Z()) {
-              this$6 = $m_s_None$()
+              this$5 = $m_s_None$()
             } else {
               const arg1$1 = nextValue.get__O();
-              this$6 = new $c_s_Some(new $c_s_util_Success(arg1$1))
+              this$5 = new $c_s_Some(new $c_s_util_Success(arg1$1))
             };
-            return $as_s_util_Try((this$6.isEmpty__Z() ? originalValue$1$1 : this$6.get__O()))
+            return $as_s_util_Try((this$5.isEmpty__Z() ? originalValue$1$1 : this$5.get__O()))
           }
-        }))(this$2, originalValue$1))))
+        }))(this$1, originalValue$1))))
       }
     }))(this, originalValue)), new $c_sjsr_AnonFunction1(((this$2$2, originalValue$2) => ((x$6$2) => originalValue$2))(this, originalValue))))
   };
@@ -47735,6 +48997,9 @@ class $c_sc_AbstractIterable extends $c_O {
   };
   flatMap__F1__O(f) {
     return $f_sc_IterableOps__flatMap__F1__O(this, f)
+  };
+  flatten__F1__O(asIterable) {
+    return $f_sc_IterableOps__flatten__F1__O(this, asIterable)
   };
   concat__sc_IterableOnce__O(suffix) {
     return $f_sc_IterableOps__concat__sc_IterableOnce__O(this, suffix)
@@ -50784,6 +52049,9 @@ class $c_s_concurrent_impl_Promise$DefaultPromise extends $c_ju_concurrent_atomi
         return "Future(<not completed>)"
       }
     }
+  };
+  isCompleted__Z() {
+    return ($p_s_concurrent_impl_Promise$DefaultPromise__value0__s_util_Try(this) !== null)
   };
   tryComplete__s_util_Try__Z(value) {
     const state = this.ju_concurrent_atomic_AtomicReference__f_value;
@@ -57923,6 +59191,9 @@ class $c_sci_LazyList extends $c_sci_AbstractSeq {
   drop__I__O(n) {
     return this.drop__I__sci_LazyList(n)
   };
+  flatten__F1__O(asIterable) {
+    return this.flatMap__F1__sci_LazyList(asIterable)
+  };
   flatMap__F1__O(f) {
     return this.flatMap__F1__sci_LazyList(f)
   };
@@ -58401,6 +59672,9 @@ class $c_sjsr_WrappedVarArgs extends $c_O {
   };
   flatMap__F1__O(f) {
     return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
+  };
+  flatten__F1__O(toIterableOnce) {
+    return $f_sc_StrictOptimizedIterableOps__flatten__F1__O(this, toIterableOnce)
   };
   filterNot__F1__O(pred) {
     return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, true)
@@ -59121,6 +60395,9 @@ class $c_sci_NumericRange extends $c_sci_AbstractSeq {
   };
   flatMap__F1__O(f) {
     return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
+  };
+  flatten__F1__O(toIterableOnce) {
+    return $f_sc_StrictOptimizedIterableOps__flatten__F1__O(this, toIterableOnce)
   };
   filterNot__F1__O(pred) {
     return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, true)
@@ -59857,6 +61134,9 @@ class $c_sci_ArraySeq extends $c_sci_AbstractSeq {
   flatMap__F1__O(f) {
     return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
   };
+  flatten__F1__O(toIterableOnce) {
+    return $f_sc_StrictOptimizedIterableOps__flatten__F1__O(this, toIterableOnce)
+  };
   filterNot__F1__O(pred) {
     return $f_sc_StrictOptimizedIterableOps__filterImpl__F1__Z__O(this, pred, true)
   };
@@ -60153,6 +61433,9 @@ class $c_sci_Vector extends $c_sci_AbstractSeq {
   };
   flatMap__F1__O(f) {
     return $f_sc_StrictOptimizedIterableOps__flatMap__F1__O(this, f)
+  };
+  flatten__F1__O(toIterableOnce) {
+    return $f_sc_StrictOptimizedIterableOps__flatten__F1__O(this, toIterableOnce)
   };
   filterNot__F1__O(pred) {
     return this.filterImpl__F1__Z__sci_Vector(pred, true)
@@ -61533,6 +62816,9 @@ class $c_sci_List extends $c_sci_AbstractSeq {
   };
   appended__O__O(elem) {
     return $f_sc_StrictOptimizedSeqOps__appended__O__O(this, elem)
+  };
+  flatten__F1__O(toIterableOnce) {
+    return $f_sc_StrictOptimizedIterableOps__flatten__F1__O(this, toIterableOnce)
   };
   dropRight__I__O(n) {
     return $f_sc_StrictOptimizedIterableOps__dropRight__I__O(this, n)

@@ -31,6 +31,18 @@ class ExerciseService(
       )
     }
 
+    case request @ GET -> Root / exerciseName => {
+      val user = authLogic.getUserFromRequest(request)
+      Ok(
+        Stream("[") ++
+          exerciseLogic
+            .getExerciseHistoriesFor(exerciseName, user.id)
+            .map(_.asJson.noSpaces)
+            .intersperse(",") ++ Stream("]"),
+        `Content-Type`(MediaType.application.json)
+      )
+    }
+
     case req @ POST -> Root => {
       val user = authLogic.getUserFromRequest(req)
       for {

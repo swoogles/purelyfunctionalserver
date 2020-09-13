@@ -2,9 +2,9 @@ package billding
 
 import billding.Main.{Increment, ResetCount}
 import com.raquo.airstream.core.Observable
+import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
-import org.scalajs.dom.Event
-import org.scalajs.dom.document
+import org.scalajs.dom.{Event, document, html}
 import org.scalajs.dom.raw.Element
 import org.scalajs.dom.raw.HTMLAudioElement
 import org.scalajs.dom.raw.HTMLInputElement
@@ -17,9 +17,10 @@ import scala.scalajs.js.{Date, URIUtils}
 import io.circe.generic.auto._
 import io.circe.syntax._
 import com.raquo.laminar.api.L._
-import com.raquo.laminar.nodes.ReactiveElement
+import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
 import com.raquo.laminar.nodes.ReactiveElement.Base
 
+import scala.concurrent.Future
 import scala.concurrent.duration.FiniteDuration
 
 case class DailyQuantizedExercise(name: String, day: String, count: Int)
@@ -77,6 +78,8 @@ object Meta {
   import sttp.client._
 
   val exerciseUri: Uri = uri"${Meta.host}/exercises"
+  val quadSetUri: Uri = uri"${Meta.host}/exercises/QuadSets"
+  val armStretchesUri: Uri = uri"${Meta.host}/exercises/arm_stretches"
 
   implicit val backend = FetchBackend()
   implicit val ec = global
@@ -132,18 +135,18 @@ object Meta {
     if (storage.getItem("access_token_fromJS").nonEmpty) {
       println("We have a stored token. Use it for getting authorized info")
       basicRequest
-        .get(exerciseUri)
+        .get(quadSetUri)
         .auth.bearer(storage.getItem("access_token_fromJS"))
     }
     else if (Meta.accessToken.isDefined) {
       println("We queryParameter token. Use it for getting authorized info. Non-ideal.")
         basicRequest
-          .get(exerciseUri.param("access_token", Meta.accessToken.get))
+          .get(quadSetUri.param("access_token", Meta.accessToken.get))
           .header(Header.authorization("Bearer", Meta.accessToken.get))
       } else {
       println("We have no token. Request information for public, chaotic user.")
         basicRequest
-          .get(exerciseUri)
+          .get(quadSetUri)
       }
     }
 
@@ -205,11 +208,51 @@ object Meta {
         }
       }
   }
+    def postArmStretchSession(): Future[Int] = {
+      val localDate = Time.formattedLocalDate()
+      val exercise = DailyQuantizedExercise(name = "shoulder_stretches", day = localDate, count = 1)
+
+      val storage = org.scalajs.dom.window.localStorage
+      val request =
+        if (storage.getItem("access_token_fromJS").nonEmpty) {
+          println("We have a stored token. Use it to post authorized info")
+          basicRequest
+            .post(exerciseUri)
+            .auth.bearer(storage.getItem("access_token_fromJS"))
+            .body(exercise)
+        } else if (Meta.accessToken.isDefined) {
+          basicRequest
+            .body(exercise)
+            .post(exerciseUri.param("access_token", Meta.accessToken.get))
+        } else {
+          basicRequest
+            .body(exercise)
+            .post(exerciseUri)
+        }
+
+      println("About to make a request: " + request)
+      for {
+        response: Response[Either[String, String]] <- request.send()
+      } yield {
+        response.body match {
+          case Right(jsonBody) => {
+            Main.shoulderStretchTotal = jsonBody.toInt
+            document.getElementById("shoulder_stretches_daily_total").innerHTML = jsonBody.toInt.toString
+            jsonBody.toInt
+          }
+          case Left(failure) => {
+            println("Failed to submit armstretches with error: " + failure)
+            0
+          }
+        }
+      }
+    }
 }
 
 object Main {
   var count = 0
   var dailyTotal = 0
+  var shoulderStretchTotal = 0
   var audioContext = new AudioContext()
 
   def sound(src: String): HTMLAudioElement = {
@@ -261,7 +304,31 @@ object Main {
 
   case class RepeatingElement () extends RepeatWithIntervalHelper
 
-  def CounterComponent() = {
+  def ArmStretchComponent(id: Int, displayCode: Binder[HtmlElement]) = {
+    val clockTicks = new EventBus[Int]
+    val callbackResult = Signal.fromFuture(ApiInteractions.postArmStretchSession())
+    val $shoulderStretchTotal: Signal[Int] = clockTicks.events.foldLeft(0)((acc, next) => acc+next)
+    val $res: Signal[Int] =
+      callbackResult.combineWith($shoulderStretchTotal)
+          .map{ case (optResult, latestResult) => if(optResult.isDefined) optResult.get + latestResult else latestResult}
+
+    div(
+      button(
+        cls := "button is-link is-rounded",
+        onClick.mapTo(value ={ApiInteractions.postArmStretchSession(); 1})  --> clockTicks,
+        "Submit",
+      ),
+      div(
+        span(
+          "Total:"),
+        span(idAttr:="shoulder_stretches_daily_total",
+          child <-- $res.map(count => div(count.toString)))
+      )
+    )
+
+  }
+
+  def CounterComponent(id: Int, displayCode: Binder[HtmlElement]): ReactiveHtmlElement[html.Div] = {
     val repeater = RepeatingElement()
 
     val clockTicks = new EventBus[Int]
@@ -278,10 +345,14 @@ object Main {
     val $countT: Signal[Counter] = diffBusT.events.foldLeft(Counter(0))((acc, next) =>
       CounterAction.update(next, acc)
     )
+
     val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
 
     div(
+      displayCode,
+      idAttr:=s"counter_component_$id",
       cls:="centered",
+      div(
       dataAttr("noise") <-- noises.observable.map(_ => "noise!"),
       styleAttr <-- $color.map(color=> s"background: $color"),
       div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
@@ -291,8 +362,8 @@ object Main {
         inContext( context =>
           onClick.mapTo(value =
             ApiInteractions.postQuadSetsTyped(
+//              $countT.observe(ownerDiv).now().value)) --> diffBusT)),
               context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBusT)),
-     //  <a href href="/login">Login</a>
       button("Reset",
         cls := "button is-warning is-rounded",
         onClick.mapTo(ResetCount) --> diffBusT),
@@ -319,6 +390,7 @@ object Main {
       //        new FiniteDuration(20, scala.concurrent.duration.SECONDS) // todo restore after dev
     ) --> clockTicks
     )
+    )
   }
 
   def Hello(
@@ -339,7 +411,20 @@ object Main {
       if (name == "Sébastien") "red" else "unset" // make Sébastien feel special
     }
 
+    val componentSelections = new EventBus[Int]
+    val $selectedComponent: Signal[Int] = componentSelections.events.foldLeft(1)((_, selection) => selection)
+
+    val displayCondition: Binder[HtmlElement] =
+    styleAttr <-- $selectedComponent.map(selection => s"""display: ${if (selection == 1) "inline" else "none" }""")
+
     val appDiv: Div = div(
+      idAttr:="full_laminar_app",
+      button("QuadSets",
+        cls := "button is-primary is-rounded small",
+        onClick.mapTo(1) --> componentSelections),
+      button("Shoulder Stretches",
+        cls := "button is-primary is-rounded small",
+        onClick.mapTo(2) --> componentSelections),
 //      h1("User Welcomer 9000"),
 //      div(
 //        "Please enter your name:",
@@ -352,7 +437,12 @@ object Main {
 //        "Please accept our greeting: ",
 //        Hello(nameBus.events, colorStream)
 //      ),
-      CounterComponent()
+      CounterComponent(1,
+        styleAttr <-- $selectedComponent.map(selection => s"""display: ${if (selection == 1) "inline" else "none" }""") ,
+      ),
+      ArmStretchComponent(2,
+          styleAttr <-- $selectedComponent.map(selection => s"""display: ${if (selection == 2) "inline" else "none" }"""),
+        )
     )
 
     render(dom.document.querySelector("#laminarApp"), appDiv)
