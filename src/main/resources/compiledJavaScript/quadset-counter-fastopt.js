@@ -984,9 +984,9 @@ class $c_Lbillding_ApiInteractions$ extends $c_O {
       }
     }))(this)), this.Lbillding_ApiInteractions$__f_ec)
   };
-  postArmStretchSession__s_concurrent_Future() {
+  postArmStretchSession__I__s_concurrent_Future(count) {
     const localDate = $m_Lbillding_Time$().formattedLocalDate__T();
-    const exercise = new $c_Lbillding_DailyQuantizedExercise("shoulder_stretches", localDate, 1);
+    const exercise = new $c_Lbillding_DailyQuantizedExercise("shoulder_stretches", localDate, count);
     const storage = $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().localStorage;
     const x = $as_T(storage.getItem("access_token_fromJS"));
     let request;
@@ -1117,7 +1117,7 @@ class $c_Lbillding_Main$ extends $c_O {
   };
   ArmStretchComponent__I__Lcom_raquo_laminar_modifiers_Binder__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(id, displayCode) {
     const clockTicks = new $c_Lcom_raquo_airstream_eventbus_EventBus();
-    const future = $m_Lbillding_ApiInteractions$().postArmStretchSession__s_concurrent_Future();
+    const future = $m_Lbillding_ApiInteractions$().postArmStretchSession__I__s_concurrent_Future(0);
     const callbackResult = new $c_Lcom_raquo_airstream_signal_FutureSignal(future);
     const this$3 = clockTicks.Lcom_raquo_airstream_eventbus_EventBus__f_events;
     const fn = new $c_sjsr_AnonFunction2(((this$2) => ((acc$2, next$2) => {
@@ -1149,7 +1149,7 @@ class $c_Lbillding_Main$ extends $c_O {
     const this$9 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const eventProp = this$9.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
     const this$11 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$10, eventProp).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$3$1) => (() => {
-      $m_Lbillding_ApiInteractions$().postArmStretchSession__s_concurrent_Future();
+      $m_Lbillding_ApiInteractions$().postArmStretchSession__I__s_concurrent_Future(1);
       return 1
     }))(this)));
     const observer = clockTicks.Lcom_raquo_airstream_eventbus_EventBus__f_writer;

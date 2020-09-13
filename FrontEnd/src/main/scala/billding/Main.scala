@@ -208,9 +208,9 @@ object Meta {
         }
       }
   }
-    def postArmStretchSession(): Future[Int] = {
+    def postArmStretchSession(count: Int): Future[Int] = {
       val localDate = Time.formattedLocalDate()
-      val exercise = DailyQuantizedExercise(name = "shoulder_stretches", day = localDate, count = 1)
+      val exercise = DailyQuantizedExercise(name = "shoulder_stretches", day = localDate, count = count)
 
       val storage = org.scalajs.dom.window.localStorage
       val request =
@@ -306,7 +306,7 @@ object Main {
 
   def ArmStretchComponent(id: Int, displayCode: Binder[HtmlElement]) = {
     val clockTicks = new EventBus[Int]
-    val callbackResult = Signal.fromFuture(ApiInteractions.postArmStretchSession())
+    val callbackResult = Signal.fromFuture(ApiInteractions.postArmStretchSession(0))
     val $shoulderStretchTotal: Signal[Int] = clockTicks.events.foldLeft(0)((acc, next) => acc+next)
     val $res: Signal[Int] =
       callbackResult.combineWith($shoulderStretchTotal)
@@ -315,7 +315,7 @@ object Main {
     div(
       button(
         cls := "button is-link is-rounded",
-        onClick.mapTo(value ={ApiInteractions.postArmStretchSession(); 1})  --> clockTicks,
+        onClick.mapTo(value ={ApiInteractions.postArmStretchSession(1); 1})  --> clockTicks,
         "Submit",
       ),
       div(
