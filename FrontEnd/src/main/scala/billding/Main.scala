@@ -313,17 +313,21 @@ object Main {
           .map{ case (optResult, latestResult) => if(optResult.isDefined) optResult.get + latestResult else latestResult}
 
     div(
-      button(
-        cls := "button is-link is-rounded",
-        onClick.mapTo(value ={ApiInteractions.postArmStretchSession(1); 1})  --> clockTicks,
-        "Submit",
-      ),
+      idAttr:=s"counter_component_$id",
+      displayCode,
+      cls("centered"),
       div(
+        cls("session-counter"),
         span(
           "Total:"),
         span(idAttr:="shoulder_stretches_daily_total",
           child <-- $res.map(count => div(count.toString)))
-      )
+      ),
+        button(
+        cls := "button is-link is-rounded",
+        onClick.mapTo(value ={ApiInteractions.postArmStretchSession(1); 1})  --> clockTicks,
+        "Submit",
+      ),
     )
 
   }
@@ -413,9 +417,6 @@ object Main {
 
     val componentSelections = new EventBus[Int]
     val $selectedComponent: Signal[Int] = componentSelections.events.foldLeft(1)((_, selection) => selection)
-
-    val displayCondition: Binder[HtmlElement] =
-    styleAttr <-- $selectedComponent.map(selection => s"""display: ${if (selection == 1) "inline" else "none" }""")
 
     val appDiv: Div = div(
       idAttr:="full_laminar_app",
