@@ -22,6 +22,9 @@ a.button.medium {
     font-size: 4em;
     margin: 15px;
 }
+.medium {
+    font-size: .2em;
+}
 
 a.button {
     margin: 15px;

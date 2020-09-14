@@ -317,7 +317,7 @@ object Main {
       cls("centered"),
       div(
         cls("session-counter"),
-        div( "Shoulder stretches:"),
+        div(cls:="medium", "Shoulder Stretches:"),
         div(idAttr:="shoulder_stretches_daily_total",
           child <-- $res.map(count => div(count.toString)))
       ),
@@ -426,6 +426,7 @@ object Main {
 
     val appDiv: Div = div(
       idAttr:="full_laminar_app",
+      cls := "centered",
       button("QuadSets",
         cls := "button is-primary is-rounded small",
         onClick.mapTo(1) --> componentSelections),
