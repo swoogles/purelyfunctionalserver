@@ -305,11 +305,10 @@ object Main {
   case class RepeatingElement () extends RepeatWithIntervalHelper
 
   def ArmStretchComponent(id: Int, displayCode: Binder[HtmlElement]) = {
-    val clockTicks = new EventBus[Int]
-    val callbackResult = Signal.fromFuture(ApiInteractions.postArmStretchSession(0))
-    val $shoulderStretchTotal: Signal[Int] = clockTicks.events.foldLeft(0)((acc, next) => acc+next)
+    val armStretches = new EventBus[Int]
+    val $shoulderStretchTotal: Signal[Int] = armStretches.events.foldLeft(0)((acc, next) => acc+next)
     val $res: Signal[Int] =
-      callbackResult.combineWith($shoulderStretchTotal)
+      Signal.fromFuture(ApiInteractions.postArmStretchSession(0)).combineWith($shoulderStretchTotal)
           .map{ case (optResult, latestResult) => if(optResult.isDefined) optResult.get + latestResult else latestResult}
 
     div(
@@ -318,16 +317,23 @@ object Main {
       cls("centered"),
       div(
         cls("session-counter"),
-        span(
-          "Total:"),
-        span(idAttr:="shoulder_stretches_daily_total",
+        div( "Shoulder stretches:"),
+        div(idAttr:="shoulder_stretches_daily_total",
           child <-- $res.map(count => div(count.toString)))
       ),
+      div(
+        cls := "centered",
         button(
-        cls := "button is-link is-rounded",
-        onClick.mapTo(value ={ApiInteractions.postArmStretchSession(1); 1})  --> clockTicks,
-        "Submit",
+        cls := "button is-link is-rounded medium",
+        onClick.mapTo(value ={ApiInteractions.postArmStretchSession(-1); -1})  --> armStretches,
+        "-1",
       ),
+      button(
+        cls := "button is-link is-rounded medium",
+        onClick.mapTo(value ={ApiInteractions.postArmStretchSession(1); 1})  --> armStretches,
+        "+1",
+      ),
+      )
     )
 
   }
@@ -369,7 +375,7 @@ object Main {
 //              $countT.observe(ownerDiv).now().value)) --> diffBusT)),
               context.ref.attributes.getNamedItem("data-count").value.toInt)) --> diffBusT)),
       button("Reset",
-        cls := "button is-warning is-rounded",
+        cls := "button is-warning is-rounded medium",
         onClick.mapTo(ResetCount) --> diffBusT),
       div(styleAttr:="font-size: 4em", cls:="box",
         span(
@@ -380,7 +386,7 @@ object Main {
         span("Daily Total:"),
         span(idAttr:="daily_total", styleAttr:="font-size: 2em")
       ),
-      a(href:="/", cls := "button is-link is-rounded", "Re-login"),
+      a(href:="/", cls := "button is-link is-rounded medium", "Re-login"),
       div(idAttr:="exercise_history"),
 
       repeater.repeatWithInterval(
