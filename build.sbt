@@ -3,7 +3,7 @@ lazy val commonSettings = Seq(
   name := "purelyfunctionalserver",
   version := "0.0.1-SNAPSHOT",
 //  scalaVersion := "2.13.0",
-  scalaVersion := "2.12.8",
+  scalaVersion := "2.13.1",
   scalacOptions ++= Seq(
     "-deprecation",
 //    "-Xfatal-warnings", // TODO Re-enable once Circe is handled
@@ -20,15 +20,16 @@ lazy val H2Version = "1.4.197"
 
 lazy val FlywayVersion = "5.2.4"
 
-lazy val CirceVersion = "0.11.0" // Options and java-8 modules are preventing me from further upgrades
+//libraryDependencies += "io.circe" % "circe-java8_2.13.0-RC1" % "0.12.0-M1"
+lazy val CirceVersion = "0.14.0-M1" // Options and java-8 modules are preventing me from further upgrades
 
 lazy val PureConfigVersion = "0.12.1"
 
 lazy val LogbackVersion = "1.2.3"
 
-lazy val ScalaTestVersion = "3.0.5"
+lazy val ScalaTestVersion = "3.2.0"
 
-lazy val ScalaMockVersion = "4.1.0"
+lazy val ScalaMockVersion = "4.4.0"
 
 lazy val uTestVersion = "0.7.1"
 
@@ -60,8 +61,8 @@ lazy val root = (project in file("."))
 
       "io.circe"              %% "circe-generic"        % CirceVersion,
       "io.circe"              %% "circe-literal"        % CirceVersion      % "it,test",
-      "io.circe"              %% "circe-optics"         % CirceVersion      % "it",
-      "io.circe"              %% "circe-java8"          % CirceVersion,
+      "io.circe"              %% "circe-optics"         % "0.13.0"      % "it",
+//      "io.circe"              %% "circe-java8"          % CirceVersion,
       "com.pauldijou" %% "jwt-core" % "4.2.0",
       "com.pauldijou" %% "jwt-circe" % "4.2.0",
 

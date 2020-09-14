@@ -1,3 +1,6 @@
-addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.0")
-addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.5.1")
+//addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.0")
+addSbtPlugin("org.lyranthe.sbt" % "partial-unification" % "1.1.2")
+addSbtPlugin("com.typesafe.sbt" % "sbt-native-packager" % "1.7.5")
 addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.2.1")
+addSbtPlugin("org.scala-js" % "sbt-scalajs" % "1.2.0")
+addSbtPlugin("org.portable-scala" % "sbt-scalajs-crossproject" % "1.0.0")
