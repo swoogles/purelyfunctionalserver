@@ -41,7 +41,7 @@ object AllServices {
     }
     val homePageService: HttpRoutes[Task] = new HomePageService(blocker).routes
     val resourceService: HttpRoutes[Task] =
-      fileService[Task](FileService.Config("./src/main/resources", blocker))
+      fileService[Task](FileService.Config("./jvm/src/main/resources", blocker))
     val authService: HttpRoutes[Task] = new OAuthService(client, authLogic).service
 
     val myMiddle = new MyMiddle(authLogic)
