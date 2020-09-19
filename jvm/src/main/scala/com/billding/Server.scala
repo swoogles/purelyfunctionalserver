@@ -1,21 +1,25 @@
+package com.billding
+
 import java.util.concurrent.{Executors, ScheduledThreadPoolExecutor}
 
 import cats.effect.{Blocker, ExitCode, IO, IOApp}
 import cats.implicits._
+
 import config.{Config, DatabaseConfig}
 import db.Database
 import fs2.Stream
 import org.http4s.client.blaze.BlazeClientBuilder
 import org.http4s.dsl.Http4sDsl
 import org.http4s.server.blaze.BlazeServerBuilder
-import service._
+import service.AllServices
 import zio.{DefaultRuntime, Runtime, Task, ZEnv, ZIO}
+import zio.interop.catz._
+import zio.interop.catz.implicits._
+
 
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Properties
-import zio.interop.catz._
-import zio.interop.catz.implicits._
 
 object Server extends zio.App with Http4sDsl[Task] {
   implicit val ec = ExecutionContext.fromExecutor(Executors.newFixedThreadPool(10))

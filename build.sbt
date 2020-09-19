@@ -44,12 +44,14 @@ lazy val root = project.in(file(".")).
   settings(
     publish := {},
     publishLocal := {},
-  )
+    mainClass in (Compile) := Some("com.billding.Server")
+  ).enablePlugins(JavaServerAppPackaging)
 
 lazy val foo =
   crossProject(JSPlatform, JVMPlatform).in(file("."))
   .configs(IntegrationTest)
   .jvmSettings(
+    mainClass in (Compile) := Some("com.billding.Server"),
     commonSettings,
     Defaults.itSettings,
     libraryDependencies ++= Seq(
@@ -120,5 +122,3 @@ cbBuild := {
 //    Process("cp ./target/scala-2.13/busriderapp-jsdeps.js src/main/resources/compiledJavascript/"))!
     )!
 }
-
-mainClass := Some("Server")
