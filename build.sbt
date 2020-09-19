@@ -39,9 +39,17 @@ lazy val tsecV = "0.2.0-M2"
 
 testFrameworks += new TestFramework("utest.runner.Framework")
 
-lazy val root = (project in file("."))
+lazy val root = project.in(file(".")).
+  aggregate(foo.js, foo.jvm).
+  settings(
+    publish := {},
+    publishLocal := {},
+  )
+
+lazy val foo =
+  crossProject(JSPlatform, JVMPlatform).in(file("."))
   .configs(IntegrationTest)
-  .settings(
+  .jvmSettings(
     commonSettings,
     Defaults.itSettings,
     libraryDependencies ++= Seq(
@@ -95,3 +103,22 @@ lazy val root = (project in file("."))
 
 )
 ).enablePlugins(JavaServerAppPackaging)
+
+lazy val cbBuild = taskKey[Unit]("Execute the shell script")
+
+cbBuild := {
+  (foo.js/Compile/fastOptJS).value
+  (Compile/scalafmt).value
+  import scala.sys.process._
+  //  "ls ./target/scala-2.13" !
+  (Process("mkdir ./jvm/src/main/resources/compiledJavaScript") #||
+    Process("cp ./js/target/scala-2.13/quadset-counter-fastopt.js ./jvm/src/main/resources/compiledJavaScript/")
+//    Process("cp ./target/scala-2.13/busriderapp-fastopt.js ./jvm/src/main/resources/compiledJavascript/") #&&
+//    Process("cp ./target/scala-2.13/busriderapp-fastopt.js.map src/main/resources/compiledJavascript/") #&&
+//    Process("cp sw/target/scala-2.13/sw-opt.js src/main/resources/") #&&
+//    Process("cp sw/target/scala-2.13/sw-opt.js.map src/main/resources/") #&&
+//    Process("cp ./target/scala-2.13/busriderapp-jsdeps.js src/main/resources/compiledJavascript/"))!
+    )!
+}
+
+mainClass := Some("Server")

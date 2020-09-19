@@ -76,7 +76,7 @@ object AllServices {
       "/resources" -> resourceService,
       "/github"    -> githubService,
       "/exercises" -> exerciseService,
-      "/weather"   -> weatherService,
+      "/weather" -> weatherService,
       "/oauth"     -> authService,
 //      "/tsec" -> authenticatedEndpoint,
       "/login" -> loginService

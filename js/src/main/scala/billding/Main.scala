@@ -457,6 +457,7 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
+    println("No more stupid file copies and separate projects!!")
     laminarStuff()
 
     println("Cookie: " + document.cookie)
