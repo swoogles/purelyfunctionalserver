@@ -15,7 +15,7 @@ class HomePageService(blocker: Blocker)(implicit cs: ContextShift[Task]) extends
 
   val routes = HttpRoutes.of[Task] {
     case request @ GET -> Root => {
-      val servedFile = new File("./src/main/resources/html/landing.html")
+      val servedFile = new File("./jvm/src/main/resources/html/landing.html")
       println("got a file. dunno if it exists")
       println(servedFile.exists())
       println(servedFile.getAbsolutePath)
