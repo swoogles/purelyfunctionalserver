@@ -152,6 +152,7 @@ lazy val cbBuild = taskKey[Unit]("Execute the shell script")
 
 cbBuild := {
   (foo.js/Compile/fastOptJS).value
+  (databaseExploration.js/Compile/fastOptJS).value
   (Compile/scalafmt).value
   import scala.sys.process._
   //  "ls ./target/scala-2.13" !

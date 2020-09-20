@@ -193,11 +193,8 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
-    println("No more stupid file copies and separate projects!!")
+    println("Anything?!")
     laminarStuff()
 
-    println("Cookie: " + document.cookie)
-    val storage = org.scalajs.dom.window.localStorage
-    // dom.window.location.href = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
   }
 }
