@@ -743,7 +743,7 @@ class $c_Lbillding_Main$ extends $c_O {
     const this$11 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const this$12 = this$11.cls__Lcom_raquo_laminar_keys_CompositeAttr();
     const array = [this$12.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("medium", this$12.Lcom_raquo_laminar_keys_CompositeAttr__f_separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Shoulder Stretches:"))];
-    const $$x13 = $$x14.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array));
+    const $$x13 = $$x14.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array));
     const this$17 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const $$x12 = this$17.div__Lcom_raquo_laminar_builders_HtmlTag();
     const this$18 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
@@ -756,11 +756,11 @@ class $c_Lbillding_Main$ extends $c_O {
       $m_Lcom_raquo_laminar_api_package$();
       const text = ("" + count);
       const array$1 = [new $c_Lcom_raquo_laminar_nodes_TextNode(text)];
-      return $$x9.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$1))
+      return $$x9.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1))
     }))(this));
     const array$2 = [$$x11, $$x10.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4shoulderStretchTotal, project, $m_s_None$()))];
-    const array$3 = [$$x15, $$x13, $$x12.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$2))];
-    const $$x8 = $$x16.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$3));
+    const array$3 = [$$x15, $$x13, $$x12.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2))];
+    const $$x8 = $$x16.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$3));
     const this$31 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const $$x7 = this$31.div__Lcom_raquo_laminar_builders_HtmlTag();
     const this$32 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
@@ -777,7 +777,7 @@ class $c_Lbillding_Main$ extends $c_O {
     const this$39 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$38, eventProp).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$3$1) => (() => (-1)))(this)));
     const observer = armStretches.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
     const array$4 = [$$x4, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer, this$39.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$39.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$39.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("-1"))];
-    const $$x3 = $$x5.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$4));
+    const $$x3 = $$x5.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$4));
     const this$44 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const $$x2 = this$44.button__Lcom_raquo_laminar_builders_HtmlTag();
     const this$45 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
@@ -789,9 +789,9 @@ class $c_Lbillding_Main$ extends $c_O {
     const this$49 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$48, eventProp$1).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$4$1) => (() => 1))(this)));
     const observer$1 = armStretches.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
     const array$5 = [$$x1, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$1, this$49.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$49.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$49.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("+1"))];
-    const array$6 = [$$x6, $$x3, $$x2.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$5))];
-    const array$7 = [$$x18, displayCode, $$x17, $$x8, $$x7.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$6))];
-    return $$x19.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$7))
+    const array$6 = [$$x6, $$x3, $$x2.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$5))];
+    const array$7 = [$$x18, displayCode, $$x17, $$x8, $$x7.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$6))];
+    return $$x19.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$7))
   };
   CounterComponent__I__Lcom_raquo_laminar_modifiers_Binder__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(id, displayCode) {
     const nameBus = new $c_Lcom_raquo_airstream_eventbus_EventBus();
@@ -839,12 +839,12 @@ class $c_Lbillding_Main$ extends $c_O {
       return $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer, this$16.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$16.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$16.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor)
     }))(this, nameBus));
     const array = [$$x10, new $c_Lcom_raquo_laminar_api_Laminar$$anon$6(makeModifier)];
-    const array$1 = [$$x12, $$x11.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array))];
-    const $$x9 = $$x13.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$1));
+    const array$1 = [$$x12, $$x11.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array))];
+    const $$x9 = $$x13.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1));
     const this$24 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const $$x8 = this$24.div__Lcom_raquo_laminar_builders_HtmlTag();
     const array$2 = [($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Your Query: ")), this.Hello__Lcom_raquo_airstream_eventstream_EventStream__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(nameBus.Lcom_raquo_airstream_eventbus_EventBus__f_events, \u03b4color)];
-    const $$x7 = $$x8.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$2));
+    const $$x7 = $$x8.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2));
     const this$29 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const $$x6 = this$29.div__Lcom_raquo_laminar_builders_HtmlTag();
     const $$x5 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.styleAttr__Lcom_raquo_laminar_keys_ReactiveHtmlAttr();
@@ -853,7 +853,7 @@ class $c_Lbillding_Main$ extends $c_O {
       return ("background: " + color)
     }))(this));
     const array$3 = [$$x5.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Binder(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4color, project, $m_s_None$())), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("success by color"))];
-    const $$x4 = $$x6.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$3));
+    const $$x4 = $$x6.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$3));
     const this$34 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const $$x3 = this$34.button__Lcom_raquo_laminar_builders_HtmlTag();
     $m_Lcom_raquo_laminar_api_package$();
@@ -867,9 +867,9 @@ class $c_Lbillding_Main$ extends $c_O {
     const this$40 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$39, eventProp$1).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$5$1) => (() => $m_Lbillding_Main$ResetCount$()))(this)));
     const observer$1 = diffBusT.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
     const array$4 = [$$x2, $$x1, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$1, this$40.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$40.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$40.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor)];
-    const array$5 = [$$x9, $$x7, $$x4, $$x3.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$4))];
-    const array$6 = [displayCode, $$x16, $$x15, $$x14.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$5))];
-    return $$x17.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$6))
+    const array$5 = [$$x9, $$x7, $$x4, $$x3.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$4))];
+    const array$6 = [displayCode, $$x16, $$x15, $$x14.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$5))];
+    return $$x17.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$6))
   };
   Hello__Lcom_raquo_airstream_eventstream_EventStream__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(helloNameStream, helloColorStream) {
     const this$1 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
@@ -885,8 +885,8 @@ class $c_Lbillding_Main$ extends $c_O {
     const this$5 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const $$x1 = this$5.strong__Lcom_raquo_laminar_builders_HtmlTag();
     const array = [($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Hello, "))];
-    const array$1 = [$$x4, $$x2, $$x1.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array)), $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child.Lcom_raquo_laminar_receivers_ChildReceiver$__f_text.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(helloNameStream)];
-    return $$x6.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$1))
+    const array$1 = [$$x4, $$x2, $$x1.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array)), $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child.Lcom_raquo_laminar_receivers_ChildReceiver$__f_text.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(helloNameStream)];
+    return $$x6.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1))
   };
   laminarStuff__Lcom_raquo_laminar_nodes_RootNode() {
     const nameBus = new $c_Lcom_raquo_airstream_eventbus_EventBus();
@@ -924,7 +924,7 @@ class $c_Lbillding_Main$ extends $c_O {
     const this$14 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$13, eventProp).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$3$1) => (() => 1))(this)));
     const observer = componentSelections.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
     const array = [$$x10, $$x9, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer, this$14.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$14.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$14.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor)];
-    const $$x8 = $$x11.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array));
+    const $$x8 = $$x11.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array));
     const this$18 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const $$x7 = this$18.button__Lcom_raquo_laminar_builders_HtmlTag();
     $m_Lcom_raquo_laminar_api_package$();
@@ -938,7 +938,7 @@ class $c_Lbillding_Main$ extends $c_O {
     const this$24 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$23, eventProp$1).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$4$1) => (() => 2))(this)));
     const observer$1 = componentSelections.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
     const array$1 = [$$x6, $$x5, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$1, this$24.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$24.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$24.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor)];
-    const $$x4 = $$x7.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$1));
+    const $$x4 = $$x7.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1));
     const $$x3 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.styleAttr__Lcom_raquo_laminar_keys_ReactiveHtmlAttr();
     const project$1 = new $c_sjsr_AnonFunction1(((this$5$1) => ((selection$3$2) => {
       const selection$3 = $uI(selection$3$2);
@@ -951,7 +951,7 @@ class $c_Lbillding_Main$ extends $c_O {
       return ("display: " + ((selection$4 === 2) ? "inline" : "none"))
     }))(this));
     const array$2 = [$$x13, $$x12, $$x8, $$x4, $$x2, this.ArmStretchComponent__I__Lcom_raquo_laminar_modifiers_Binder__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(2, $$x1.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Binder(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4selectedComponent, project$2, $m_s_None$())))];
-    const appDiv = $$x14.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(new $c_sjsr_WrappedVarArgs(array$2));
+    const appDiv = $$x14.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2));
     $m_Lcom_raquo_laminar_api_package$();
     const container = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().querySelector("#laminarApp");
     return new $c_Lcom_raquo_laminar_nodes_RootNode(container, appDiv)
@@ -1017,6 +1017,33 @@ function $m_Lbillding_Main$CounterAction$() {
   };
   return $n_Lbillding_Main$CounterAction$
 }
+class $c_Lbillding_SQL$Operator$ extends $c_O {
+  apply__T__Lbillding_SQL$Operator(raw) {
+    if ((raw === "=")) {
+      return $m_Lbillding_SQL$Equal$()
+    } else if ((raw === "<")) {
+      return $m_Lbillding_SQL$LessThan$()
+    } else if ((raw === ">")) {
+      return $m_Lbillding_SQL$GreaterThan$()
+    } else {
+      throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O($ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), ("Unrecognized operator: " + raw)))
+    }
+  };
+}
+const $d_Lbillding_SQL$Operator$ = new $TypeData().initClass({
+  Lbillding_SQL$Operator$: 0
+}, false, "billding.SQL$Operator$", {
+  Lbillding_SQL$Operator$: 1,
+  O: 1
+});
+$c_Lbillding_SQL$Operator$.prototype.$classData = $d_Lbillding_SQL$Operator$;
+let $n_Lbillding_SQL$Operator$;
+function $m_Lbillding_SQL$Operator$() {
+  if ((!$n_Lbillding_SQL$Operator$)) {
+    $n_Lbillding_SQL$Operator$ = new $c_Lbillding_SQL$Operator$()
+  };
+  return $n_Lbillding_SQL$Operator$
+}
 class $c_Lbillding_SQL$parsing$ extends $c_O {
   select__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$1) {
     const startIndex = evidence$1.Lfastparse_ParsingRun__f_index;
@@ -1037,7 +1064,7 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
     if (x1$3.Lfastparse_ParsingRun__f_verboseFailures) {
       $m_sci_List$();
       const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$2) => (() => new $c_Lsourcecode_Name("select").Lsourcecode_Name__f_value))(this)))];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       x1$3.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$3.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$3.Lfastparse_ParsingRun__f_traceIndex));
       if ((!x1$3.Lfastparse_ParsingRun__f_isSuccess)) {
         const self = new $c_Lsourcecode_Name("select").Lsourcecode_Name__f_value;
@@ -1131,7 +1158,7 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
     if (x1$5.Lfastparse_ParsingRun__f_verboseFailures) {
       $m_sci_List$();
       const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$7) => (() => new $c_Lsourcecode_Name("columnName").Lsourcecode_Name__f_value))(this)))];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       x1$5.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$5.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$5.Lfastparse_ParsingRun__f_traceIndex));
       if ((!x1$5.Lfastparse_ParsingRun__f_isSuccess)) {
         const self = new $c_Lsourcecode_Name("columnName").Lsourcecode_Name__f_value;
@@ -1161,7 +1188,7 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
     if (x1$3.Lfastparse_ParsingRun__f_verboseFailures) {
       $m_sci_List$();
       const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$2) => (() => new $c_Lsourcecode_Name("from").Lsourcecode_Name__f_value))(this)))];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       x1$3.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$3.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$3.Lfastparse_ParsingRun__f_traceIndex));
       if ((!x1$3.Lfastparse_ParsingRun__f_isSuccess)) {
         const self = new $c_Lsourcecode_Name("from").Lsourcecode_Name__f_value;
@@ -1172,11 +1199,11 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
     };
     return x1$3
   };
-  tableName__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$4) {
+  relName__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$4) {
     const startIndex = evidence$4.Lfastparse_ParsingRun__f_index;
     const instrument = (evidence$4.Lfastparse_ParsingRun__f_instrument !== null);
     if (instrument) {
-      evidence$4.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("tableName").Lsourcecode_Name__f_value, startIndex)
+      evidence$4.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("relName").Lsourcecode_Name__f_value, startIndex)
     };
     const startPos = evidence$4.Lfastparse_ParsingRun__f_index;
     const oldCapturing = evidence$4.Lfastparse_ParsingRun__f_noDropBuffer;
@@ -1250,15 +1277,15 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
     evidence$4.Lfastparse_ParsingRun__f_noDropBuffer = oldCapturing;
     const x1$5 = ((!evidence$4.Lfastparse_ParsingRun__f_isSuccess) ? evidence$4 : evidence$4.freshSuccess__O__Lfastparse_ParsingRun(evidence$4.Lfastparse_ParsingRun__f_input.slice__I__I__T(startPos, evidence$4.Lfastparse_ParsingRun__f_index)));
     if (instrument) {
-      evidence$4.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("tableName").Lsourcecode_Name__f_value, x1$5.Lfastparse_ParsingRun__f_index, x1$5.Lfastparse_ParsingRun__f_isSuccess)
+      evidence$4.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("relName").Lsourcecode_Name__f_value, x1$5.Lfastparse_ParsingRun__f_index, x1$5.Lfastparse_ParsingRun__f_isSuccess)
     };
     if (x1$5.Lfastparse_ParsingRun__f_verboseFailures) {
       $m_sci_List$();
-      const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$7) => (() => new $c_Lsourcecode_Name("tableName").Lsourcecode_Name__f_value))(this)))];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$7) => (() => new $c_Lsourcecode_Name("relName").Lsourcecode_Name__f_value))(this)))];
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       x1$5.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$5.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$5.Lfastparse_ParsingRun__f_traceIndex));
       if ((!x1$5.Lfastparse_ParsingRun__f_isSuccess)) {
-        const self = new $c_Lsourcecode_Name("tableName").Lsourcecode_Name__f_value;
+        const self = new $c_Lsourcecode_Name("relName").Lsourcecode_Name__f_value;
         const rassoc$1$1 = new $c_T2(self, startIndex);
         const this$14 = x1$5.Lfastparse_ParsingRun__f_failureStack;
         x1$5.Lfastparse_ParsingRun__f_failureStack = new $c_sci_$colon$colon(rassoc$1$1, this$14)
@@ -1266,26 +1293,227 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
     };
     return x1$5
   };
-  WHERE__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$5) {
+  fromList__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$5) {
+    $m_Lfastparse_package$();
     const startIndex = evidence$5.Lfastparse_ParsingRun__f_index;
     const instrument = (evidence$5.Lfastparse_ParsingRun__f_instrument !== null);
     if (instrument) {
-      evidence$5.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("WHERE").Lsourcecode_Name__f_value, startIndex)
+      evidence$5.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("fromList").Lsourcecode_Name__f_value, startIndex)
     };
+    const this$1 = $m_Lfastparse_Implicits$Sequencer$();
+    const x1$3 = $as_Lfastparse_Implicits$Sequencer($f_Lfastparse_LowestPriSequencer__Sequencer1__O(this$1));
+    const preLhsIndex$macro$28 = evidence$5.Lfastparse_ParsingRun__f_index;
+    const input$macro$37 = evidence$5.Lfastparse_ParsingRun__f_input;
+    $m_Lfastparse_package$();
     const startPos = evidence$5.Lfastparse_ParsingRun__f_index;
     const oldCapturing = evidence$5.Lfastparse_ParsingRun__f_noDropBuffer;
     evidence$5.Lfastparse_ParsingRun__f_noDropBuffer = true;
     $m_Lfastparse_package$();
-    $m_Lfastparse_package$().IgnoreCase__T__Lfastparse_ParsingRun__Lfastparse_ParsingRun("WHERE", evidence$5);
+    this.relName__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$5);
     evidence$5.Lfastparse_ParsingRun__f_noDropBuffer = oldCapturing;
-    const x1$3 = ((!evidence$5.Lfastparse_ParsingRun__f_isSuccess) ? evidence$5 : evidence$5.freshSuccess__O__Lfastparse_ParsingRun(evidence$5.Lfastparse_ParsingRun__f_input.slice__I__I__T(startPos, evidence$5.Lfastparse_ParsingRun__f_index)));
+    if ((!evidence$5.Lfastparse_ParsingRun__f_isSuccess)) {
+      /*<skip>*/
+    } else {
+      evidence$5.freshSuccess__O__Lfastparse_ParsingRun(evidence$5.Lfastparse_ParsingRun__f_input.slice__I__I__T(startPos, evidence$5.Lfastparse_ParsingRun__f_index))
+    };
+    let x1$7;
+    if ((!evidence$5.Lfastparse_ParsingRun__f_isSuccess)) {
+      x1$7 = evidence$5
+    } else {
+      const postLhsIndex$macro$29 = evidence$5.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$32 = evidence$5.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$35 = evidence$5.Lfastparse_ParsingRun__f_shortParserMsg;
+      if ((postLhsIndex$macro$29 > preLhsIndex$macro$28)) {
+        evidence$5.checkForDrop__Z()
+      };
+      const lhsValue$macro$38 = evidence$5.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$5);
+      if (evidence$5.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$5.Lfastparse_ParsingRun__f_isSuccess) && evidence$5.Lfastparse_ParsingRun__f_cut)) {
+          x1$7 = evidence$5
+        } else {
+          const preRhsIndex$macro$30 = evidence$5.Lfastparse_ParsingRun__f_index;
+          const this$4 = $m_Lfastparse_Implicits$Repeater$();
+          this$4.GenericRepeatedImplicit0__Lfastparse_Implicits$LowPriRepeater$GenericRepeatedImplicit0$();
+          const elem = evidence$5.Lfastparse_ParsingRun__f_cut;
+          let elem$1 = false;
+          elem$1 = elem;
+          const acc$macro$18 = $as_scm_Buffer($m_scm_Buffer$().empty__sc_SeqOps());
+          let startIndex$macro$19 = evidence$5.Lfastparse_ParsingRun__f_index;
+          let count$macro$20 = 0;
+          let lastAgg$macro$25 = null;
+          while (true) {
+            evidence$5.Lfastparse_ParsingRun__f_cut = false;
+            $m_Lfastparse_package$();
+            $m_Lfastparse_Implicits$Sequencer$();
+            const preLhsIndex$macro$2 = evidence$5.Lfastparse_ParsingRun__f_index;
+            const input$macro$11 = evidence$5.Lfastparse_ParsingRun__f_input;
+            $m_Lfastparse_package$();
+            const input = evidence$5.Lfastparse_ParsingRun__f_input;
+            const index = evidence$5.Lfastparse_ParsingRun__f_index;
+            let $$x1;
+            if (input.isReachable__I__Z(index)) {
+              const this$8 = input.Lfastparse_IndexedParserInput__f_data;
+              $$x1 = ((65535 & $uI(this$8.charCodeAt(index))) === 44)
+            } else {
+              $$x1 = false
+            };
+            if ($$x1) {
+              evidence$5.freshSuccessUnit__I__Lfastparse_ParsingRun(((1 + index) | 0))
+            } else {
+              evidence$5.freshFailure__Lfastparse_ParsingRun()
+            };
+            if (evidence$5.Lfastparse_ParsingRun__f_verboseFailures) {
+              evidence$5.aggregateTerminal__I__F0__V(index, new $c_sjsr_AnonFunction0(((this$9) => (() => "\",\""))(this)))
+            };
+            if (evidence$5.Lfastparse_ParsingRun__f_isSuccess) {
+              const postLhsIndex$macro$3 = evidence$5.Lfastparse_ParsingRun__f_index;
+              const lhsAggregate$macro$6 = evidence$5.Lfastparse_ParsingRun__f_failureGroupAggregate;
+              const lhsMsg$macro$9 = evidence$5.Lfastparse_ParsingRun__f_shortParserMsg;
+              if ((postLhsIndex$macro$3 > preLhsIndex$macro$2)) {
+                evidence$5.checkForDrop__Z()
+              };
+              $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$5);
+              if (evidence$5.Lfastparse_ParsingRun__f_isSuccess) {
+                if ((!((!evidence$5.Lfastparse_ParsingRun__f_isSuccess) && evidence$5.Lfastparse_ParsingRun__f_cut))) {
+                  const preRhsIndex$macro$4 = evidence$5.Lfastparse_ParsingRun__f_index;
+                  const startPos$1 = evidence$5.Lfastparse_ParsingRun__f_index;
+                  const oldCapturing$1 = evidence$5.Lfastparse_ParsingRun__f_noDropBuffer;
+                  evidence$5.Lfastparse_ParsingRun__f_noDropBuffer = true;
+                  $m_Lfastparse_package$();
+                  $m_Lbillding_SQL$parsing$().relName__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$5);
+                  evidence$5.Lfastparse_ParsingRun__f_noDropBuffer = oldCapturing$1;
+                  if (evidence$5.Lfastparse_ParsingRun__f_isSuccess) {
+                    evidence$5.freshSuccess__O__Lfastparse_ParsingRun(evidence$5.Lfastparse_ParsingRun__f_input.slice__I__I__T(startPos$1, evidence$5.Lfastparse_ParsingRun__f_index))
+                  };
+                  const rhsAggregate$macro$7 = evidence$5.Lfastparse_ParsingRun__f_failureGroupAggregate;
+                  const rhsMsg$macro$8 = evidence$5.Lfastparse_ParsingRun__f_shortParserMsg;
+                  if ((!evidence$5.Lfastparse_ParsingRun__f_isSuccess)) {
+                    /*<skip>*/
+                  } else {
+                    const postRhsIndex$macro$5 = evidence$5.Lfastparse_ParsingRun__f_index;
+                    const rhsMadeProgress$macro$10 = (postRhsIndex$macro$5 > preRhsIndex$macro$4);
+                    const nextIndex$macro$13 = (((!rhsMadeProgress$macro$10) && input$macro$11.isReachable__I__Z(postRhsIndex$macro$5)) ? postLhsIndex$macro$3 : postRhsIndex$macro$5);
+                    if (rhsMadeProgress$macro$10) {
+                      evidence$5.checkForDrop__Z()
+                    };
+                    const v = $as_T(evidence$5.Lfastparse_ParsingRun__f_successValue);
+                    evidence$5.freshSuccess__O__I__Lfastparse_ParsingRun(v, nextIndex$macro$13)
+                  };
+                  if (evidence$5.Lfastparse_ParsingRun__f_verboseFailures) {
+                    evidence$5.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$2, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$9, rhsMsg$macro$8), lhsAggregate$macro$6.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$7), (preRhsIndex$macro$4 === evidence$5.Lfastparse_ParsingRun__f_traceIndex))
+                  }
+                }
+              }
+            };
+            const parsedMsg$macro$24 = evidence$5.Lfastparse_ParsingRun__f_shortParserMsg;
+            const parsedAgg$macro$26 = evidence$5.Lfastparse_ParsingRun__f_failureGroupAggregate;
+            elem$1 = (!(!(elem$1 | evidence$5.Lfastparse_ParsingRun__f_cut)));
+            if ((!evidence$5.Lfastparse_ParsingRun__f_isSuccess)) {
+              const res$1 = (evidence$5.Lfastparse_ParsingRun__f_cut ? evidence$5 : evidence$5.freshSuccess__O__I__Z__Lfastparse_ParsingRun($m_sci_Seq$().from__sc_IterableOnce__sci_Seq(acc$macro$18), startIndex$macro$19, elem$1));
+              if (evidence$5.Lfastparse_ParsingRun__f_verboseFailures) {
+                const $$x4 = startIndex$macro$19;
+                const $$x3 = new $c_sjsr_AnonFunction0(((this$2$1, parsedMsg$macro$24$1) => (() => ($m_Lfastparse_internal_Util$().parenthize__sci_Seq__T(parsedMsg$macro$24$1.Lfastparse_internal_Msgs__f_value) + ".rep")))(this, parsedMsg$macro$24));
+                let $$x2;
+                if ((lastAgg$macro$25 === null)) {
+                  $$x2 = evidence$5.Lfastparse_ParsingRun__f_failureGroupAggregate
+                } else {
+                  const rassoc$2 = evidence$5.Lfastparse_ParsingRun__f_failureGroupAggregate;
+                  $$x2 = lastAgg$macro$25.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rassoc$2)
+                };
+                evidence$5.aggregateMsg__I__F0__Lfastparse_internal_Msgs__V($$x4, $$x3, $$x2)
+              };
+              break
+            } else {
+              const beforeSepIndex$macro$21 = evidence$5.Lfastparse_ParsingRun__f_index;
+              const t = $as_T(evidence$5.Lfastparse_ParsingRun__f_successValue);
+              acc$macro$18.addOne__O__scm_Growable(t);
+              evidence$5.Lfastparse_ParsingRun__f_cut = false;
+              if (($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace !== $m_Lfastparse_NoWhitespace$noWhitespaceImplicit$())) {
+                $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$5)
+              };
+              if (((!evidence$5.Lfastparse_ParsingRun__f_isSuccess) && evidence$5.Lfastparse_ParsingRun__f_cut)) {
+                break
+              } else {
+                evidence$5.Lfastparse_ParsingRun__f_cut = false;
+                const temp$count$macro$20 = ((1 + count$macro$20) | 0);
+                startIndex$macro$19 = beforeSepIndex$macro$21;
+                count$macro$20 = temp$count$macro$20;
+                lastAgg$macro$25 = parsedAgg$macro$26
+              }
+            }
+          };
+          const rhsAggregate$macro$33 = evidence$5.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$34 = evidence$5.Lfastparse_ParsingRun__f_shortParserMsg;
+          let res$macro$40;
+          if ((!evidence$5.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$40 = evidence$5
+          } else {
+            const postRhsIndex$macro$31 = evidence$5.Lfastparse_ParsingRun__f_index;
+            const rhsMadeProgress$macro$36 = (postRhsIndex$macro$31 > preRhsIndex$macro$30);
+            const nextIndex$macro$39 = (((!rhsMadeProgress$macro$36) && input$macro$37.isReachable__I__Z(postRhsIndex$macro$31)) ? postLhsIndex$macro$29 : postRhsIndex$macro$31);
+            if (rhsMadeProgress$macro$36) {
+              evidence$5.checkForDrop__Z()
+            };
+            res$macro$40 = evidence$5.freshSuccess__O__I__Lfastparse_ParsingRun(x1$3.apply__O__O__O($as_T(lhsValue$macro$38), $as_sci_Seq(evidence$5.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$39)
+          };
+          if (evidence$5.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$5.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$28, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$35, rhsMsg$macro$34), lhsAggregate$macro$32.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$33), (preRhsIndex$macro$30 === evidence$5.Lfastparse_ParsingRun__f_traceIndex))
+          };
+          x1$7 = res$macro$40
+        }
+      } else {
+        x1$7 = evidence$5
+      }
+    };
     if (instrument) {
-      evidence$5.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("WHERE").Lsourcecode_Name__f_value, x1$3.Lfastparse_ParsingRun__f_index, x1$3.Lfastparse_ParsingRun__f_isSuccess)
+      evidence$5.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("fromList").Lsourcecode_Name__f_value, x1$7.Lfastparse_ParsingRun__f_index, x1$7.Lfastparse_ParsingRun__f_isSuccess)
+    };
+    if (x1$7.Lfastparse_ParsingRun__f_verboseFailures) {
+      $m_sci_List$();
+      const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$12) => (() => new $c_Lsourcecode_Name("fromList").Lsourcecode_Name__f_value))(this)))];
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
+      x1$7.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$7.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$7.Lfastparse_ParsingRun__f_traceIndex));
+      if ((!x1$7.Lfastparse_ParsingRun__f_isSuccess)) {
+        const self = new $c_Lsourcecode_Name("fromList").Lsourcecode_Name__f_value;
+        const rassoc$1 = new $c_T2(self, startIndex);
+        const this$19 = x1$7.Lfastparse_ParsingRun__f_failureStack;
+        x1$7.Lfastparse_ParsingRun__f_failureStack = new $c_sci_$colon$colon(rassoc$1, this$19)
+      }
+    };
+    if ((!x1$7.Lfastparse_ParsingRun__f_isSuccess)) {
+      return x1$7
+    } else {
+      const arg1 = $as_T2(x1$7.Lfastparse_ParsingRun__f_successValue);
+      if ((arg1 === null)) {
+        throw new $c_s_MatchError(arg1)
+      };
+      const first = $as_T(arg1.T2__f__1);
+      const rest = $as_sci_Seq(arg1.T2__f__2);
+      x1$7.Lfastparse_ParsingRun__f_successValue = $as_sci_Seq(rest.prepended__O__O(first));
+      return x1$7
+    }
+  };
+  WHERE__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$6) {
+    const startIndex = evidence$6.Lfastparse_ParsingRun__f_index;
+    const instrument = (evidence$6.Lfastparse_ParsingRun__f_instrument !== null);
+    if (instrument) {
+      evidence$6.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("WHERE").Lsourcecode_Name__f_value, startIndex)
+    };
+    const startPos = evidence$6.Lfastparse_ParsingRun__f_index;
+    const oldCapturing = evidence$6.Lfastparse_ParsingRun__f_noDropBuffer;
+    evidence$6.Lfastparse_ParsingRun__f_noDropBuffer = true;
+    $m_Lfastparse_package$();
+    $m_Lfastparse_package$().IgnoreCase__T__Lfastparse_ParsingRun__Lfastparse_ParsingRun("WHERE", evidence$6);
+    evidence$6.Lfastparse_ParsingRun__f_noDropBuffer = oldCapturing;
+    const x1$3 = ((!evidence$6.Lfastparse_ParsingRun__f_isSuccess) ? evidence$6 : evidence$6.freshSuccess__O__Lfastparse_ParsingRun(evidence$6.Lfastparse_ParsingRun__f_input.slice__I__I__T(startPos, evidence$6.Lfastparse_ParsingRun__f_index)));
+    if (instrument) {
+      evidence$6.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("WHERE").Lsourcecode_Name__f_value, x1$3.Lfastparse_ParsingRun__f_index, x1$3.Lfastparse_ParsingRun__f_isSuccess)
     };
     if (x1$3.Lfastparse_ParsingRun__f_verboseFailures) {
       $m_sci_List$();
       const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$2) => (() => new $c_Lsourcecode_Name("WHERE").Lsourcecode_Name__f_value))(this)))];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       x1$3.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$3.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$3.Lfastparse_ParsingRun__f_traceIndex));
       if ((!x1$3.Lfastparse_ParsingRun__f_isSuccess)) {
         const self = new $c_Lsourcecode_Name("WHERE").Lsourcecode_Name__f_value;
@@ -1296,72 +1524,72 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
     };
     return x1$3
   };
-  attribute__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$6) {
-    const startIndex = evidence$6.Lfastparse_ParsingRun__f_index;
-    const instrument = (evidence$6.Lfastparse_ParsingRun__f_instrument !== null);
+  attribute__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$7) {
+    const startIndex = evidence$7.Lfastparse_ParsingRun__f_index;
+    const instrument = (evidence$7.Lfastparse_ParsingRun__f_instrument !== null);
     if (instrument) {
-      evidence$6.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("attribute").Lsourcecode_Name__f_value, startIndex)
+      evidence$7.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("attribute").Lsourcecode_Name__f_value, startIndex)
     };
-    const startPos = evidence$6.Lfastparse_ParsingRun__f_index;
-    const oldCapturing = evidence$6.Lfastparse_ParsingRun__f_noDropBuffer;
-    evidence$6.Lfastparse_ParsingRun__f_noDropBuffer = true;
+    const startPos = evidence$7.Lfastparse_ParsingRun__f_index;
+    const oldCapturing = evidence$7.Lfastparse_ParsingRun__f_noDropBuffer;
+    evidence$7.Lfastparse_ParsingRun__f_noDropBuffer = true;
     $m_Lfastparse_package$();
-    const elem = evidence$6.Lfastparse_ParsingRun__f_cut;
+    const elem = evidence$7.Lfastparse_ParsingRun__f_cut;
     let elem$1 = false;
     elem$1 = elem;
-    let startIndex$macro$4 = evidence$6.Lfastparse_ParsingRun__f_index;
+    let startIndex$macro$4 = evidence$7.Lfastparse_ParsingRun__f_index;
     let count$macro$5 = 0;
     let lastAgg$macro$10 = null;
     while (true) {
-      evidence$6.Lfastparse_ParsingRun__f_cut = (elem$1 && (count$macro$5 < 1));
+      evidence$7.Lfastparse_ParsingRun__f_cut = (elem$1 && (count$macro$5 < 1));
       $m_Lfastparse_package$();
-      const index = evidence$6.Lfastparse_ParsingRun__f_index;
-      if ((!evidence$6.Lfastparse_ParsingRun__f_input.isReachable__I__Z(index))) {
-        evidence$6.freshFailure__Lfastparse_ParsingRun()
+      const index = evidence$7.Lfastparse_ParsingRun__f_index;
+      if ((!evidence$7.Lfastparse_ParsingRun__f_input.isReachable__I__Z(index))) {
+        evidence$7.freshFailure__Lfastparse_ParsingRun()
       } else {
-        const this$3 = evidence$6.Lfastparse_ParsingRun__f_input;
-        const index$1 = evidence$6.Lfastparse_ParsingRun__f_index;
+        const this$3 = evidence$7.Lfastparse_ParsingRun__f_input;
+        const index$1 = evidence$7.Lfastparse_ParsingRun__f_index;
         const this$4 = this$3.Lfastparse_IndexedParserInput__f_data;
         const x1$2 = (65535 & $uI(this$4.charCodeAt(index$1)));
         const x1$3 = ((x1$2 >= 97) && (x1$2 <= 122));
         if ((x1$3 === true)) {
-          evidence$6.freshSuccessUnit__I__Lfastparse_ParsingRun(((1 + index) | 0))
+          evidence$7.freshSuccessUnit__I__Lfastparse_ParsingRun(((1 + index) | 0))
         } else {
           if ((x1$3 !== false)) {
             throw new $c_s_MatchError(x1$3)
           };
-          evidence$6.freshFailure__Lfastparse_ParsingRun()
+          evidence$7.freshFailure__Lfastparse_ParsingRun()
         }
       };
-      if (evidence$6.Lfastparse_ParsingRun__f_verboseFailures) {
-        evidence$6.aggregateTerminal__I__F0__V(index, new $c_sjsr_AnonFunction0(((this$5) => (() => "[a-z]"))(this)))
+      if (evidence$7.Lfastparse_ParsingRun__f_verboseFailures) {
+        evidence$7.aggregateTerminal__I__F0__V(index, new $c_sjsr_AnonFunction0(((this$5) => (() => "[a-z]"))(this)))
       };
-      const parsedMsg$macro$9 = evidence$6.Lfastparse_ParsingRun__f_shortParserMsg;
-      const parsedAgg$macro$11 = evidence$6.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      elem$1 = (!(!(elem$1 | evidence$6.Lfastparse_ParsingRun__f_cut)));
-      if ((!evidence$6.Lfastparse_ParsingRun__f_isSuccess)) {
-        const res$1 = (evidence$6.Lfastparse_ParsingRun__f_cut ? evidence$6 : ((count$macro$5 < 1) ? evidence$6.augmentFailure__I__Z__Lfastparse_ParsingRun(startIndex$macro$4, elem$1) : evidence$6.freshSuccess__O__I__Z__Lfastparse_ParsingRun((void 0), startIndex$macro$4, elem$1)));
-        if (evidence$6.Lfastparse_ParsingRun__f_verboseFailures) {
+      const parsedMsg$macro$9 = evidence$7.Lfastparse_ParsingRun__f_shortParserMsg;
+      const parsedAgg$macro$11 = evidence$7.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      elem$1 = (!(!(elem$1 | evidence$7.Lfastparse_ParsingRun__f_cut)));
+      if ((!evidence$7.Lfastparse_ParsingRun__f_isSuccess)) {
+        const res$1 = (evidence$7.Lfastparse_ParsingRun__f_cut ? evidence$7 : ((count$macro$5 < 1) ? evidence$7.augmentFailure__I__Z__Lfastparse_ParsingRun(startIndex$macro$4, elem$1) : evidence$7.freshSuccess__O__I__Z__Lfastparse_ParsingRun((void 0), startIndex$macro$4, elem$1)));
+        if (evidence$7.Lfastparse_ParsingRun__f_verboseFailures) {
           const $$x3 = startIndex$macro$4;
           const $$x2 = new $c_sjsr_AnonFunction0(((this$2$1, parsedMsg$macro$9$1) => (() => ($m_Lfastparse_internal_Util$().parenthize__sci_Seq__T(parsedMsg$macro$9$1.Lfastparse_internal_Msgs__f_value) + ".rep(1)")))(this, parsedMsg$macro$9));
           let $$x1;
           if ((lastAgg$macro$10 === null)) {
-            $$x1 = evidence$6.Lfastparse_ParsingRun__f_failureGroupAggregate
+            $$x1 = evidence$7.Lfastparse_ParsingRun__f_failureGroupAggregate
           } else {
-            const rassoc$1 = evidence$6.Lfastparse_ParsingRun__f_failureGroupAggregate;
+            const rassoc$1 = evidence$7.Lfastparse_ParsingRun__f_failureGroupAggregate;
             $$x1 = lastAgg$macro$10.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rassoc$1)
           };
-          evidence$6.aggregateMsg__I__F0__Lfastparse_internal_Msgs__V($$x3, $$x2, $$x1)
+          evidence$7.aggregateMsg__I__F0__Lfastparse_internal_Msgs__V($$x3, $$x2, $$x1)
         };
         break
       } else {
-        const beforeSepIndex$macro$6 = evidence$6.Lfastparse_ParsingRun__f_index;
-        evidence$6.Lfastparse_ParsingRun__f_cut = false;
+        const beforeSepIndex$macro$6 = evidence$7.Lfastparse_ParsingRun__f_index;
+        evidence$7.Lfastparse_ParsingRun__f_cut = false;
         if (($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace !== $m_Lfastparse_NoWhitespace$noWhitespaceImplicit$())) {
-          $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$6)
+          $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$7)
         };
-        if ((!((!evidence$6.Lfastparse_ParsingRun__f_isSuccess) && evidence$6.Lfastparse_ParsingRun__f_cut))) {
-          evidence$6.Lfastparse_ParsingRun__f_cut = false;
+        if ((!((!evidence$7.Lfastparse_ParsingRun__f_isSuccess) && evidence$7.Lfastparse_ParsingRun__f_cut))) {
+          evidence$7.Lfastparse_ParsingRun__f_cut = false;
           const temp$count$macro$5 = ((1 + count$macro$5) | 0);
           startIndex$macro$4 = beforeSepIndex$macro$6;
           count$macro$5 = temp$count$macro$5;
@@ -1371,15 +1599,15 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
         break
       }
     };
-    evidence$6.Lfastparse_ParsingRun__f_noDropBuffer = oldCapturing;
-    const x1$5 = ((!evidence$6.Lfastparse_ParsingRun__f_isSuccess) ? evidence$6 : evidence$6.freshSuccess__O__Lfastparse_ParsingRun(evidence$6.Lfastparse_ParsingRun__f_input.slice__I__I__T(startPos, evidence$6.Lfastparse_ParsingRun__f_index)));
+    evidence$7.Lfastparse_ParsingRun__f_noDropBuffer = oldCapturing;
+    const x1$5 = ((!evidence$7.Lfastparse_ParsingRun__f_isSuccess) ? evidence$7 : evidence$7.freshSuccess__O__Lfastparse_ParsingRun(evidence$7.Lfastparse_ParsingRun__f_input.slice__I__I__T(startPos, evidence$7.Lfastparse_ParsingRun__f_index)));
     if (instrument) {
-      evidence$6.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("attribute").Lsourcecode_Name__f_value, x1$5.Lfastparse_ParsingRun__f_index, x1$5.Lfastparse_ParsingRun__f_isSuccess)
+      evidence$7.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("attribute").Lsourcecode_Name__f_value, x1$5.Lfastparse_ParsingRun__f_index, x1$5.Lfastparse_ParsingRun__f_isSuccess)
     };
     if (x1$5.Lfastparse_ParsingRun__f_verboseFailures) {
       $m_sci_List$();
       const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$7) => (() => new $c_Lsourcecode_Name("attribute").Lsourcecode_Name__f_value))(this)))];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       x1$5.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$5.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$5.Lfastparse_ParsingRun__f_traceIndex));
       if ((!x1$5.Lfastparse_ParsingRun__f_isSuccess)) {
         const self = new $c_Lsourcecode_Name("attribute").Lsourcecode_Name__f_value;
@@ -1390,22 +1618,22 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
     };
     return x1$5
   };
-  operator__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$7) {
-    const startIndex = evidence$7.Lfastparse_ParsingRun__f_index;
-    const instrument = (evidence$7.Lfastparse_ParsingRun__f_instrument !== null);
+  operator__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$8) {
+    const startIndex = evidence$8.Lfastparse_ParsingRun__f_index;
+    const instrument = (evidence$8.Lfastparse_ParsingRun__f_instrument !== null);
     if (instrument) {
-      evidence$7.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("operator").Lsourcecode_Name__f_value, startIndex)
+      evidence$8.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("operator").Lsourcecode_Name__f_value, startIndex)
     };
-    const startPos = evidence$7.Lfastparse_ParsingRun__f_index;
-    const oldCapturing = evidence$7.Lfastparse_ParsingRun__f_noDropBuffer;
-    evidence$7.Lfastparse_ParsingRun__f_noDropBuffer = true;
+    const startPos = evidence$8.Lfastparse_ParsingRun__f_index;
+    const oldCapturing = evidence$8.Lfastparse_ParsingRun__f_noDropBuffer;
+    evidence$8.Lfastparse_ParsingRun__f_noDropBuffer = true;
     $m_Lfastparse_package$();
-    const index = evidence$7.Lfastparse_ParsingRun__f_index;
-    if ((!evidence$7.Lfastparse_ParsingRun__f_input.isReachable__I__Z(index))) {
-      evidence$7.freshFailure__Lfastparse_ParsingRun()
+    const index = evidence$8.Lfastparse_ParsingRun__f_index;
+    if ((!evidence$8.Lfastparse_ParsingRun__f_input.isReachable__I__Z(index))) {
+      evidence$8.freshFailure__Lfastparse_ParsingRun()
     } else {
-      const this$1 = evidence$7.Lfastparse_ParsingRun__f_input;
-      const index$1 = evidence$7.Lfastparse_ParsingRun__f_index;
+      const this$1 = evidence$8.Lfastparse_ParsingRun__f_input;
+      const index$1 = evidence$8.Lfastparse_ParsingRun__f_index;
       const this$2 = this$1.Lfastparse_IndexedParserInput__f_data;
       const x1$4 = (65535 & $uI(this$2.charCodeAt(index$1)));
       let x1$5;
@@ -1427,26 +1655,26 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
         }
       };
       if ((x1$5 === true)) {
-        evidence$7.freshSuccessUnit__I__Lfastparse_ParsingRun(((1 + index) | 0))
+        evidence$8.freshSuccessUnit__I__Lfastparse_ParsingRun(((1 + index) | 0))
       } else {
         if ((x1$5 !== false)) {
           throw new $c_s_MatchError(x1$5)
         };
-        evidence$7.freshFailure__Lfastparse_ParsingRun()
+        evidence$8.freshFailure__Lfastparse_ParsingRun()
       }
     };
-    if (evidence$7.Lfastparse_ParsingRun__f_verboseFailures) {
-      evidence$7.aggregateTerminal__I__F0__V(index, new $c_sjsr_AnonFunction0(((this$3) => (() => "[=<>]"))(this)))
+    if (evidence$8.Lfastparse_ParsingRun__f_verboseFailures) {
+      evidence$8.aggregateTerminal__I__F0__V(index, new $c_sjsr_AnonFunction0(((this$3) => (() => "[=<>]"))(this)))
     };
-    evidence$7.Lfastparse_ParsingRun__f_noDropBuffer = oldCapturing;
-    const x1$6 = ((!evidence$7.Lfastparse_ParsingRun__f_isSuccess) ? evidence$7 : evidence$7.freshSuccess__O__Lfastparse_ParsingRun(evidence$7.Lfastparse_ParsingRun__f_input.slice__I__I__T(startPos, evidence$7.Lfastparse_ParsingRun__f_index)));
+    evidence$8.Lfastparse_ParsingRun__f_noDropBuffer = oldCapturing;
+    const x1$6 = ((!evidence$8.Lfastparse_ParsingRun__f_isSuccess) ? evidence$8 : evidence$8.freshSuccess__O__Lfastparse_ParsingRun(evidence$8.Lfastparse_ParsingRun__f_input.slice__I__I__T(startPos, evidence$8.Lfastparse_ParsingRun__f_index)));
     if (instrument) {
-      evidence$7.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("operator").Lsourcecode_Name__f_value, x1$6.Lfastparse_ParsingRun__f_index, x1$6.Lfastparse_ParsingRun__f_isSuccess)
+      evidence$8.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("operator").Lsourcecode_Name__f_value, x1$6.Lfastparse_ParsingRun__f_index, x1$6.Lfastparse_ParsingRun__f_isSuccess)
     };
     if (x1$6.Lfastparse_ParsingRun__f_verboseFailures) {
       $m_sci_List$();
       const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$2$1) => (() => new $c_Lsourcecode_Name("operator").Lsourcecode_Name__f_value))(this)))];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       x1$6.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$6.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$6.Lfastparse_ParsingRun__f_traceIndex));
       if ((!x1$6.Lfastparse_ParsingRun__f_isSuccess)) {
         const self = new $c_Lsourcecode_Name("operator").Lsourcecode_Name__f_value;
@@ -1457,150 +1685,24 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
     };
     return x1$6
   };
-  condition__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$8) {
-    const startIndex = evidence$8.Lfastparse_ParsingRun__f_index;
-    const instrument = (evidence$8.Lfastparse_ParsingRun__f_instrument !== null);
-    if (instrument) {
-      evidence$8.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("condition").Lsourcecode_Name__f_value, startIndex)
-    };
-    const this$1 = $m_Lfastparse_Implicits$Sequencer$();
-    const x1$3 = this$1.Lfastparse_Implicits$Sequencer$__f_BaseSequencer2;
-    const preLhsIndex$macro$17 = evidence$8.Lfastparse_ParsingRun__f_index;
-    const input$macro$26 = evidence$8.Lfastparse_ParsingRun__f_input;
+  condition__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9) {
     $m_Lfastparse_package$();
-    const this$2 = $m_Lfastparse_Implicits$Sequencer$();
-    const x1$5 = $as_Lfastparse_Implicits$Sequencer($f_Lfastparse_LowestPriSequencer__Sequencer1__O(this$2));
-    const preLhsIndex$macro$2 = evidence$8.Lfastparse_ParsingRun__f_index;
-    const input$macro$11 = evidence$8.Lfastparse_ParsingRun__f_input;
-    $m_Lfastparse_package$();
-    this.attribute__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$8);
-    if ((!evidence$8.Lfastparse_ParsingRun__f_isSuccess)) {
-      /*<skip>*/
-    } else {
-      const postLhsIndex$macro$3 = evidence$8.Lfastparse_ParsingRun__f_index;
-      const lhsAggregate$macro$6 = evidence$8.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      const lhsMsg$macro$9 = evidence$8.Lfastparse_ParsingRun__f_shortParserMsg;
-      if ((postLhsIndex$macro$3 > preLhsIndex$macro$2)) {
-        evidence$8.checkForDrop__Z()
-      };
-      const lhsValue$macro$12 = evidence$8.Lfastparse_ParsingRun__f_successValue;
-      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$8);
-      if (evidence$8.Lfastparse_ParsingRun__f_isSuccess) {
-        if (((!evidence$8.Lfastparse_ParsingRun__f_isSuccess) && evidence$8.Lfastparse_ParsingRun__f_cut)) {
-          /*<skip>*/
-        } else {
-          const preRhsIndex$macro$4 = evidence$8.Lfastparse_ParsingRun__f_index;
-          this.operator__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$8);
-          const rhsAggregate$macro$7 = evidence$8.Lfastparse_ParsingRun__f_failureGroupAggregate;
-          const rhsMsg$macro$8 = evidence$8.Lfastparse_ParsingRun__f_shortParserMsg;
-          let res$macro$14;
-          if ((!evidence$8.Lfastparse_ParsingRun__f_isSuccess)) {
-            res$macro$14 = evidence$8
-          } else {
-            const postRhsIndex$macro$5 = evidence$8.Lfastparse_ParsingRun__f_index;
-            const rhsMadeProgress$macro$10 = (postRhsIndex$macro$5 > preRhsIndex$macro$4);
-            const nextIndex$macro$13 = (((!rhsMadeProgress$macro$10) && input$macro$11.isReachable__I__Z(postRhsIndex$macro$5)) ? postLhsIndex$macro$3 : postRhsIndex$macro$5);
-            if (rhsMadeProgress$macro$10) {
-              evidence$8.checkForDrop__Z()
-            };
-            res$macro$14 = evidence$8.freshSuccess__O__I__Lfastparse_ParsingRun(x1$5.apply__O__O__O($as_T(lhsValue$macro$12), $as_T(evidence$8.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$13)
-          };
-          if (evidence$8.Lfastparse_ParsingRun__f_verboseFailures) {
-            evidence$8.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$2, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$9, rhsMsg$macro$8), lhsAggregate$macro$6.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$7), (preRhsIndex$macro$4 === evidence$8.Lfastparse_ParsingRun__f_traceIndex))
-          }
-        }
-      }
-    };
-    let x1$6;
-    if ((!evidence$8.Lfastparse_ParsingRun__f_isSuccess)) {
-      x1$6 = evidence$8
-    } else {
-      const postLhsIndex$macro$18 = evidence$8.Lfastparse_ParsingRun__f_index;
-      const lhsAggregate$macro$21 = evidence$8.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      const lhsMsg$macro$24 = evidence$8.Lfastparse_ParsingRun__f_shortParserMsg;
-      if ((postLhsIndex$macro$18 > preLhsIndex$macro$17)) {
-        evidence$8.checkForDrop__Z()
-      };
-      const lhsValue$macro$27 = evidence$8.Lfastparse_ParsingRun__f_successValue;
-      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$8);
-      if (evidence$8.Lfastparse_ParsingRun__f_isSuccess) {
-        if (((!evidence$8.Lfastparse_ParsingRun__f_isSuccess) && evidence$8.Lfastparse_ParsingRun__f_cut)) {
-          x1$6 = evidence$8
-        } else {
-          const preRhsIndex$macro$19 = evidence$8.Lfastparse_ParsingRun__f_index;
-          this.attribute__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$8);
-          const rhsAggregate$macro$22 = evidence$8.Lfastparse_ParsingRun__f_failureGroupAggregate;
-          const rhsMsg$macro$23 = evidence$8.Lfastparse_ParsingRun__f_shortParserMsg;
-          let res$macro$29;
-          if ((!evidence$8.Lfastparse_ParsingRun__f_isSuccess)) {
-            res$macro$29 = evidence$8
-          } else {
-            const postRhsIndex$macro$20 = evidence$8.Lfastparse_ParsingRun__f_index;
-            const rhsMadeProgress$macro$25 = (postRhsIndex$macro$20 > preRhsIndex$macro$19);
-            const nextIndex$macro$28 = (((!rhsMadeProgress$macro$25) && input$macro$26.isReachable__I__Z(postRhsIndex$macro$20)) ? postLhsIndex$macro$18 : postRhsIndex$macro$20);
-            if (rhsMadeProgress$macro$25) {
-              evidence$8.checkForDrop__Z()
-            };
-            res$macro$29 = evidence$8.freshSuccess__O__I__Lfastparse_ParsingRun(x1$3.apply__O__O__O($as_T2(lhsValue$macro$27), $as_T(evidence$8.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$28)
-          };
-          if (evidence$8.Lfastparse_ParsingRun__f_verboseFailures) {
-            evidence$8.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$17, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$24, rhsMsg$macro$23), lhsAggregate$macro$21.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$22), (preRhsIndex$macro$19 === evidence$8.Lfastparse_ParsingRun__f_traceIndex))
-          };
-          x1$6 = res$macro$29
-        }
-      } else {
-        x1$6 = evidence$8
-      }
-    };
-    if (instrument) {
-      evidence$8.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("condition").Lsourcecode_Name__f_value, x1$6.Lfastparse_ParsingRun__f_index, x1$6.Lfastparse_ParsingRun__f_isSuccess)
-    };
-    if (x1$6.Lfastparse_ParsingRun__f_verboseFailures) {
-      $m_sci_List$();
-      const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$5) => (() => new $c_Lsourcecode_Name("condition").Lsourcecode_Name__f_value))(this)))];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
-      x1$6.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$6.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$6.Lfastparse_ParsingRun__f_traceIndex));
-      if ((!x1$6.Lfastparse_ParsingRun__f_isSuccess)) {
-        const self = new $c_Lsourcecode_Name("condition").Lsourcecode_Name__f_value;
-        const rassoc$1$2 = new $c_T2(self, startIndex);
-        const this$12 = x1$6.Lfastparse_ParsingRun__f_failureStack;
-        x1$6.Lfastparse_ParsingRun__f_failureStack = new $c_sci_$colon$colon(rassoc$1$2, this$12)
-      }
-    };
-    return x1$6
-  };
-  statement__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9) {
     const startIndex = evidence$9.Lfastparse_ParsingRun__f_index;
     const instrument = (evidence$9.Lfastparse_ParsingRun__f_instrument !== null);
     if (instrument) {
-      evidence$9.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("statement").Lsourcecode_Name__f_value, startIndex)
+      evidence$9.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("condition").Lsourcecode_Name__f_value, startIndex)
     };
     const this$1 = $m_Lfastparse_Implicits$Sequencer$();
-    this$1.UnitSequencer0__Lfastparse_Implicits$LowPriSequencer$UnitSequencer0$();
-    const preLhsIndex$macro$77 = evidence$9.Lfastparse_ParsingRun__f_index;
-    const input$macro$86 = evidence$9.Lfastparse_ParsingRun__f_input;
-    $m_Lfastparse_package$();
-    const this$2 = $m_Lfastparse_Implicits$Sequencer$();
-    const x1$5 = this$2.Lfastparse_Implicits$Sequencer$__f_BaseSequencer4;
-    const preLhsIndex$macro$62 = evidence$9.Lfastparse_ParsingRun__f_index;
-    const input$macro$71 = evidence$9.Lfastparse_ParsingRun__f_input;
-    $m_Lfastparse_package$();
-    const this$3 = $m_Lfastparse_Implicits$Sequencer$();
-    const x1$7 = this$3.Lfastparse_Implicits$Sequencer$__f_BaseSequencer3;
-    const preLhsIndex$macro$32 = evidence$9.Lfastparse_ParsingRun__f_index;
-    const input$macro$41 = evidence$9.Lfastparse_ParsingRun__f_input;
-    $m_Lfastparse_package$();
-    const this$4 = $m_Lfastparse_Implicits$Sequencer$();
-    const x1$9 = this$4.Lfastparse_Implicits$Sequencer$__f_BaseSequencer2;
+    const x1$3 = this$1.Lfastparse_Implicits$Sequencer$__f_BaseSequencer2;
     const preLhsIndex$macro$17 = evidence$9.Lfastparse_ParsingRun__f_index;
     const input$macro$26 = evidence$9.Lfastparse_ParsingRun__f_input;
     $m_Lfastparse_package$();
-    const this$5 = $m_Lfastparse_Implicits$Sequencer$();
-    const x1$11 = $as_Lfastparse_Implicits$Sequencer($f_Lfastparse_LowestPriSequencer__Sequencer1__O(this$5));
+    const this$2 = $m_Lfastparse_Implicits$Sequencer$();
+    const x1$5 = $as_Lfastparse_Implicits$Sequencer($f_Lfastparse_LowestPriSequencer__Sequencer1__O(this$2));
     const preLhsIndex$macro$2 = evidence$9.Lfastparse_ParsingRun__f_index;
     const input$macro$11 = evidence$9.Lfastparse_ParsingRun__f_input;
     $m_Lfastparse_package$();
-    this.select__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9);
+    this.attribute__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9);
     if ((!evidence$9.Lfastparse_ParsingRun__f_isSuccess)) {
       /*<skip>*/
     } else {
@@ -1617,7 +1719,7 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
           /*<skip>*/
         } else {
           const preRhsIndex$macro$4 = evidence$9.Lfastparse_ParsingRun__f_index;
-          this.columnName__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9);
+          this.operator__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9);
           const rhsAggregate$macro$7 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
           const rhsMsg$macro$8 = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
           let res$macro$14;
@@ -1630,7 +1732,7 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
             if (rhsMadeProgress$macro$10) {
               evidence$9.checkForDrop__Z()
             };
-            res$macro$14 = evidence$9.freshSuccess__O__I__Lfastparse_ParsingRun(x1$11.apply__O__O__O($as_T(lhsValue$macro$12), $as_T(evidence$9.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$13)
+            res$macro$14 = evidence$9.freshSuccess__O__I__Lfastparse_ParsingRun(x1$5.apply__O__O__O($as_T(lhsValue$macro$12), $as_T(evidence$9.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$13)
           };
           if (evidence$9.Lfastparse_ParsingRun__f_verboseFailures) {
             evidence$9.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$2, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$9, rhsMsg$macro$8), lhsAggregate$macro$6.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$7), (preRhsIndex$macro$4 === evidence$9.Lfastparse_ParsingRun__f_traceIndex))
@@ -1638,8 +1740,9 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
         }
       }
     };
+    let x1$6;
     if ((!evidence$9.Lfastparse_ParsingRun__f_isSuccess)) {
-      /*<skip>*/
+      x1$6 = evidence$9
     } else {
       const postLhsIndex$macro$18 = evidence$9.Lfastparse_ParsingRun__f_index;
       const lhsAggregate$macro$21 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
@@ -1651,10 +1754,10 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
       $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$9);
       if (evidence$9.Lfastparse_ParsingRun__f_isSuccess) {
         if (((!evidence$9.Lfastparse_ParsingRun__f_isSuccess) && evidence$9.Lfastparse_ParsingRun__f_cut)) {
-          /*<skip>*/
+          x1$6 = evidence$9
         } else {
           const preRhsIndex$macro$19 = evidence$9.Lfastparse_ParsingRun__f_index;
-          this.from__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9);
+          this.attribute__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9);
           const rhsAggregate$macro$22 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
           const rhsMsg$macro$23 = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
           let res$macro$29;
@@ -1667,203 +1770,341 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
             if (rhsMadeProgress$macro$25) {
               evidence$9.checkForDrop__Z()
             };
-            res$macro$29 = evidence$9.freshSuccess__O__I__Lfastparse_ParsingRun(x1$9.apply__O__O__O($as_T2(lhsValue$macro$27), $as_T(evidence$9.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$28)
+            res$macro$29 = evidence$9.freshSuccess__O__I__Lfastparse_ParsingRun(x1$3.apply__O__O__O($as_T2(lhsValue$macro$27), $as_T(evidence$9.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$28)
           };
           if (evidence$9.Lfastparse_ParsingRun__f_verboseFailures) {
             evidence$9.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$17, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$24, rhsMsg$macro$23), lhsAggregate$macro$21.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$22), (preRhsIndex$macro$19 === evidence$9.Lfastparse_ParsingRun__f_traceIndex))
+          };
+          x1$6 = res$macro$29
+        }
+      } else {
+        x1$6 = evidence$9
+      }
+    };
+    if (instrument) {
+      evidence$9.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("condition").Lsourcecode_Name__f_value, x1$6.Lfastparse_ParsingRun__f_index, x1$6.Lfastparse_ParsingRun__f_isSuccess)
+    };
+    if (x1$6.Lfastparse_ParsingRun__f_verboseFailures) {
+      $m_sci_List$();
+      const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$5) => (() => new $c_Lsourcecode_Name("condition").Lsourcecode_Name__f_value))(this)))];
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
+      x1$6.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$6.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$6.Lfastparse_ParsingRun__f_traceIndex));
+      if ((!x1$6.Lfastparse_ParsingRun__f_isSuccess)) {
+        const self = new $c_Lsourcecode_Name("condition").Lsourcecode_Name__f_value;
+        const rassoc$1$2 = new $c_T2(self, startIndex);
+        const this$12 = x1$6.Lfastparse_ParsingRun__f_failureStack;
+        x1$6.Lfastparse_ParsingRun__f_failureStack = new $c_sci_$colon$colon(rassoc$1$2, this$12)
+      }
+    };
+    if ((!x1$6.Lfastparse_ParsingRun__f_isSuccess)) {
+      return x1$6
+    } else {
+      const arg1 = $as_T3(x1$6.Lfastparse_ParsingRun__f_successValue);
+      if ((arg1 === null)) {
+        throw new $c_s_MatchError(arg1)
+      };
+      const fieldName = $as_T(arg1.T3__f__1);
+      const operator = $as_T(arg1.T3__f__2);
+      const fieldValue = $as_T(arg1.T3__f__3);
+      x1$6.Lfastparse_ParsingRun__f_successValue = new $c_Lbillding_SQL$Condition(fieldName, $m_Lbillding_SQL$Operator$().apply__T__Lbillding_SQL$Operator(operator), fieldValue);
+      return x1$6
+    }
+  };
+  statement__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10) {
+    const startIndex = evidence$10.Lfastparse_ParsingRun__f_index;
+    const instrument = (evidence$10.Lfastparse_ParsingRun__f_instrument !== null);
+    if (instrument) {
+      evidence$10.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("statement").Lsourcecode_Name__f_value, startIndex)
+    };
+    const this$1 = $m_Lfastparse_Implicits$Sequencer$();
+    this$1.UnitSequencer0__Lfastparse_Implicits$LowPriSequencer$UnitSequencer0$();
+    const preLhsIndex$macro$77 = evidence$10.Lfastparse_ParsingRun__f_index;
+    const input$macro$86 = evidence$10.Lfastparse_ParsingRun__f_input;
+    $m_Lfastparse_package$();
+    const this$2 = $m_Lfastparse_Implicits$Sequencer$();
+    const x1$5 = this$2.Lfastparse_Implicits$Sequencer$__f_BaseSequencer4;
+    const preLhsIndex$macro$62 = evidence$10.Lfastparse_ParsingRun__f_index;
+    const input$macro$71 = evidence$10.Lfastparse_ParsingRun__f_input;
+    $m_Lfastparse_package$();
+    const this$3 = $m_Lfastparse_Implicits$Sequencer$();
+    const x1$7 = this$3.Lfastparse_Implicits$Sequencer$__f_BaseSequencer3;
+    const preLhsIndex$macro$32 = evidence$10.Lfastparse_ParsingRun__f_index;
+    const input$macro$41 = evidence$10.Lfastparse_ParsingRun__f_input;
+    $m_Lfastparse_package$();
+    const this$4 = $m_Lfastparse_Implicits$Sequencer$();
+    const x1$9 = this$4.Lfastparse_Implicits$Sequencer$__f_BaseSequencer2;
+    const preLhsIndex$macro$17 = evidence$10.Lfastparse_ParsingRun__f_index;
+    const input$macro$26 = evidence$10.Lfastparse_ParsingRun__f_input;
+    $m_Lfastparse_package$();
+    const this$5 = $m_Lfastparse_Implicits$Sequencer$();
+    const x1$11 = $as_Lfastparse_Implicits$Sequencer($f_Lfastparse_LowestPriSequencer__Sequencer1__O(this$5));
+    const preLhsIndex$macro$2 = evidence$10.Lfastparse_ParsingRun__f_index;
+    const input$macro$11 = evidence$10.Lfastparse_ParsingRun__f_input;
+    $m_Lfastparse_package$();
+    this.select__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
+    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+      /*<skip>*/
+    } else {
+      const postLhsIndex$macro$3 = evidence$10.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$6 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$9 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+      if ((postLhsIndex$macro$3 > preLhsIndex$macro$2)) {
+        evidence$10.checkForDrop__Z()
+      };
+      const lhsValue$macro$12 = evidence$10.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
+      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
+          /*<skip>*/
+        } else {
+          const preRhsIndex$macro$4 = evidence$10.Lfastparse_ParsingRun__f_index;
+          this.columnName__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
+          const rhsAggregate$macro$7 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$8 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+          let res$macro$14;
+          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$14 = evidence$10
+          } else {
+            const postRhsIndex$macro$5 = evidence$10.Lfastparse_ParsingRun__f_index;
+            const rhsMadeProgress$macro$10 = (postRhsIndex$macro$5 > preRhsIndex$macro$4);
+            const nextIndex$macro$13 = (((!rhsMadeProgress$macro$10) && input$macro$11.isReachable__I__Z(postRhsIndex$macro$5)) ? postLhsIndex$macro$3 : postRhsIndex$macro$5);
+            if (rhsMadeProgress$macro$10) {
+              evidence$10.checkForDrop__Z()
+            };
+            res$macro$14 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$11.apply__O__O__O($as_T(lhsValue$macro$12), $as_T(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$13)
+          };
+          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$2, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$9, rhsMsg$macro$8), lhsAggregate$macro$6.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$7), (preRhsIndex$macro$4 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
           }
         }
       }
     };
-    if ((!evidence$9.Lfastparse_ParsingRun__f_isSuccess)) {
+    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
       /*<skip>*/
     } else {
-      const postLhsIndex$macro$33 = evidence$9.Lfastparse_ParsingRun__f_index;
-      const lhsAggregate$macro$36 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      const lhsMsg$macro$39 = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
-      if ((postLhsIndex$macro$33 > preLhsIndex$macro$32)) {
-        evidence$9.checkForDrop__Z()
+      const postLhsIndex$macro$18 = evidence$10.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$21 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$24 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+      if ((postLhsIndex$macro$18 > preLhsIndex$macro$17)) {
+        evidence$10.checkForDrop__Z()
       };
-      const lhsValue$macro$42 = evidence$9.Lfastparse_ParsingRun__f_successValue;
-      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$9);
-      if (evidence$9.Lfastparse_ParsingRun__f_isSuccess) {
-        if (((!evidence$9.Lfastparse_ParsingRun__f_isSuccess) && evidence$9.Lfastparse_ParsingRun__f_cut)) {
+      const lhsValue$macro$27 = evidence$10.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
+      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
           /*<skip>*/
         } else {
-          const preRhsIndex$macro$34 = evidence$9.Lfastparse_ParsingRun__f_index;
-          this.tableName__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9);
-          const rhsAggregate$macro$37 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
-          const rhsMsg$macro$38 = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
-          let res$macro$44;
-          if ((!evidence$9.Lfastparse_ParsingRun__f_isSuccess)) {
-            res$macro$44 = evidence$9
+          const preRhsIndex$macro$19 = evidence$10.Lfastparse_ParsingRun__f_index;
+          this.from__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
+          const rhsAggregate$macro$22 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$23 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+          let res$macro$29;
+          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$29 = evidence$10
           } else {
-            const postRhsIndex$macro$35 = evidence$9.Lfastparse_ParsingRun__f_index;
+            const postRhsIndex$macro$20 = evidence$10.Lfastparse_ParsingRun__f_index;
+            const rhsMadeProgress$macro$25 = (postRhsIndex$macro$20 > preRhsIndex$macro$19);
+            const nextIndex$macro$28 = (((!rhsMadeProgress$macro$25) && input$macro$26.isReachable__I__Z(postRhsIndex$macro$20)) ? postLhsIndex$macro$18 : postRhsIndex$macro$20);
+            if (rhsMadeProgress$macro$25) {
+              evidence$10.checkForDrop__Z()
+            };
+            res$macro$29 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$9.apply__O__O__O($as_T2(lhsValue$macro$27), $as_T(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$28)
+          };
+          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$17, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$24, rhsMsg$macro$23), lhsAggregate$macro$21.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$22), (preRhsIndex$macro$19 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
+          }
+        }
+      }
+    };
+    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+      /*<skip>*/
+    } else {
+      const postLhsIndex$macro$33 = evidence$10.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$36 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$39 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+      if ((postLhsIndex$macro$33 > preLhsIndex$macro$32)) {
+        evidence$10.checkForDrop__Z()
+      };
+      const lhsValue$macro$42 = evidence$10.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
+      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
+          /*<skip>*/
+        } else {
+          const preRhsIndex$macro$34 = evidence$10.Lfastparse_ParsingRun__f_index;
+          this.fromList__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
+          const rhsAggregate$macro$37 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$38 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+          let res$macro$44;
+          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$44 = evidence$10
+          } else {
+            const postRhsIndex$macro$35 = evidence$10.Lfastparse_ParsingRun__f_index;
             const rhsMadeProgress$macro$40 = (postRhsIndex$macro$35 > preRhsIndex$macro$34);
             const nextIndex$macro$43 = (((!rhsMadeProgress$macro$40) && input$macro$41.isReachable__I__Z(postRhsIndex$macro$35)) ? postLhsIndex$macro$33 : postRhsIndex$macro$35);
             if (rhsMadeProgress$macro$40) {
-              evidence$9.checkForDrop__Z()
+              evidence$10.checkForDrop__Z()
             };
-            res$macro$44 = evidence$9.freshSuccess__O__I__Lfastparse_ParsingRun(x1$7.apply__O__O__O($as_T3(lhsValue$macro$42), $as_T(evidence$9.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$43)
+            res$macro$44 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$7.apply__O__O__O($as_T3(lhsValue$macro$42), $as_sci_Seq(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$43)
           };
-          if (evidence$9.Lfastparse_ParsingRun__f_verboseFailures) {
-            evidence$9.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$32, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$39, rhsMsg$macro$38), lhsAggregate$macro$36.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$37), (preRhsIndex$macro$34 === evidence$9.Lfastparse_ParsingRun__f_traceIndex))
+          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$32, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$39, rhsMsg$macro$38), lhsAggregate$macro$36.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$37), (preRhsIndex$macro$34 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
           }
         }
       }
     };
-    if ((!evidence$9.Lfastparse_ParsingRun__f_isSuccess)) {
+    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
       /*<skip>*/
     } else {
-      const postLhsIndex$macro$63 = evidence$9.Lfastparse_ParsingRun__f_index;
-      const lhsAggregate$macro$66 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      const lhsMsg$macro$69 = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
+      const postLhsIndex$macro$63 = evidence$10.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$66 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$69 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
       if ((postLhsIndex$macro$63 > preLhsIndex$macro$62)) {
-        evidence$9.checkForDrop__Z()
+        evidence$10.checkForDrop__Z()
       };
-      const lhsValue$macro$72 = evidence$9.Lfastparse_ParsingRun__f_successValue;
-      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$9);
-      if (evidence$9.Lfastparse_ParsingRun__f_isSuccess) {
-        if (((!evidence$9.Lfastparse_ParsingRun__f_isSuccess) && evidence$9.Lfastparse_ParsingRun__f_cut)) {
+      const lhsValue$macro$72 = evidence$10.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
+      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
           /*<skip>*/
         } else {
-          const preRhsIndex$macro$64 = evidence$9.Lfastparse_ParsingRun__f_index;
+          const preRhsIndex$macro$64 = evidence$10.Lfastparse_ParsingRun__f_index;
           const this$10 = $m_Lfastparse_Implicits$Optioner$();
           this$10.GenericOptionerImplicit0__Lfastparse_Implicits$LowPriOptioner$GenericOptionerImplicit0$();
-          const startPos = evidence$9.Lfastparse_ParsingRun__f_index;
-          const startCut = evidence$9.Lfastparse_ParsingRun__f_cut;
-          evidence$9.Lfastparse_ParsingRun__f_cut = false;
+          const startPos = evidence$10.Lfastparse_ParsingRun__f_index;
+          const startCut = evidence$10.Lfastparse_ParsingRun__f_cut;
+          evidence$10.Lfastparse_ParsingRun__f_cut = false;
           $m_Lfastparse_package$();
           const this$11 = $m_Lfastparse_Implicits$Sequencer$();
           const x1$15 = $as_Lfastparse_Implicits$Sequencer($f_Lfastparse_LowestPriSequencer__Sequencer1__O(this$11));
-          const preLhsIndex$macro$47 = evidence$9.Lfastparse_ParsingRun__f_index;
-          const input$macro$56 = evidence$9.Lfastparse_ParsingRun__f_input;
+          const preLhsIndex$macro$47 = evidence$10.Lfastparse_ParsingRun__f_index;
+          const input$macro$56 = evidence$10.Lfastparse_ParsingRun__f_input;
           $m_Lfastparse_package$();
-          this.WHERE__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9);
-          if ((!evidence$9.Lfastparse_ParsingRun__f_isSuccess)) {
+          this.WHERE__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
+          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
             /*<skip>*/
           } else {
-            const postLhsIndex$macro$48 = evidence$9.Lfastparse_ParsingRun__f_index;
-            const lhsAggregate$macro$51 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
-            const lhsMsg$macro$54 = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
+            const postLhsIndex$macro$48 = evidence$10.Lfastparse_ParsingRun__f_index;
+            const lhsAggregate$macro$51 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+            const lhsMsg$macro$54 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
             if ((postLhsIndex$macro$48 > preLhsIndex$macro$47)) {
-              evidence$9.checkForDrop__Z()
+              evidence$10.checkForDrop__Z()
             };
-            const lhsValue$macro$57 = evidence$9.Lfastparse_ParsingRun__f_successValue;
-            $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$9);
-            if (evidence$9.Lfastparse_ParsingRun__f_isSuccess) {
-              if (((!evidence$9.Lfastparse_ParsingRun__f_isSuccess) && evidence$9.Lfastparse_ParsingRun__f_cut)) {
+            const lhsValue$macro$57 = evidence$10.Lfastparse_ParsingRun__f_successValue;
+            $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
+            if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
+              if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
                 /*<skip>*/
               } else {
-                const preRhsIndex$macro$49 = evidence$9.Lfastparse_ParsingRun__f_index;
-                this.condition__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9);
-                const rhsAggregate$macro$52 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
-                const rhsMsg$macro$53 = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
+                const preRhsIndex$macro$49 = evidence$10.Lfastparse_ParsingRun__f_index;
+                this.condition__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
+                const rhsAggregate$macro$52 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+                const rhsMsg$macro$53 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
                 let res$macro$59;
-                if ((!evidence$9.Lfastparse_ParsingRun__f_isSuccess)) {
-                  res$macro$59 = evidence$9
+                if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+                  res$macro$59 = evidence$10
                 } else {
-                  const postRhsIndex$macro$50 = evidence$9.Lfastparse_ParsingRun__f_index;
+                  const postRhsIndex$macro$50 = evidence$10.Lfastparse_ParsingRun__f_index;
                   const rhsMadeProgress$macro$55 = (postRhsIndex$macro$50 > preRhsIndex$macro$49);
                   const nextIndex$macro$58 = (((!rhsMadeProgress$macro$55) && input$macro$56.isReachable__I__Z(postRhsIndex$macro$50)) ? postLhsIndex$macro$48 : postRhsIndex$macro$50);
                   if (rhsMadeProgress$macro$55) {
-                    evidence$9.checkForDrop__Z()
+                    evidence$10.checkForDrop__Z()
                   };
-                  res$macro$59 = evidence$9.freshSuccess__O__I__Lfastparse_ParsingRun(x1$15.apply__O__O__O($as_T(lhsValue$macro$57), $as_T3(evidence$9.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$58)
+                  res$macro$59 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$15.apply__O__O__O($as_T(lhsValue$macro$57), $as_Lbillding_SQL$Condition(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$58)
                 };
-                if (evidence$9.Lfastparse_ParsingRun__f_verboseFailures) {
-                  evidence$9.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$47, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$54, rhsMsg$macro$53), lhsAggregate$macro$51.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$52), (preRhsIndex$macro$49 === evidence$9.Lfastparse_ParsingRun__f_traceIndex))
+                if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
+                  evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$47, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$54, rhsMsg$macro$53), lhsAggregate$macro$51.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$52), (preRhsIndex$macro$49 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
                 }
               }
             }
           };
-          const postSuccess = evidence$9.Lfastparse_ParsingRun__f_isSuccess;
+          const postSuccess = evidence$10.Lfastparse_ParsingRun__f_isSuccess;
           if (postSuccess) {
-            const value = $as_T2(evidence$9.Lfastparse_ParsingRun__f_successValue);
-            const res = evidence$9.freshSuccess__O__Lfastparse_ParsingRun(new $c_s_Some(value));
+            const value = $as_T2(evidence$10.Lfastparse_ParsingRun__f_successValue);
+            const res = evidence$10.freshSuccess__O__Lfastparse_ParsingRun(new $c_s_Some(value));
             res.Lfastparse_ParsingRun__f_cut = (!(!(res.Lfastparse_ParsingRun__f_cut | startCut)))
-          } else if (evidence$9.Lfastparse_ParsingRun__f_cut) {
+          } else if (evidence$10.Lfastparse_ParsingRun__f_cut) {
             /*<skip>*/
           } else {
-            const res$2 = evidence$9.freshSuccess__O__I__Lfastparse_ParsingRun($m_s_None$(), startPos);
+            const res$2 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun($m_s_None$(), startPos);
             res$2.Lfastparse_ParsingRun__f_cut = (!(!(res$2.Lfastparse_ParsingRun__f_cut | startCut)))
           };
-          if (evidence$9.Lfastparse_ParsingRun__f_verboseFailures) {
-            const msg = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
-            const agg = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
+            const msg = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+            const agg = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
             if ((!postSuccess)) {
-              evidence$9.aggregateMsg__I__F0__Lfastparse_internal_Msgs__V(startPos, new $c_sjsr_AnonFunction0(((this$14, msg$1) => (() => ($m_Lfastparse_internal_Util$().parenthize__sci_Seq__T(msg$1.Lfastparse_internal_Msgs__f_value) + ".?")))(this, msg)), agg)
+              evidence$10.aggregateMsg__I__F0__Lfastparse_internal_Msgs__V(startPos, new $c_sjsr_AnonFunction0(((this$14, msg$1) => (() => ($m_Lfastparse_internal_Util$().parenthize__sci_Seq__T(msg$1.Lfastparse_internal_Msgs__f_value) + ".?")))(this, msg)), agg)
             }
           };
-          const rhsAggregate$macro$67 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
-          const rhsMsg$macro$68 = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
+          const rhsAggregate$macro$67 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$68 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
           let res$macro$74;
-          if ((!evidence$9.Lfastparse_ParsingRun__f_isSuccess)) {
-            res$macro$74 = evidence$9
+          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$74 = evidence$10
           } else {
-            const postRhsIndex$macro$65 = evidence$9.Lfastparse_ParsingRun__f_index;
+            const postRhsIndex$macro$65 = evidence$10.Lfastparse_ParsingRun__f_index;
             const rhsMadeProgress$macro$70 = (postRhsIndex$macro$65 > preRhsIndex$macro$64);
             const nextIndex$macro$73 = (((!rhsMadeProgress$macro$70) && input$macro$71.isReachable__I__Z(postRhsIndex$macro$65)) ? postLhsIndex$macro$63 : postRhsIndex$macro$65);
             if (rhsMadeProgress$macro$70) {
-              evidence$9.checkForDrop__Z()
+              evidence$10.checkForDrop__Z()
             };
-            res$macro$74 = evidence$9.freshSuccess__O__I__Lfastparse_ParsingRun(x1$5.apply__O__O__O($as_T4(lhsValue$macro$72), $as_s_Option(evidence$9.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$73)
+            res$macro$74 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$5.apply__O__O__O($as_T4(lhsValue$macro$72), $as_s_Option(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$73)
           };
-          if (evidence$9.Lfastparse_ParsingRun__f_verboseFailures) {
-            evidence$9.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$62, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$69, rhsMsg$macro$68), lhsAggregate$macro$66.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$67), (preRhsIndex$macro$64 === evidence$9.Lfastparse_ParsingRun__f_traceIndex))
+          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$62, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$69, rhsMsg$macro$68), lhsAggregate$macro$66.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$67), (preRhsIndex$macro$64 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
           }
         }
       }
     };
     let x1$16;
-    if ((!evidence$9.Lfastparse_ParsingRun__f_isSuccess)) {
-      x1$16 = evidence$9
+    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+      x1$16 = evidence$10
     } else {
-      const postLhsIndex$macro$78 = evidence$9.Lfastparse_ParsingRun__f_index;
-      const lhsAggregate$macro$81 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      const lhsMsg$macro$84 = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
+      const postLhsIndex$macro$78 = evidence$10.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$81 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$84 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
       if ((postLhsIndex$macro$78 > preLhsIndex$macro$77)) {
-        evidence$9.checkForDrop__Z()
+        evidence$10.checkForDrop__Z()
       };
-      const lhsValue$macro$87 = evidence$9.Lfastparse_ParsingRun__f_successValue;
-      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$9);
-      if (evidence$9.Lfastparse_ParsingRun__f_isSuccess) {
-        if (((!evidence$9.Lfastparse_ParsingRun__f_isSuccess) && evidence$9.Lfastparse_ParsingRun__f_cut)) {
-          x1$16 = evidence$9
+      const lhsValue$macro$87 = evidence$10.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
+      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
+          x1$16 = evidence$10
         } else {
-          const preRhsIndex$macro$79 = evidence$9.Lfastparse_ParsingRun__f_index;
-          $m_Lfastparse_package$().End__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$9);
-          const rhsAggregate$macro$82 = evidence$9.Lfastparse_ParsingRun__f_failureGroupAggregate;
-          const rhsMsg$macro$83 = evidence$9.Lfastparse_ParsingRun__f_shortParserMsg;
+          const preRhsIndex$macro$79 = evidence$10.Lfastparse_ParsingRun__f_index;
+          $m_Lfastparse_package$().End__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
+          const rhsAggregate$macro$82 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$83 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
           let res$macro$89;
-          if ((!evidence$9.Lfastparse_ParsingRun__f_isSuccess)) {
-            res$macro$89 = evidence$9
+          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$89 = evidence$10
           } else {
-            const postRhsIndex$macro$80 = evidence$9.Lfastparse_ParsingRun__f_index;
+            const postRhsIndex$macro$80 = evidence$10.Lfastparse_ParsingRun__f_index;
             const rhsMadeProgress$macro$85 = (postRhsIndex$macro$80 > preRhsIndex$macro$79);
             const nextIndex$macro$88 = (((!rhsMadeProgress$macro$85) && input$macro$86.isReachable__I__Z(postRhsIndex$macro$80)) ? postLhsIndex$macro$78 : postRhsIndex$macro$80);
             if (rhsMadeProgress$macro$85) {
-              evidence$9.checkForDrop__Z()
+              evidence$10.checkForDrop__Z()
             };
             const t = $as_T5(lhsValue$macro$87);
-            res$macro$89 = evidence$9.freshSuccess__O__I__Lfastparse_ParsingRun(t, nextIndex$macro$88)
+            res$macro$89 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(t, nextIndex$macro$88)
           };
-          if (evidence$9.Lfastparse_ParsingRun__f_verboseFailures) {
-            evidence$9.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$77, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$84, rhsMsg$macro$83), lhsAggregate$macro$81.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$82), (preRhsIndex$macro$79 === evidence$9.Lfastparse_ParsingRun__f_traceIndex))
+          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$77, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$84, rhsMsg$macro$83), lhsAggregate$macro$81.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$82), (preRhsIndex$macro$79 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
           };
           x1$16 = res$macro$89
         }
       } else {
-        x1$16 = evidence$9
+        x1$16 = evidence$10
       }
     };
     if (instrument) {
-      evidence$9.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("statement").Lsourcecode_Name__f_value, x1$16.Lfastparse_ParsingRun__f_index, x1$16.Lfastparse_ParsingRun__f_isSuccess)
+      evidence$10.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("statement").Lsourcecode_Name__f_value, x1$16.Lfastparse_ParsingRun__f_index, x1$16.Lfastparse_ParsingRun__f_isSuccess)
     };
     if (x1$16.Lfastparse_ParsingRun__f_verboseFailures) {
       $m_sci_List$();
       const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$2$1) => (() => new $c_Lsourcecode_Name("statement").Lsourcecode_Name__f_value))(this)))];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       x1$16.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$16.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$16.Lfastparse_ParsingRun__f_traceIndex));
       if ((!x1$16.Lfastparse_ParsingRun__f_isSuccess)) {
         const self = new $c_Lsourcecode_Name("statement").Lsourcecode_Name__f_value;
@@ -3212,7 +3453,7 @@ class $c_Lcom_raquo_laminar_nodes_ParentNode$ extends $c_O {
       if (parent.com$raquo$laminar$nodes$ParentNode$$_maybeChildren__s_Option().isEmpty__Z()) {
         const $$x1 = $m_scm_Buffer$();
         const array = [child];
-        parent.com$raquo$laminar$nodes$ParentNode$$_maybeChildren_$eq__s_Option__V(new $c_s_Some($$x1.apply__sci_Seq__sc_SeqOps(new $c_sjsr_WrappedVarArgs(array))))
+        parent.com$raquo$laminar$nodes$ParentNode$$_maybeChildren_$eq__s_Option__V(new $c_s_Some($$x1.apply__sci_Seq__sc_SeqOps($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array))))
       } else {
         const this$6 = parent.com$raquo$laminar$nodes$ParentNode$$_maybeChildren__s_Option();
         if ((!this$6.isEmpty__Z())) {
@@ -3269,7 +3510,7 @@ class $c_Lcom_raquo_laminar_nodes_ReactiveElement$ extends $c_O {
       if (element.Lcom_raquo_laminar_nodes_ReactiveHtmlElement__f_com$raquo$laminar$nodes$ReactiveElement$$_maybeEventListeners.isEmpty__Z()) {
         const $$x1 = $m_scm_Buffer$();
         const array = [listener];
-        element.Lcom_raquo_laminar_nodes_ReactiveHtmlElement__f_com$raquo$laminar$nodes$ReactiveElement$$_maybeEventListeners = new $c_s_Some($$x1.apply__sci_Seq__sc_SeqOps(new $c_sjsr_WrappedVarArgs(array)))
+        element.Lcom_raquo_laminar_nodes_ReactiveHtmlElement__f_com$raquo$laminar$nodes$ReactiveElement$$_maybeEventListeners = new $c_s_Some($$x1.apply__sci_Seq__sc_SeqOps($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array)))
       } else {
         const this$4 = element.Lcom_raquo_laminar_nodes_ReactiveHtmlElement__f_com$raquo$laminar$nodes$ReactiveElement$$_maybeEventListeners;
         if ((!this$4.isEmpty__Z())) {
@@ -3691,7 +3932,7 @@ class $c_Lfastparse_ParsingRun extends $c_O {
   aggregateMsg__I__F0__Lfastparse_internal_Msgs__V(startIndex, msgToSet, msgToAggregate) {
     $m_sci_List$();
     const array = [new $c_Lfastparse_internal_Lazy(msgToSet)];
-    const elems = new $c_sjsr_WrappedVarArgs(array);
+    const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
     const msgToSet$1 = new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems));
     this.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, msgToSet$1, msgToAggregate, false)
   };
@@ -3715,7 +3956,7 @@ class $c_Lfastparse_ParsingRun extends $c_O {
       if ((this.Lfastparse_ParsingRun__f_lastFailureMsg === null)) {
         $m_sci_List$();
         const array = [f2];
-        const elems = new $c_sjsr_WrappedVarArgs(array);
+        const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
         this.Lfastparse_ParsingRun__f_lastFailureMsg = new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems))
       }
     };
@@ -3723,7 +3964,7 @@ class $c_Lfastparse_ParsingRun extends $c_O {
     if ((startIndex >= this.Lfastparse_ParsingRun__f_traceIndex)) {
       $m_sci_List$();
       const array$1 = [f2];
-      const elems$1 = new $c_sjsr_WrappedVarArgs(array$1);
+      const elems$1 = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1);
       $$x1 = new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$1))
     } else {
       $$x1 = $m_Lfastparse_internal_Msgs$().Lfastparse_internal_Msgs$__f_empty
@@ -3893,7 +4134,7 @@ class $c_Lfastparse_internal_Util$ extends $c_O {
     } else {
       $m_sci_List$();
       const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$1, lhs$1, rhs$1) => (() => (($m_Lfastparse_internal_Util$().parenthize__sci_Seq__T(lhs$1.Lfastparse_internal_Msgs__f_value) + " ~ ") + $m_Lfastparse_internal_Util$().parenthize__sci_Seq__T(rhs$1.Lfastparse_internal_Msgs__f_value))))(this, lhs, rhs)))];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       return new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems))
     }
   };
@@ -4006,7 +4247,7 @@ class $c_Lfastparse_internal_Util$ extends $c_O {
           if (((x1 < 32) || ((x1 > 126) && unicode))) {
             const $$x1 = $m_sc_StringOps$();
             const array = [x1];
-            sb.append__T__scm_StringBuilder($$x1.format$extension__T__sci_Seq__T("\\u%04x", new $c_sjsr_WrappedVarArgs(array)))
+            sb.append__T__scm_StringBuilder($$x1.format$extension__T__sci_Seq__T("\\u%04x", $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array)))
           } else {
             sb.append__C__scm_StringBuilder(x1)
           }
@@ -6307,6 +6548,13 @@ class $c_sci_VectorStatics$ extends $c_O {
     ac.set((((-1) + ac.u.length) | 0), elem);
     return ac
   };
+  copyPrepend1__O__AO__AO(elem, a) {
+    const ac = $newArrayObject($d_O.getArrayOf(), [((1 + a.u.length) | 0)]);
+    const length = a.u.length;
+    $systemArraycopy(a, 0, ac, 1, length);
+    ac.set(0, elem);
+    return ac
+  };
   copyPrepend__O__AO__AO(elem, a) {
     const componentType = $objectGetClass(a).getComponentType__jl_Class();
     const length = ((1 + a.u.length) | 0);
@@ -8430,7 +8678,7 @@ class $c_Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValue
   };
   toDict__T__C__sjs_js_Dictionary(item, separator) {
     const array = [new $c_T2(item, true)];
-    const properties = new $c_sjsr_WrappedVarArgs(array);
+    const properties = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
     return $m_sjs_js_special_package$().objectLiteral__sci_Seq__sjs_js_Object(properties)
   };
 }
@@ -8505,6 +8753,19 @@ const $d_Lfastparse_Implicits$LowPriOptioner$GenericOptionerImplicit0$ = new $Ty
   Lfastparse_Implicits$Optioner: 1
 });
 $c_Lfastparse_Implicits$LowPriOptioner$GenericOptionerImplicit0$.prototype.$classData = $d_Lfastparse_Implicits$LowPriOptioner$GenericOptionerImplicit0$;
+class $c_Lfastparse_Implicits$LowPriRepeater$GenericRepeatedImplicit0$ extends $c_O {
+  constructor(outer) {
+    super()
+  };
+}
+const $d_Lfastparse_Implicits$LowPriRepeater$GenericRepeatedImplicit0$ = new $TypeData().initClass({
+  Lfastparse_Implicits$LowPriRepeater$GenericRepeatedImplicit0$: 0
+}, false, "fastparse.Implicits$LowPriRepeater$GenericRepeatedImplicit0$", {
+  Lfastparse_Implicits$LowPriRepeater$GenericRepeatedImplicit0$: 1,
+  O: 1,
+  Lfastparse_Implicits$Repeater: 1
+});
+$c_Lfastparse_Implicits$LowPriRepeater$GenericRepeatedImplicit0$.prototype.$classData = $d_Lfastparse_Implicits$LowPriRepeater$GenericRepeatedImplicit0$;
 class $c_Lfastparse_Implicits$LowPriSequencer$UnitSequencer0$ extends $c_O {
   constructor(outer) {
     super()
@@ -8553,6 +8814,38 @@ function $m_Lfastparse_Implicits$Optioner$() {
     $n_Lfastparse_Implicits$Optioner$ = new $c_Lfastparse_Implicits$Optioner$()
   };
   return $n_Lfastparse_Implicits$Optioner$
+}
+const $p_Lfastparse_Implicits$Repeater$__GenericRepeatedImplicit0$lzycompute$1__V = (function($thiz) {
+  if (($m_Lfastparse_Implicits$Repeater$().Lfastparse_Implicits$Repeater$__f_GenericRepeatedImplicit0$module === null)) {
+    $m_Lfastparse_Implicits$Repeater$().Lfastparse_Implicits$Repeater$__f_GenericRepeatedImplicit0$module = new $c_Lfastparse_Implicits$LowPriRepeater$GenericRepeatedImplicit0$($thiz)
+  }
+});
+class $c_Lfastparse_Implicits$Repeater$ extends $c_O {
+  constructor() {
+    super();
+    this.Lfastparse_Implicits$Repeater$__f_GenericRepeatedImplicit0$module = null
+  };
+  GenericRepeatedImplicit0__Lfastparse_Implicits$LowPriRepeater$GenericRepeatedImplicit0$() {
+    if (($m_Lfastparse_Implicits$Repeater$().Lfastparse_Implicits$Repeater$__f_GenericRepeatedImplicit0$module === null)) {
+      $p_Lfastparse_Implicits$Repeater$__GenericRepeatedImplicit0$lzycompute$1__V(this)
+    };
+    return $m_Lfastparse_Implicits$Repeater$().Lfastparse_Implicits$Repeater$__f_GenericRepeatedImplicit0$module
+  };
+}
+const $d_Lfastparse_Implicits$Repeater$ = new $TypeData().initClass({
+  Lfastparse_Implicits$Repeater$: 0
+}, false, "fastparse.Implicits$Repeater$", {
+  Lfastparse_Implicits$Repeater$: 1,
+  O: 1,
+  Lfastparse_Implicits$LowPriRepeater: 1
+});
+$c_Lfastparse_Implicits$Repeater$.prototype.$classData = $d_Lfastparse_Implicits$Repeater$;
+let $n_Lfastparse_Implicits$Repeater$;
+function $m_Lfastparse_Implicits$Repeater$() {
+  if ((!$n_Lfastparse_Implicits$Repeater$)) {
+    $n_Lfastparse_Implicits$Repeater$ = new $c_Lfastparse_Implicits$Repeater$()
+  };
+  return $n_Lfastparse_Implicits$Repeater$
 }
 class $c_Lfastparse_Implicits$Sequencer$NarySequencer extends $c_O {
   constructor(f) {
@@ -8620,7 +8913,7 @@ class $c_Lfastparse_Parsed$Failure extends $c_Lfastparse_Parsed {
       $m_sci_List$();
       const y = this.Lfastparse_Parsed$Failure__f_index;
       const array = [new $c_T2(x1, y)];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       return $$x2.formatMsg__Lfastparse_ParserInput__sci_List__I__T($$x1, $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems), this.Lfastparse_Parsed$Failure__f_index)
     }
   };
@@ -12201,6 +12494,11 @@ class $c_sc_ClassTagIterableFactory$AnyIterableDelegate extends $c_O {
     super();
     this.sc_ClassTagIterableFactory$AnyIterableDelegate__f_delegate = null
   };
+  empty__O() {
+    const this$3 = this.sc_ClassTagIterableFactory$AnyIterableDelegate__f_delegate;
+    $m_s_reflect_ManifestFactory$AnyManifest$();
+    return this$3.scm_ArraySeq$__f_EmptyArraySeq
+  };
   from__sc_IterableOnce__O(it) {
     const this$3 = this.sc_ClassTagIterableFactory$AnyIterableDelegate__f_delegate;
     $m_s_reflect_ManifestFactory$AnyManifest$();
@@ -12639,7 +12937,7 @@ class $c_sci_BitmapIndexedMapNode extends $c_sci_MapNode {
           const newDataMap = ((shift === 0) ? (this.sci_BitmapIndexedMapNode__f_dataMap ^ bitpos) : $m_sci_Node$().bitposFrom__I__I($m_sci_Node$().maskFrom__I__I__I(keyHash, 0)));
           if ((index === 0)) {
             const array = [this.getKey__I__O(1), this.getValue__I__O(1)];
-            const xs = new $c_sjsr_WrappedVarArgs(array);
+            const xs = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
             $m_s_reflect_ManifestFactory$AnyManifest$();
             const len = xs.length__I();
             const array$1 = $newArrayObject($d_O.getArrayOf(), [len]);
@@ -12653,7 +12951,7 @@ class $c_sci_BitmapIndexedMapNode extends $c_sci_MapNode {
             return new $c_sci_BitmapIndexedMapNode(newDataMap, 0, array$1, $makeNativeArrayWrapper($d_I.getArrayOf(), [this.sci_BitmapIndexedMapNode__f_originalHashes.get(1)]), 1, $m_sc_Hashing$().improve__I__I(this.getHash__I__I(1)))
           } else {
             const array$2 = [this.getKey__I__O(0), this.getValue__I__O(0)];
-            const xs$1 = new $c_sjsr_WrappedVarArgs(array$2);
+            const xs$1 = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2);
             $m_s_reflect_ManifestFactory$AnyManifest$();
             const len$1 = xs$1.length__I();
             const array$3 = $newArrayObject($d_O.getArrayOf(), [len$1]);
@@ -12689,7 +12987,7 @@ class $c_sci_BitmapIndexedMapNode extends $c_sci_MapNode {
     if ((shift >= 32)) {
       const this$4 = $m_sci_Vector$();
       const array = [new $c_T2(key0, value0), new $c_T2(key1, value1)];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       return new $c_sci_HashCollisionMapNode(originalHash0, keyHash0, this$4.from__sc_IterableOnce__sci_Vector(elems))
     } else {
       const mask0 = $m_sci_Node$().maskFrom__I__I__I(keyHash0, shift);
@@ -12699,7 +12997,7 @@ class $c_sci_BitmapIndexedMapNode extends $c_sci_MapNode {
         const dataMap = ($m_sci_Node$().bitposFrom__I__I(mask0) | $m_sci_Node$().bitposFrom__I__I(mask1));
         if ((mask0 < mask1)) {
           const array$1 = [key0, value0, key1, value1];
-          const xs = new $c_sjsr_WrappedVarArgs(array$1);
+          const xs = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1);
           $m_s_reflect_ManifestFactory$AnyManifest$();
           const len = xs.length__I();
           const array$2 = $newArrayObject($d_O.getArrayOf(), [len]);
@@ -12713,7 +13011,7 @@ class $c_sci_BitmapIndexedMapNode extends $c_sci_MapNode {
           return new $c_sci_BitmapIndexedMapNode(dataMap, 0, array$2, $makeNativeArrayWrapper($d_I.getArrayOf(), [originalHash0, originalHash1]), 2, newCachedHash)
         } else {
           const array$3 = [key1, value1, key0, value0];
-          const xs$1 = new $c_sjsr_WrappedVarArgs(array$3);
+          const xs$1 = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$3);
           $m_s_reflect_ManifestFactory$AnyManifest$();
           const len$1 = xs$1.length__I();
           const array$4 = $newArrayObject($d_O.getArrayOf(), [len$1]);
@@ -12730,7 +13028,7 @@ class $c_sci_BitmapIndexedMapNode extends $c_sci_MapNode {
         const nodeMap = $m_sci_Node$().bitposFrom__I__I(mask0);
         const node = this.mergeTwoKeyValPairs__O__O__I__I__O__O__I__I__I__sci_MapNode(key0, value0, originalHash0, keyHash0, key1, value1, originalHash1, keyHash1, ((5 + shift) | 0));
         const array$5 = [node];
-        const xs$2 = new $c_sjsr_WrappedVarArgs(array$5);
+        const xs$2 = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$5);
         $m_s_reflect_ManifestFactory$AnyManifest$();
         const len$2 = xs$2.length__I();
         const array$6 = $newArrayObject($d_O.getArrayOf(), [len$2]);
@@ -13084,7 +13382,7 @@ class $c_sci_BitmapIndexedSetNode extends $c_sci_SetNode {
           const newDataMap = ((shift === 0) ? (this.sci_BitmapIndexedSetNode__f_dataMap ^ bitpos) : $m_sci_Node$().bitposFrom__I__I($m_sci_Node$().maskFrom__I__I__I(elementHash, 0)));
           if ((index === 0)) {
             const array = [this.getPayload__I__O(1)];
-            const xs = new $c_sjsr_WrappedVarArgs(array);
+            const xs = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
             $m_s_reflect_ManifestFactory$AnyManifest$();
             const len = xs.length__I();
             const array$1 = $newArrayObject($d_O.getArrayOf(), [len]);
@@ -13098,7 +13396,7 @@ class $c_sci_BitmapIndexedSetNode extends $c_sci_SetNode {
             return new $c_sci_BitmapIndexedSetNode(newDataMap, 0, array$1, $makeNativeArrayWrapper($d_I.getArrayOf(), [this.sci_BitmapIndexedSetNode__f_originalHashes.get(1)]), (((-1) + this.sci_BitmapIndexedSetNode__f_size) | 0), $m_sc_Hashing$().improve__I__I(this.sci_BitmapIndexedSetNode__f_originalHashes.get(1)))
           } else {
             const array$2 = [this.getPayload__I__O(0)];
-            const xs$1 = new $c_sjsr_WrappedVarArgs(array$2);
+            const xs$1 = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$2);
             $m_s_reflect_ManifestFactory$AnyManifest$();
             const len$1 = xs$1.length__I();
             const array$3 = $newArrayObject($d_O.getArrayOf(), [len$1]);
@@ -13142,7 +13440,7 @@ class $c_sci_BitmapIndexedSetNode extends $c_sci_SetNode {
     if ((shift >= 32)) {
       const this$4 = $m_sci_Vector$();
       const array = [key0, key1];
-      const elems = new $c_sjsr_WrappedVarArgs(array);
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
       return new $c_sci_HashCollisionSetNode(originalKeyHash0, keyHash0, this$4.from__sc_IterableOnce__sci_Vector(elems))
     } else {
       const mask0 = $m_sci_Node$().maskFrom__I__I__I(keyHash0, shift);
@@ -13152,7 +13450,7 @@ class $c_sci_BitmapIndexedSetNode extends $c_sci_SetNode {
         const newCachedHashCode = ((keyHash0 + keyHash1) | 0);
         if ((mask0 < mask1)) {
           const array$1 = [key0, key1];
-          const xs = new $c_sjsr_WrappedVarArgs(array$1);
+          const xs = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1);
           $m_s_reflect_ManifestFactory$AnyManifest$();
           const len = xs.length__I();
           const array$2 = $newArrayObject($d_O.getArrayOf(), [len]);
@@ -13166,7 +13464,7 @@ class $c_sci_BitmapIndexedSetNode extends $c_sci_SetNode {
           return new $c_sci_BitmapIndexedSetNode(dataMap, 0, array$2, $makeNativeArrayWrapper($d_I.getArrayOf(), [originalKeyHash0, originalKeyHash1]), 2, newCachedHashCode)
         } else {
           const array$3 = [key1, key0];
-          const xs$1 = new $c_sjsr_WrappedVarArgs(array$3);
+          const xs$1 = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$3);
           $m_s_reflect_ManifestFactory$AnyManifest$();
           const len$1 = xs$1.length__I();
           const array$4 = $newArrayObject($d_O.getArrayOf(), [len$1]);
@@ -13183,7 +13481,7 @@ class $c_sci_BitmapIndexedSetNode extends $c_sci_SetNode {
         const nodeMap = $m_sci_Node$().bitposFrom__I__I(mask0);
         const node = this.mergeTwoKeyValPairs__O__I__I__O__I__I__I__sci_SetNode(key0, originalKeyHash0, keyHash0, key1, originalKeyHash1, keyHash1, ((5 + shift) | 0));
         const array$5 = [node];
-        const xs$2 = new $c_sjsr_WrappedVarArgs(array$5);
+        const xs$2 = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$5);
         $m_s_reflect_ManifestFactory$AnyManifest$();
         const len$2 = xs$2.length__I();
         const array$6 = $newArrayObject($d_O.getArrayOf(), [len$2]);
@@ -13477,7 +13775,7 @@ class $c_sci_HashCollisionMapNode extends $c_sci_MapNode {
         const v = x1$2.T2__f__2;
         const $$x1 = $m_sci_Node$().bitposFrom__I__I($m_sci_Node$().maskFrom__I__I__I(hash, 0));
         const array = [k, v];
-        const xs = new $c_sjsr_WrappedVarArgs(array);
+        const xs = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
         $m_s_reflect_ManifestFactory$AnyManifest$();
         const len = xs.length__I();
         const array$1 = $newArrayObject($d_O.getArrayOf(), [len]);
@@ -13631,7 +13929,7 @@ class $c_sci_HashCollisionSetNode extends $c_sci_SetNode {
       if ((x1 === 1)) {
         const $$x1 = $m_sci_Node$().bitposFrom__I__I($m_sci_Node$().maskFrom__I__I__I(hash, 0));
         const array = [updatedContent.apply__I__O(0)];
-        const xs = new $c_sjsr_WrappedVarArgs(array);
+        const xs = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
         $m_s_reflect_ManifestFactory$AnyManifest$();
         const len = xs.length__I();
         const array$1 = $newArrayObject($d_O.getArrayOf(), [len]);
@@ -14276,6 +14574,93 @@ const $d_Lbillding_Main$Counter = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lbillding_Main$Counter.prototype.$classData = $d_Lbillding_Main$Counter;
+class $c_Lbillding_SQL$Condition extends $c_O {
+  constructor(fieldName, operator, fieldValue) {
+    super();
+    this.Lbillding_SQL$Condition__f_fieldName = null;
+    this.Lbillding_SQL$Condition__f_operator = null;
+    this.Lbillding_SQL$Condition__f_fieldValue = null;
+    this.Lbillding_SQL$Condition__f_fieldName = fieldName;
+    this.Lbillding_SQL$Condition__f_operator = operator;
+    this.Lbillding_SQL$Condition__f_fieldValue = fieldValue
+  };
+  productPrefix__T() {
+    return "Condition"
+  };
+  productArity__I() {
+    return 3
+  };
+  productElement__I__O(x$1) {
+    switch (x$1) {
+      case 0: {
+        return this.Lbillding_SQL$Condition__f_fieldName;
+        break
+      }
+      case 1: {
+        return this.Lbillding_SQL$Condition__f_operator;
+        break
+      }
+      case 2: {
+        return this.Lbillding_SQL$Condition__f_fieldValue;
+        break
+      }
+      default: {
+        return $m_sr_Statics$().ioobe__I__O(x$1)
+      }
+    }
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    const this$2 = $m_s_util_hashing_MurmurHash3$();
+    return this$2.productHash__s_Product__I__Z__I(this, (-889275714), false)
+  };
+  toString__T() {
+    return $m_sr_ScalaRunTime$()._toString__s_Product__T(this)
+  };
+  equals__O__Z(x$1) {
+    if ((this === x$1)) {
+      return true
+    } else if ((x$1 instanceof $c_Lbillding_SQL$Condition)) {
+      const Condition$1 = $as_Lbillding_SQL$Condition(x$1);
+      let $$x1;
+      if ((this.Lbillding_SQL$Condition__f_fieldName === Condition$1.Lbillding_SQL$Condition__f_fieldName)) {
+        const x = this.Lbillding_SQL$Condition__f_operator;
+        const x$2 = Condition$1.Lbillding_SQL$Condition__f_operator;
+        $$x1 = (x === x$2)
+      } else {
+        $$x1 = false
+      };
+      if ($$x1) {
+        return (this.Lbillding_SQL$Condition__f_fieldValue === Condition$1.Lbillding_SQL$Condition__f_fieldValue)
+      } else {
+        return false
+      }
+    } else {
+      return false
+    }
+  };
+}
+function $as_Lbillding_SQL$Condition(obj) {
+  return (((obj instanceof $c_Lbillding_SQL$Condition) || (obj === null)) ? obj : $throwClassCastException(obj, "billding.SQL$Condition"))
+}
+function $isArrayOf_Lbillding_SQL$Condition(obj, depth) {
+  return (!(!(((obj && obj.$classData) && (obj.$classData.arrayDepth === depth)) && obj.$classData.arrayBase.ancestors.Lbillding_SQL$Condition)))
+}
+function $asArrayOf_Lbillding_SQL$Condition(obj, depth) {
+  return (($isArrayOf_Lbillding_SQL$Condition(obj, depth) || (obj === null)) ? obj : $throwArrayCastException(obj, "Lbillding.SQL$Condition;", depth))
+}
+const $d_Lbillding_SQL$Condition = new $TypeData().initClass({
+  Lbillding_SQL$Condition: 0
+}, false, "billding.SQL$Condition", {
+  Lbillding_SQL$Condition: 1,
+  O: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_SQL$Condition.prototype.$classData = $d_Lbillding_SQL$Condition;
 class $c_Lcom_raquo_laminar_api_package$ extends $c_O {
   constructor() {
     super();
@@ -15680,6 +16065,9 @@ class $c_sc_SeqFactory$Delegate extends $c_O {
   apply__sci_Seq__sc_SeqOps(elems) {
     return $as_sc_SeqOps(this.sc_SeqFactory$Delegate__f_delegate.apply__sci_Seq__O(elems))
   };
+  empty__sc_SeqOps() {
+    return $as_sc_SeqOps(this.sc_SeqFactory$Delegate__f_delegate.empty__O())
+  };
   from__sc_IterableOnce__sc_SeqOps(it) {
     return $as_sc_SeqOps(this.sc_SeqFactory$Delegate__f_delegate.from__sc_IterableOnce__O(it))
   };
@@ -15688,6 +16076,9 @@ class $c_sc_SeqFactory$Delegate extends $c_O {
   };
   from__sc_IterableOnce__O(source) {
     return this.from__sc_IterableOnce__sc_SeqOps(source)
+  };
+  empty__O() {
+    return this.empty__sc_SeqOps()
   };
   apply__sci_Seq__O(elems) {
     return this.apply__sci_Seq__sc_SeqOps(elems)
@@ -15846,6 +16237,9 @@ class $c_sci_LazyList$ extends $c_O {
   newBuilder__scm_Builder() {
     return new $c_sci_LazyList$LazyBuilder()
   };
+  empty__O() {
+    return this.sci_LazyList$__f__empty
+  };
   from__sc_IterableOnce__O(source) {
     return this.from__sc_IterableOnce__sci_LazyList(source)
   };
@@ -15889,6 +16283,9 @@ class $c_sci_Stream$ extends $c_O {
       return $m_sci_Stream$().from__sc_IterableOnce__sci_Stream(array)
     }))(this));
     return new $c_scm_Builder$$anon$1(this$3, f)
+  };
+  empty__O() {
+    return $m_sci_Stream$Empty$()
   };
   from__sc_IterableOnce__O(source) {
     return this.from__sc_IterableOnce__sci_Stream(source)
@@ -16211,6 +16608,120 @@ function $m_Lbillding_Main$ResetCount$() {
     $n_Lbillding_Main$ResetCount$ = new $c_Lbillding_Main$ResetCount$()
   };
   return $n_Lbillding_Main$ResetCount$
+}
+class $c_Lbillding_SQL$Equal$ extends $c_O {
+  productPrefix__T() {
+    return "Equal"
+  };
+  productArity__I() {
+    return 0
+  };
+  productElement__I__O(x$1) {
+    return $m_sr_Statics$().ioobe__I__O(x$1)
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    return 67204884
+  };
+  toString__T() {
+    return "Equal"
+  };
+}
+const $d_Lbillding_SQL$Equal$ = new $TypeData().initClass({
+  Lbillding_SQL$Equal$: 0
+}, false, "billding.SQL$Equal$", {
+  Lbillding_SQL$Equal$: 1,
+  O: 1,
+  Lbillding_SQL$Operator: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_SQL$Equal$.prototype.$classData = $d_Lbillding_SQL$Equal$;
+let $n_Lbillding_SQL$Equal$;
+function $m_Lbillding_SQL$Equal$() {
+  if ((!$n_Lbillding_SQL$Equal$)) {
+    $n_Lbillding_SQL$Equal$ = new $c_Lbillding_SQL$Equal$()
+  };
+  return $n_Lbillding_SQL$Equal$
+}
+class $c_Lbillding_SQL$GreaterThan$ extends $c_O {
+  productPrefix__T() {
+    return "GreaterThan"
+  };
+  productArity__I() {
+    return 0
+  };
+  productElement__I__O(x$1) {
+    return $m_sr_Statics$().ioobe__I__O(x$1)
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    return (-1701951333)
+  };
+  toString__T() {
+    return "GreaterThan"
+  };
+}
+const $d_Lbillding_SQL$GreaterThan$ = new $TypeData().initClass({
+  Lbillding_SQL$GreaterThan$: 0
+}, false, "billding.SQL$GreaterThan$", {
+  Lbillding_SQL$GreaterThan$: 1,
+  O: 1,
+  Lbillding_SQL$Operator: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_SQL$GreaterThan$.prototype.$classData = $d_Lbillding_SQL$GreaterThan$;
+let $n_Lbillding_SQL$GreaterThan$;
+function $m_Lbillding_SQL$GreaterThan$() {
+  if ((!$n_Lbillding_SQL$GreaterThan$)) {
+    $n_Lbillding_SQL$GreaterThan$ = new $c_Lbillding_SQL$GreaterThan$()
+  };
+  return $n_Lbillding_SQL$GreaterThan$
+}
+class $c_Lbillding_SQL$LessThan$ extends $c_O {
+  productPrefix__T() {
+    return "LessThan"
+  };
+  productArity__I() {
+    return 0
+  };
+  productElement__I__O(x$1) {
+    return $m_sr_Statics$().ioobe__I__O(x$1)
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    return (-2140646662)
+  };
+  toString__T() {
+    return "LessThan"
+  };
+}
+const $d_Lbillding_SQL$LessThan$ = new $TypeData().initClass({
+  Lbillding_SQL$LessThan$: 0
+}, false, "billding.SQL$LessThan$", {
+  Lbillding_SQL$LessThan$: 1,
+  O: 1,
+  Lbillding_SQL$Operator: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_SQL$LessThan$.prototype.$classData = $d_Lbillding_SQL$LessThan$;
+let $n_Lbillding_SQL$LessThan$;
+function $m_Lbillding_SQL$LessThan$() {
+  if ((!$n_Lbillding_SQL$LessThan$)) {
+    $n_Lbillding_SQL$LessThan$ = new $c_Lbillding_SQL$LessThan$()
+  };
+  return $n_Lbillding_SQL$LessThan$
 }
 class $c_Lcom_raquo_airstream_eventbus_EventBusStream extends $c_O {
   constructor(writeBus) {
@@ -18400,6 +18911,9 @@ const $d_sc_ClassTagSeqFactory$AnySeqDelegate = new $TypeData().initClass({
   sc_SeqFactory: 1
 });
 $c_sc_ClassTagSeqFactory$AnySeqDelegate.prototype.$classData = $d_sc_ClassTagSeqFactory$AnySeqDelegate;
+function $f_sc_IndexedSeqOps__prepended__O__O($thiz, elem) {
+  return $thiz.iterableFactory__sc_IterableFactory().from__sc_IterableOnce__O(new $c_sc_IndexedSeqView$Prepended(elem, $thiz))
+}
 function $f_sc_IndexedSeqOps__drop__I__O($thiz, n) {
   return $thiz.fromSpecific__sc_IterableOnce__O(new $c_sc_IndexedSeqView$Drop($thiz, n))
 }
@@ -19345,6 +19859,9 @@ class $c_sci_List$ extends $c_O {
   newBuilder__scm_Builder() {
     return new $c_scm_ListBuffer()
   };
+  empty__O() {
+    return $m_sci_Nil$()
+  };
   from__sc_IterableOnce__O(source) {
     return $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(source)
   };
@@ -20217,6 +20734,9 @@ class $c_sci_Vector$ extends $c_O {
   from__sc_IterableOnce__O(source) {
     return this.from__sc_IterableOnce__sci_Vector(source)
   };
+  empty__O() {
+    return $m_sci_Vector0$()
+  };
 }
 const $d_sci_Vector$ = new $TypeData().initClass({
   sci_Vector$: 0
@@ -20802,6 +21322,9 @@ class $c_scm_ArrayBuffer$ extends $c_O {
       return $p_scm_ArrayBuffer$__growArray$1__J__I__I__AO__AO(this, new $c_RTLong(value, hi), n, end, array)
     }
   };
+  empty__O() {
+    return $ct_scm_ArrayBuffer__(new $c_scm_ArrayBuffer())
+  };
   from__sc_IterableOnce__O(source) {
     return this.from__sc_IterableOnce__scm_ArrayBuffer(source)
   };
@@ -21029,6 +21552,9 @@ class $c_scm_ListBuffer$ extends $c_O {
   newBuilder__scm_Builder() {
     return $ct_scm_GrowableBuilder__scm_Growable__(new $c_scm_GrowableBuilder(), new $c_scm_ListBuffer())
   };
+  empty__O() {
+    return new $c_scm_ListBuffer()
+  };
   from__sc_IterableOnce__O(source) {
     const this$1 = new $c_scm_ListBuffer();
     return this$1.addAll__sc_IterableOnce__scm_ListBuffer(source)
@@ -21120,6 +21646,9 @@ class $c_sjs_js_WrappedArray$ extends $c_O {
   from__sc_IterableOnce__O(source) {
     return this.from__sc_IterableOnce__sjs_js_WrappedArray(source)
   };
+  empty__O() {
+    return $ct_sjs_js_WrappedArray__(new $c_sjs_js_WrappedArray())
+  };
 }
 const $d_sjs_js_WrappedArray$ = new $TypeData().initClass({
   sjs_js_WrappedArray$: 0
@@ -21152,12 +21681,15 @@ class $c_sjsr_WrappedVarArgs$ extends $c_O {
     const this$4 = $ct_sjs_js_WrappedArray__sjs_js_Array__(new $c_sjs_js_WrappedArray(), array);
     const f = new $c_sjsr_AnonFunction1(((this$2) => ((x$1$2) => {
       const x$1 = $as_sjs_js_WrappedArray(x$1$2);
-      return new $c_sjsr_WrappedVarArgs(x$1.sjs_js_WrappedArray__f_scala$scalajs$js$WrappedArray$$array)
+      return $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), x$1.sjs_js_WrappedArray__f_scala$scalajs$js$WrappedArray$$array)
     }))(this));
     return new $c_scm_Builder$$anon$1(this$4, f)
   };
   from__sc_IterableOnce__O(source) {
     return this.from__sc_IterableOnce__sjsr_WrappedVarArgs(source)
+  };
+  empty__O() {
+    return $ct_sjsr_WrappedVarArgs__(new $c_sjsr_WrappedVarArgs())
   };
 }
 const $d_sjsr_WrappedVarArgs$ = new $TypeData().initClass({
@@ -22631,6 +23163,15 @@ function $f_sc_StrictOptimizedSeqOps__distinctBy__F1__O($thiz, f) {
     }
   };
   return builder.result__O()
+}
+function $f_sc_StrictOptimizedSeqOps__prepended__O__O($thiz, elem) {
+  const b = $thiz.iterableFactory__sc_SeqFactory().newBuilder__scm_Builder();
+  if (($thiz.knownSize__I() >= 0)) {
+    b.sizeHint__I__V(((1 + $thiz.length__I()) | 0))
+  };
+  b.addOne__O__scm_Growable(elem);
+  b.addAll__sc_IterableOnce__scm_Growable($thiz);
+  return b.result__O()
 }
 function $is_sci_Iterable(obj) {
   return (!(!((obj && obj.$classData) && obj.$classData.ancestors.sci_Iterable)))
@@ -24836,6 +25377,18 @@ class $c_sc_View$Map extends $c_sc_AbstractView {
     this.sc_View$Map__f_f = null
   };
 }
+const $ct_sc_View$Prepended__O__sc_IterableOps__ = (function($thiz, elem, underlying) {
+  $thiz.sc_View$Prepended__f_elem = elem;
+  $thiz.sc_View$Prepended__f_underlying = underlying;
+  return $thiz
+});
+class $c_sc_View$Prepended extends $c_sc_AbstractView {
+  constructor() {
+    super();
+    this.sc_View$Prepended__f_elem = null;
+    this.sc_View$Prepended__f_underlying = null
+  };
+}
 class $c_sc_AbstractSet extends $c_sc_AbstractIterable {
   equals__O__Z(that) {
     return $f_sc_Set__equals__O__Z(this, that)
@@ -25164,6 +25717,35 @@ class $c_sc_SeqView$Map extends $c_sc_View$Map {
     return this.sc_SeqView$Map__f_underlying.length__I()
   };
 }
+const $ct_sc_SeqView$Prepended__O__sc_SeqOps__ = (function($thiz, elem, underlying) {
+  $thiz.sc_SeqView$Prepended__f_elem = elem;
+  $thiz.sc_SeqView$Prepended__f_underlying = underlying;
+  $ct_sc_View$Prepended__O__sc_IterableOps__($thiz, elem, underlying);
+  return $thiz
+});
+class $c_sc_SeqView$Prepended extends $c_sc_View$Prepended {
+  constructor() {
+    super();
+    this.sc_SeqView$Prepended__f_elem = null;
+    this.sc_SeqView$Prepended__f_underlying = null
+  };
+  distinctBy__F1__O(f) {
+    return $f_sc_SeqOps__distinctBy__F1__O(this, f)
+  };
+  indexWhere__F1__I__I(p, from) {
+    const this$1 = this.iterator__sc_Iterator();
+    return $f_sc_Iterator__indexWhere__F1__I__I(this$1, p, from)
+  };
+  isEmpty__Z() {
+    return $f_sc_SeqOps__isEmpty__Z(this)
+  };
+  apply__I__O(idx) {
+    return ((idx === 0) ? this.sc_SeqView$Prepended__f_elem : this.sc_SeqView$Prepended__f_underlying.apply__I__O((((-1) + idx) | 0)))
+  };
+  length__I() {
+    return ((1 + this.sc_SeqView$Prepended__f_underlying.length__I()) | 0)
+  };
+}
 const $ct_sc_SeqView$Reverse__sc_SeqOps__ = (function($thiz, underlying) {
   $thiz.sc_SeqView$Reverse__f_underlying = underlying;
   return $thiz
@@ -25384,6 +25966,53 @@ const $d_sc_IndexedSeqView$Map = new $TypeData().initClass({
   sc_IndexedSeqOps: 1
 });
 $c_sc_IndexedSeqView$Map.prototype.$classData = $d_sc_IndexedSeqView$Map;
+class $c_sc_IndexedSeqView$Prepended extends $c_sc_SeqView$Prepended {
+  constructor(elem, underlying) {
+    super();
+    $ct_sc_SeqView$Prepended__O__sc_SeqOps__(this, elem, underlying)
+  };
+  iterator__sc_Iterator() {
+    return new $c_sc_IndexedSeqView$IndexedSeqViewIterator(this)
+  };
+  stringPrefix__T() {
+    return "IndexedSeqView"
+  };
+  head__O() {
+    return this.apply__I__O(0)
+  };
+  lengthCompare__I__I(len) {
+    const x = this.length__I();
+    return ((x === len) ? 0 : ((x < len) ? (-1) : 1))
+  };
+  knownSize__I() {
+    return this.length__I()
+  };
+  drop__I__O(n) {
+    return new $c_sc_IndexedSeqView$Drop(this, n)
+  };
+}
+const $d_sc_IndexedSeqView$Prepended = new $TypeData().initClass({
+  sc_IndexedSeqView$Prepended: 0
+}, false, "scala.collection.IndexedSeqView$Prepended", {
+  sc_IndexedSeqView$Prepended: 1,
+  sc_SeqView$Prepended: 1,
+  sc_View$Prepended: 1,
+  sc_AbstractView: 1,
+  sc_AbstractIterable: 1,
+  O: 1,
+  sc_Iterable: 1,
+  sc_IterableOnce: 1,
+  sc_IterableOps: 1,
+  sc_IterableOnceOps: 1,
+  sc_IterableFactoryDefaults: 1,
+  sc_View: 1,
+  Ljava_io_Serializable: 1,
+  sc_SeqView: 1,
+  sc_SeqOps: 1,
+  sc_IndexedSeqView: 1,
+  sc_IndexedSeqOps: 1
+});
+$c_sc_IndexedSeqView$Prepended.prototype.$classData = $d_sc_IndexedSeqView$Prepended;
 class $c_sc_IndexedSeqView$Reverse extends $c_sc_SeqView$Reverse {
   constructor(underlying) {
     super();
@@ -26905,6 +27534,14 @@ class $c_sci_LazyList extends $c_sci_AbstractSeq {
   equals__O__Z(that) {
     return ((this === that) || $f_sc_Seq__equals__O__Z(this, that))
   };
+  prepended__O__sci_LazyList(elem) {
+    $m_sci_LazyList$();
+    const state = new $c_sjsr_AnonFunction0(((this$1, elem$1) => (() => {
+      $m_sci_LazyList$();
+      return new $c_sci_LazyList$State$Cons(elem$1, this$1)
+    }))(this, elem));
+    return new $c_sci_LazyList(state)
+  };
   map__F1__sci_LazyList(f) {
     return ((this.sci_LazyList__f_scala$collection$immutable$LazyList$$stateEvaluated && this.isEmpty__Z()) ? $m_sci_LazyList$().sci_LazyList$__f__empty : $p_sci_LazyList__mapImpl__F1__sci_LazyList(this, f))
   };
@@ -26932,6 +27569,9 @@ class $c_sci_LazyList extends $c_sci_AbstractSeq {
   };
   map__F1__O(f) {
     return this.map__F1__sci_LazyList(f)
+  };
+  prepended__O__O(elem) {
+    return this.prepended__O__sci_LazyList(elem)
   };
   tail__O() {
     return this.scala$collection$immutable$LazyList$$state__sci_LazyList$State().tail__sci_LazyList()
@@ -27092,6 +27732,10 @@ class $c_sci_Stream extends $c_sci_AbstractSeq {
   equals__O__Z(that) {
     return ((this === that) || $f_sc_Seq__equals__O__Z(this, that))
   };
+  prepended__O__sci_Stream(elem) {
+    const tl = new $c_sjsr_AnonFunction0(((this$1) => (() => this$1))(this));
+    return new $c_sci_Stream$Cons(elem, tl)
+  };
   map__F1__sci_Stream(f) {
     if (this.isEmpty__Z()) {
       return $m_sci_Stream$Empty$()
@@ -27119,6 +27763,9 @@ class $c_sci_Stream extends $c_sci_AbstractSeq {
   };
   map__F1__O(f) {
     return this.map__F1__sci_Stream(f)
+  };
+  prepended__O__O(elem) {
+    return this.prepended__O__sci_Stream(elem)
   };
   iterableFactory__sc_IterableFactory() {
     return $m_sci_Stream$()
@@ -27154,6 +27801,9 @@ class $c_sci_WrappedString extends $c_sci_AbstractSeq {
   };
   reversed__sc_Iterable() {
     return new $c_sc_IndexedSeqView$Reverse(this)
+  };
+  prepended__O__O(elem) {
+    return $f_sc_IndexedSeqOps__prepended__O__O(this, elem)
   };
   drop__I__O(n) {
     return $f_sc_IndexedSeqOps__drop__I__O(this, n)
@@ -27279,14 +27929,24 @@ const $d_sci_WrappedString = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_sci_WrappedString.prototype.$classData = $d_sci_WrappedString;
+const $ct_sjsr_WrappedVarArgs__sjs_js_Array__ = (function($thiz, array) {
+  $thiz.sjsr_WrappedVarArgs__f_scala$scalajs$runtime$WrappedVarArgs$$array = array;
+  return $thiz
+});
+const $ct_sjsr_WrappedVarArgs__ = (function($thiz) {
+  $ct_sjsr_WrappedVarArgs__sjs_js_Array__($thiz, []);
+  return $thiz
+});
 class $c_sjsr_WrappedVarArgs extends $c_O {
-  constructor(array) {
+  constructor() {
     super();
-    this.sjsr_WrappedVarArgs__f_scala$scalajs$runtime$WrappedVarArgs$$array = null;
-    this.sjsr_WrappedVarArgs__f_scala$scalajs$runtime$WrappedVarArgs$$array = array
+    this.sjsr_WrappedVarArgs__f_scala$scalajs$runtime$WrappedVarArgs$$array = null
   };
   distinctBy__F1__O(f) {
     return $f_sci_StrictOptimizedSeqOps__distinctBy__F1__O(this, f)
+  };
+  prepended__O__O(elem) {
+    return $f_sc_StrictOptimizedSeqOps__prepended__O__O(this, elem)
   };
   map__F1__O(f) {
     return $f_sc_StrictOptimizedIterableOps__map__F1__O(this, f)
@@ -28113,6 +28773,9 @@ class $c_scm_ArraySeq extends $c_scm_AbstractSeq {
   knownSize__I() {
     return this.length__I()
   };
+  iterableFactory__sc_SeqFactory() {
+    return $m_scm_ArraySeq$().scm_ArraySeq$__f_untagged
+  };
   fromSpecific__sc_IterableOnce__scm_ArraySeq(coll) {
     const evidence$1 = this.elemTag__s_reflect_ClassTag();
     let capacity = 0;
@@ -28273,6 +28936,9 @@ class $c_sci_List extends $c_sci_AbstractSeq {
   isEmpty__Z() {
     return (this === $m_sci_Nil$())
   };
+  prepended__O__sci_List(elem) {
+    return new $c_sci_$colon$colon(elem, this)
+  };
   prependedAll__sc_IterableOnce__sci_List(prefix) {
     if ((prefix instanceof $c_sci_List)) {
       const x2 = $as_sci_List(prefix);
@@ -28370,6 +29036,9 @@ class $c_sci_List extends $c_sci_AbstractSeq {
   };
   map__F1__O(f) {
     return this.map__F1__sci_List(f)
+  };
+  prepended__O__O(elem) {
+    return this.prepended__O__sci_List(elem)
   };
   iterableFactory__sc_IterableFactory() {
     return $m_sci_List$()
@@ -29611,6 +30280,16 @@ class $c_sci_Vector1 extends $c_sci_VectorImpl {
       return new $c_sci_Vector2($$x2, 32, $$x1, a, 33)
     }
   };
+  prepended__O__sci_Vector(elem) {
+    const len1 = this.sci_Vector__f_prefix1.u.length;
+    if ((len1 < 32)) {
+      return new $c_sci_Vector1($m_sci_VectorStatics$().copyPrepend1__O__AO__AO(elem, this.sci_Vector__f_prefix1))
+    } else {
+      const a = $newArrayObject($d_O.getArrayOf(), [1]);
+      a.set(0, elem);
+      return new $c_sci_Vector2(a, 1, $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2, this.sci_Vector__f_prefix1, ((1 + len1) | 0))
+    }
+  };
   map__F1__sci_Vector(f) {
     return new $c_sci_Vector1($m_sci_VectorStatics$().mapElems1__AO__F1__AO(this.sci_Vector__f_prefix1, f))
   };
@@ -29638,6 +30317,9 @@ class $c_sci_Vector1 extends $c_sci_VectorImpl {
   };
   map__F1__O(f) {
     return this.map__F1__sci_Vector(f)
+  };
+  prepended__O__O(elem) {
+    return this.prepended__O__sci_Vector(elem)
   };
   apply__O__O(v1) {
     const index = $uI(v1);
@@ -29870,6 +30552,11 @@ class $c_sci_Vector0$ extends $c_sci_BigVector {
     a.set(0, elem);
     return new $c_sci_Vector1(a)
   };
+  prepended__O__sci_Vector(elem) {
+    const a = $newArrayObject($d_O.getArrayOf(), [1]);
+    a.set(0, elem);
+    return new $c_sci_Vector1(a)
+  };
   tail__sci_Vector() {
     throw $ct_jl_UnsupportedOperationException__T__(new $c_jl_UnsupportedOperationException(), "empty.tail")
   };
@@ -29893,6 +30580,9 @@ class $c_sci_Vector0$ extends $c_sci_BigVector {
   };
   map__F1__O(f) {
     return this
+  };
+  prepended__O__O(elem) {
+    return this.prepended__O__sci_Vector(elem)
   };
   apply__O__O(v1) {
     this.apply__I__E($uI(v1))
@@ -30038,6 +30728,30 @@ class $c_sci_Vector2 extends $c_sci_BigVector {
       return new $c_sci_Vector3($$x5, $$x4, $$x3, ((960 + $$x2) | 0), $$x1, a$1, a$2, ((1 + this.sci_BigVector__f_length0) | 0))
     }
   };
+  prepended__O__sci_Vector(elem) {
+    if ((this.sci_Vector2__f_len1 < 32)) {
+      const x$1 = $m_sci_VectorStatics$().copyPrepend1__O__AO__AO(elem, this.sci_Vector__f_prefix1);
+      const x$2 = ((1 + this.sci_Vector2__f_len1) | 0);
+      const x$3 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$4 = this.sci_Vector2__f_data2;
+      const x$5 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector2(x$1, x$2, x$4, x$5, x$3)
+    } else if ((this.sci_Vector2__f_data2.u.length < 30)) {
+      const a = $newArrayObject($d_O.getArrayOf(), [1]);
+      a.set(0, elem);
+      const x$8 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector2__f_data2), 2);
+      const x$9 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$10 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector2(a, 1, x$8, x$10, x$9)
+    } else {
+      const a$1 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$1.set(0, elem);
+      const x = this.sci_Vector__f_prefix1;
+      const a$2 = $newArrayObject($d_O.getArrayOf().getArrayOf(), [1]);
+      a$2.set(0, x);
+      return new $c_sci_Vector3(a$1, 1, a$2, ((1 + this.sci_Vector2__f_len1) | 0), $m_sci_VectorStatics$().sci_VectorStatics$__f_empty3, this.sci_Vector2__f_data2, this.sci_BigVector__f_suffix1, ((1 + this.sci_BigVector__f_length0) | 0))
+    }
+  };
   map__F1__sci_Vector(f) {
     const x$1 = $m_sci_VectorStatics$().mapElems1__AO__F1__AO(this.sci_Vector__f_prefix1, f);
     const x$2 = $asArrayOf_O($m_sci_VectorStatics$().mapElems__I__AO__F1__AO(2, this.sci_Vector2__f_data2, f), 2);
@@ -30094,6 +30808,9 @@ class $c_sci_Vector2 extends $c_sci_BigVector {
   };
   map__F1__O(f) {
     return this.map__F1__sci_Vector(f)
+  };
+  prepended__O__O(elem) {
+    return this.prepended__O__sci_Vector(elem)
   };
   apply__O__O(v1) {
     const index = $uI(v1);
@@ -30326,6 +31043,46 @@ class $c_sci_Vector3 extends $c_sci_BigVector {
       return new $c_sci_Vector4($$x8, $$x7, $$x6, $$x5, $$x4, ((30720 + $$x3) | 0), $$x2, a$2, $$x1, a$3, ((1 + this.sci_BigVector__f_length0) | 0))
     }
   };
+  prepended__O__sci_Vector(elem) {
+    if ((this.sci_Vector3__f_len1 < 32)) {
+      const x$1 = $m_sci_VectorStatics$().copyPrepend1__O__AO__AO(elem, this.sci_Vector__f_prefix1);
+      const x$2 = ((1 + this.sci_Vector3__f_len1) | 0);
+      const x$3 = ((1 + this.sci_Vector3__f_len12) | 0);
+      const x$4 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$5 = this.sci_Vector3__f_prefix2;
+      const x$6 = this.sci_Vector3__f_data3;
+      const x$7 = this.sci_Vector3__f_suffix2;
+      const x$8 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector3(x$1, x$2, x$5, x$3, x$6, x$7, x$8, x$4)
+    } else if ((this.sci_Vector3__f_len12 < 1024)) {
+      const a = $newArrayObject($d_O.getArrayOf(), [1]);
+      a.set(0, elem);
+      const x$11 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector3__f_prefix2), 2);
+      const x$12 = ((1 + this.sci_Vector3__f_len12) | 0);
+      const x$13 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$14 = this.sci_Vector3__f_data3;
+      const x$15 = this.sci_Vector3__f_suffix2;
+      const x$16 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector3(a, 1, x$11, x$12, x$14, x$15, x$16, x$13)
+    } else if ((this.sci_Vector3__f_data3.u.length < 30)) {
+      const a$1 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$1.set(0, elem);
+      const x$19 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x$21 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector3__f_prefix2), this.sci_Vector3__f_data3), 3);
+      const x$22 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$23 = this.sci_Vector3__f_suffix2;
+      const x$24 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector3(a$1, 1, x$19, 1, x$21, x$23, x$24, x$22)
+    } else {
+      const a$2 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$2.set(0, elem);
+      const $$x1 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector3__f_prefix2), 2);
+      const a$3 = $newArrayObject($d_O.getArrayOf().getArrayOf().getArrayOf(), [1]);
+      a$3.set(0, x);
+      return new $c_sci_Vector4(a$2, 1, $$x1, 1, a$3, ((1 + this.sci_Vector3__f_len12) | 0), $m_sci_VectorStatics$().sci_VectorStatics$__f_empty4, this.sci_Vector3__f_data3, this.sci_Vector3__f_suffix2, this.sci_BigVector__f_suffix1, ((1 + this.sci_BigVector__f_length0) | 0))
+    }
+  };
   map__F1__sci_Vector(f) {
     const x$1 = $m_sci_VectorStatics$().mapElems1__AO__F1__AO(this.sci_Vector__f_prefix1, f);
     const x$2 = $asArrayOf_O($m_sci_VectorStatics$().mapElems__I__AO__F1__AO(2, this.sci_Vector3__f_prefix2, f), 2);
@@ -30398,6 +31155,9 @@ class $c_sci_Vector3 extends $c_sci_BigVector {
   };
   map__F1__O(f) {
     return this.map__F1__sci_Vector(f)
+  };
+  prepended__O__O(elem) {
+    return this.prepended__O__sci_Vector(elem)
   };
   apply__O__O(v1) {
     const index = $uI(v1);
@@ -30735,6 +31495,67 @@ class $c_sci_Vector4 extends $c_sci_BigVector {
       return new $c_sci_Vector5($$x11, $$x10, $$x9, $$x8, $$x7, $$x6, $$x5, ((983040 + $$x4) | 0), $$x3, a$3, $$x2, $$x1, a$4, ((1 + this.sci_BigVector__f_length0) | 0))
     }
   };
+  prepended__O__sci_Vector(elem) {
+    if ((this.sci_Vector4__f_len1 < 32)) {
+      const x$1 = $m_sci_VectorStatics$().copyPrepend1__O__AO__AO(elem, this.sci_Vector__f_prefix1);
+      const x$2 = ((1 + this.sci_Vector4__f_len1) | 0);
+      const x$3 = ((1 + this.sci_Vector4__f_len12) | 0);
+      const x$4 = ((1 + this.sci_Vector4__f_len123) | 0);
+      const x$5 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$6 = this.sci_Vector4__f_prefix2;
+      const x$7 = this.sci_Vector4__f_prefix3;
+      const x$8 = this.sci_Vector4__f_data4;
+      const x$9 = this.sci_Vector4__f_suffix3;
+      const x$10 = this.sci_Vector4__f_suffix2;
+      const x$11 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector4(x$1, x$2, x$6, x$3, x$7, x$4, x$8, x$9, x$10, x$11, x$5)
+    } else if ((this.sci_Vector4__f_len12 < 1024)) {
+      const a = $newArrayObject($d_O.getArrayOf(), [1]);
+      a.set(0, elem);
+      const x$14 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector4__f_prefix2), 2);
+      const x$15 = ((1 + this.sci_Vector4__f_len12) | 0);
+      const x$16 = ((1 + this.sci_Vector4__f_len123) | 0);
+      const x$17 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$18 = this.sci_Vector4__f_prefix3;
+      const x$19 = this.sci_Vector4__f_data4;
+      const x$20 = this.sci_Vector4__f_suffix3;
+      const x$21 = this.sci_Vector4__f_suffix2;
+      const x$22 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector4(a, 1, x$14, x$15, x$18, x$16, x$19, x$20, x$21, x$22, x$17)
+    } else if ((this.sci_Vector4__f_len123 < 32768)) {
+      const a$1 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$1.set(0, elem);
+      const x$25 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x$27 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector4__f_prefix2), this.sci_Vector4__f_prefix3), 3);
+      const x$28 = ((1 + this.sci_Vector4__f_len123) | 0);
+      const x$29 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$30 = this.sci_Vector4__f_data4;
+      const x$31 = this.sci_Vector4__f_suffix3;
+      const x$32 = this.sci_Vector4__f_suffix2;
+      const x$33 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector4(a$1, 1, x$25, 1, x$27, x$28, x$30, x$31, x$32, x$33, x$29)
+    } else if ((this.sci_Vector4__f_data4.u.length < 30)) {
+      const a$2 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$2.set(0, elem);
+      const x$36 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x$38 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty3;
+      const x$40 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector4__f_prefix2), this.sci_Vector4__f_prefix3), this.sci_Vector4__f_data4), 4);
+      const x$41 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$42 = this.sci_Vector4__f_suffix3;
+      const x$43 = this.sci_Vector4__f_suffix2;
+      const x$44 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector4(a$2, 1, x$36, 1, x$38, 1, x$40, x$42, x$43, x$44, x$41)
+    } else {
+      const a$3 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$3.set(0, elem);
+      const $$x2 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const $$x1 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty3;
+      const x = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector4__f_prefix2), this.sci_Vector4__f_prefix3), 3);
+      const a$4 = $newArrayObject($d_O.getArrayOf().getArrayOf().getArrayOf().getArrayOf(), [1]);
+      a$4.set(0, x);
+      return new $c_sci_Vector5(a$3, 1, $$x2, 1, $$x1, 1, a$4, ((1 + this.sci_Vector4__f_len123) | 0), $m_sci_VectorStatics$().sci_VectorStatics$__f_empty5, this.sci_Vector4__f_data4, this.sci_Vector4__f_suffix3, this.sci_Vector4__f_suffix2, this.sci_BigVector__f_suffix1, ((1 + this.sci_BigVector__f_length0) | 0))
+    }
+  };
   map__F1__sci_Vector(f) {
     const x$1 = $m_sci_VectorStatics$().mapElems1__AO__F1__AO(this.sci_Vector__f_prefix1, f);
     const x$2 = $asArrayOf_O($m_sci_VectorStatics$().mapElems__I__AO__F1__AO(2, this.sci_Vector4__f_prefix2, f), 2);
@@ -30823,6 +31644,9 @@ class $c_sci_Vector4 extends $c_sci_BigVector {
   };
   map__F1__O(f) {
     return this.map__F1__sci_Vector(f)
+  };
+  prepended__O__O(elem) {
+    return this.prepended__O__sci_Vector(elem)
   };
   apply__O__O(v1) {
     const index = $uI(v1);
@@ -31290,6 +32114,93 @@ class $c_sci_Vector5 extends $c_sci_BigVector {
       return new $c_sci_Vector6($$x14, $$x13, $$x12, $$x11, $$x10, $$x9, $$x8, $$x7, $$x6, ((31457280 + $$x5) | 0), $$x4, a$4, $$x3, $$x2, $$x1, a$5, ((1 + this.sci_BigVector__f_length0) | 0))
     }
   };
+  prepended__O__sci_Vector(elem) {
+    if ((this.sci_Vector5__f_len1 < 32)) {
+      const x$1 = $m_sci_VectorStatics$().copyPrepend1__O__AO__AO(elem, this.sci_Vector__f_prefix1);
+      const x$2 = ((1 + this.sci_Vector5__f_len1) | 0);
+      const x$3 = ((1 + this.sci_Vector5__f_len12) | 0);
+      const x$4 = ((1 + this.sci_Vector5__f_len123) | 0);
+      const x$5 = ((1 + this.sci_Vector5__f_len1234) | 0);
+      const x$6 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$7 = this.sci_Vector5__f_prefix2;
+      const x$8 = this.sci_Vector5__f_prefix3;
+      const x$9 = this.sci_Vector5__f_prefix4;
+      const x$10 = this.sci_Vector5__f_data5;
+      const x$11 = this.sci_Vector5__f_suffix4;
+      const x$12 = this.sci_Vector5__f_suffix3;
+      const x$13 = this.sci_Vector5__f_suffix2;
+      const x$14 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector5(x$1, x$2, x$7, x$3, x$8, x$4, x$9, x$5, x$10, x$11, x$12, x$13, x$14, x$6)
+    } else if ((this.sci_Vector5__f_len12 < 1024)) {
+      const a = $newArrayObject($d_O.getArrayOf(), [1]);
+      a.set(0, elem);
+      const x$17 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector5__f_prefix2), 2);
+      const x$18 = ((1 + this.sci_Vector5__f_len12) | 0);
+      const x$19 = ((1 + this.sci_Vector5__f_len123) | 0);
+      const x$20 = ((1 + this.sci_Vector5__f_len1234) | 0);
+      const x$21 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$22 = this.sci_Vector5__f_prefix3;
+      const x$23 = this.sci_Vector5__f_prefix4;
+      const x$24 = this.sci_Vector5__f_data5;
+      const x$25 = this.sci_Vector5__f_suffix4;
+      const x$26 = this.sci_Vector5__f_suffix3;
+      const x$27 = this.sci_Vector5__f_suffix2;
+      const x$28 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector5(a, 1, x$17, x$18, x$22, x$19, x$23, x$20, x$24, x$25, x$26, x$27, x$28, x$21)
+    } else if ((this.sci_Vector5__f_len123 < 32768)) {
+      const a$1 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$1.set(0, elem);
+      const x$31 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x$33 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector5__f_prefix2), this.sci_Vector5__f_prefix3), 3);
+      const x$34 = ((1 + this.sci_Vector5__f_len123) | 0);
+      const x$35 = ((1 + this.sci_Vector5__f_len1234) | 0);
+      const x$36 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$37 = this.sci_Vector5__f_prefix4;
+      const x$38 = this.sci_Vector5__f_data5;
+      const x$39 = this.sci_Vector5__f_suffix4;
+      const x$40 = this.sci_Vector5__f_suffix3;
+      const x$41 = this.sci_Vector5__f_suffix2;
+      const x$42 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector5(a$1, 1, x$31, 1, x$33, x$34, x$37, x$35, x$38, x$39, x$40, x$41, x$42, x$36)
+    } else if ((this.sci_Vector5__f_len1234 < 1048576)) {
+      const a$2 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$2.set(0, elem);
+      const x$45 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x$47 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty3;
+      const x$49 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector5__f_prefix2), this.sci_Vector5__f_prefix3), this.sci_Vector5__f_prefix4), 4);
+      const x$50 = ((1 + this.sci_Vector5__f_len1234) | 0);
+      const x$51 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$52 = this.sci_Vector5__f_data5;
+      const x$53 = this.sci_Vector5__f_suffix4;
+      const x$54 = this.sci_Vector5__f_suffix3;
+      const x$55 = this.sci_Vector5__f_suffix2;
+      const x$56 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector5(a$2, 1, x$45, 1, x$47, 1, x$49, x$50, x$52, x$53, x$54, x$55, x$56, x$51)
+    } else if ((this.sci_Vector5__f_data5.u.length < 30)) {
+      const a$3 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$3.set(0, elem);
+      const x$59 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x$61 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty3;
+      const x$63 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty4;
+      const x$65 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector5__f_prefix2), this.sci_Vector5__f_prefix3), this.sci_Vector5__f_prefix4), this.sci_Vector5__f_data5), 5);
+      const x$66 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$67 = this.sci_Vector5__f_suffix4;
+      const x$68 = this.sci_Vector5__f_suffix3;
+      const x$69 = this.sci_Vector5__f_suffix2;
+      const x$70 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector5(a$3, 1, x$59, 1, x$61, 1, x$63, 1, x$65, x$67, x$68, x$69, x$70, x$66)
+    } else {
+      const a$4 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$4.set(0, elem);
+      const $$x3 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const $$x2 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty3;
+      const $$x1 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty4;
+      const x = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector5__f_prefix2), this.sci_Vector5__f_prefix3), this.sci_Vector5__f_prefix4), 4);
+      const a$5 = $newArrayObject($d_O.getArrayOf().getArrayOf().getArrayOf().getArrayOf().getArrayOf(), [1]);
+      a$5.set(0, x);
+      return new $c_sci_Vector6(a$4, 1, $$x3, 1, $$x2, 1, $$x1, 1, a$5, ((1 + this.sci_Vector5__f_len1234) | 0), $m_sci_VectorStatics$().sci_VectorStatics$__f_empty6, this.sci_Vector5__f_data5, this.sci_Vector5__f_suffix4, this.sci_Vector5__f_suffix3, this.sci_Vector5__f_suffix2, this.sci_BigVector__f_suffix1, ((1 + this.sci_BigVector__f_length0) | 0))
+    }
+  };
   map__F1__sci_Vector(f) {
     const x$1 = $m_sci_VectorStatics$().mapElems1__AO__F1__AO(this.sci_Vector__f_prefix1, f);
     const x$2 = $asArrayOf_O($m_sci_VectorStatics$().mapElems__I__AO__F1__AO(2, this.sci_Vector5__f_prefix2, f), 2);
@@ -31394,6 +32305,9 @@ class $c_sci_Vector5 extends $c_sci_BigVector {
   };
   map__F1__O(f) {
     return this.map__F1__sci_Vector(f)
+  };
+  prepended__O__O(elem) {
+    return this.prepended__O__sci_Vector(elem)
   };
   apply__O__O(v1) {
     const index = $uI(v1);
@@ -31994,6 +32908,115 @@ class $c_sci_Vector6 extends $c_sci_BigVector {
       throw $ct_jl_IllegalArgumentException__(new $c_jl_IllegalArgumentException())
     }
   };
+  prepended__O__sci_Vector(elem) {
+    if ((this.sci_Vector6__f_len1 < 32)) {
+      const x$1 = $m_sci_VectorStatics$().copyPrepend1__O__AO__AO(elem, this.sci_Vector__f_prefix1);
+      const x$2 = ((1 + this.sci_Vector6__f_len1) | 0);
+      const x$3 = ((1 + this.sci_Vector6__f_len12) | 0);
+      const x$4 = ((1 + this.sci_Vector6__f_len123) | 0);
+      const x$5 = ((1 + this.sci_Vector6__f_len1234) | 0);
+      const x$6 = ((1 + this.sci_Vector6__f_len12345) | 0);
+      const x$7 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$8 = this.sci_Vector6__f_prefix2;
+      const x$9 = this.sci_Vector6__f_prefix3;
+      const x$10 = this.sci_Vector6__f_prefix4;
+      const x$11 = this.sci_Vector6__f_prefix5;
+      const x$12 = this.sci_Vector6__f_data6;
+      const x$13 = this.sci_Vector6__f_suffix5;
+      const x$14 = this.sci_Vector6__f_suffix4;
+      const x$15 = this.sci_Vector6__f_suffix3;
+      const x$16 = this.sci_Vector6__f_suffix2;
+      const x$17 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector6(x$1, x$2, x$8, x$3, x$9, x$4, x$10, x$5, x$11, x$6, x$12, x$13, x$14, x$15, x$16, x$17, x$7)
+    } else if ((this.sci_Vector6__f_len12 < 1024)) {
+      const a = $newArrayObject($d_O.getArrayOf(), [1]);
+      a.set(0, elem);
+      const x$20 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector6__f_prefix2), 2);
+      const x$21 = ((1 + this.sci_Vector6__f_len12) | 0);
+      const x$22 = ((1 + this.sci_Vector6__f_len123) | 0);
+      const x$23 = ((1 + this.sci_Vector6__f_len1234) | 0);
+      const x$24 = ((1 + this.sci_Vector6__f_len12345) | 0);
+      const x$25 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$26 = this.sci_Vector6__f_prefix3;
+      const x$27 = this.sci_Vector6__f_prefix4;
+      const x$28 = this.sci_Vector6__f_prefix5;
+      const x$29 = this.sci_Vector6__f_data6;
+      const x$30 = this.sci_Vector6__f_suffix5;
+      const x$31 = this.sci_Vector6__f_suffix4;
+      const x$32 = this.sci_Vector6__f_suffix3;
+      const x$33 = this.sci_Vector6__f_suffix2;
+      const x$34 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector6(a, 1, x$20, x$21, x$26, x$22, x$27, x$23, x$28, x$24, x$29, x$30, x$31, x$32, x$33, x$34, x$25)
+    } else if ((this.sci_Vector6__f_len123 < 32768)) {
+      const a$1 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$1.set(0, elem);
+      const x$37 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x$39 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector6__f_prefix2), this.sci_Vector6__f_prefix3), 3);
+      const x$40 = ((1 + this.sci_Vector6__f_len123) | 0);
+      const x$41 = ((1 + this.sci_Vector6__f_len1234) | 0);
+      const x$42 = ((1 + this.sci_Vector6__f_len12345) | 0);
+      const x$43 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$44 = this.sci_Vector6__f_prefix4;
+      const x$45 = this.sci_Vector6__f_prefix5;
+      const x$46 = this.sci_Vector6__f_data6;
+      const x$47 = this.sci_Vector6__f_suffix5;
+      const x$48 = this.sci_Vector6__f_suffix4;
+      const x$49 = this.sci_Vector6__f_suffix3;
+      const x$50 = this.sci_Vector6__f_suffix2;
+      const x$51 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector6(a$1, 1, x$37, 1, x$39, x$40, x$44, x$41, x$45, x$42, x$46, x$47, x$48, x$49, x$50, x$51, x$43)
+    } else if ((this.sci_Vector6__f_len1234 < 1048576)) {
+      const a$2 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$2.set(0, elem);
+      const x$54 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x$56 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty3;
+      const x$58 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector6__f_prefix2), this.sci_Vector6__f_prefix3), this.sci_Vector6__f_prefix4), 4);
+      const x$59 = ((1 + this.sci_Vector6__f_len1234) | 0);
+      const x$60 = ((1 + this.sci_Vector6__f_len12345) | 0);
+      const x$61 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$62 = this.sci_Vector6__f_prefix5;
+      const x$63 = this.sci_Vector6__f_data6;
+      const x$64 = this.sci_Vector6__f_suffix5;
+      const x$65 = this.sci_Vector6__f_suffix4;
+      const x$66 = this.sci_Vector6__f_suffix3;
+      const x$67 = this.sci_Vector6__f_suffix2;
+      const x$68 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector6(a$2, 1, x$54, 1, x$56, 1, x$58, x$59, x$62, x$60, x$63, x$64, x$65, x$66, x$67, x$68, x$61)
+    } else if ((this.sci_Vector6__f_len12345 < 33554432)) {
+      const a$3 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$3.set(0, elem);
+      const x$71 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x$73 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty3;
+      const x$75 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty4;
+      const x$77 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector6__f_prefix2), this.sci_Vector6__f_prefix3), this.sci_Vector6__f_prefix4), this.sci_Vector6__f_prefix5), 5);
+      const x$78 = ((1 + this.sci_Vector6__f_len12345) | 0);
+      const x$79 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$80 = this.sci_Vector6__f_data6;
+      const x$81 = this.sci_Vector6__f_suffix5;
+      const x$82 = this.sci_Vector6__f_suffix4;
+      const x$83 = this.sci_Vector6__f_suffix3;
+      const x$84 = this.sci_Vector6__f_suffix2;
+      const x$85 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector6(a$3, 1, x$71, 1, x$73, 1, x$75, 1, x$77, x$78, x$80, x$81, x$82, x$83, x$84, x$85, x$79)
+    } else if ((this.sci_Vector6__f_data6.u.length < 62)) {
+      const a$4 = $newArrayObject($d_O.getArrayOf(), [1]);
+      a$4.set(0, elem);
+      const x$88 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty2;
+      const x$90 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty3;
+      const x$92 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty4;
+      const x$94 = $m_sci_VectorStatics$().sci_VectorStatics$__f_empty5;
+      const x$96 = $asArrayOf_O($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO($m_sci_VectorStatics$().copyPrepend__O__AO__AO(this.sci_Vector__f_prefix1, this.sci_Vector6__f_prefix2), this.sci_Vector6__f_prefix3), this.sci_Vector6__f_prefix4), this.sci_Vector6__f_prefix5), this.sci_Vector6__f_data6), 6);
+      const x$97 = ((1 + this.sci_BigVector__f_length0) | 0);
+      const x$98 = this.sci_Vector6__f_suffix5;
+      const x$99 = this.sci_Vector6__f_suffix4;
+      const x$100 = this.sci_Vector6__f_suffix3;
+      const x$101 = this.sci_Vector6__f_suffix2;
+      const x$102 = this.sci_BigVector__f_suffix1;
+      return new $c_sci_Vector6(a$4, 1, x$88, 1, x$90, 1, x$92, 1, x$94, 1, x$96, x$98, x$99, x$100, x$101, x$102, x$97)
+    } else {
+      throw $ct_jl_IllegalArgumentException__(new $c_jl_IllegalArgumentException())
+    }
+  };
   map__F1__sci_Vector(f) {
     const x$1 = $m_sci_VectorStatics$().mapElems1__AO__F1__AO(this.sci_Vector__f_prefix1, f);
     const x$2 = $asArrayOf_O($m_sci_VectorStatics$().mapElems__I__AO__F1__AO(2, this.sci_Vector6__f_prefix2, f), 2);
@@ -32114,6 +33137,9 @@ class $c_sci_Vector6 extends $c_sci_BigVector {
   };
   map__F1__O(f) {
     return this.map__F1__sci_Vector(f)
+  };
+  prepended__O__O(elem) {
+    return this.prepended__O__sci_Vector(elem)
   };
   apply__O__O(v1) {
     const index = $uI(v1);
@@ -32425,6 +33451,9 @@ class $c_scm_ListBuffer extends $c_scm_AbstractBuffer {
   iterator__sc_Iterator() {
     return this.scm_ListBuffer__f_first.iterator__sc_Iterator()
   };
+  iterableFactory__sc_SeqFactory() {
+    return $m_scm_ListBuffer$()
+  };
   apply__I__O(i) {
     const this$1 = this.scm_ListBuffer__f_first;
     return $f_sc_LinearSeqOps__apply__I__O(this$1, i)
@@ -32683,6 +33712,9 @@ class $c_scm_ArrayBuffer extends $c_scm_AbstractBuffer {
   length__I() {
     return this.scm_ArrayBuffer__f_size0
   };
+  iterableFactory__sc_SeqFactory() {
+    return $m_scm_ArrayBuffer$()
+  };
   addOne__O__scm_ArrayBuffer(elem) {
     const i = this.scm_ArrayBuffer__f_size0;
     this.ensureSize__I__V(((1 + this.scm_ArrayBuffer__f_size0) | 0));
@@ -32831,6 +33863,9 @@ class $c_sjs_js_WrappedArray extends $c_scm_AbstractBuffer {
   };
   distinctBy__F1__O(f) {
     return $f_sc_StrictOptimizedSeqOps__distinctBy__F1__O(this, f)
+  };
+  iterableFactory__sc_SeqFactory() {
+    return $m_sjs_js_WrappedArray$()
   };
   update__I__O__V(index, elem) {
     this.sjs_js_WrappedArray__f_scala$scalajs$js$WrappedArray$$array[index] = elem

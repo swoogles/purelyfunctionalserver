@@ -35,21 +35,42 @@ object Time {
 }
 
 object SQL {
+  sealed trait Operator
+  case object Equal extends Operator
+  case object LessThan extends Operator
+  case object GreaterThan extends Operator
+  object Operator {
+    def apply(raw: String): Operator = raw match {
+      case "=" => Equal
+      case "<" => LessThan
+      case ">" => GreaterThan
+      case unrecognizedOperator => throw new RuntimeException("Unrecognized operator: " + unrecognizedOperator)
+    }
+  }
+
+  case class Condition(
+    fieldName: String, operator: Operator, fieldValue: String
+                      )
 
   object parsing {
     import fastparse._, MultiLineWhitespace._
     def select[_: P]: P[String] = P(IgnoreCase("SELECT").!)
     def columnName[_: P]: P[String] = P(CharIn("a-z").rep(1).!)
     def from[_: P]: P[String] = P(IgnoreCase("FROM").!)
-    def tableName[_: P]: P[String] = P(CharIn("a-z").rep(1).!)
+    def relName[_: P]: P[String] = P(CharIn("a-z").rep(1).!)
+    def fromList[_: P]: P[Seq[String]] =  // This is actually nonEmpty.
+      P(relName.! ~ ("," ~ relName.!).rep)
+      .map{ case (first, rest) => first +: rest}
     def WHERE[_: P]: P[String] = P(IgnoreCase("WHERE").!)
 
     def attribute[_: P]: P[String] = P(CharIn("a-z").rep(1).!)
     def operator[_: P]: P[String] = P(CharIn("=<>").!)
-    def condition[_: P]: P[(String, String, String)] = P(attribute ~ operator ~ attribute)
+    def condition[_: P]: P[Condition] = P(attribute ~ operator ~ attribute).map {
+      case (fieldName, operator, fieldValue) => Condition(fieldName, Operator(operator), fieldValue)
+    }
 
-    def statement[_: P]: P[(String, String, String, String, Option[(String, (String, String, String))])] =
-      P(select ~ columnName ~ from ~ tableName ~ (WHERE ~ condition).? ~ End)
+    def statement[_: P]: P[(String, String, String, Seq[String], Option[(String, Condition)])] =
+      P(select ~ columnName ~ from ~ fromList ~ (WHERE ~ condition).? ~ End)
 
     def parseStatement(expression: String) =
       parse(expression, statement(_))
