@@ -50,6 +50,12 @@ lazy val root = project.in(file(".")).
 lazy val foo =
   crossProject(JSPlatform, JVMPlatform).in(file("."))
   .configs(IntegrationTest)
+  .settings(
+    libraryDependencies ++= Seq(
+    "io.circe" %%% "circe-generic" % CirceVersion,
+    "io.circe" %%% "circe-literal" % CirceVersion,
+    )
+  )
   .jsSettings(
     name := "QuadSet Counter",
     version := "0.2",
@@ -60,8 +66,6 @@ lazy val foo =
       "com.softwaremill.sttp.client" %%% "core" % "2.2.7",
 
       "com.softwaremill.sttp.client" %%% "circe" % "2.2.7",
-      "io.circe" %%% "circe-generic" % CirceVersion,
-      "io.circe" %%% "circe-literal" % CirceVersion,
       //  "io.circe" %%% "circe-optics" % CirceVersion,
       //  "io.circe" %%% "circe-java8" % CirceVersion,
       "com.softwaremill.sttp.client" %%% "circe" % "2.0.0-RC5",
@@ -90,8 +94,6 @@ lazy val foo =
 
       "org.flywaydb"          %  "flyway-core"          % FlywayVersion,
 
-      "io.circe"              %% "circe-generic"        % CirceVersion,
-      "io.circe"              %% "circe-literal"        % CirceVersion      % "it,test",
       "io.circe"              %% "circe-optics"         % "0.13.0"      % "it",
 //      "io.circe"              %% "circe-java8"          % CirceVersion,
       "com.pauldijou" %% "jwt-core" % "4.2.0",
