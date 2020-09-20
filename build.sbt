@@ -50,6 +50,27 @@ lazy val root = project.in(file(".")).
 lazy val foo =
   crossProject(JSPlatform, JVMPlatform).in(file("."))
   .configs(IntegrationTest)
+  .jsSettings(
+    name := "QuadSet Counter",
+    version := "0.2",
+
+    libraryDependencies ++= Seq(
+      "org.scala-js" %%% "scalajs-dom" % "1.1.0",
+      "com.raquo" %%% "laminar" % "0.10.2",   // Scala.js 1.x only
+      "com.softwaremill.sttp.client" %%% "core" % "2.2.7",
+
+      "com.softwaremill.sttp.client" %%% "circe" % "2.2.7",
+      "io.circe" %%% "circe-generic" % CirceVersion,
+      "io.circe" %%% "circe-literal" % CirceVersion,
+      //  "io.circe" %%% "circe-optics" % CirceVersion,
+      //  "io.circe" %%% "circe-java8" % CirceVersion,
+      "com.softwaremill.sttp.client" %%% "circe" % "2.0.0-RC5",
+      "com.pauldijou" %% "jwt-core" % "4.2.0",
+      "com.pauldijou" %% "jwt-circe" % "4.2.0",
+      "com.lihaoyi" %%% "scalatags" % "0.9.1",
+      "org.querki" %%% "jquery-facade" % "2.0"
+    )
+  )
   .jvmSettings(
     mainClass in (Compile) := Some("com.billding.Server"),
     commonSettings,

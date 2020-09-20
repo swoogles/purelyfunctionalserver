@@ -30581,8 +30581,8 @@ class $c_Lio_circe_Decoder$$anon$30 extends $c_Lio_circe_Decoder$DecoderWithFail
         x1$2 = $m_s_None$()
       } else {
         const arg1 = this$2.get__O();
-        const x$6 = $as_Lio_circe_JsonNumber(arg1);
-        x1$2 = new $c_s_Some(x$6.toFloat__F())
+        const x$8 = $as_Lio_circe_JsonNumber(arg1);
+        x1$2 = new $c_s_Some(x$8.toFloat__F())
       };
       if ((x1$2 instanceof $c_s_Some)) {
         const x2$2 = $as_s_Some(x1$2);
@@ -30634,8 +30634,8 @@ class $c_Lio_circe_Decoder$$anon$31 extends $c_Lio_circe_Decoder$DecoderWithFail
         x1$2 = $m_s_None$()
       } else {
         const arg1 = this$2.get__O();
-        const x$7 = $as_Lio_circe_JsonNumber(arg1);
-        x1$2 = new $c_s_Some(x$7.toDouble__D())
+        const x$9 = $as_Lio_circe_JsonNumber(arg1);
+        x1$2 = new $c_s_Some(x$9.toDouble__D())
       };
       if ((x1$2 instanceof $c_s_Some)) {
         const x2$2 = $as_s_Some(x1$2);
@@ -30698,8 +30698,8 @@ class $c_Lio_circe_Decoder$$anon$32 extends $c_Lio_circe_Decoder$DecoderWithFail
         x1$3 = $m_s_None$()
       } else {
         const arg1 = this$2.get__O();
-        const x$8 = $as_Lio_circe_JsonNumber(arg1);
-        x1$3 = x$8.toByte__s_Option()
+        const x$10 = $as_Lio_circe_JsonNumber(arg1);
+        x1$3 = x$10.toByte__s_Option()
       };
       if ((x1$3 instanceof $c_s_Some)) {
         const x2$3 = $as_s_Some(x1$3);
@@ -30762,8 +30762,8 @@ class $c_Lio_circe_Decoder$$anon$33 extends $c_Lio_circe_Decoder$DecoderWithFail
         x1$3 = $m_s_None$()
       } else {
         const arg1 = this$2.get__O();
-        const x$9 = $as_Lio_circe_JsonNumber(arg1);
-        x1$3 = x$9.toShort__s_Option()
+        const x$11 = $as_Lio_circe_JsonNumber(arg1);
+        x1$3 = x$11.toShort__s_Option()
       };
       if ((x1$3 instanceof $c_s_Some)) {
         const x2$3 = $as_s_Some(x1$3);
@@ -30826,8 +30826,8 @@ class $c_Lio_circe_Decoder$$anon$34 extends $c_Lio_circe_Decoder$DecoderWithFail
         x1$3 = $m_s_None$()
       } else {
         const arg1 = this$2.get__O();
-        const x$10 = $as_Lio_circe_JsonNumber(arg1);
-        x1$3 = x$10.toInt__s_Option()
+        const x$12 = $as_Lio_circe_JsonNumber(arg1);
+        x1$3 = x$12.toInt__s_Option()
       };
       if ((x1$3 instanceof $c_s_Some)) {
         const x2$3 = $as_s_Some(x1$3);
@@ -30892,8 +30892,8 @@ class $c_Lio_circe_Decoder$$anon$35 extends $c_Lio_circe_Decoder$DecoderWithFail
         x1$3 = $m_s_None$()
       } else {
         const arg1 = this$2.get__O();
-        const x$11 = $as_Lio_circe_JsonNumber(arg1);
-        x1$3 = x$11.toLong__s_Option()
+        const x$13 = $as_Lio_circe_JsonNumber(arg1);
+        x1$3 = x$13.toLong__s_Option()
       };
       if ((x1$3 instanceof $c_s_Some)) {
         const x2$3 = $as_s_Some(x1$3);
@@ -30958,8 +30958,8 @@ class $c_Lio_circe_Decoder$$anon$36 extends $c_Lio_circe_Decoder$DecoderWithFail
         x1$3 = $m_s_None$()
       } else {
         const arg1 = this$2.get__O();
-        const x$12 = $as_Lio_circe_JsonNumber(arg1);
-        x1$3 = x$12.toBigInt__s_Option()
+        const x$14 = $as_Lio_circe_JsonNumber(arg1);
+        x1$3 = x$14.toBigInt__s_Option()
       };
       if ((x1$3 instanceof $c_s_Some)) {
         const x2$3 = $as_s_Some(x1$3);
@@ -31022,8 +31022,8 @@ class $c_Lio_circe_Decoder$$anon$37 extends $c_Lio_circe_Decoder$DecoderWithFail
         x1$3 = $m_s_None$()
       } else {
         const arg1 = this$2.get__O();
-        const x$14 = $as_Lio_circe_JsonNumber(arg1);
-        x1$3 = x$14.toBigDecimal__s_Option()
+        const x$16 = $as_Lio_circe_JsonNumber(arg1);
+        x1$3 = x$16.toBigDecimal__s_Option()
       };
       if ((x1$3 instanceof $c_s_Some)) {
         const x2$3 = $as_s_Some(x1$3);
@@ -53732,122 +53732,6 @@ const $d_Lscalatags_JsDom$TypedTag = new $TypeData().initClass({
   Ljava_io_Serializable: 1
 });
 $c_Lscalatags_JsDom$TypedTag.prototype.$classData = $d_Lscalatags_JsDom$TypedTag;
-class $c_Lio_circe_Decoder$ extends $c_O {
-  constructor() {
-    super();
-    this.Lio_circe_Decoder$__f_decodeJavaBoolean = null;
-    this.Lio_circe_Decoder$__f_decodeJavaCharacter = null;
-    this.Lio_circe_Decoder$__f_decodeJavaFloat = null;
-    this.Lio_circe_Decoder$__f_decodeJavaDouble = null;
-    this.Lio_circe_Decoder$__f_decodeJavaByte = null;
-    this.Lio_circe_Decoder$__f_decodeJavaShort = null;
-    this.Lio_circe_Decoder$__f_decodeJavaInteger = null;
-    this.Lio_circe_Decoder$__f_decodeJavaLong = null;
-    this.Lio_circe_Decoder$__f_decodeJavaBigInteger = null;
-    this.Lio_circe_Decoder$__f_decodeJavaBigDecimal = null;
-    this.Lio_circe_Decoder$__f_decodeUUID = null;
-    this.Lio_circe_Decoder$__f_decodeDuration = null;
-    this.Lio_circe_Decoder$__f_decodeInstant = null;
-    this.Lio_circe_Decoder$__f_decodePeriod = null;
-    this.Lio_circe_Decoder$__f_decodeZoneId = null;
-    this.Lio_circe_Decoder$__f_decodeLocalDate = null;
-    this.Lio_circe_Decoder$__f_decodeLocalTime = null;
-    this.Lio_circe_Decoder$__f_decodeLocalDateTime = null;
-    this.Lio_circe_Decoder$__f_decodeMonthDay = null;
-    this.Lio_circe_Decoder$__f_decodeOffsetTime = null;
-    this.Lio_circe_Decoder$__f_decodeOffsetDateTime = null;
-    this.Lio_circe_Decoder$__f_decodeYear = null;
-    this.Lio_circe_Decoder$__f_decodeYearMonth = null;
-    this.Lio_circe_Decoder$__f_decodeZonedDateTime = null;
-    this.Lio_circe_Decoder$__f_decodeZoneOffset = null;
-    this.Lio_circe_Decoder$__f_resultInstance = null;
-    this.Lio_circe_Decoder$__f_accumulatingResultInstance = null;
-    this.Lio_circe_Decoder$__f_resultSemigroupK = null;
-    this.Lio_circe_Decoder$__f_decodeHCursor = null;
-    this.Lio_circe_Decoder$__f_decodeJson = null;
-    this.Lio_circe_Decoder$__f_decodeJsonObject = null;
-    this.Lio_circe_Decoder$__f_decodeJsonNumber = null;
-    this.Lio_circe_Decoder$__f_decodeString = null;
-    this.Lio_circe_Decoder$__f_decodeUnit = null;
-    this.Lio_circe_Decoder$__f_decodeBoolean = null;
-    this.Lio_circe_Decoder$__f_decodeChar = null;
-    this.Lio_circe_Decoder$__f_decodeFloat = null;
-    this.Lio_circe_Decoder$__f_decodeDouble = null;
-    this.Lio_circe_Decoder$__f_decodeByte = null;
-    this.Lio_circe_Decoder$__f_decodeShort = null;
-    this.Lio_circe_Decoder$__f_decodeInt = null;
-    this.Lio_circe_Decoder$__f_decodeLong = null;
-    this.Lio_circe_Decoder$__f_decodeBigInt = null;
-    this.Lio_circe_Decoder$__f_decodeBigDecimal = null;
-    this.Lio_circe_Decoder$__f_io$circe$Decoder$$rightNone = null;
-    this.Lio_circe_Decoder$__f_io$circe$Decoder$$validNone = null;
-    this.Lio_circe_Decoder$__f_keyMissingNone = null;
-    this.Lio_circe_Decoder$__f_keyMissingNoneAccumulating = null;
-    this.Lio_circe_Decoder$__f_decodeNone = null;
-    this.Lio_circe_Decoder$__f_decoderInstances = null;
-    this.Lio_circe_Decoder$__f_bitmap$0 = 0;
-    $n_Lio_circe_Decoder$ = this;
-    const this$1 = $m_Lcats_instances_package$either$();
-    this.Lio_circe_Decoder$__f_resultInstance = new $c_Lcats_instances_EitherInstances$$anon$2(this$1);
-    const this$2 = $m_Lcats_data_Validated$();
-    const E = $m_Lcats_data_NonEmptyList$().catsDataSemigroupForNonEmptyList__Lcats_kernel_Semigroup();
-    this.Lio_circe_Decoder$__f_accumulatingResultInstance = new $c_Lcats_data_ValidatedInstances$$anon$7(this$2, E);
-    const this$3 = $m_Lcats_instances_package$either$();
-    this.Lio_circe_Decoder$__f_resultSemigroupK = new $c_Lcats_instances_EitherInstances$$anon$3(this$3);
-    this.Lio_circe_Decoder$__f_decodeHCursor = new $c_Lio_circe_Decoder$$anon$22();
-    this.Lio_circe_Decoder$__f_decodeJson = new $c_Lio_circe_Decoder$$anon$23();
-    this.Lio_circe_Decoder$__f_decodeJsonObject = new $c_Lio_circe_Decoder$$anon$24();
-    this.Lio_circe_Decoder$__f_decodeJsonNumber = new $c_Lio_circe_Decoder$$anon$25();
-    this.Lio_circe_Decoder$__f_decodeString = new $c_Lio_circe_Decoder$$anon$26();
-    this.Lio_circe_Decoder$__f_decodeUnit = new $c_Lio_circe_Decoder$$anon$27();
-    this.Lio_circe_Decoder$__f_decodeBoolean = new $c_Lio_circe_Decoder$$anon$28();
-    this.Lio_circe_Decoder$__f_decodeChar = new $c_Lio_circe_Decoder$$anon$29();
-    this.Lio_circe_Decoder$__f_decodeFloat = new $c_Lio_circe_Decoder$$anon$30();
-    this.Lio_circe_Decoder$__f_decodeDouble = new $c_Lio_circe_Decoder$$anon$31();
-    this.Lio_circe_Decoder$__f_decodeByte = new $c_Lio_circe_Decoder$$anon$32();
-    this.Lio_circe_Decoder$__f_decodeShort = new $c_Lio_circe_Decoder$$anon$33();
-    this.Lio_circe_Decoder$__f_decodeInt = new $c_Lio_circe_Decoder$$anon$34();
-    this.Lio_circe_Decoder$__f_decodeLong = new $c_Lio_circe_Decoder$$anon$35();
-    this.Lio_circe_Decoder$__f_decodeBigInt = new $c_Lio_circe_Decoder$$anon$36();
-    this.Lio_circe_Decoder$__f_decodeBigDecimal = new $c_Lio_circe_Decoder$$anon$37();
-    $m_s_package$();
-    const value = $m_s_None$();
-    this.Lio_circe_Decoder$__f_io$circe$Decoder$$rightNone = new $c_s_util_Right(value);
-    $m_Lcats_data_Validated$();
-    const a = $m_s_None$();
-    this.Lio_circe_Decoder$__f_io$circe$Decoder$$validNone = new $c_Lcats_data_Validated$Valid(a);
-    $m_s_package$();
-    const value$1 = $m_s_None$();
-    this.Lio_circe_Decoder$__f_keyMissingNone = new $c_s_util_Right(value$1);
-    $m_Lcats_data_Validated$();
-    const a$1 = $m_s_None$();
-    this.Lio_circe_Decoder$__f_keyMissingNoneAccumulating = new $c_Lcats_data_Validated$Valid(a$1);
-    this.Lio_circe_Decoder$__f_decodeNone = new $c_Lio_circe_Decoder$$anon$40();
-    this.Lio_circe_Decoder$__f_decoderInstances = new $c_Lio_circe_Decoder$$anon$77()
-  };
-}
-const $d_Lio_circe_Decoder$ = new $TypeData().initClass({
-  Lio_circe_Decoder$: 0
-}, false, "io.circe.Decoder$", {
-  Lio_circe_Decoder$: 1,
-  O: 1,
-  Lio_circe_DecoderDerivation: 1,
-  Lio_circe_CollectionDecoders: 1,
-  Lio_circe_TupleDecoders: 1,
-  Lio_circe_ProductDecoders: 1,
-  Lio_circe_LiteralDecoders: 1,
-  Lio_circe_EnumerationDecoders: 1,
-  Lio_circe_LowPriorityDecoders: 1,
-  Ljava_io_Serializable: 1
-});
-$c_Lio_circe_Decoder$.prototype.$classData = $d_Lio_circe_Decoder$;
-let $n_Lio_circe_Decoder$;
-function $m_Lio_circe_Decoder$() {
-  if ((!$n_Lio_circe_Decoder$)) {
-    $n_Lio_circe_Decoder$ = new $c_Lio_circe_Decoder$()
-  };
-  return $n_Lio_circe_Decoder$
-}
 class $c_sc_AbstractView extends $c_sc_AbstractIterable {
   iterableFactory__sc_IterableFactory() {
     return $m_sc_View$()
@@ -54311,6 +54195,123 @@ function $m_s_reflect_ManifestFactory$UnitManifest$() {
     $n_s_reflect_ManifestFactory$UnitManifest$ = new $c_s_reflect_ManifestFactory$UnitManifest$()
   };
   return $n_s_reflect_ManifestFactory$UnitManifest$
+}
+class $c_Lio_circe_Decoder$ extends $c_O {
+  constructor() {
+    super();
+    this.Lio_circe_Decoder$__f_decodeJavaBoolean = null;
+    this.Lio_circe_Decoder$__f_decodeJavaCharacter = null;
+    this.Lio_circe_Decoder$__f_decodeJavaFloat = null;
+    this.Lio_circe_Decoder$__f_decodeJavaDouble = null;
+    this.Lio_circe_Decoder$__f_decodeJavaByte = null;
+    this.Lio_circe_Decoder$__f_decodeJavaShort = null;
+    this.Lio_circe_Decoder$__f_decodeJavaInteger = null;
+    this.Lio_circe_Decoder$__f_decodeJavaLong = null;
+    this.Lio_circe_Decoder$__f_decodeJavaBigInteger = null;
+    this.Lio_circe_Decoder$__f_decodeJavaBigDecimal = null;
+    this.Lio_circe_Decoder$__f_decodeUUID = null;
+    this.Lio_circe_Decoder$__f_decodeDuration = null;
+    this.Lio_circe_Decoder$__f_decodeInstant = null;
+    this.Lio_circe_Decoder$__f_decodePeriod = null;
+    this.Lio_circe_Decoder$__f_decodeZoneId = null;
+    this.Lio_circe_Decoder$__f_decodeLocalDate = null;
+    this.Lio_circe_Decoder$__f_decodeLocalTime = null;
+    this.Lio_circe_Decoder$__f_decodeLocalDateTime = null;
+    this.Lio_circe_Decoder$__f_decodeMonthDay = null;
+    this.Lio_circe_Decoder$__f_decodeOffsetTime = null;
+    this.Lio_circe_Decoder$__f_decodeOffsetDateTime = null;
+    this.Lio_circe_Decoder$__f_decodeYear = null;
+    this.Lio_circe_Decoder$__f_decodeYearMonth = null;
+    this.Lio_circe_Decoder$__f_decodeZonedDateTime = null;
+    this.Lio_circe_Decoder$__f_decodeZoneOffset = null;
+    this.Lio_circe_Decoder$__f_resultInstance = null;
+    this.Lio_circe_Decoder$__f_accumulatingResultInstance = null;
+    this.Lio_circe_Decoder$__f_resultSemigroupK = null;
+    this.Lio_circe_Decoder$__f_decodeHCursor = null;
+    this.Lio_circe_Decoder$__f_decodeJson = null;
+    this.Lio_circe_Decoder$__f_decodeJsonObject = null;
+    this.Lio_circe_Decoder$__f_decodeJsonNumber = null;
+    this.Lio_circe_Decoder$__f_decodeString = null;
+    this.Lio_circe_Decoder$__f_decodeUnit = null;
+    this.Lio_circe_Decoder$__f_decodeBoolean = null;
+    this.Lio_circe_Decoder$__f_decodeChar = null;
+    this.Lio_circe_Decoder$__f_decodeFloat = null;
+    this.Lio_circe_Decoder$__f_decodeDouble = null;
+    this.Lio_circe_Decoder$__f_decodeByte = null;
+    this.Lio_circe_Decoder$__f_decodeShort = null;
+    this.Lio_circe_Decoder$__f_decodeInt = null;
+    this.Lio_circe_Decoder$__f_decodeLong = null;
+    this.Lio_circe_Decoder$__f_decodeBigInt = null;
+    this.Lio_circe_Decoder$__f_decodeBigDecimal = null;
+    this.Lio_circe_Decoder$__f_io$circe$Decoder$$rightNone = null;
+    this.Lio_circe_Decoder$__f_io$circe$Decoder$$validNone = null;
+    this.Lio_circe_Decoder$__f_keyMissingNone = null;
+    this.Lio_circe_Decoder$__f_keyMissingNoneAccumulating = null;
+    this.Lio_circe_Decoder$__f_decodeNone = null;
+    this.Lio_circe_Decoder$__f_decoderInstances = null;
+    this.Lio_circe_Decoder$__f_bitmap$0 = 0;
+    $n_Lio_circe_Decoder$ = this;
+    const this$1 = $m_Lcats_instances_package$either$();
+    this.Lio_circe_Decoder$__f_resultInstance = new $c_Lcats_instances_EitherInstances$$anon$2(this$1);
+    const this$2 = $m_Lcats_data_Validated$();
+    const E = $m_Lcats_data_NonEmptyList$().catsDataSemigroupForNonEmptyList__Lcats_kernel_Semigroup();
+    this.Lio_circe_Decoder$__f_accumulatingResultInstance = new $c_Lcats_data_ValidatedInstances$$anon$7(this$2, E);
+    const this$3 = $m_Lcats_instances_package$either$();
+    this.Lio_circe_Decoder$__f_resultSemigroupK = new $c_Lcats_instances_EitherInstances$$anon$3(this$3);
+    this.Lio_circe_Decoder$__f_decodeHCursor = new $c_Lio_circe_Decoder$$anon$22();
+    this.Lio_circe_Decoder$__f_decodeJson = new $c_Lio_circe_Decoder$$anon$23();
+    this.Lio_circe_Decoder$__f_decodeJsonObject = new $c_Lio_circe_Decoder$$anon$24();
+    this.Lio_circe_Decoder$__f_decodeJsonNumber = new $c_Lio_circe_Decoder$$anon$25();
+    this.Lio_circe_Decoder$__f_decodeString = new $c_Lio_circe_Decoder$$anon$26();
+    this.Lio_circe_Decoder$__f_decodeUnit = new $c_Lio_circe_Decoder$$anon$27();
+    this.Lio_circe_Decoder$__f_decodeBoolean = new $c_Lio_circe_Decoder$$anon$28();
+    this.Lio_circe_Decoder$__f_decodeChar = new $c_Lio_circe_Decoder$$anon$29();
+    this.Lio_circe_Decoder$__f_decodeFloat = new $c_Lio_circe_Decoder$$anon$30();
+    this.Lio_circe_Decoder$__f_decodeDouble = new $c_Lio_circe_Decoder$$anon$31();
+    this.Lio_circe_Decoder$__f_decodeByte = new $c_Lio_circe_Decoder$$anon$32();
+    this.Lio_circe_Decoder$__f_decodeShort = new $c_Lio_circe_Decoder$$anon$33();
+    this.Lio_circe_Decoder$__f_decodeInt = new $c_Lio_circe_Decoder$$anon$34();
+    this.Lio_circe_Decoder$__f_decodeLong = new $c_Lio_circe_Decoder$$anon$35();
+    this.Lio_circe_Decoder$__f_decodeBigInt = new $c_Lio_circe_Decoder$$anon$36();
+    this.Lio_circe_Decoder$__f_decodeBigDecimal = new $c_Lio_circe_Decoder$$anon$37();
+    $m_s_package$();
+    const value = $m_s_None$();
+    this.Lio_circe_Decoder$__f_io$circe$Decoder$$rightNone = new $c_s_util_Right(value);
+    $m_Lcats_data_Validated$();
+    const a = $m_s_None$();
+    this.Lio_circe_Decoder$__f_io$circe$Decoder$$validNone = new $c_Lcats_data_Validated$Valid(a);
+    $m_s_package$();
+    const value$1 = $m_s_None$();
+    this.Lio_circe_Decoder$__f_keyMissingNone = new $c_s_util_Right(value$1);
+    $m_Lcats_data_Validated$();
+    const a$1 = $m_s_None$();
+    this.Lio_circe_Decoder$__f_keyMissingNoneAccumulating = new $c_Lcats_data_Validated$Valid(a$1);
+    this.Lio_circe_Decoder$__f_decodeNone = new $c_Lio_circe_Decoder$$anon$40();
+    this.Lio_circe_Decoder$__f_decoderInstances = new $c_Lio_circe_Decoder$$anon$77()
+  };
+}
+const $d_Lio_circe_Decoder$ = new $TypeData().initClass({
+  Lio_circe_Decoder$: 0
+}, false, "io.circe.Decoder$", {
+  Lio_circe_Decoder$: 1,
+  O: 1,
+  Lio_circe_DecoderDerivation: 1,
+  Lio_circe_CollectionDecoders: 1,
+  Lio_circe_LowPriorityCollectionDecoders: 1,
+  Lio_circe_TupleDecoders: 1,
+  Lio_circe_ProductDecoders: 1,
+  Lio_circe_LiteralDecoders: 1,
+  Lio_circe_EnumerationDecoders: 1,
+  Lio_circe_LowPriorityDecoders: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lio_circe_Decoder$.prototype.$classData = $d_Lio_circe_Decoder$;
+let $n_Lio_circe_Decoder$;
+function $m_Lio_circe_Decoder$() {
+  if ((!$n_Lio_circe_Decoder$)) {
+    $n_Lio_circe_Decoder$ = new $c_Lio_circe_Decoder$()
+  };
+  return $n_Lio_circe_Decoder$
 }
 function $f_sc_Seq__equals__O__Z($thiz, o) {
   if (($thiz === o)) {
