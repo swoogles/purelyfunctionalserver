@@ -47,6 +47,25 @@ lazy val root = project.in(file(".")).
     mainClass in (Compile) := Some("com.billding.Server")
   ).enablePlugins(JavaServerAppPackaging)
 
+lazy val databaseExploration =
+  crossProject(JSPlatform).in(file("databaseExploration"))
+//  project.in(file("databaseExploration")).
+//  .aggregate(foo.js)
+  .settings(
+    scalaVersion := "2.13.1",
+    scalacOptions ++= Seq(
+      "-deprecation",
+      //    "-Xfatal-warnings", // TODO Re-enable once Circe is handled
+      "-Ywarn-value-discard",
+      "-Xlint:missing-interpolator"
+    ),
+    publish := {},
+    publishLocal := {},
+    libraryDependencies ++= Seq(
+      "com.raquo" %%% "laminar" % "0.10.3",   // Scala.js 1.x only
+    )
+  )
+
 lazy val foo =
   crossProject(JSPlatform, JVMPlatform).in(file("."))
   .configs(IntegrationTest)
@@ -72,7 +91,6 @@ lazy val foo =
       "com.pauldijou" %% "jwt-core" % "4.2.0",
       "com.pauldijou" %% "jwt-circe" % "4.2.0",
       "com.lihaoyi" %%% "scalatags" % "0.9.1",
-      "org.querki" %%% "jquery-facade" % "2.0"
     )
   )
   .jvmSettings(
@@ -137,6 +155,7 @@ cbBuild := {
   import scala.sys.process._
   //  "ls ./target/scala-2.13" !
   (Process("mkdir ./jvm/src/main/resources/compiledJavaScript") #||
+    Process("cp ./databaseExploration/js/target/scala-2.13/databaseexploration-fastopt.js ./jvm/src/main/resources/compiledJavaScript/") #&&
     Process("cp ./js/target/scala-2.13/quadset-counter-fastopt.js ./jvm/src/main/resources/compiledJavaScript/")
 //    Process("cp ./target/scala-2.13/busriderapp-fastopt.js ./jvm/src/main/resources/compiledJavascript/") #&&
 //    Process("cp ./target/scala-2.13/busriderapp-fastopt.js.map src/main/resources/compiledJavascript/") #&&
