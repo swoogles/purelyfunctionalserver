@@ -1017,6 +1017,31 @@ function $m_Lbillding_Main$CounterAction$() {
   };
   return $n_Lbillding_Main$CounterAction$
 }
+class $c_Lbillding_SQL$Conjunction$ extends $c_O {
+  apply__T__s_Product(raw) {
+    if ((raw === "AND")) {
+      return $m_Lbillding_SQL$AND$()
+    } else if ((raw === "OR")) {
+      return $m_Lbillding_SQL$OR$()
+    } else {
+      throw $m_sjsr_package$().unwrapJavaScriptException__jl_Throwable__O($ct_jl_RuntimeException__T__(new $c_jl_RuntimeException(), ("Unrecognized conjunction: " + raw)))
+    }
+  };
+}
+const $d_Lbillding_SQL$Conjunction$ = new $TypeData().initClass({
+  Lbillding_SQL$Conjunction$: 0
+}, false, "billding.SQL$Conjunction$", {
+  Lbillding_SQL$Conjunction$: 1,
+  O: 1
+});
+$c_Lbillding_SQL$Conjunction$.prototype.$classData = $d_Lbillding_SQL$Conjunction$;
+let $n_Lbillding_SQL$Conjunction$;
+function $m_Lbillding_SQL$Conjunction$() {
+  if ((!$n_Lbillding_SQL$Conjunction$)) {
+    $n_Lbillding_SQL$Conjunction$ = new $c_Lbillding_SQL$Conjunction$()
+  };
+  return $n_Lbillding_SQL$Conjunction$
+}
 class $c_Lbillding_SQL$Operator$ extends $c_O {
   apply__T__Lbillding_SQL$Operator(raw) {
     if ((raw === "=")) {
@@ -1810,296 +1835,616 @@ class $c_Lbillding_SQL$parsing$ extends $c_O {
       return x1$6
     }
   };
-  statement__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10) {
+  compositeCondition__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10) {
+    $m_Lfastparse_package$();
     const startIndex = evidence$10.Lfastparse_ParsingRun__f_index;
     const instrument = (evidence$10.Lfastparse_ParsingRun__f_instrument !== null);
     if (instrument) {
-      evidence$10.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("statement").Lsourcecode_Name__f_value, startIndex)
+      evidence$10.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("compositeCondition").Lsourcecode_Name__f_value, startIndex)
+    };
+    const this$1 = $m_Lfastparse_Implicits$Sequencer$();
+    const x1$3 = $as_Lfastparse_Implicits$Sequencer($f_Lfastparse_LowestPriSequencer__Sequencer1__O(this$1));
+    const preLhsIndex$macro$6 = evidence$10.Lfastparse_ParsingRun__f_index;
+    const input$macro$15 = evidence$10.Lfastparse_ParsingRun__f_input;
+    $m_Lfastparse_package$();
+    const startPos = evidence$10.Lfastparse_ParsingRun__f_index;
+    const oldCapturing = evidence$10.Lfastparse_ParsingRun__f_noDropBuffer;
+    evidence$10.Lfastparse_ParsingRun__f_noDropBuffer = true;
+    $m_Lfastparse_package$();
+    const startIndex$2 = evidence$10.Lfastparse_ParsingRun__f_index;
+    const instrument$2 = (evidence$10.Lfastparse_ParsingRun__f_instrument !== null);
+    if (instrument$2) {
+      evidence$10.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("compositeCondition").Lsourcecode_Name__f_value, startIndex$2)
+    };
+    const oldCut = evidence$10.Lfastparse_ParsingRun__f_cut;
+    evidence$10.Lfastparse_ParsingRun__f_cut = false;
+    const startPos$2 = evidence$10.Lfastparse_ParsingRun__f_index;
+    $m_Lfastparse_package$();
+    const index = evidence$10.Lfastparse_ParsingRun__f_index;
+    const end = ((3 + index) | 0);
+    const input = evidence$10.Lfastparse_ParsingRun__f_input;
+    let $$x1;
+    if (input.isReachable__I__Z((((-1) + end) | 0))) {
+      const this$2 = input.Lfastparse_IndexedParserInput__f_data;
+      let $$x2;
+      if (((65535 & $uI(this$2.charCodeAt(index))) === 65)) {
+        const index$1 = ((1 + index) | 0);
+        const this$3 = input.Lfastparse_IndexedParserInput__f_data;
+        $$x2 = ((65535 & $uI(this$3.charCodeAt(index$1))) === 78)
+      } else {
+        $$x2 = false
+      };
+      if ($$x2) {
+        const index$2 = ((2 + index) | 0);
+        const this$4 = input.Lfastparse_IndexedParserInput__f_data;
+        $$x1 = ((65535 & $uI(this$4.charCodeAt(index$2))) === 68)
+      } else {
+        $$x1 = false
+      }
+    } else {
+      $$x1 = false
+    };
+    if ($$x1) {
+      evidence$10.freshSuccessUnit__I__Lfastparse_ParsingRun(end)
+    } else {
+      evidence$10.freshFailure__Lfastparse_ParsingRun()
+    };
+    if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
+      evidence$10.aggregateTerminal__I__F0__V(index, new $c_sjsr_AnonFunction0(((this$2$1) => (() => "\"AND\""))(this)))
+    };
+    const lhsMsg = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+    const lhsAggregate = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+    let x1$9;
+    if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
+      evidence$10.Lfastparse_ParsingRun__f_cut = (!(!(evidence$10.Lfastparse_ParsingRun__f_cut | oldCut)));
+      x1$9 = evidence$10
+    } else if (evidence$10.Lfastparse_ParsingRun__f_cut) {
+      x1$9 = evidence$10
+    } else {
+      const verboseFailures = evidence$10.Lfastparse_ParsingRun__f_verboseFailures;
+      evidence$10.Lfastparse_ParsingRun__f_index = startPos$2;
+      if (verboseFailures) {
+        evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startPos$2, lhsMsg, lhsAggregate, false)
+      };
+      evidence$10.Lfastparse_ParsingRun__f_cut = false;
+      const index$2$1 = evidence$10.Lfastparse_ParsingRun__f_index;
+      const end$2 = ((2 + index$2$1) | 0);
+      const input$2 = evidence$10.Lfastparse_ParsingRun__f_input;
+      let $$x3;
+      if (input$2.isReachable__I__Z((((-1) + end$2) | 0))) {
+        const this$6 = input$2.Lfastparse_IndexedParserInput__f_data;
+        if (((65535 & $uI(this$6.charCodeAt(index$2$1))) === 79)) {
+          const index$3 = ((1 + index$2$1) | 0);
+          const this$7 = input$2.Lfastparse_IndexedParserInput__f_data;
+          $$x3 = ((65535 & $uI(this$7.charCodeAt(index$3))) === 82)
+        } else {
+          $$x3 = false
+        }
+      } else {
+        $$x3 = false
+      };
+      if ($$x3) {
+        evidence$10.freshSuccessUnit__I__Lfastparse_ParsingRun(end$2)
+      } else {
+        evidence$10.freshFailure__Lfastparse_ParsingRun()
+      };
+      if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
+        evidence$10.aggregateTerminal__I__F0__V(index$2$1, new $c_sjsr_AnonFunction0(((this$4$1) => (() => "\"OR\""))(this)))
+      };
+      const rhsMsg = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+      const rhsCut = evidence$10.Lfastparse_ParsingRun__f_cut;
+      const endCut = (!(!(rhsCut | oldCut)));
+      if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && (!rhsCut))) {
+        evidence$10.freshFailure__I__Lfastparse_ParsingRun(startPos$2)
+      };
+      evidence$10.Lfastparse_ParsingRun__f_cut = endCut;
+      if (verboseFailures) {
+        const msgToSet = lhsMsg.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsMsg);
+        const rassoc$3 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+        const msgToAggregate = lhsAggregate.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rassoc$3);
+        evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startPos$2, msgToSet, msgToAggregate, false)
+      };
+      x1$9 = evidence$10
+    };
+    if (instrument$2) {
+      evidence$10.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("compositeCondition").Lsourcecode_Name__f_value, x1$9.Lfastparse_ParsingRun__f_index, x1$9.Lfastparse_ParsingRun__f_isSuccess)
+    };
+    if (x1$9.Lfastparse_ParsingRun__f_verboseFailures) {
+      $m_sci_List$();
+      const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$5$1) => (() => new $c_Lsourcecode_Name("compositeCondition").Lsourcecode_Name__f_value))(this)))];
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
+      x1$9.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex$2, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$9.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex$2 < x1$9.Lfastparse_ParsingRun__f_traceIndex));
+      if ((!x1$9.Lfastparse_ParsingRun__f_isSuccess)) {
+        const self = new $c_Lsourcecode_Name("compositeCondition").Lsourcecode_Name__f_value;
+        const rassoc$1 = new $c_T2(self, startIndex$2);
+        const this$14 = x1$9.Lfastparse_ParsingRun__f_failureStack;
+        x1$9.Lfastparse_ParsingRun__f_failureStack = new $c_sci_$colon$colon(rassoc$1, this$14)
+      }
+    };
+    evidence$10.Lfastparse_ParsingRun__f_noDropBuffer = oldCapturing;
+    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+      /*<skip>*/
+    } else {
+      evidence$10.freshSuccess__O__Lfastparse_ParsingRun(evidence$10.Lfastparse_ParsingRun__f_input.slice__I__I__T(startPos, evidence$10.Lfastparse_ParsingRun__f_index))
+    };
+    let x1$10;
+    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+      x1$10 = evidence$10
+    } else {
+      const postLhsIndex$macro$7 = evidence$10.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$10 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$13 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+      if ((postLhsIndex$macro$7 > preLhsIndex$macro$6)) {
+        evidence$10.checkForDrop__Z()
+      };
+      const lhsValue$macro$16 = evidence$10.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
+      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
+          x1$10 = evidence$10
+        } else {
+          const preRhsIndex$macro$8 = evidence$10.Lfastparse_ParsingRun__f_index;
+          this.condition__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
+          const rhsAggregate$macro$11 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$12 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+          let res$macro$18;
+          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$18 = evidence$10
+          } else {
+            const postRhsIndex$macro$9 = evidence$10.Lfastparse_ParsingRun__f_index;
+            const rhsMadeProgress$macro$14 = (postRhsIndex$macro$9 > preRhsIndex$macro$8);
+            const nextIndex$macro$17 = (((!rhsMadeProgress$macro$14) && input$macro$15.isReachable__I__Z(postRhsIndex$macro$9)) ? postLhsIndex$macro$7 : postRhsIndex$macro$9);
+            if (rhsMadeProgress$macro$14) {
+              evidence$10.checkForDrop__Z()
+            };
+            res$macro$18 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$3.apply__O__O__O($as_T(lhsValue$macro$16), $as_Lbillding_SQL$Condition(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$17)
+          };
+          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$6, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$13, rhsMsg$macro$12), lhsAggregate$macro$10.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$11), (preRhsIndex$macro$8 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
+          };
+          x1$10 = res$macro$18
+        }
+      } else {
+        x1$10 = evidence$10
+      }
+    };
+    if (instrument) {
+      evidence$10.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("compositeCondition").Lsourcecode_Name__f_value, x1$10.Lfastparse_ParsingRun__f_index, x1$10.Lfastparse_ParsingRun__f_isSuccess)
+    };
+    if (x1$10.Lfastparse_ParsingRun__f_verboseFailures) {
+      $m_sci_List$();
+      const array$1 = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$6$1) => (() => new $c_Lsourcecode_Name("compositeCondition").Lsourcecode_Name__f_value))(this)))];
+      const elems$1 = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$1);
+      x1$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems$1)), x1$10.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$10.Lfastparse_ParsingRun__f_traceIndex));
+      if ((!x1$10.Lfastparse_ParsingRun__f_isSuccess)) {
+        const self$1 = new $c_Lsourcecode_Name("compositeCondition").Lsourcecode_Name__f_value;
+        const rassoc$1$3 = new $c_T2(self$1, startIndex);
+        const this$23 = x1$10.Lfastparse_ParsingRun__f_failureStack;
+        x1$10.Lfastparse_ParsingRun__f_failureStack = new $c_sci_$colon$colon(rassoc$1$3, this$23)
+      }
+    };
+    if ((!x1$10.Lfastparse_ParsingRun__f_isSuccess)) {
+      return x1$10
+    } else {
+      const arg1 = $as_T2(x1$10.Lfastparse_ParsingRun__f_successValue);
+      if ((arg1 === null)) {
+        throw new $c_s_MatchError(arg1)
+      };
+      const rawConjunction = $as_T(arg1.T2__f__1);
+      const condition = $as_Lbillding_SQL$Condition(arg1.T2__f__2);
+      x1$10.Lfastparse_ParsingRun__f_successValue = new $c_T2($m_Lbillding_SQL$Conjunction$().apply__T__s_Product(rawConjunction), condition);
+      return x1$10
+    }
+  };
+  conditions__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$11) {
+    const startIndex = evidence$11.Lfastparse_ParsingRun__f_index;
+    const instrument = (evidence$11.Lfastparse_ParsingRun__f_instrument !== null);
+    if (instrument) {
+      evidence$11.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("conditions").Lsourcecode_Name__f_value, startIndex)
+    };
+    const this$1 = $m_Lfastparse_Implicits$Sequencer$();
+    const x1$3 = $as_Lfastparse_Implicits$Sequencer($f_Lfastparse_LowestPriSequencer__Sequencer1__O(this$1));
+    const preLhsIndex$macro$13 = evidence$11.Lfastparse_ParsingRun__f_index;
+    const input$macro$22 = evidence$11.Lfastparse_ParsingRun__f_input;
+    $m_Lfastparse_package$();
+    this.condition__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$11);
+    let x1$6;
+    if ((!evidence$11.Lfastparse_ParsingRun__f_isSuccess)) {
+      x1$6 = evidence$11
+    } else {
+      const postLhsIndex$macro$14 = evidence$11.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$17 = evidence$11.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$20 = evidence$11.Lfastparse_ParsingRun__f_shortParserMsg;
+      if ((postLhsIndex$macro$14 > preLhsIndex$macro$13)) {
+        evidence$11.checkForDrop__Z()
+      };
+      const lhsValue$macro$23 = evidence$11.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$11);
+      if (evidence$11.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$11.Lfastparse_ParsingRun__f_isSuccess) && evidence$11.Lfastparse_ParsingRun__f_cut)) {
+          x1$6 = evidence$11
+        } else {
+          const preRhsIndex$macro$15 = evidence$11.Lfastparse_ParsingRun__f_index;
+          const this$3 = $m_Lfastparse_Implicits$Repeater$();
+          this$3.GenericRepeatedImplicit0__Lfastparse_Implicits$LowPriRepeater$GenericRepeatedImplicit0$();
+          const elem = evidence$11.Lfastparse_ParsingRun__f_cut;
+          let elem$1 = false;
+          elem$1 = elem;
+          const acc$macro$3 = $as_scm_Buffer($m_scm_Buffer$().empty__sc_SeqOps());
+          let startIndex$macro$4 = evidence$11.Lfastparse_ParsingRun__f_index;
+          let count$macro$5 = 0;
+          let lastAgg$macro$10 = null;
+          while (true) {
+            evidence$11.Lfastparse_ParsingRun__f_cut = false;
+            $m_Lfastparse_package$();
+            $m_Lbillding_SQL$parsing$().compositeCondition__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$11);
+            const parsedMsg$macro$9 = evidence$11.Lfastparse_ParsingRun__f_shortParserMsg;
+            const parsedAgg$macro$11 = evidence$11.Lfastparse_ParsingRun__f_failureGroupAggregate;
+            elem$1 = (!(!(elem$1 | evidence$11.Lfastparse_ParsingRun__f_cut)));
+            if ((!evidence$11.Lfastparse_ParsingRun__f_isSuccess)) {
+              const res = (evidence$11.Lfastparse_ParsingRun__f_cut ? evidence$11 : evidence$11.freshSuccess__O__I__Z__Lfastparse_ParsingRun($m_sci_Seq$().from__sc_IterableOnce__sci_Seq(acc$macro$3), startIndex$macro$4, elem$1));
+              if (evidence$11.Lfastparse_ParsingRun__f_verboseFailures) {
+                const $$x3 = startIndex$macro$4;
+                const $$x2 = new $c_sjsr_AnonFunction0(((this$2$1, parsedMsg$macro$9$1) => (() => ($m_Lfastparse_internal_Util$().parenthize__sci_Seq__T(parsedMsg$macro$9$1.Lfastparse_internal_Msgs__f_value) + ".rep")))(this, parsedMsg$macro$9));
+                let $$x1;
+                if ((lastAgg$macro$10 === null)) {
+                  $$x1 = evidence$11.Lfastparse_ParsingRun__f_failureGroupAggregate
+                } else {
+                  const rassoc$1 = evidence$11.Lfastparse_ParsingRun__f_failureGroupAggregate;
+                  $$x1 = lastAgg$macro$10.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rassoc$1)
+                };
+                evidence$11.aggregateMsg__I__F0__Lfastparse_internal_Msgs__V($$x3, $$x2, $$x1)
+              };
+              break
+            } else {
+              const beforeSepIndex$macro$6 = evidence$11.Lfastparse_ParsingRun__f_index;
+              const t = $as_T2(evidence$11.Lfastparse_ParsingRun__f_successValue);
+              acc$macro$3.addOne__O__scm_Growable(t);
+              evidence$11.Lfastparse_ParsingRun__f_cut = false;
+              if (($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace !== $m_Lfastparse_NoWhitespace$noWhitespaceImplicit$())) {
+                $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$11)
+              };
+              if (((!evidence$11.Lfastparse_ParsingRun__f_isSuccess) && evidence$11.Lfastparse_ParsingRun__f_cut)) {
+                break
+              } else {
+                evidence$11.Lfastparse_ParsingRun__f_cut = false;
+                const temp$count$macro$5 = ((1 + count$macro$5) | 0);
+                startIndex$macro$4 = beforeSepIndex$macro$6;
+                count$macro$5 = temp$count$macro$5;
+                lastAgg$macro$10 = parsedAgg$macro$11
+              }
+            }
+          };
+          const rhsAggregate$macro$18 = evidence$11.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$19 = evidence$11.Lfastparse_ParsingRun__f_shortParserMsg;
+          let res$macro$25;
+          if ((!evidence$11.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$25 = evidence$11
+          } else {
+            const postRhsIndex$macro$16 = evidence$11.Lfastparse_ParsingRun__f_index;
+            const rhsMadeProgress$macro$21 = (postRhsIndex$macro$16 > preRhsIndex$macro$15);
+            const nextIndex$macro$24 = (((!rhsMadeProgress$macro$21) && input$macro$22.isReachable__I__Z(postRhsIndex$macro$16)) ? postLhsIndex$macro$14 : postRhsIndex$macro$16);
+            if (rhsMadeProgress$macro$21) {
+              evidence$11.checkForDrop__Z()
+            };
+            res$macro$25 = evidence$11.freshSuccess__O__I__Lfastparse_ParsingRun(x1$3.apply__O__O__O($as_Lbillding_SQL$Condition(lhsValue$macro$23), $as_sci_Seq(evidence$11.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$24)
+          };
+          if (evidence$11.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$11.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$13, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$20, rhsMsg$macro$19), lhsAggregate$macro$17.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$18), (preRhsIndex$macro$15 === evidence$11.Lfastparse_ParsingRun__f_traceIndex))
+          };
+          x1$6 = res$macro$25
+        }
+      } else {
+        x1$6 = evidence$11
+      }
+    };
+    if (instrument) {
+      evidence$11.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("conditions").Lsourcecode_Name__f_value, x1$6.Lfastparse_ParsingRun__f_index, x1$6.Lfastparse_ParsingRun__f_isSuccess)
+    };
+    if (x1$6.Lfastparse_ParsingRun__f_verboseFailures) {
+      $m_sci_List$();
+      const array = [new $c_Lfastparse_internal_Lazy(new $c_sjsr_AnonFunction0(((this$6) => (() => new $c_Lsourcecode_Name("conditions").Lsourcecode_Name__f_value))(this)))];
+      const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
+      x1$6.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(startIndex, new $c_Lfastparse_internal_Msgs($m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems)), x1$6.Lfastparse_ParsingRun__f_failureGroupAggregate, (startIndex < x1$6.Lfastparse_ParsingRun__f_traceIndex));
+      if ((!x1$6.Lfastparse_ParsingRun__f_isSuccess)) {
+        const self = new $c_Lsourcecode_Name("conditions").Lsourcecode_Name__f_value;
+        const rassoc$1$1 = new $c_T2(self, startIndex);
+        const this$13 = x1$6.Lfastparse_ParsingRun__f_failureStack;
+        x1$6.Lfastparse_ParsingRun__f_failureStack = new $c_sci_$colon$colon(rassoc$1$1, this$13)
+      }
+    };
+    return x1$6
+  };
+  statement__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$12) {
+    const startIndex = evidence$12.Lfastparse_ParsingRun__f_index;
+    const instrument = (evidence$12.Lfastparse_ParsingRun__f_instrument !== null);
+    if (instrument) {
+      evidence$12.Lfastparse_ParsingRun__f_instrument.beforeParse__T__I__V(new $c_Lsourcecode_Name("statement").Lsourcecode_Name__f_value, startIndex)
     };
     const this$1 = $m_Lfastparse_Implicits$Sequencer$();
     this$1.UnitSequencer0__Lfastparse_Implicits$LowPriSequencer$UnitSequencer0$();
-    const preLhsIndex$macro$77 = evidence$10.Lfastparse_ParsingRun__f_index;
-    const input$macro$86 = evidence$10.Lfastparse_ParsingRun__f_input;
+    const preLhsIndex$macro$77 = evidence$12.Lfastparse_ParsingRun__f_index;
+    const input$macro$86 = evidence$12.Lfastparse_ParsingRun__f_input;
     $m_Lfastparse_package$();
     const this$2 = $m_Lfastparse_Implicits$Sequencer$();
     const x1$5 = this$2.Lfastparse_Implicits$Sequencer$__f_BaseSequencer4;
-    const preLhsIndex$macro$62 = evidence$10.Lfastparse_ParsingRun__f_index;
-    const input$macro$71 = evidence$10.Lfastparse_ParsingRun__f_input;
+    const preLhsIndex$macro$62 = evidence$12.Lfastparse_ParsingRun__f_index;
+    const input$macro$71 = evidence$12.Lfastparse_ParsingRun__f_input;
     $m_Lfastparse_package$();
     const this$3 = $m_Lfastparse_Implicits$Sequencer$();
     const x1$7 = this$3.Lfastparse_Implicits$Sequencer$__f_BaseSequencer3;
-    const preLhsIndex$macro$32 = evidence$10.Lfastparse_ParsingRun__f_index;
-    const input$macro$41 = evidence$10.Lfastparse_ParsingRun__f_input;
+    const preLhsIndex$macro$32 = evidence$12.Lfastparse_ParsingRun__f_index;
+    const input$macro$41 = evidence$12.Lfastparse_ParsingRun__f_input;
     $m_Lfastparse_package$();
     const this$4 = $m_Lfastparse_Implicits$Sequencer$();
     const x1$9 = this$4.Lfastparse_Implicits$Sequencer$__f_BaseSequencer2;
-    const preLhsIndex$macro$17 = evidence$10.Lfastparse_ParsingRun__f_index;
-    const input$macro$26 = evidence$10.Lfastparse_ParsingRun__f_input;
+    const preLhsIndex$macro$17 = evidence$12.Lfastparse_ParsingRun__f_index;
+    const input$macro$26 = evidence$12.Lfastparse_ParsingRun__f_input;
     $m_Lfastparse_package$();
     const this$5 = $m_Lfastparse_Implicits$Sequencer$();
     const x1$11 = $as_Lfastparse_Implicits$Sequencer($f_Lfastparse_LowestPriSequencer__Sequencer1__O(this$5));
-    const preLhsIndex$macro$2 = evidence$10.Lfastparse_ParsingRun__f_index;
-    const input$macro$11 = evidence$10.Lfastparse_ParsingRun__f_input;
+    const preLhsIndex$macro$2 = evidence$12.Lfastparse_ParsingRun__f_index;
+    const input$macro$11 = evidence$12.Lfastparse_ParsingRun__f_input;
     $m_Lfastparse_package$();
-    this.select__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
-    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+    this.select__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$12);
+    if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
       /*<skip>*/
     } else {
-      const postLhsIndex$macro$3 = evidence$10.Lfastparse_ParsingRun__f_index;
-      const lhsAggregate$macro$6 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      const lhsMsg$macro$9 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+      const postLhsIndex$macro$3 = evidence$12.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$6 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$9 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
       if ((postLhsIndex$macro$3 > preLhsIndex$macro$2)) {
-        evidence$10.checkForDrop__Z()
+        evidence$12.checkForDrop__Z()
       };
-      const lhsValue$macro$12 = evidence$10.Lfastparse_ParsingRun__f_successValue;
-      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
-      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
-        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
+      const lhsValue$macro$12 = evidence$12.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$12);
+      if (evidence$12.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$12.Lfastparse_ParsingRun__f_isSuccess) && evidence$12.Lfastparse_ParsingRun__f_cut)) {
           /*<skip>*/
         } else {
-          const preRhsIndex$macro$4 = evidence$10.Lfastparse_ParsingRun__f_index;
-          this.columnName__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
-          const rhsAggregate$macro$7 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-          const rhsMsg$macro$8 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+          const preRhsIndex$macro$4 = evidence$12.Lfastparse_ParsingRun__f_index;
+          this.columnName__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$12);
+          const rhsAggregate$macro$7 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$8 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
           let res$macro$14;
-          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
-            res$macro$14 = evidence$10
+          if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$14 = evidence$12
           } else {
-            const postRhsIndex$macro$5 = evidence$10.Lfastparse_ParsingRun__f_index;
+            const postRhsIndex$macro$5 = evidence$12.Lfastparse_ParsingRun__f_index;
             const rhsMadeProgress$macro$10 = (postRhsIndex$macro$5 > preRhsIndex$macro$4);
             const nextIndex$macro$13 = (((!rhsMadeProgress$macro$10) && input$macro$11.isReachable__I__Z(postRhsIndex$macro$5)) ? postLhsIndex$macro$3 : postRhsIndex$macro$5);
             if (rhsMadeProgress$macro$10) {
-              evidence$10.checkForDrop__Z()
+              evidence$12.checkForDrop__Z()
             };
-            res$macro$14 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$11.apply__O__O__O($as_T(lhsValue$macro$12), $as_T(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$13)
+            res$macro$14 = evidence$12.freshSuccess__O__I__Lfastparse_ParsingRun(x1$11.apply__O__O__O($as_T(lhsValue$macro$12), $as_T(evidence$12.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$13)
           };
-          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
-            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$2, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$9, rhsMsg$macro$8), lhsAggregate$macro$6.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$7), (preRhsIndex$macro$4 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
+          if (evidence$12.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$12.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$2, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$9, rhsMsg$macro$8), lhsAggregate$macro$6.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$7), (preRhsIndex$macro$4 === evidence$12.Lfastparse_ParsingRun__f_traceIndex))
           }
         }
       }
     };
-    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+    if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
       /*<skip>*/
     } else {
-      const postLhsIndex$macro$18 = evidence$10.Lfastparse_ParsingRun__f_index;
-      const lhsAggregate$macro$21 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      const lhsMsg$macro$24 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+      const postLhsIndex$macro$18 = evidence$12.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$21 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$24 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
       if ((postLhsIndex$macro$18 > preLhsIndex$macro$17)) {
-        evidence$10.checkForDrop__Z()
+        evidence$12.checkForDrop__Z()
       };
-      const lhsValue$macro$27 = evidence$10.Lfastparse_ParsingRun__f_successValue;
-      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
-      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
-        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
+      const lhsValue$macro$27 = evidence$12.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$12);
+      if (evidence$12.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$12.Lfastparse_ParsingRun__f_isSuccess) && evidence$12.Lfastparse_ParsingRun__f_cut)) {
           /*<skip>*/
         } else {
-          const preRhsIndex$macro$19 = evidence$10.Lfastparse_ParsingRun__f_index;
-          this.from__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
-          const rhsAggregate$macro$22 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-          const rhsMsg$macro$23 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+          const preRhsIndex$macro$19 = evidence$12.Lfastparse_ParsingRun__f_index;
+          this.from__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$12);
+          const rhsAggregate$macro$22 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$23 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
           let res$macro$29;
-          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
-            res$macro$29 = evidence$10
+          if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$29 = evidence$12
           } else {
-            const postRhsIndex$macro$20 = evidence$10.Lfastparse_ParsingRun__f_index;
+            const postRhsIndex$macro$20 = evidence$12.Lfastparse_ParsingRun__f_index;
             const rhsMadeProgress$macro$25 = (postRhsIndex$macro$20 > preRhsIndex$macro$19);
             const nextIndex$macro$28 = (((!rhsMadeProgress$macro$25) && input$macro$26.isReachable__I__Z(postRhsIndex$macro$20)) ? postLhsIndex$macro$18 : postRhsIndex$macro$20);
             if (rhsMadeProgress$macro$25) {
-              evidence$10.checkForDrop__Z()
+              evidence$12.checkForDrop__Z()
             };
-            res$macro$29 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$9.apply__O__O__O($as_T2(lhsValue$macro$27), $as_T(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$28)
+            res$macro$29 = evidence$12.freshSuccess__O__I__Lfastparse_ParsingRun(x1$9.apply__O__O__O($as_T2(lhsValue$macro$27), $as_T(evidence$12.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$28)
           };
-          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
-            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$17, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$24, rhsMsg$macro$23), lhsAggregate$macro$21.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$22), (preRhsIndex$macro$19 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
+          if (evidence$12.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$12.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$17, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$24, rhsMsg$macro$23), lhsAggregate$macro$21.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$22), (preRhsIndex$macro$19 === evidence$12.Lfastparse_ParsingRun__f_traceIndex))
           }
         }
       }
     };
-    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+    if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
       /*<skip>*/
     } else {
-      const postLhsIndex$macro$33 = evidence$10.Lfastparse_ParsingRun__f_index;
-      const lhsAggregate$macro$36 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      const lhsMsg$macro$39 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+      const postLhsIndex$macro$33 = evidence$12.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$36 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$39 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
       if ((postLhsIndex$macro$33 > preLhsIndex$macro$32)) {
-        evidence$10.checkForDrop__Z()
+        evidence$12.checkForDrop__Z()
       };
-      const lhsValue$macro$42 = evidence$10.Lfastparse_ParsingRun__f_successValue;
-      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
-      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
-        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
+      const lhsValue$macro$42 = evidence$12.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$12);
+      if (evidence$12.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$12.Lfastparse_ParsingRun__f_isSuccess) && evidence$12.Lfastparse_ParsingRun__f_cut)) {
           /*<skip>*/
         } else {
-          const preRhsIndex$macro$34 = evidence$10.Lfastparse_ParsingRun__f_index;
-          this.fromList__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
-          const rhsAggregate$macro$37 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-          const rhsMsg$macro$38 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+          const preRhsIndex$macro$34 = evidence$12.Lfastparse_ParsingRun__f_index;
+          this.fromList__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$12);
+          const rhsAggregate$macro$37 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$38 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
           let res$macro$44;
-          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
-            res$macro$44 = evidence$10
+          if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$44 = evidence$12
           } else {
-            const postRhsIndex$macro$35 = evidence$10.Lfastparse_ParsingRun__f_index;
+            const postRhsIndex$macro$35 = evidence$12.Lfastparse_ParsingRun__f_index;
             const rhsMadeProgress$macro$40 = (postRhsIndex$macro$35 > preRhsIndex$macro$34);
             const nextIndex$macro$43 = (((!rhsMadeProgress$macro$40) && input$macro$41.isReachable__I__Z(postRhsIndex$macro$35)) ? postLhsIndex$macro$33 : postRhsIndex$macro$35);
             if (rhsMadeProgress$macro$40) {
-              evidence$10.checkForDrop__Z()
+              evidence$12.checkForDrop__Z()
             };
-            res$macro$44 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$7.apply__O__O__O($as_T3(lhsValue$macro$42), $as_sci_Seq(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$43)
+            res$macro$44 = evidence$12.freshSuccess__O__I__Lfastparse_ParsingRun(x1$7.apply__O__O__O($as_T3(lhsValue$macro$42), $as_sci_Seq(evidence$12.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$43)
           };
-          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
-            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$32, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$39, rhsMsg$macro$38), lhsAggregate$macro$36.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$37), (preRhsIndex$macro$34 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
+          if (evidence$12.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$12.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$32, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$39, rhsMsg$macro$38), lhsAggregate$macro$36.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$37), (preRhsIndex$macro$34 === evidence$12.Lfastparse_ParsingRun__f_traceIndex))
           }
         }
       }
     };
-    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+    if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
       /*<skip>*/
     } else {
-      const postLhsIndex$macro$63 = evidence$10.Lfastparse_ParsingRun__f_index;
-      const lhsAggregate$macro$66 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      const lhsMsg$macro$69 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+      const postLhsIndex$macro$63 = evidence$12.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$66 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$69 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
       if ((postLhsIndex$macro$63 > preLhsIndex$macro$62)) {
-        evidence$10.checkForDrop__Z()
+        evidence$12.checkForDrop__Z()
       };
-      const lhsValue$macro$72 = evidence$10.Lfastparse_ParsingRun__f_successValue;
-      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
-      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
-        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
+      const lhsValue$macro$72 = evidence$12.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$12);
+      if (evidence$12.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$12.Lfastparse_ParsingRun__f_isSuccess) && evidence$12.Lfastparse_ParsingRun__f_cut)) {
           /*<skip>*/
         } else {
-          const preRhsIndex$macro$64 = evidence$10.Lfastparse_ParsingRun__f_index;
+          const preRhsIndex$macro$64 = evidence$12.Lfastparse_ParsingRun__f_index;
           const this$10 = $m_Lfastparse_Implicits$Optioner$();
           this$10.GenericOptionerImplicit0__Lfastparse_Implicits$LowPriOptioner$GenericOptionerImplicit0$();
-          const startPos = evidence$10.Lfastparse_ParsingRun__f_index;
-          const startCut = evidence$10.Lfastparse_ParsingRun__f_cut;
-          evidence$10.Lfastparse_ParsingRun__f_cut = false;
+          const startPos = evidence$12.Lfastparse_ParsingRun__f_index;
+          const startCut = evidence$12.Lfastparse_ParsingRun__f_cut;
+          evidence$12.Lfastparse_ParsingRun__f_cut = false;
           $m_Lfastparse_package$();
           const this$11 = $m_Lfastparse_Implicits$Sequencer$();
           const x1$15 = $as_Lfastparse_Implicits$Sequencer($f_Lfastparse_LowestPriSequencer__Sequencer1__O(this$11));
-          const preLhsIndex$macro$47 = evidence$10.Lfastparse_ParsingRun__f_index;
-          const input$macro$56 = evidence$10.Lfastparse_ParsingRun__f_input;
+          const preLhsIndex$macro$47 = evidence$12.Lfastparse_ParsingRun__f_index;
+          const input$macro$56 = evidence$12.Lfastparse_ParsingRun__f_input;
           $m_Lfastparse_package$();
-          this.WHERE__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
-          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
+          this.WHERE__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$12);
+          if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
             /*<skip>*/
           } else {
-            const postLhsIndex$macro$48 = evidence$10.Lfastparse_ParsingRun__f_index;
-            const lhsAggregate$macro$51 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-            const lhsMsg$macro$54 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+            const postLhsIndex$macro$48 = evidence$12.Lfastparse_ParsingRun__f_index;
+            const lhsAggregate$macro$51 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+            const lhsMsg$macro$54 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
             if ((postLhsIndex$macro$48 > preLhsIndex$macro$47)) {
-              evidence$10.checkForDrop__Z()
+              evidence$12.checkForDrop__Z()
             };
-            const lhsValue$macro$57 = evidence$10.Lfastparse_ParsingRun__f_successValue;
-            $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
-            if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
-              if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
+            const lhsValue$macro$57 = evidence$12.Lfastparse_ParsingRun__f_successValue;
+            $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$12);
+            if (evidence$12.Lfastparse_ParsingRun__f_isSuccess) {
+              if (((!evidence$12.Lfastparse_ParsingRun__f_isSuccess) && evidence$12.Lfastparse_ParsingRun__f_cut)) {
                 /*<skip>*/
               } else {
-                const preRhsIndex$macro$49 = evidence$10.Lfastparse_ParsingRun__f_index;
-                this.condition__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
-                const rhsAggregate$macro$52 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-                const rhsMsg$macro$53 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+                const preRhsIndex$macro$49 = evidence$12.Lfastparse_ParsingRun__f_index;
+                this.conditions__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$12);
+                const rhsAggregate$macro$52 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+                const rhsMsg$macro$53 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
                 let res$macro$59;
-                if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
-                  res$macro$59 = evidence$10
+                if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
+                  res$macro$59 = evidence$12
                 } else {
-                  const postRhsIndex$macro$50 = evidence$10.Lfastparse_ParsingRun__f_index;
+                  const postRhsIndex$macro$50 = evidence$12.Lfastparse_ParsingRun__f_index;
                   const rhsMadeProgress$macro$55 = (postRhsIndex$macro$50 > preRhsIndex$macro$49);
                   const nextIndex$macro$58 = (((!rhsMadeProgress$macro$55) && input$macro$56.isReachable__I__Z(postRhsIndex$macro$50)) ? postLhsIndex$macro$48 : postRhsIndex$macro$50);
                   if (rhsMadeProgress$macro$55) {
-                    evidence$10.checkForDrop__Z()
+                    evidence$12.checkForDrop__Z()
                   };
-                  res$macro$59 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$15.apply__O__O__O($as_T(lhsValue$macro$57), $as_Lbillding_SQL$Condition(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$58)
+                  res$macro$59 = evidence$12.freshSuccess__O__I__Lfastparse_ParsingRun(x1$15.apply__O__O__O($as_T(lhsValue$macro$57), $as_T2(evidence$12.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$58)
                 };
-                if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
-                  evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$47, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$54, rhsMsg$macro$53), lhsAggregate$macro$51.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$52), (preRhsIndex$macro$49 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
+                if (evidence$12.Lfastparse_ParsingRun__f_verboseFailures) {
+                  evidence$12.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$47, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$54, rhsMsg$macro$53), lhsAggregate$macro$51.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$52), (preRhsIndex$macro$49 === evidence$12.Lfastparse_ParsingRun__f_traceIndex))
                 }
               }
             }
           };
-          const postSuccess = evidence$10.Lfastparse_ParsingRun__f_isSuccess;
+          const postSuccess = evidence$12.Lfastparse_ParsingRun__f_isSuccess;
           if (postSuccess) {
-            const value = $as_T2(evidence$10.Lfastparse_ParsingRun__f_successValue);
-            const res = evidence$10.freshSuccess__O__Lfastparse_ParsingRun(new $c_s_Some(value));
+            const value = $as_T2(evidence$12.Lfastparse_ParsingRun__f_successValue);
+            const res = evidence$12.freshSuccess__O__Lfastparse_ParsingRun(new $c_s_Some(value));
             res.Lfastparse_ParsingRun__f_cut = (!(!(res.Lfastparse_ParsingRun__f_cut | startCut)))
-          } else if (evidence$10.Lfastparse_ParsingRun__f_cut) {
+          } else if (evidence$12.Lfastparse_ParsingRun__f_cut) {
             /*<skip>*/
           } else {
-            const res$2 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun($m_s_None$(), startPos);
+            const res$2 = evidence$12.freshSuccess__O__I__Lfastparse_ParsingRun($m_s_None$(), startPos);
             res$2.Lfastparse_ParsingRun__f_cut = (!(!(res$2.Lfastparse_ParsingRun__f_cut | startCut)))
           };
-          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
-            const msg = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
-            const agg = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          if (evidence$12.Lfastparse_ParsingRun__f_verboseFailures) {
+            const msg = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
+            const agg = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
             if ((!postSuccess)) {
-              evidence$10.aggregateMsg__I__F0__Lfastparse_internal_Msgs__V(startPos, new $c_sjsr_AnonFunction0(((this$14, msg$1) => (() => ($m_Lfastparse_internal_Util$().parenthize__sci_Seq__T(msg$1.Lfastparse_internal_Msgs__f_value) + ".?")))(this, msg)), agg)
+              evidence$12.aggregateMsg__I__F0__Lfastparse_internal_Msgs__V(startPos, new $c_sjsr_AnonFunction0(((this$14, msg$1) => (() => ($m_Lfastparse_internal_Util$().parenthize__sci_Seq__T(msg$1.Lfastparse_internal_Msgs__f_value) + ".?")))(this, msg)), agg)
             }
           };
-          const rhsAggregate$macro$67 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-          const rhsMsg$macro$68 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+          const rhsAggregate$macro$67 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$68 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
           let res$macro$74;
-          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
-            res$macro$74 = evidence$10
+          if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$74 = evidence$12
           } else {
-            const postRhsIndex$macro$65 = evidence$10.Lfastparse_ParsingRun__f_index;
+            const postRhsIndex$macro$65 = evidence$12.Lfastparse_ParsingRun__f_index;
             const rhsMadeProgress$macro$70 = (postRhsIndex$macro$65 > preRhsIndex$macro$64);
             const nextIndex$macro$73 = (((!rhsMadeProgress$macro$70) && input$macro$71.isReachable__I__Z(postRhsIndex$macro$65)) ? postLhsIndex$macro$63 : postRhsIndex$macro$65);
             if (rhsMadeProgress$macro$70) {
-              evidence$10.checkForDrop__Z()
+              evidence$12.checkForDrop__Z()
             };
-            res$macro$74 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(x1$5.apply__O__O__O($as_T4(lhsValue$macro$72), $as_s_Option(evidence$10.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$73)
+            res$macro$74 = evidence$12.freshSuccess__O__I__Lfastparse_ParsingRun(x1$5.apply__O__O__O($as_T4(lhsValue$macro$72), $as_s_Option(evidence$12.Lfastparse_ParsingRun__f_successValue)), nextIndex$macro$73)
           };
-          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
-            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$62, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$69, rhsMsg$macro$68), lhsAggregate$macro$66.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$67), (preRhsIndex$macro$64 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
+          if (evidence$12.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$12.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$62, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$69, rhsMsg$macro$68), lhsAggregate$macro$66.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$67), (preRhsIndex$macro$64 === evidence$12.Lfastparse_ParsingRun__f_traceIndex))
           }
         }
       }
     };
     let x1$16;
-    if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
-      x1$16 = evidence$10
+    if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
+      x1$16 = evidence$12
     } else {
-      const postLhsIndex$macro$78 = evidence$10.Lfastparse_ParsingRun__f_index;
-      const lhsAggregate$macro$81 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-      const lhsMsg$macro$84 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+      const postLhsIndex$macro$78 = evidence$12.Lfastparse_ParsingRun__f_index;
+      const lhsAggregate$macro$81 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+      const lhsMsg$macro$84 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
       if ((postLhsIndex$macro$78 > preLhsIndex$macro$77)) {
-        evidence$10.checkForDrop__Z()
+        evidence$12.checkForDrop__Z()
       };
-      const lhsValue$macro$87 = evidence$10.Lfastparse_ParsingRun__f_successValue;
-      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$10);
-      if (evidence$10.Lfastparse_ParsingRun__f_isSuccess) {
-        if (((!evidence$10.Lfastparse_ParsingRun__f_isSuccess) && evidence$10.Lfastparse_ParsingRun__f_cut)) {
-          x1$16 = evidence$10
+      const lhsValue$macro$87 = evidence$12.Lfastparse_ParsingRun__f_successValue;
+      $m_Lfastparse_internal_Util$().consumeWhitespace__F1__Lfastparse_ParsingRun__V($m_Lfastparse_MultiLineWhitespace$().Lfastparse_MultiLineWhitespace$__f_whitespace, evidence$12);
+      if (evidence$12.Lfastparse_ParsingRun__f_isSuccess) {
+        if (((!evidence$12.Lfastparse_ParsingRun__f_isSuccess) && evidence$12.Lfastparse_ParsingRun__f_cut)) {
+          x1$16 = evidence$12
         } else {
-          const preRhsIndex$macro$79 = evidence$10.Lfastparse_ParsingRun__f_index;
-          $m_Lfastparse_package$().End__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$10);
-          const rhsAggregate$macro$82 = evidence$10.Lfastparse_ParsingRun__f_failureGroupAggregate;
-          const rhsMsg$macro$83 = evidence$10.Lfastparse_ParsingRun__f_shortParserMsg;
+          const preRhsIndex$macro$79 = evidence$12.Lfastparse_ParsingRun__f_index;
+          $m_Lfastparse_package$().End__Lfastparse_ParsingRun__Lfastparse_ParsingRun(evidence$12);
+          const rhsAggregate$macro$82 = evidence$12.Lfastparse_ParsingRun__f_failureGroupAggregate;
+          const rhsMsg$macro$83 = evidence$12.Lfastparse_ParsingRun__f_shortParserMsg;
           let res$macro$89;
-          if ((!evidence$10.Lfastparse_ParsingRun__f_isSuccess)) {
-            res$macro$89 = evidence$10
+          if ((!evidence$12.Lfastparse_ParsingRun__f_isSuccess)) {
+            res$macro$89 = evidence$12
           } else {
-            const postRhsIndex$macro$80 = evidence$10.Lfastparse_ParsingRun__f_index;
+            const postRhsIndex$macro$80 = evidence$12.Lfastparse_ParsingRun__f_index;
             const rhsMadeProgress$macro$85 = (postRhsIndex$macro$80 > preRhsIndex$macro$79);
             const nextIndex$macro$88 = (((!rhsMadeProgress$macro$85) && input$macro$86.isReachable__I__Z(postRhsIndex$macro$80)) ? postLhsIndex$macro$78 : postRhsIndex$macro$80);
             if (rhsMadeProgress$macro$85) {
-              evidence$10.checkForDrop__Z()
+              evidence$12.checkForDrop__Z()
             };
             const t = $as_T5(lhsValue$macro$87);
-            res$macro$89 = evidence$10.freshSuccess__O__I__Lfastparse_ParsingRun(t, nextIndex$macro$88)
+            res$macro$89 = evidence$12.freshSuccess__O__I__Lfastparse_ParsingRun(t, nextIndex$macro$88)
           };
-          if (evidence$10.Lfastparse_ParsingRun__f_verboseFailures) {
-            evidence$10.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$77, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$84, rhsMsg$macro$83), lhsAggregate$macro$81.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$82), (preRhsIndex$macro$79 === evidence$10.Lfastparse_ParsingRun__f_traceIndex))
+          if (evidence$12.Lfastparse_ParsingRun__f_verboseFailures) {
+            evidence$12.aggregateMsg__I__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Z__V(preLhsIndex$macro$77, $m_Lfastparse_internal_Util$().joinBinOp__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(lhsMsg$macro$84, rhsMsg$macro$83), lhsAggregate$macro$81.$colon$colon$colon__Lfastparse_internal_Msgs__Lfastparse_internal_Msgs(rhsAggregate$macro$82), (preRhsIndex$macro$79 === evidence$12.Lfastparse_ParsingRun__f_traceIndex))
           };
           x1$16 = res$macro$89
         }
       } else {
-        x1$16 = evidence$10
+        x1$16 = evidence$12
       }
     };
     if (instrument) {
-      evidence$10.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("statement").Lsourcecode_Name__f_value, x1$16.Lfastparse_ParsingRun__f_index, x1$16.Lfastparse_ParsingRun__f_isSuccess)
+      evidence$12.Lfastparse_ParsingRun__f_instrument.afterParse__T__I__Z__V(new $c_Lsourcecode_Name("statement").Lsourcecode_Name__f_value, x1$16.Lfastparse_ParsingRun__f_index, x1$16.Lfastparse_ParsingRun__f_isSuccess)
     };
     if (x1$16.Lfastparse_ParsingRun__f_verboseFailures) {
       $m_sci_List$();
@@ -4010,6 +4355,15 @@ class $c_Lfastparse_ParsingRun extends $c_O {
       this.Lfastparse_ParsingRun__f_failureStack = $m_sci_Nil$()
     };
     this.Lfastparse_ParsingRun__f_isSuccess = false;
+    return this
+  };
+  freshFailure__I__Lfastparse_ParsingRun(startPos) {
+    if (this.Lfastparse_ParsingRun__f_verboseFailures) {
+      this.Lfastparse_ParsingRun__f_lastFailureMsg = null;
+      this.Lfastparse_ParsingRun__f_failureStack = $m_sci_Nil$()
+    };
+    this.Lfastparse_ParsingRun__f_isSuccess = false;
+    this.Lfastparse_ParsingRun__f_index = startPos;
     return this
   };
   augmentFailure__I__Z__Lfastparse_ParsingRun(index, cut) {
@@ -16609,6 +16963,44 @@ function $m_Lbillding_Main$ResetCount$() {
   };
   return $n_Lbillding_Main$ResetCount$
 }
+class $c_Lbillding_SQL$AND$ extends $c_O {
+  productPrefix__T() {
+    return "AND"
+  };
+  productArity__I() {
+    return 0
+  };
+  productElement__I__O(x$1) {
+    return $m_sr_Statics$().ioobe__I__O(x$1)
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    return 64951
+  };
+  toString__T() {
+    return "AND"
+  };
+}
+const $d_Lbillding_SQL$AND$ = new $TypeData().initClass({
+  Lbillding_SQL$AND$: 0
+}, false, "billding.SQL$AND$", {
+  Lbillding_SQL$AND$: 1,
+  O: 1,
+  Lbillding_SQL$Conjunction: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_SQL$AND$.prototype.$classData = $d_Lbillding_SQL$AND$;
+let $n_Lbillding_SQL$AND$;
+function $m_Lbillding_SQL$AND$() {
+  if ((!$n_Lbillding_SQL$AND$)) {
+    $n_Lbillding_SQL$AND$ = new $c_Lbillding_SQL$AND$()
+  };
+  return $n_Lbillding_SQL$AND$
+}
 class $c_Lbillding_SQL$Equal$ extends $c_O {
   productPrefix__T() {
     return "Equal"
@@ -16722,6 +17114,44 @@ function $m_Lbillding_SQL$LessThan$() {
     $n_Lbillding_SQL$LessThan$ = new $c_Lbillding_SQL$LessThan$()
   };
   return $n_Lbillding_SQL$LessThan$
+}
+class $c_Lbillding_SQL$OR$ extends $c_O {
+  productPrefix__T() {
+    return "OR"
+  };
+  productArity__I() {
+    return 0
+  };
+  productElement__I__O(x$1) {
+    return $m_sr_Statics$().ioobe__I__O(x$1)
+  };
+  productIterator__sc_Iterator() {
+    return new $c_sr_ScalaRunTime$$anon$1(this)
+  };
+  hashCode__I() {
+    return 2531
+  };
+  toString__T() {
+    return "OR"
+  };
+}
+const $d_Lbillding_SQL$OR$ = new $TypeData().initClass({
+  Lbillding_SQL$OR$: 0
+}, false, "billding.SQL$OR$", {
+  Lbillding_SQL$OR$: 1,
+  O: 1,
+  Lbillding_SQL$Conjunction: 1,
+  s_Product: 1,
+  s_Equals: 1,
+  Ljava_io_Serializable: 1
+});
+$c_Lbillding_SQL$OR$.prototype.$classData = $d_Lbillding_SQL$OR$;
+let $n_Lbillding_SQL$OR$;
+function $m_Lbillding_SQL$OR$() {
+  if ((!$n_Lbillding_SQL$OR$)) {
+    $n_Lbillding_SQL$OR$ = new $c_Lbillding_SQL$OR$()
+  };
+  return $n_Lbillding_SQL$OR$
 }
 class $c_Lcom_raquo_airstream_eventbus_EventBusStream extends $c_O {
   constructor(writeBus) {

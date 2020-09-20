@@ -47,6 +47,17 @@ object SQL {
       case unrecognizedOperator => throw new RuntimeException("Unrecognized operator: " + unrecognizedOperator)
     }
   }
+  sealed trait Conjunction
+  case object AND extends Conjunction
+  case object OR extends Conjunction
+  object Conjunction {
+    def apply(raw: String) = raw match {
+      case "AND" => AND
+      case "OR" => OR
+      case unrecognizedConjunction => throw new RuntimeException("Unrecognized conjunction: " + unrecognizedConjunction)
+
+    }
+  }
 
   case class Condition(
     fieldName: String, operator: Operator, fieldValue: String
@@ -68,9 +79,14 @@ object SQL {
     def condition[_: P]: P[Condition] = P(attribute ~ operator ~ attribute).map {
       case (fieldName, operator, fieldValue) => Condition(fieldName, Operator(operator), fieldValue)
     }
-
-    def statement[_: P]: P[(String, String, String, Seq[String], Option[(String, Condition)])] =
-      P(select ~ columnName ~ from ~ fromList ~ (WHERE ~ condition).? ~ End)
+    def compositeCondition[_: P]: P[(Conjunction, Condition)] =
+      P(P("AND" | "OR").! ~ condition)
+      .map{ case (rawConjunction, condition) => (Conjunction(rawConjunction), condition)}
+    def conditions[_: P]: P[(Condition, Seq[(Conjunction, Condition)])] =
+      P(condition ~ compositeCondition.rep)
+//      .map{ case (condition, conditionsAndConjunctions: Seq[(Conjunction, Condition)]) => (condition, Condition(???, ???, ???))}
+    def statement[_: P]: P[(String, String, String, Seq[String], Option[(String, (Condition, Seq[(Conjunction, Condition)]))])] =
+      P(select ~ columnName ~ from ~ fromList ~ (WHERE ~ conditions).? ~ End)
 
     def parseStatement(expression: String) =
       parse(expression, statement(_))
