@@ -63,7 +63,8 @@ lazy val databaseExploration =
     publishLocal := {},
     libraryDependencies ++= Seq(
       "com.raquo" %%% "laminar" % "0.10.3",   // Scala.js 1.x only
-      "com.lihaoyi" %%% "fastparse" % "2.3.0"
+      "com.lihaoyi" %%% "fastparse" % "2.3.0",
+      "com.lihaoyi" %%% "pprint" % "0.6.0"
     ),
     scalaJSUseMainModuleInitializer:=true
   )

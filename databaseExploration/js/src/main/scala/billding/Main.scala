@@ -1,13 +1,15 @@
 package billding
 
+import billding.SQL.Statement
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
-import org.scalajs.dom.{document, html, Event}
+import org.scalajs.dom.{Event, document, html}
 import org.scalajs.dom.raw.AudioContext
 
 import scala.scalajs.js.{Date, URIUtils}
 import com.raquo.laminar.api.L._
 import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
+import fastparse.Parsed
 
 import scala.concurrent.duration.FiniteDuration
 
@@ -63,6 +65,9 @@ object SQL {
     fieldName: String, operator: Operator, fieldValue: String
                       )
 
+  case class Statement
+                      (select: String, columnName: String, from:String, fromList: Seq[String], conditionList: Option[(String, (Condition, Seq[(Conjunction, Condition)]))])
+
   object parsing {
     import fastparse._, MultiLineWhitespace._
     def select[_: P]: P[String] = P(IgnoreCase("SELECT").!)
@@ -82,21 +87,22 @@ object SQL {
     def compositeCondition[_: P]: P[(Conjunction, Condition)] =
       P(P("AND" | "OR").! ~ condition)
       .map{ case (rawConjunction, condition) => (Conjunction(rawConjunction), condition)}
+
     def conditions[_: P]: P[(Condition, Seq[(Conjunction, Condition)])] =
       P(condition ~ compositeCondition.rep)
-//      .map{ case (condition, conditionsAndConjunctions: Seq[(Conjunction, Condition)]) => (condition, Condition(???, ???, ???))}
-    def statement[_: P]: P[(String, String, String, Seq[String], Option[(String, (Condition, Seq[(Conjunction, Condition)]))])] =
+
+    def statement[_: P]: P[Statement] =
       P(select ~ columnName ~ from ~ fromList ~ (WHERE ~ conditions).? ~ End)
+      .map {
+        case (selectToken, columnName, fromToken, fromList, conditionList) =>
+        Statement(selectToken, columnName, fromToken, fromList, conditionList)
+      }
+
+
 
     def parseStatement(expression: String) =
       parse(expression, statement(_))
-//    def number[_: P]: P[Int] = P( CharIn("a-z").rep(1).!.map(_.toInt) )
-//    def parens[_: P]: P[Int] = P( "(" ~/ addSub ~ ")" )
-//    def factor[_: P]: P[Int] = P( number | parens )
 
-//    def divMul[_: P]: P[Int] = P( factor ~ (CharIn("*/").! ~/ factor).rep )
-//    def addSub[_: P]: P[Int] = P( divMul ~ (CharIn("+\\-").! ~/ divMul).rep )
-//    def expr[_: P]: P[Int]   = P( addSub ~ End )
   }
 }
 
@@ -155,10 +161,12 @@ object Main {
   }
 
   def CounterComponent(id: Int, displayCode: Binder[HtmlElement]): ReactiveHtmlElement[html.Div] = {
-    val nameBus = new EventBus[String]
+    val expressionBus = new EventBus[String]
+    val parseResultStream: EventStream[Parsed[Statement]] =
+      expressionBus.events.map(SQL.parsing.parseStatement)
     val $color: Signal[String] =
-      nameBus.events.foldLeft("red") { (prev, next) =>
-        if (SQL.parsing.parseStatement(next).isSuccess) "green" else "red"
+      parseResultStream.foldLeft("red") { (prev, parseResult) =>
+        if (parseResult.isSuccess) "green" else "red"
       }
 
     val diffBusT = new EventBus[CounterAction]()
@@ -174,14 +182,17 @@ object Main {
           "Please enter your query:",
           input(
             typ := "text",
-            inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
+            inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> expressionBus) // extract text entered into this input node whenever the user types in it
           )
         ),
         div(
           "Your Query: ",
-          Hello(nameBus.events, $color)
+          Hello(expressionBus.events, $color)
         ),
         div(styleAttr <-- $color.map(color => s"background: $color"), "success by color"),
+        div(
+          child <-- parseResultStream.map(result => div(pprint.apply(result, width = 80).plainText))
+        ),
         button("Reset",
                cls := "button is-warning is-rounded medium",
                onClick.mapTo(ResetCount) --> diffBusT)
