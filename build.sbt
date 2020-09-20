@@ -152,6 +152,7 @@ lazy val foo =
 lazy val cbBuild = taskKey[Unit]("Execute the shell script")
 
 cbBuild := {
+  (foo.js/Compile/scalafmt).value
   (foo.js/Compile/fastOptJS).value
   (databaseExploration.js/Compile/fastOptJS).value
   (Compile/scalafmt).value

@@ -12,18 +12,17 @@ trait BinderWithStartStop[-El <: ReactiveElement.Base] extends Binder[El] {
   def doStart(): Unit
   def doStop(): Unit
 
-  def stop(): Unit = {
+  def stop(): Unit =
     if (subscribed) {
       doStop()
     }
-  }
 
-  def start(): Unit = {
+  def start(): Unit =
     if (subscribed) {
       doStart()
     }
-  }
-  override def bind(element: El): DynamicSubscription = {
+
+  override def bind(element: El): DynamicSubscription =
     ReactiveElement.bindSubscription(element) { ctx =>
       subscribed = true
       start()
@@ -33,7 +32,5 @@ trait BinderWithStartStop[-El <: ReactiveElement.Base] extends Binder[El] {
         subscribed = false
       })
     }
-  }
 
 }
-
