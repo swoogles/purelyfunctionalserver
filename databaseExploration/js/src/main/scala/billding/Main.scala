@@ -37,9 +37,9 @@ object Time {
 object SQL {
   object parsing {
     import fastparse._,  MultiLineWhitespace._
-    def select[_: P]: P[String] = P("SELECT".!)
+    def select[_: P]: P[String] = P(IgnoreCase("SELECT").!)
     def columnName[_: P]: P[String] = P( CharIn("a-z").rep(1).! )
-    def from[_: P]: P[String] = P("FROM".!)
+    def from[_: P]: P[String] = P(IgnoreCase("FROM").!)
     def tableName[_: P]: P[String] = P( CharIn("a-z").rep(1).! )
     def statement[_: P]: P[(String, String, String, String)]   = P( select ~ columnName ~ from ~ tableName)
 
