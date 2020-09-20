@@ -34,6 +34,30 @@ object Time {
 
 }
 
+object SQL {
+  object parsing {
+    import fastparse._,  MultiLineWhitespace._
+    def select[_: P]: P[String] = P("SELECT".!)
+    def columnName[_: P]: P[String] = P( CharIn("a-z").rep(1).! )
+    def from[_: P]: P[String] = P("FROM".!)
+    def tableName[_: P]: P[String] = P( CharIn("a-z").rep(1).! )
+    def statement[_: P]: P[(String, String, String, String)]   = P( select ~ columnName ~ from ~ tableName)
+
+
+    def parseStatement(expression: String) =
+      parse(expression, statement(_))
+
+
+//    def number[_: P]: P[Int] = P( CharIn("a-z").rep(1).!.map(_.toInt) )
+//    def parens[_: P]: P[Int] = P( "(" ~/ addSub ~ ")" )
+//    def factor[_: P]: P[Int] = P( number | parens )
+
+//    def divMul[_: P]: P[Int] = P( factor ~ (CharIn("*/").! ~/ factor).rep )
+//    def addSub[_: P]: P[Int] = P( divMul ~ (CharIn("+\\-").! ~/ divMul).rep )
+//    def expr[_: P]: P[Int]   = P( addSub ~ End )
+  }
+}
+
 object Main {
   var count = 0
   var dailyTotal = 0
@@ -88,9 +112,13 @@ object Main {
 
   def CounterComponent(id: Int, displayCode: Binder[HtmlElement]): ReactiveHtmlElement[html.Div] = {
     val repeater = RepeatingElement()
+    val nameBus = new EventBus[String]
+    val $color: Signal[String] =
+      nameBus.events.foldLeft("red"){(prev, next) =>
+        if (SQL.parsing.parseStatement(next).isSuccess) "green" else "red"
+      }
 
     val clockTicks = new EventBus[Int]
-    val $color: Signal[String] = clockTicks.events.foldLeft("green")((color, _) => if(color=="red") "green" else "red")
     val diffBusT =  new EventBus[CounterAction]()
     val $countT: Signal[Counter] = diffBusT.events.foldLeft(Counter(0))((acc, next) =>
       CounterAction.update(next, acc)
@@ -103,7 +131,20 @@ object Main {
       idAttr:=s"counter_component_$id",
       cls:="centered",
       div(
-      styleAttr <-- $color.map(color=> s"background: $color"),
+              div(
+                "Please enter your name:",
+                input(
+                  typ := "text",
+                  inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
+                )
+              ),
+              div(
+                "Please accept our greeting: ",
+                Hello(nameBus.events, $color)
+              ),
+        div(
+          styleAttr <-- $color.map(color=> s"background: $color"),
+          "success by color"),
       div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
       button("Submit",
         cls := "button is-link is-rounded",
@@ -124,24 +165,13 @@ object Main {
       ),
       a(href:="/", cls := "button is-link is-rounded medium", "Re-login"),
       div(idAttr:="exercise_history"),
-
-      repeater.repeatWithInterval(
-        Increment(1).asInstanceOf[CounterAction],
-        duration*2
-//        new FiniteDuration(20, scala.concurrent.duration.SECONDS) // todo restore after dev
-    ) --> diffBusT,
-        repeater.repeatWithInterval(
-      1,
-          duration
-      //        new FiniteDuration(20, scala.concurrent.duration.SECONDS) // todo restore after dev
-    ) --> clockTicks
     )
     )
   }
 
   def Hello(
              helloNameStream: EventStream[String],
-             helloColorStream: EventStream[String]
+             helloColorStream: Signal[String]
            ): Div = {
     div(
       fontSize := "20px", // static CSS property
@@ -170,17 +200,6 @@ object Main {
         cls := "button is-primary is-rounded small",
         onClick.mapTo(2) --> componentSelections),
 //      h1("User Welcomer 9000"),
-//      div(
-//        "Please enter your name:",
-//        input(
-//          typ := "text",
-//          inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
-//        )
-//      ),
-//      div(
-//        "Please accept our greeting: ",
-//        Hello(nameBus.events, colorStream)
-//      ),
       CounterComponent(1,
         styleAttr <-- $selectedComponent.map(selection => s"""display: ${if (selection == 1) "inline" else "none" }""") ,
       ),
