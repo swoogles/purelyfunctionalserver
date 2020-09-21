@@ -1,6 +1,6 @@
 package billding
 
-import billding.SQL.{Conjunction, Equal, Operator, Statement}
+import billding.SQL.{Conjunction, Equal, InvalidStatement, Operator, RelName, Statement, StatementValidation, ValidatedStatement}
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
 import org.scalajs.dom.{Event, document, html}
@@ -10,6 +10,7 @@ import scala.scalajs.js.{Date, URIUtils}
 import com.raquo.laminar.api.L._
 import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
 import fastparse.Parsed
+import fastparse.Parsed.{Failure, Success}
 import io.circe.Encoder
 import io.circe.generic.auto._
 import io.circe.syntax._
@@ -38,6 +39,15 @@ object Time {
 }
 
 object SQL {
+  case class Attribute(
+    value: String
+                    ) extends AnyVal
+  case class RelName(
+                      value: String
+                    ) extends AnyVal
+  case class Table(
+    name: RelName,
+                  )
   sealed trait Operator
   case object Equal extends Operator
   case object LessThan extends Operator
@@ -75,20 +85,30 @@ object SQL {
   )
 
   case class Statement(select: String,
-                       columnName: String,
+                       columnName: Attribute,
                        from: String,
-                       fromList: Seq[String],
+                       fromList: Seq[RelName],
                        conditionList: Option[(String, (Condition, Seq[(Conjunction, Condition)]))])
+
+  sealed trait StatementValidation
+
+  case class ValidatedStatement(
+    statement: Statement
+                               ) extends StatementValidation
+
+  case class InvalidStatement(
+                                 error: String
+                               ) extends StatementValidation
 
   object parsing {
     import fastparse._, MultiLineWhitespace._
     def select[_: P]: P[String] = P(IgnoreCase("SELECT").!)
-    def columnName[_: P]: P[String] = P(CharIn("a-z").rep(1).!)
+    def columnName[_: P]: P[Attribute] = P(CharIn("a-z_").rep(1).!).map(Attribute)
     def from[_: P]: P[String] = P(IgnoreCase("FROM").!)
-    def relName[_: P]: P[String] = P(CharIn("a-z").rep(1).!)
+    def relName[_: P]: P[RelName] = P(CharIn("a-z_").rep(1).!).map(RelName)
 
-    def fromList[_: P]: P[Seq[String]] = // This is actually nonEmpty.
-      P(relName.! ~ ("," ~ relName.!).rep)
+    def fromList[_: P]: P[Seq[RelName]] = // This is actually nonEmpty.
+      P(relName ~ ("," ~ relName).rep)
         .map { case (first, rest) => first +: rest }
     def WHERE[_: P]: P[String] = P(IgnoreCase("WHERE").!)
 
@@ -147,28 +167,7 @@ object Main {
       armStretches.events.foldLeft(0)((acc, next) => acc + next)
 
     div(
-      idAttr := s"counter_component_$id",
-      displayCode,
-      cls("centered"),
-      div(
-        cls("session-counter"),
-        div(cls := "medium", "Shoulder Stretches:"),
-        div(idAttr := "shoulder_stretches_daily_total",
-            child <-- $shoulderStretchTotal.map(count => div(count.toString)))
-      ),
-      div(
-        cls := "centered",
-        button(
-          cls := "button is-link is-rounded medium",
-          onClick.mapTo(value = { -1 }) --> armStretches,
-          "-1"
-        ),
-        button(
-          cls := "button is-link is-rounded medium",
-          onClick.mapTo(value = { 1 }) --> armStretches,
-          "+1"
-        )
-      )
+      "Just a placeholder"
     )
 
   }
@@ -177,6 +176,16 @@ object Main {
     val expressionBus = new EventBus[String]
     val parseResultStream: EventStream[Parsed[Statement]] =
       expressionBus.events.map(SQL.parsing.parseStatement)
+
+    val definedTables = List(RelName("table_a"))
+
+    val parseValidationStream: EventStream[StatementValidation] =
+      parseResultStream.map {
+        case Success(value, index) if value.fromList.forall(definedTables.contains(_))  => ValidatedStatement(value)
+        case Success(value, index) => InvalidStatement("Invalid references in syntactically-valid statement")
+        case failure: Failure => InvalidStatement(failure.toString())
+      }
+
     val $color: Signal[String] =
       parseResultStream.foldLeft("red") { (prev, parseResult) =>
         if (parseResult.isSuccess) "green" else "red"
@@ -185,18 +194,6 @@ object Main {
     val diffBusT = new EventBus[CounterAction]()
     val $countT: Signal[Counter] =
       diffBusT.events.foldLeft(Counter(0))((acc, next) => CounterAction.update(next, acc))
-
-//    implicit val encodeOperator: Encoder[Operator] = Encoder.instance {
-//      case SQL.Equal => "=".asJson
-//      case SQL.LessThan => "<".asJson
-//      case SQL.GreaterThan => ">".asJson
-//    }
-//
-//    implicit val encodeConjunction: Encoder[Conjunction] = Encoder.instance {
-//      case SQL.AND => "AND".asJson
-//      case SQL.OR => "OR".asJson
-//    }
-
 
     div(
       displayCode,
@@ -207,7 +204,7 @@ object Main {
           "Please enter your query:",
           textArea(
             cols := 100,
-            rows := 10,
+            rows := 6,
             inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> expressionBus) // extract text entered into this input node whenever the user types in it
           )
         ),
@@ -219,10 +216,20 @@ object Main {
         div(
           child <-- parseResultStream.map{result =>
             if(result.isSuccess)
-              pre(textAlign := "left", result.get.value.asJson.spaces2)
+//              pre(textAlign := "left", result.get.value.asJson.spaces2) // TODO restore after dev
+            pre(textAlign := "left", "Successful JSON results here...") // TODO restore after dev
             else
               pre("Failure to parse.")
           }
+        ),
+        div(
+          child <-- parseValidationStream.map(validationResult => div(
+            validationResult match {
+              case InvalidStatement(error) => div(error)
+              case ValidatedStatement(statement) => div("Matched with available tables")
+            }
+
+          ))
         ),
         button("Reset",
                cls := "button is-warning is-rounded medium",
@@ -255,10 +262,10 @@ object Main {
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
-      button("QuadSets",
+      button("Query Parsing",
              cls := "button is-primary is-rounded small",
              onClick.mapTo(1) --> componentSelections),
-      button("Shoulder Stretches",
+      button("Other stuff",
              cls := "button is-primary is-rounded small",
              onClick.mapTo(2) --> componentSelections),
 //      h1("User Welcomer 9000"),
