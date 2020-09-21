@@ -1,6 +1,6 @@
 package billding
 
-import billding.SQL.Statement
+import billding.SQL.{Conjunction, Equal, Operator, Statement}
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
 import org.scalajs.dom.{Event, document, html}
@@ -10,8 +10,9 @@ import scala.scalajs.js.{Date, URIUtils}
 import com.raquo.laminar.api.L._
 import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
 import fastparse.Parsed
-
-import scala.concurrent.duration.FiniteDuration
+import io.circe.Encoder
+import io.circe.generic.auto._
+import io.circe.syntax._
 
 case class DailyQuantizedExercise(name: String, day: String, count: Int)
 
@@ -41,32 +42,43 @@ object SQL {
   case object Equal extends Operator
   case object LessThan extends Operator
   case object GreaterThan extends Operator
+
   object Operator {
+
     def apply(raw: String): Operator = raw match {
       case "=" => Equal
       case "<" => LessThan
       case ">" => GreaterThan
-      case unrecognizedOperator => throw new RuntimeException("Unrecognized operator: " + unrecognizedOperator)
+      case unrecognizedOperator =>
+        throw new RuntimeException("Unrecognized operator: " + unrecognizedOperator)
     }
   }
   sealed trait Conjunction
   case object AND extends Conjunction
   case object OR extends Conjunction
+
   object Conjunction {
+
     def apply(raw: String) = raw match {
       case "AND" => AND
-      case "OR" => OR
-      case unrecognizedConjunction => throw new RuntimeException("Unrecognized conjunction: " + unrecognizedConjunction)
+      case "OR"  => OR
+      case unrecognizedConjunction =>
+        throw new RuntimeException("Unrecognized conjunction: " + unrecognizedConjunction)
 
     }
   }
 
   case class Condition(
-    fieldName: String, operator: Operator, fieldValue: String
-                      )
+    fieldName: String,
+    operator: Operator,
+    fieldValue: String
+  )
 
-  case class Statement
-                      (select: String, columnName: String, from:String, fromList: Seq[String], conditionList: Option[(String, (Condition, Seq[(Conjunction, Condition)]))])
+  case class Statement(select: String,
+                       columnName: String,
+                       from: String,
+                       fromList: Seq[String],
+                       conditionList: Option[(String, (Condition, Seq[(Conjunction, Condition)]))])
 
   object parsing {
     import fastparse._, MultiLineWhitespace._
@@ -74,31 +86,32 @@ object SQL {
     def columnName[_: P]: P[String] = P(CharIn("a-z").rep(1).!)
     def from[_: P]: P[String] = P(IgnoreCase("FROM").!)
     def relName[_: P]: P[String] = P(CharIn("a-z").rep(1).!)
-    def fromList[_: P]: P[Seq[String]] =  // This is actually nonEmpty.
+
+    def fromList[_: P]: P[Seq[String]] = // This is actually nonEmpty.
       P(relName.! ~ ("," ~ relName.!).rep)
-      .map{ case (first, rest) => first +: rest}
+        .map { case (first, rest) => first +: rest }
     def WHERE[_: P]: P[String] = P(IgnoreCase("WHERE").!)
 
     def attribute[_: P]: P[String] = P(CharIn("a-z").rep(1).!)
     def operator[_: P]: P[String] = P(CharIn("=<>").!)
+
     def condition[_: P]: P[Condition] = P(attribute ~ operator ~ attribute).map {
       case (fieldName, operator, fieldValue) => Condition(fieldName, Operator(operator), fieldValue)
     }
+
     def compositeCondition[_: P]: P[(Conjunction, Condition)] =
       P(P("AND" | "OR").! ~ condition)
-      .map{ case (rawConjunction, condition) => (Conjunction(rawConjunction), condition)}
+        .map { case (rawConjunction, condition) => (Conjunction(rawConjunction), condition) }
 
     def conditions[_: P]: P[(Condition, Seq[(Conjunction, Condition)])] =
       P(condition ~ compositeCondition.rep)
 
     def statement[_: P]: P[Statement] =
       P(select ~ columnName ~ from ~ fromList ~ (WHERE ~ conditions).? ~ End)
-      .map {
-        case (selectToken, columnName, fromToken, fromList, conditionList) =>
-        Statement(selectToken, columnName, fromToken, fromList, conditionList)
-      }
-
-
+        .map {
+          case (selectToken, columnName, fromToken, fromList, conditionList) =>
+            Statement(selectToken, columnName, fromToken, fromList, conditionList)
+        }
 
     def parseStatement(expression: String) =
       parse(expression, statement(_))
@@ -173,6 +186,18 @@ object Main {
     val $countT: Signal[Counter] =
       diffBusT.events.foldLeft(Counter(0))((acc, next) => CounterAction.update(next, acc))
 
+//    implicit val encodeOperator: Encoder[Operator] = Encoder.instance {
+//      case SQL.Equal => "=".asJson
+//      case SQL.LessThan => "<".asJson
+//      case SQL.GreaterThan => ">".asJson
+//    }
+//
+//    implicit val encodeConjunction: Encoder[Conjunction] = Encoder.instance {
+//      case SQL.AND => "AND".asJson
+//      case SQL.OR => "OR".asJson
+//    }
+
+
     div(
       displayCode,
       idAttr := s"counter_component_$id",
@@ -180,8 +205,9 @@ object Main {
       div(
         div(
           "Please enter your query:",
-          input(
-            typ := "text",
+          textArea(
+            cols := 100,
+            rows := 10,
             inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> expressionBus) // extract text entered into this input node whenever the user types in it
           )
         ),
@@ -191,7 +217,12 @@ object Main {
         ),
         div(styleAttr <-- $color.map(color => s"background: $color"), "success by color"),
         div(
-          child <-- parseResultStream.map(result => div(pprint.apply(result, width = 80).plainText))
+          child <-- parseResultStream.map{result =>
+            if(result.isSuccess)
+              pre(textAlign := "left", result.get.value.asJson.spaces2)
+            else
+              pre("Failure to parse.")
+          }
         ),
         button("Reset",
                cls := "button is-warning is-rounded medium",
@@ -234,13 +265,11 @@ object Main {
       CounterComponent(1,
                        styleAttr <-- $selectedComponent.map(
                          selection => s"""display: ${if (selection == 1) "inline" else "none"}"""
-                       )
-      ),
+                       )),
       ArmStretchComponent(2,
                           styleAttr <-- $selectedComponent.map(
                             selection => s"""display: ${if (selection == 2) "inline" else "none"}"""
-                          )
-      )
+                          ))
     )
 
     render(dom.document.querySelector("#laminarApp"), appDiv)
