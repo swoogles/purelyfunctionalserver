@@ -153,11 +153,6 @@ object SQL {
 }
 
 object Main {
-  var count = 0
-  var dailyTotal = 0
-  var shoulderStretchTotal = 0
-  var audioContext = new AudioContext()
-
   case class Counter(value: Int)
   sealed trait CounterAction
   case object ResetCount extends CounterAction
@@ -174,24 +169,13 @@ object Main {
 
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
-  def ArmStretchComponent(id: Int, displayCode: Binder[HtmlElement]) = {
-    val armStretches = new EventBus[Int]
-    val $shoulderStretchTotal: Signal[Int] =
-      armStretches.events.foldLeft(0)((acc, next) => acc + next)
-
-    div(
-      "Just a placeholder"
-    )
-
-  }
-
   def SqlStatementComponent(id: Int, displayCode: Binder[HtmlElement]): ReactiveHtmlElement[html.Div] = {
     val expressionBus = new EventBus[String]
     val parseResultStream: EventStream[Parsed[Statement]] =
       expressionBus.events.map(SQL.parsing.parseStatement)
 
-    val definedTables = List(RelName("table_a"))
-    val streamUpdateDelayMS = 200
+    val definedTables = List(RelName("table_a"),  RelName("table_b"))
+    val streamUpdateDelayMS = 100
 
     val parseValidationStream: EventStream[StatementValidation] =
       parseResultStream.map {
@@ -290,7 +274,8 @@ object Main {
               td("Physical Plan"),
               td(
                 child <-- physicalPlanStream.map {
-                  case Some(physicalPlan) => div("Plan implementation")
+                  case Some(physicalPlan) =>
+                    div("Algorithms & Accessors for: " + physicalPlan.statement.fromList.map(_.value).mkString(",") )
                   case None => div("Failure in previous step")
                 }
               )
@@ -299,7 +284,7 @@ object Main {
               td("Generate Code"),
               td(
                 child <-- generatedCodeStream.map {
-                  case Some(generatedCode) => div("0101011")
+                  case Some(generatedCode) => div(Integer.toBinaryString(generatedCode.toString.length))
                   case None => div("Failure in previous step")
                 }
               )

@@ -705,18 +705,6 @@ const $s_Lbillding_Main__main__AT__V = (function(args) {
   $m_Lbillding_Main$().main__AT__V(args)
 });
 class $c_Lbillding_Main$ extends $c_O {
-  constructor() {
-    super();
-    this.Lbillding_Main$__f_count = 0;
-    this.Lbillding_Main$__f_dailyTotal = 0;
-    this.Lbillding_Main$__f_shoulderStretchTotal = 0;
-    this.Lbillding_Main$__f_audioContext = null;
-    $n_Lbillding_Main$ = this;
-    this.Lbillding_Main$__f_count = 0;
-    this.Lbillding_Main$__f_dailyTotal = 0;
-    this.Lbillding_Main$__f_shoulderStretchTotal = 0;
-    this.Lbillding_Main$__f_audioContext = new AudioContext()
-  };
   SqlStatementComponent__I__Lcom_raquo_laminar_modifiers_Binder__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(id, displayCode) {
     const expressionBus = new $c_Lcom_raquo_airstream_eventbus_EventBus();
     const this$2 = expressionBus.Lcom_raquo_airstream_eventbus_EventBus__f_events;
@@ -726,7 +714,7 @@ class $c_Lbillding_Main$ extends $c_O {
     }))(this));
     const parseResultStream = new $c_Lcom_raquo_airstream_eventstream_MapEventStream(this$2, project, $m_s_None$());
     $m_sci_List$();
-    const array = [new $c_Lbillding_SQL$RelName("table_a")];
+    const array = [new $c_Lbillding_SQL$RelName("table_a"), new $c_Lbillding_SQL$RelName("table_b")];
     const elems = $ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array);
     const definedTables = $m_sci_Nil$().prependedAll__sc_IterableOnce__sci_List(elems);
     const project$1 = new $c_sjsr_AnonFunction1(((this$2$1, definedTables$1) => ((x0$1$2) => {
@@ -753,7 +741,7 @@ class $c_Lbillding_Main$ extends $c_O {
       throw new $c_s_MatchError(x0$1)
     }))(this, definedTables));
     const parseValidationStream = new $c_Lcom_raquo_airstream_eventstream_MapEventStream(parseResultStream, project$1, $m_s_None$());
-    const this$8 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(parseValidationStream, 200);
+    const this$8 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(parseValidationStream, 100);
     const project$2 = new $c_sjsr_AnonFunction1(((this$3$1) => ((x0$2$2) => {
       const x0$2 = $as_Lbillding_SQL$StatementValidation(x0$2$2);
       if ((x0$2 instanceof $c_Lbillding_SQL$ValidatedStatement)) {
@@ -767,7 +755,7 @@ class $c_Lbillding_Main$ extends $c_O {
       }
     }))(this));
     const translationStream = new $c_Lcom_raquo_airstream_eventstream_MapEventStream(this$8, project$2, $m_s_None$());
-    const this$9 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(translationStream, 200);
+    const this$9 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(translationStream, 100);
     const project$3 = new $c_sjsr_AnonFunction1(((this$4$1) => ((x0$3$2) => {
       const x0$3 = $as_s_Option(x0$3$2);
       if ((x0$3 instanceof $c_s_Some)) {
@@ -784,7 +772,7 @@ class $c_Lbillding_Main$ extends $c_O {
       }
     }))(this));
     const physicalPlanStream = new $c_Lcom_raquo_airstream_eventstream_MapEventStream(this$9, project$3, $m_s_None$());
-    const this$10 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(physicalPlanStream, 200);
+    const this$10 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(physicalPlanStream, 100);
     const project$4 = new $c_sjsr_AnonFunction1(((this$5$1) => ((x0$4$2) => {
       const x0$4 = $as_s_Option(x0$4$2);
       if ((x0$4 instanceof $c_s_Some)) {
@@ -991,15 +979,23 @@ class $c_Lbillding_Main$ extends $c_O {
     const project$9 = new $c_sjsr_AnonFunction1(((this$13$1) => ((x0$7$2) => {
       const x0$7 = $as_s_Option(x0$7$2);
       if ((x0$7 instanceof $c_s_Some)) {
+        const x2$5 = $as_s_Some(x0$7);
+        const physicalPlan$1 = $as_Lbillding_SQL$PhysicalPlan(x2$5.s_Some__f_value);
         const this$142 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
         const $$x9 = this$142.div__Lcom_raquo_laminar_builders_HtmlTag();
-        const array$25 = [($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Plan implementation"))];
+        $m_Lcom_raquo_laminar_api_package$();
+        const this$144 = $as_sc_IterableOnceOps(physicalPlan$1.Lbillding_SQL$PhysicalPlan__f_statement.Lbillding_SQL$Statement__f_fromList.map__F1__O(new $c_sjsr_AnonFunction1(((this$143) => ((x$3$2) => {
+          const x$3$1 = $as_Lbillding_SQL$RelName(x$3$2).Lbillding_SQL$RelName__f_value;
+          return x$3$1
+        }))(this$13$1))));
+        const text$1 = ("Algorithms & Accessors for: " + $f_sc_IterableOnceOps__mkString__T__T__T__T(this$144, "", ",", ""));
+        const array$25 = [new $c_Lcom_raquo_laminar_nodes_TextNode(text$1)];
         return $$x9.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$25))
       } else {
         const x$4 = $m_s_None$();
         if ((x$4 === x0$7)) {
-          const this$147 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-          const $$x10 = this$147.div__Lcom_raquo_laminar_builders_HtmlTag();
+          const this$149 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+          const $$x10 = this$149.div__Lcom_raquo_laminar_builders_HtmlTag();
           const array$26 = [($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Failure in previous step"))];
           return $$x10.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$26))
         } else {
@@ -1010,27 +1006,33 @@ class $c_Lbillding_Main$ extends $c_O {
     const array$27 = [$$x11.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(new $c_Lcom_raquo_airstream_eventstream_MapEventStream(physicalPlanStream, project$9, $m_s_None$()))];
     const array$28 = [$$x13, $$x12.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$27))];
     const $$x8 = $$x15.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$28));
-    const this$158 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x7 = this$158.tr__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$159 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x6 = this$159.td__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$160 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x7 = this$160.tr__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$161 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x6 = this$161.td__Lcom_raquo_laminar_builders_HtmlTag();
     const array$29 = [($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Generate Code"))];
     const $$x5 = $$x6.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$29));
-    const this$164 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x4 = this$164.td__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$166 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x4 = this$166.td__Lcom_raquo_laminar_builders_HtmlTag();
     const $$x3 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child;
     const project$10 = new $c_sjsr_AnonFunction1(((this$14$1) => ((x0$8$2) => {
       const x0$8 = $as_s_Option(x0$8$2);
       if ((x0$8 instanceof $c_s_Some)) {
-        const this$165 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-        const $$x1 = this$165.div__Lcom_raquo_laminar_builders_HtmlTag();
-        const array$30 = [($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("0101011"))];
+        const x2$6 = $as_s_Some(x0$8);
+        const generatedCode = $as_Lbillding_SQL$GeneratedCode(x2$6.s_Some__f_value);
+        const this$167 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const $$x1 = this$167.div__Lcom_raquo_laminar_builders_HtmlTag();
+        $m_Lcom_raquo_laminar_api_package$();
+        const this$168 = $m_sr_ScalaRunTime$()._toString__s_Product__T(generatedCode);
+        const i = $uI(this$168.length);
+        const text$2 = $as_T($uD((i >>> 0)).toString(2));
+        const array$30 = [new $c_Lcom_raquo_laminar_nodes_TextNode(text$2)];
         return $$x1.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$30))
       } else {
         const x$5 = $m_s_None$();
         if ((x$5 === x0$8)) {
-          const this$170 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-          const $$x2 = this$170.div__Lcom_raquo_laminar_builders_HtmlTag();
+          const this$174 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+          const $$x2 = this$174.div__Lcom_raquo_laminar_builders_HtmlTag();
           const array$31 = [($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Failure in previous step"))];
           return $$x2.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$31))
         } else {
@@ -1073,8 +1075,8 @@ class $c_Lbillding_Main$ extends $c_O {
     new $c_Lcom_raquo_airstream_eventstream_MapEventStream(this$2, project, $m_s_None$());
     const componentSelections = new $c_Lcom_raquo_airstream_eventbus_EventBus();
     const this$3 = componentSelections.Lcom_raquo_airstream_eventbus_EventBus__f_events;
-    const fn = new $c_sjsr_AnonFunction2(((this$2$1) => ((x$3$2, selection$2) => {
-      $uI(x$3$2);
+    const fn = new $c_sjsr_AnonFunction2(((this$2$1) => ((x$4$2, selection$2) => {
+      $uI(x$4$2);
       const selection = $uI(selection$2);
       return selection
     }))(this));
