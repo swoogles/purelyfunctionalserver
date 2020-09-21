@@ -185,12 +185,13 @@ object Main {
 
   }
 
-  def CounterComponent(id: Int, displayCode: Binder[HtmlElement]): ReactiveHtmlElement[html.Div] = {
+  def SqlStatementComponent(id: Int, displayCode: Binder[HtmlElement]): ReactiveHtmlElement[html.Div] = {
     val expressionBus = new EventBus[String]
     val parseResultStream: EventStream[Parsed[Statement]] =
       expressionBus.events.map(SQL.parsing.parseStatement)
 
     val definedTables = List(RelName("table_a"))
+    val streamUpdateDelayMS = 200
 
     val parseValidationStream: EventStream[StatementValidation] =
       parseResultStream.map {
@@ -200,19 +201,19 @@ object Main {
       }
 
     val translationStream: EventStream[Option[TranslatedStatement]] =
-      parseValidationStream.map{
+      parseValidationStream.delay(streamUpdateDelayMS).map{
         case ValidatedStatement(statement) => Some(TranslatedStatement(statement))
         case _: InvalidStatement => None
       }
 
     val physicalPlanStream: EventStream[Option[PhysicalPlan]] =
-      translationStream.map {
+      translationStream.delay(streamUpdateDelayMS).map {
         case Some(translatedStatement) => Some(PhysicalPlan(translatedStatement.statement))
         case None => None
       }
 
     val generatedCodeStream: EventStream[Option[GeneratedCode]] =
-      physicalPlanStream.map {
+      physicalPlanStream.delay(streamUpdateDelayMS).map {
         case Some(physicalPlan) => Some(GeneratedCode(physicalPlan))
         case None => None
       }
@@ -305,14 +306,6 @@ object Main {
             )
           )
         ),
-        div(
-        ),
-        div(
-
-        ),
-        button("Reset",
-               cls := "button is-warning is-rounded medium",
-               onClick.mapTo(ResetCount) --> diffBusT)
       )
     )
   }
@@ -341,20 +334,10 @@ object Main {
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
-      button("Query Parsing",
-             cls := "button is-primary is-rounded small",
-             onClick.mapTo(1) --> componentSelections),
-      button("Other stuff",
-             cls := "button is-primary is-rounded small",
-             onClick.mapTo(2) --> componentSelections),
-      CounterComponent(1,
+      SqlStatementComponent(1,
                        styleAttr <-- $selectedComponent.map(
                          selection => s"""display: ${if (selection == 1) "inline" else "none"}"""
-                       )),
-      ArmStretchComponent(2,
-                          styleAttr <-- $selectedComponent.map(
-                            selection => s"""display: ${if (selection == 2) "inline" else "none"}"""
-                          ))
+                       ))
     )
 
     render(dom.document.querySelector("#laminarApp"), appDiv)
