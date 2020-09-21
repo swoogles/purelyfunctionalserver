@@ -1,6 +1,6 @@
 package billding
 
-import billding.SQL.{Conjunction, Equal, InvalidStatement, Operator, RelName, Statement, StatementValidation, ValidatedStatement}
+import billding.SQL.{Conjunction, Equal, GeneratedCode, InvalidStatement, Operator, PhysicalPlan, RelName, Statement, StatementValidation, TranslatedStatement, ValidatedStatement}
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
 import org.scalajs.dom.{Event, document, html}
@@ -100,6 +100,19 @@ object SQL {
                                  error: String
                                ) extends StatementValidation
 
+
+  case class TranslatedStatement(
+                                    statement: Statement
+                                  )
+
+  case class PhysicalPlan(
+                           statement: Statement
+                         )
+
+  case class GeneratedCode(
+    physicalPlan: PhysicalPlan
+                          )
+
   object parsing {
     import fastparse._, MultiLineWhitespace._
     def select[_: P]: P[String] = P(IgnoreCase("SELECT").!)
@@ -183,7 +196,25 @@ object Main {
       parseResultStream.map {
         case Success(value, index) if value.fromList.forall(definedTables.contains(_))  => ValidatedStatement(value)
         case Success(value, index) => InvalidStatement("Invalid references in syntactically-valid statement")
-        case failure: Failure => InvalidStatement(failure.toString())
+        case _: Failure => InvalidStatement("Failure in previous stage")
+      }
+
+    val translationStream: EventStream[Option[TranslatedStatement]] =
+      parseValidationStream.map{
+        case ValidatedStatement(statement) => Some(TranslatedStatement(statement))
+        case _: InvalidStatement => None
+      }
+
+    val physicalPlanStream: EventStream[Option[PhysicalPlan]] =
+      translationStream.map {
+        case Some(translatedStatement) => Some(PhysicalPlan(translatedStatement.statement))
+        case None => None
+      }
+
+    val generatedCodeStream: EventStream[Option[GeneratedCode]] =
+      physicalPlanStream.map {
+        case Some(physicalPlan) => Some(GeneratedCode(physicalPlan))
+        case None => None
       }
 
     val $color: Signal[String] =
@@ -213,23 +244,71 @@ object Main {
           Hello(expressionBus.events, $color)
         ),
         div(styleAttr <-- $color.map(color => s"background: $color"), "success by color"),
-        div(
-          child <-- parseResultStream.map{result =>
-            if(result.isSuccess)
-//              pre(textAlign := "left", result.get.value.asJson.spaces2) // TODO restore after dev
-            pre(textAlign := "left", "Successful JSON results here...") // TODO restore after dev
-            else
-              pre("Failure to parse.")
-          }
+        table(
+          cls := "table is-bordered is-striped is-hoverable centered",
+          caption("Parsing stages"),
+          thead(
+            tr(
+              th("Stage"),
+              th("Result"),
+            )
+          ),
+          tbody(
+            tr(
+              td("Parse"),
+              td(
+                child <-- parseResultStream.map {
+                  case Success(value, index) => "Syntactically-valid"
+                  //              pre(textAlign := "left", result.get.value.asJson.spaces2) // TODO restore after dev
+                  case failure: Failure => "Parse error: " + failure
+                }
+              )
+            ),
+            tr(
+              td("Validation"),
+              td(
+                child <-- parseValidationStream.map(validationResult => div(
+                  validationResult match {
+                    case InvalidStatement(error) => div(error)
+                    case ValidatedStatement(statement) => div("Matched with available tables")
+                  }
+
+                ))
+              )
+            ),
+            tr(
+              td("Translation"),
+              td(
+                child <-- translationStream.map {
+                  case Some(translatedStatement) => div("Translated statement.")
+                  case None => div("Failure in previous step")
+                }
+              )
+            ),
+            tr(
+              td("Physical Plan"),
+              td(
+                child <-- physicalPlanStream.map {
+                  case Some(physicalPlan) => div("Plan implementation")
+                  case None => div("Failure in previous step")
+                }
+              )
+            ),
+            tr(
+              td("Generate Code"),
+              td(
+                child <-- generatedCodeStream.map {
+                  case Some(generatedCode) => div("0101011")
+                  case None => div("Failure in previous step")
+                }
+              )
+            )
+          )
         ),
         div(
-          child <-- parseValidationStream.map(validationResult => div(
-            validationResult match {
-              case InvalidStatement(error) => div(error)
-              case ValidatedStatement(statement) => div("Matched with available tables")
-            }
+        ),
+        div(
 
-          ))
         ),
         button("Reset",
                cls := "button is-warning is-rounded medium",
@@ -268,7 +347,6 @@ object Main {
       button("Other stuff",
              cls := "button is-primary is-rounded small",
              onClick.mapTo(2) --> componentSelections),
-//      h1("User Welcomer 9000"),
       CounterComponent(1,
                        styleAttr <-- $selectedComponent.map(
                          selection => s"""display: ${if (selection == 1) "inline" else "none"}"""
