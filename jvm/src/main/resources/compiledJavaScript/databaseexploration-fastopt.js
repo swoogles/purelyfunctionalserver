@@ -741,7 +741,7 @@ class $c_Lbillding_Main$ extends $c_O {
       throw new $c_s_MatchError(x0$1)
     }))(this, definedTables));
     const parseValidationStream = new $c_Lcom_raquo_airstream_eventstream_MapEventStream(parseResultStream, project$1, $m_s_None$());
-    const this$8 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(parseValidationStream, 100);
+    const this$8 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(parseValidationStream, 300);
     const project$2 = new $c_sjsr_AnonFunction1(((this$3$1) => ((x0$2$2) => {
       const x0$2 = $as_Lbillding_SQL$StatementValidation(x0$2$2);
       if ((x0$2 instanceof $c_Lbillding_SQL$ValidatedStatement)) {
@@ -755,7 +755,7 @@ class $c_Lbillding_Main$ extends $c_O {
       }
     }))(this));
     const translationStream = new $c_Lcom_raquo_airstream_eventstream_MapEventStream(this$8, project$2, $m_s_None$());
-    const this$9 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(translationStream, 100);
+    const this$9 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(translationStream, 300);
     const project$3 = new $c_sjsr_AnonFunction1(((this$4$1) => ((x0$3$2) => {
       const x0$3 = $as_s_Option(x0$3$2);
       if ((x0$3 instanceof $c_s_Some)) {
@@ -772,7 +772,7 @@ class $c_Lbillding_Main$ extends $c_O {
       }
     }))(this));
     const physicalPlanStream = new $c_Lcom_raquo_airstream_eventstream_MapEventStream(this$9, project$3, $m_s_None$());
-    const this$10 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(physicalPlanStream, 100);
+    const this$10 = new $c_Lcom_raquo_airstream_eventstream_DelayEventStream(physicalPlanStream, 300);
     const project$4 = new $c_sjsr_AnonFunction1(((this$5$1) => ((x0$4$2) => {
       const x0$4 = $as_s_Option(x0$4$2);
       if ((x0$4 instanceof $c_s_Some)) {

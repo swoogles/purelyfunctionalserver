@@ -175,7 +175,7 @@ object Main {
       expressionBus.events.map(SQL.parsing.parseStatement)
 
     val definedTables = List(RelName("table_a"),  RelName("table_b"))
-    val streamUpdateDelayMS = 100
+    val streamUpdateDelayMS = 300
 
     val parseValidationStream: EventStream[StatementValidation] =
       parseResultStream.map {
