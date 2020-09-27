@@ -148,6 +148,7 @@ lazy val foo =
       "io.github.jmcardon" %% "tsec-jwt-mac" % tsecV,
       "io.github.jmcardon" %% "tsec-jwt-sig" % tsecV,
       "io.github.jmcardon" %% "tsec-http4s" % tsecV,
+      "org.scalaz" %% "scalaz-core" % "7.3.2"
 
 )
 ).enablePlugins(JavaServerAppPackaging)
@@ -157,6 +158,7 @@ lazy val cbBuild = taskKey[Unit]("Execute the shell script")
 cbBuild := {
   (foo.js/Compile/scalafmt).value
   (foo.js/Compile/fastOptJS).value
+  (foo.jvm/Compile/compile).value
   (databaseExploration.js/Compile/fastOptJS).value
   (Compile/scalafmt).value
   import scala.sys.process._
