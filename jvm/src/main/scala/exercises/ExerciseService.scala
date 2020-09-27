@@ -46,7 +46,7 @@ class ExerciseService(
       val user = authLogic.getUserFromRequest(req)
       for {
         newExercise       <- req.decodeJson[DailyQuantizedExercise]
-        completedExercise <- Task { newExercise.copy(userId = Some(user.id)) }
+        completedExercise <- Task { newExercise.copy(userId = Some(user.id)) } // TODO Does not need to be a task.
         wrappedResult <- exerciseLogic.createOrUpdate(completedExercise).map {
           case Right(successfullyCreatedExercise) =>
             Created(

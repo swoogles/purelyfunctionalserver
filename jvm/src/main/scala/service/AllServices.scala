@@ -3,6 +3,7 @@ package service
 import auth.{AuthenticationBackends, LoginEndpoint, OAuthLogic, OAuthService}
 import cats.data.Kleisli
 import cats.effect.{Blocker, ConcurrentEffect, ContextShift, IO}
+import daml.{DamlService, TemplateLogic, TemplateRepositoryImpl}
 import db.InMemoryAuthBackends
 import doobie.hikari.HikariTransactor
 import exercises.{ExerciseLogic, ExerciseRepositoryImpl, ExerciseService}
@@ -32,6 +33,14 @@ object AllServices {
       new ExerciseService(
         new ExerciseLogic(
           new ExerciseRepositoryImpl(transactor)
+        ),
+        authLogic
+      ).service
+
+    val damlService =
+      new DamlService(
+        new TemplateLogic(
+          new TemplateRepositoryImpl(transactor)
         ),
         authLogic
       ).service
@@ -78,6 +87,7 @@ object AllServices {
       "/exercises" -> exerciseService,
       "/weather" -> weatherService,
       "/oauth"     -> authService,
+      "/daml"     -> damlService,
 //      "/tsec" -> authenticatedEndpoint,
       "/login" -> loginService
     ).orNotFound
