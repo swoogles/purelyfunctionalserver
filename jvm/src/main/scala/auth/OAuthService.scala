@@ -23,7 +23,8 @@ case class OauthConfig(domain: String, clientId: String, clientSecret: String)
 
  */
 
-class OAuthService(C: Client[Task], authLogic: OAuthLogic) extends Http4sDsl[Task] {
+class OAuthService(C: Client[Task], authLogic: AuthLogic) extends Http4sDsl[Task] {
+  // todo can I stop retrieving these in mock mode?
   val domain = System.getenv("OAUTH_DOMAIN")
   val clientId = System.getenv("OAUTH_CLIENT_ID")
   val clientSecret = System.getenv("OAUTH_CLIENT_SECRET")

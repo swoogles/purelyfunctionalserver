@@ -56,7 +56,7 @@ object AuthBackingStores {
     }
 
   def realOauthStore[F[_], I, V](
-    oauthLogic: OAuthLogic
+    oauthLogic: AuthLogic
   )(getId: V => I)(implicit F: Sync[F]): BackingStore[F, I, V] =
     new BackingStore[F, I, V] {
       private val storageMap = mutable.HashMap.empty[I, V]

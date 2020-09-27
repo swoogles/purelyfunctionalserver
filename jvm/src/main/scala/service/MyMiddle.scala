@@ -1,6 +1,6 @@
 package service
 
-import auth.OAuthLogic
+import auth.AuthLogic
 import cats.data.{Kleisli, NonEmptyList, OptionT}
 import cats.effect.{ConcurrentEffect, IO}
 import org.http4s.dsl.Http4sDsl
@@ -10,7 +10,7 @@ import zio.{DefaultRuntime, Runtime, Task}
 import zio.interop.catz._
 
 class MyMiddle(
-  authLogic: OAuthLogic
+  authLogic: AuthLogic
 ) extends Http4sDsl[Task] {
   val uglyRuntime: Runtime[Any] = new DefaultRuntime {}
 

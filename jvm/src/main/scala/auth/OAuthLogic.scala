@@ -25,7 +25,39 @@ case class TokenResponse(
 
 case class UserInfo(sub: String)
 
-class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] {
+trait AuthLogic {
+  def getUserInfo(accessToken: String): ZIO[Any, Throwable, UserInfo]
+  def getTokenFromCallbackCode(code: String): ZIO[Any, Throwable, TokenResponse]
+  def getTokenFromRequest(request: Request[Task]): Option[String]
+  def getUserFromRequest(request: Request[Task]): Sub
+  def getOptionalUserFromRequest(request: Request[Task]): Option[Sub]
+}
+
+class MockAuthLogic extends AuthLogic {
+  override def getUserInfo(accessToken: String): ZIO[Any, Throwable, UserInfo] =
+    ZIO { UserInfo("local_sub")}
+
+  override def getTokenFromCallbackCode(code: String): ZIO[Any, Throwable, TokenResponse] =
+    ZIO { TokenResponse(
+
+      "access_token",
+      "id_token",
+      "scope",
+      200000,  // expires_in: Int,
+      "token_type"
+    ) }
+
+  override def getTokenFromRequest(request: Request[Task]): Option[String] =
+    Some("token_string")
+
+  override def getUserFromRequest(request: Request[Task]): Sub =
+    Sub("sub_id")
+
+  override def getOptionalUserFromRequest(request: Request[Task]): Option[Sub] =
+    Some(Sub("sub_id"))
+}
+
+class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] with AuthLogic {
   private val domain = System.getenv("OAUTH_DOMAIN")
   private val clientId = System.getenv("OAUTH_CLIENT_ID")
   private val clientSecret = System.getenv("OAUTH_CLIENT_SECRET")
@@ -34,10 +66,10 @@ class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] {
 
   private val chaoticPublicUser = "ChaoticPublicUser"
 
-  implicit def userInfoDecoder: EntityDecoder[Task, UserInfo] =
+  private implicit def userInfoDecoder: EntityDecoder[Task, UserInfo] =
     jsonOf
 
-  def getUserInfo(accessToken: String) = {
+  def getUserInfo(accessToken: String): ZIO[Any, Throwable, UserInfo] = {
     println("About to retrieve userInfo for token: " + accessToken)
     C.expect[UserInfo](
         GET(
@@ -56,7 +88,7 @@ class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] {
 
   }
 
-  def getTokenFromCallbackCode(code: String) = {
+  def getTokenFromCallbackCode(code: String): ZIO[Any, Throwable, TokenResponse] = {
 
     val postRequest: Task[Request[Task]] = POST[UrlForm](
       UrlForm(
@@ -79,7 +111,7 @@ class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] {
       }
   }
 
-  def getTokenFromRequest(request: Request[Task]) = {
+  def getTokenFromRequest(request: Request[Task]): Option[String] = {
     request.headers.foreach(
       header => println("Header  name: " + header.name + "  value: " + header.value)
     )
@@ -95,7 +127,7 @@ class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] {
       }
   }
 
-  implicit val runtime: Runtime[Any] = new DefaultRuntime {}
+  private implicit val runtime: Runtime[Any] = new DefaultRuntime {}
 
   def getUserFromRequest(request: Request[Task]): Sub =
     getTokenFromRequest(request)

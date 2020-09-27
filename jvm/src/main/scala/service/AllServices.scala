@@ -1,6 +1,6 @@
 package service
 
-import auth.{AuthenticationBackends, LoginEndpoint, OAuthLogic, OAuthService}
+import auth.{AuthenticationBackends, LoginEndpoint, MockAuthLogic, OAuthLogic, OAuthService}
 import cats.data.Kleisli
 import cats.effect.{Blocker, ConcurrentEffect, ContextShift, IO}
 import daml.{DamlService, TemplateLogic, TemplateRepositoryImpl}
@@ -28,7 +28,13 @@ object AllServices {
     runtime: Runtime[Any]): Kleisli[Task, Request[Task], Response[Task]] = {
     implicit val cs: ContextShift[Task] = zio.interop.catz.zioContextShift
 
-    val authLogic = new OAuthLogic(client)
+    val environment = System.getenv("ENVIRONMENT")
+    println("environment: " + environment)
+    val authLogic =
+      if("local" == environment)
+        new MockAuthLogic()
+      else
+        new OAuthLogic(client)
     val exerciseService =
       new ExerciseService(
         new ExerciseLogic(

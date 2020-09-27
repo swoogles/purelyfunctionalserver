@@ -1,6 +1,6 @@
 package daml
 
-import auth.OAuthLogic
+import auth.AuthLogic
 import fs2.Stream
 import io.circe.generic.auto._
 import org.http4s.circe._
@@ -12,7 +12,7 @@ import zio.interop.catz._
 
 class DamlService(
   templateLogic: TemplateLogic,
-  authLogic: OAuthLogic
+  authLogic: AuthLogic
 ) extends Http4sDsl[Task] {
 
   val service: HttpRoutes[Task] = HttpRoutes.of[Task] {

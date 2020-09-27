@@ -1,6 +1,6 @@
 package exercises
 
-import auth.OAuthLogic
+import auth.AuthLogic
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
@@ -13,7 +13,7 @@ import zio.interop.catz._
 
 class ExerciseService(
   exerciseLogic: ExerciseLogic,
-  authLogic: OAuthLogic
+  authLogic: AuthLogic
 ) extends Http4sDsl[Task] {
 
   val service: HttpRoutes[Task] = HttpRoutes.of[Task] {
