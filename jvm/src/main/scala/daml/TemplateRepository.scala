@@ -15,9 +15,9 @@ class TemplateRepositoryImpl(transactor: Transactor[Task]) extends TemplateRepos
     println("Going to insert: " + template)
     println("dynamicFieldName: " + dynamicFieldName)
 
-      sql"""
-    CREATE TABLE IF NOT EXISTS ${template.name} ( signatories TEXT[] )
-  """.update.run
+    val templateName = template.name
+
+      sql"""CREATE TABLE IF NOT EXISTS $templateName ( signatories TEXT[] )""".update.run
         .transact(transactor)
         .map(id => ())
 
