@@ -7,7 +7,6 @@ import zio.interop.catz._
 
 trait ContractRepository {
   def insert[T](contract: Contract[T]): Task[Unit]
-
 }
 
 class ContractRepositoryImpl(transactor: Transactor[Task]) extends ContractRepository {
