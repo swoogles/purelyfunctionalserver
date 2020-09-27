@@ -12,8 +12,11 @@ trait TemplateRepository {
 class TemplateRepositoryImpl(transactor: Transactor[Task]) extends TemplateRepository {
   override def createTableFor[T](template: Template[T]): Task[Unit] = {
     val dynamicFieldName = template.arguments.head
+    println("Going to insert: " + template)
+    println("dynamicFieldName: " + dynamicFieldName)
+
       sql"""
-    CREATE TABLE IF NOT EXISTS ${template.name} ( ${dynamicFieldName} TEXT )
+    CREATE TABLE IF NOT EXISTS ${template.name} ( signatories TEXT[] )
   """.update.run
         .transact(transactor)
         .map(id => ())
