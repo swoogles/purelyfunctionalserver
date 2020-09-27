@@ -1,7 +1,6 @@
 package exercises
 
 import fs2.Stream
-import model.DailyQuantizedExercise
 import zio.Task
 
 class ExerciseLogic(exerciseRepository: ExerciseRepository) {

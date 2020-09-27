@@ -4,7 +4,6 @@ import auth.OAuthLogic
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
-import model.DailyQuantizedExercise
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
 import org.http4s.headers.{Location, `Content-Type`}

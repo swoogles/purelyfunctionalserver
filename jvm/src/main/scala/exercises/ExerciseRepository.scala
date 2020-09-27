@@ -5,7 +5,7 @@ import java.time.LocalDate
 import doobie.implicits._
 import doobie.util.transactor.Transactor
 import fs2.Stream
-import model.{DailyQuantizedExercise, ExerciseNotFoundError}
+import model.ExerciseNotFoundError
 import zio.Task
 import zio.interop.catz._
 

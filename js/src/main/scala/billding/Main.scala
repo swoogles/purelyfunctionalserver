@@ -1,5 +1,7 @@
 package billding
 
+import java.time.LocalDate
+
 import billding.Main.{Increment, ResetCount}
 import com.raquo.airstream.core.Observable
 import com.raquo.airstream.signal.Signal
@@ -19,11 +21,10 @@ import io.circe.syntax._
 import com.raquo.laminar.api.L._
 import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
 import com.raquo.laminar.nodes.ReactiveElement.Base
+import exercises.DailyQuantizedExercise
 
 import scala.concurrent.Future
 import scala.concurrent.duration.FiniteDuration
-
-case class DailyQuantizedExercise(name: String, day: String, count: Int)
 
 object Time {
 
@@ -179,7 +180,8 @@ object ApiInteractions {
 
   def postQuadSets(count: Int) = {
     val localDate = Time.formattedLocalDate()
-    val exercise = DailyQuantizedExercise(name = "QuadSets", day = localDate, count = count)
+    val exercise =
+      DailyQuantizedExercise(name = "QuadSets", day = LocalDate.parse(localDate), count = count)
 
     val storage = org.scalajs.dom.window.localStorage
     val request =
@@ -217,7 +219,9 @@ object ApiInteractions {
   def postArmStretchSession(count: Int): Future[Int] = {
     val localDate = Time.formattedLocalDate()
     val exercise =
-      DailyQuantizedExercise(name = "shoulder_stretches", day = localDate, count = count)
+      DailyQuantizedExercise(name = "shoulder_stretches",
+                             day = LocalDate.parse(localDate),
+                             count = count)
 
     val storage = org.scalajs.dom.window.localStorage
     val request =
@@ -473,13 +477,11 @@ object Main {
       CounterComponent(1,
                        styleAttr <-- $selectedComponent.map(
                          selection => s"""display: ${if (selection == 1) "inline" else "none"}"""
-                       )
-      ),
+                       )),
       ArmStretchComponent(2,
                           styleAttr <-- $selectedComponent.map(
                             selection => s"""display: ${if (selection == 2) "inline" else "none"}"""
-                          )
-      )
+                          ))
     )
 
     render(dom.document.querySelector("#laminarApp"), appDiv)
