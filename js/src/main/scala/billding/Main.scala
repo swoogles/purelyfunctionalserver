@@ -369,23 +369,27 @@ object Main {
         dataAttr("noise") <-- noises.observable.map(_ => "noise!"),
         styleAttr <-- $color.map(color => s"background: $color"),
         div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
-        button(
-          "Submit",
-          cls := "button is-link is-rounded",
-          dataAttr("count") <-- $countT.map(_.value.toString),
-          inContext(
-            context =>
-              onClick.mapTo(
-                value = ApiInteractions.postQuadSetsTyped(
-//              $countT.observe(ownerDiv).now().value)) --> diffBusT)),
-                  context.ref.attributes.getNamedItem("data-count").value.toInt
-                )
-              ) --> diffBusT
+        div(
+          button(
+            "Submit",
+            cls := "button is-link is-rounded",
+            dataAttr("count") <-- $countT.map(_.value.toString),
+            inContext(
+              context =>
+                onClick.mapTo(
+                  value = ApiInteractions.postQuadSetsTyped(
+                    //              $countT.observe(ownerDiv).now().value)) --> diffBusT)),
+                    context.ref.attributes.getNamedItem("data-count").value.toInt
+                  )
+                ) --> diffBusT
+            )
           )
         ),
-        button("Reset",
-               cls := "button is-warning is-rounded medium",
-               onClick.mapTo(ResetCount) --> diffBusT),
+        div(
+          button("Reset",
+                 cls := "button is-warning is-rounded medium",
+                 onClick.mapTo(ResetCount) --> diffBusT)
+        ),
         div(
           styleAttr := "font-size: 4em",
           cls := "box",
