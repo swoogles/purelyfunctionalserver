@@ -275,32 +275,12 @@ object Main {
     sound.setAttribute("controls", "none")
     sound.style.display = "none"
     document.body.appendChild(sound)
-//    this.play = function(){
-//      this.sound.play();
-//    }
-//    this.stop = function(){
-//      this.sound.pause();
-//    }
     sound
   }
 
   val startSound = sound("/resources/audio/startQuadSet/metronome_tock.wav");
   val completeSound = sound("/resources/audio/completeQuadSet/metronome_tink.wav");
 
-  def toggleColor() =
-    if (document.body.getAttribute("style").contains("green")) {
-      document.body.setAttribute("style", "background-color: red")
-      document.getElementById("user_instruction").innerHTML = "Fire Quad!"
-      if (document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
-        startSound.play()
-      }
-    } else {
-      document.getElementById("user_instruction").innerHTML = "Relax"
-      document.body.setAttribute("style", "background-color: green")
-      if (document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
-        completeSound.play()
-      }
-    }
   case class Counter(value: Int)
   sealed trait CounterAction
   case object ResetCount extends CounterAction
@@ -336,7 +316,7 @@ object Main {
       cls("centered"),
       div(
         cls("session-counter"),
-        div(cls := "medium", "Shoulder Stretches:"),
+        div(cls := "medium", "Shoulder Stretches!:"),
         div(idAttr := "shoulder_stretches_daily_total",
             child <-- $res.map(count => div(count.toString)))
       ),

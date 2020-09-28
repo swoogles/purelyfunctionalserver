@@ -10,7 +10,10 @@ object rpcvalue {
 }
 
 case class ContractId[+T] (uuid: UUID)
-case class Template[+T] (name: String, arguments: Seq[String])
+case class Template[+T] (name: String, arguments: Seq[String],
+                         id: String,
+//val consumingChoices: Set[Choice]
+                        )
 
 final case class Contract[+T](
                                contractId: ContractId[T],

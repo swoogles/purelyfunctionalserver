@@ -83,7 +83,8 @@ lazy val foo =
   .jsSettings(
     name := "QuadSet Counter",
     version := "0.2",
-
+    scalaVersion := "2.13.1",
+    scalaJSUseMainModuleInitializer:=true,
     libraryDependencies ++= Seq(
       "org.scala-js" %%% "scalajs-dom" % "1.1.0",
       "com.raquo" %%% "laminar" % "0.10.2",   // Scala.js 1.x only
