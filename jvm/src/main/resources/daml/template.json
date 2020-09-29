@@ -1,0 +1,15 @@
+{
+  "id":"3",
+  "name":"template_with_signatories",
+  "arguments":[
+    {
+      "name":"party_column",
+      "columnType":"PARTY"
+    },
+    {
+      "name":"date_column",
+      "columnType":"DATE"
+    }
+  ],
+  "signatories" : ["candidate", "organization"]
+}

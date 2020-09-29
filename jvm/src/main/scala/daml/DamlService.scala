@@ -44,7 +44,7 @@ class DamlService(
     case req @ POST -> Root => {
       val user = authLogic.getUserFromRequest(req)
       for {
-        newExercise       <- req.decodeJson[Template[String]]
+        newExercise       <- req.decodeJson[Template]
         wrappedResult <- templateLogic.insert(newExercise).map(_=>Created("Maybe we created a table!"))
         bigResult <- wrappedResult
       } yield {
