@@ -1,0 +1,22 @@
+{
+
+  "contractId" : 10,
+  "agreementText": "** Choose agreement text **",
+  "template": {
+    "name":"**choose_template_name**",
+    "arguments":[
+      {
+        "name":"notify",
+        "columnType":"PARTY"
+      }
+    ],
+    "signatories" : ["candidate", "organization"]
+  },
+  "userDefinedColumnValues" :[
+    {
+      "name":"notify",
+      "value" : "Signify"
+    }
+  ],
+  "signatories" : ["Bill", "Digital Asset"]
+}

@@ -1,14 +1,9 @@
 {
-  "id":"3",
-  "name":"template_with_signatories",
+  "name":"**choose_template_name**",
   "arguments":[
     {
-      "name":"party_column",
+      "name":"notify",
       "columnType":"PARTY"
-    },
-    {
-      "name":"date_column",
-      "columnType":"DATE"
     }
   ],
   "signatories" : ["candidate", "organization"]

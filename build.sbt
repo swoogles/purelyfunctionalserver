@@ -74,11 +74,15 @@ lazy val databaseExploration =
 lazy val foo =
   crossProject(JSPlatform, JVMPlatform).in(file("."))
   .configs(IntegrationTest)
+  .configs(Test)
   .settings(
+    testFrameworks += new TestFramework("utest.runner.Framework"),
     libraryDependencies ++= Seq(
     "io.circe" %%% "circe-generic" % CirceVersion,
     "io.circe" %%% "circe-literal" % CirceVersion,
-    )
+    "com.lihaoyi" %%% "utest" % "0.7.5" % "test",
+"com.lihaoyi" %%% "pprint" % "0.6.0",
+)
   )
   .jsSettings(
     name := "QuadSet Counter",

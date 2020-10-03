@@ -36,6 +36,7 @@ object ColumnConversions {
 }
 
 case class UserDefinedColumn(name: String, columnType: String)
+case class UserDefinedColumnValue(name: String, value: String)
 object UserDefinedColumn {
   def convertToSqlColumnDefinition(userDefinedColumn: UserDefinedColumn) = userDefinedColumn match {
     case UserDefinedColumn(name, columnType) if columnType == "TEXT" =>  s" $name TEXT"
@@ -49,17 +50,15 @@ object UserDefinedColumn {
 
 case class ContractId[+T] (uuid: UUID)
 case class Template (name: String, arguments: Seq[UserDefinedColumn],
-                         id: String,
-                     signatories: Set[String]
+                     signatories: Seq[String]
 //val consumingChoices: Set[Choice]
                         )
 
-final case class Contract[+T](
-                               contractId: ContractId[T],
-                               value: Template,
-                               agreementText: Option[String],
-                               signatories: Seq[String],
-                               observers: Seq[String],
-                               key: Option[rpcvalue.Value]) {
-  def arguments: rpcvalue.Record = Record(value.arguments)
+final case class Contract(
+                           contractId: Int,
+                           template: Template,
+                           agreementText: String,
+                           userDefinedColumnValues: Seq[UserDefinedColumnValue],
+                           signatories: Seq[String]
+                               ) {
 }
