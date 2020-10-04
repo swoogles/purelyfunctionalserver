@@ -26,5 +26,11 @@ object TrieTest extends TestSuite {
         .prefixesMatchingString("mangosteen")
       )
     })
+    test("stringsMatchingPrefixes", {
+      pprint.pprintln(
+        trie
+          .stringsMatchingPrefix("ma")
+      )
+    })
   }
 }

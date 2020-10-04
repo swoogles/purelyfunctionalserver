@@ -1,5 +1,7 @@
 package data_structures
 
+import scala.collection.immutable.Map
+
 trait Trie {
   def add(s: String): Trie
   def contains(s: String): Boolean
@@ -57,24 +59,45 @@ case class Node(hasValue: Boolean, children: Map[Char, Node] = Map()) {
 
   }
 
-  def prefixesMatchingString(s: Seq[Char], charsSoFar: Seq[Char]): Set[String] =
+  def prefixesMatchingString(s: Seq[Char], charsSoFar: Seq[Char]): Set[String] = {
+    val thisLevelResults: Set[String] =
+      if(hasValue)
+        Set(charsSoFar.mkString)
+      else Set()
     s match {
-      case Seq() =>
-        if(hasValue)
-          Set(charsSoFar.mkString)
-        else Set()
+      case Seq() => thisLevelResults
 
       case nextChar +: restOfWord =>
         (children.get(nextChar) match {
           case Some(child) => child.prefixesMatchingString(restOfWord, charsSoFar :+ nextChar)
           case None => Set()
-        }) ++ (
-        if(hasValue)
-          Set(charsSoFar.mkString)
-        else Set()
-          )
+        }) ++ thisLevelResults
 
     }
+  }
+
+  def allValuesBeneathThisPoint(charsSoFar: Seq[Char]): Set[String]  = {
+    val thisLevelResults: Set[String] =
+      if(hasValue)
+        Set(charsSoFar.mkString)
+      else Set()
+    if (children.isEmpty)
+      thisLevelResults
+    else
+      children.map{ case (key, value) => value.allValuesBeneathThisPoint(charsSoFar :+ key) }.foldLeft(Set[String]())( _ ++ _)
+  }
+
+  def stringsMatchingPrefix(s: Seq[Char], charsSoFar: Seq[Char]): Set[String] = {
+    s match {
+      case Seq() => allValuesBeneathThisPoint(charsSoFar)
+      case nextChar +: restOfWord =>
+        (children.get(nextChar) match {
+          case Some(child) => child.stringsMatchingPrefix(restOfWord, charsSoFar :+ nextChar)
+          case None => Set()
+        })
+    }
+
+  }
 }
 
 
@@ -90,7 +113,7 @@ case class TrieImpl(root: Node = Node(false)) extends Trie {
 
   override def prefixesMatchingString(s: String): Set[String] =  root.prefixesMatchingString(s, Seq())
 
-  override def stringsMatchingPrefix(s: String): Set[String] = ???
+  override def stringsMatchingPrefix(s: String): Set[String] = root.stringsMatchingPrefix(s, Seq())
 }
 
 object Trie {
