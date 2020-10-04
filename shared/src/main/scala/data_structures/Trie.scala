@@ -11,20 +11,29 @@ case class Node(hasValue: Boolean, children: Map[Char, Node] = Map()) {
   def add(s: Seq[Char]): Node = {
     println("s: " + s)
     s match {
-      case nextChar +: Seq() => {
+      case nextChar +: Seq() =>
         children.get(nextChar) match {
           case Some(childNode) => this.copy(children = children.updated(nextChar, childNode.copy(hasValue = true)))
           case None => this.copy(children = children.updated(nextChar, Node(true)))
         }
-      }
-      case nextChar +: restOfString => {
+      case nextChar +: restOfString =>
         children.get(nextChar) match {
           case Some(childNode) =>
             this.copy(children = children.updated(nextChar, childNode.add(restOfString)))
           case None => this.copy(children = children.updated(nextChar, Node(false).add(restOfString)))
         }
-      }
     }
+  }
+
+  def contains(s: Seq[Char]): Boolean = s match {
+    case nextChar +: Seq() => {
+      children.get(nextChar).map(_.hasValue).getOrElse(false)
+
+    }
+    case nextChar +: restOfWord => {
+      ???
+    }
+
   }
 }
 
