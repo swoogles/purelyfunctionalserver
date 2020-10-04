@@ -28,21 +28,21 @@ sealed abstract class Primitive extends PrimitiveInstances {
   type Text = String
 
   /** A [[LocalDate]] in the range [0001-01-01, 9999-12-31] (`[Date.MIN,
-    * Date.MAX]`).  This is the range that can be stored as primitive
-    * `Date`s on a ledger, and matches the set of representable dates in
-    * the [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) date-time
-    * format.  Any [[LocalDate]] in that range can be converted to a
-    * [[Date]] by calling `Date.fromLocalDate`.
-    */
+ * Date.MAX]`).  This is the range that can be stored as primitive
+ * `Date`s on a ledger, and matches the set of representable dates in
+ * the [RFC-3339](https://www.ietf.org/rfc/rfc3339.txt) date-time
+ * format.  Any [[LocalDate]] in that range can be converted to a
+ * [[Date]] by calling `Date.fromLocalDate`.
+ */
   type Date <: LocalDate
   val Date: DateApi
 
   /** An [[Instant]] with only microsecond resolution in the range
-    * [0001-01-01T00:00:00Z, 9999-12-31T23:59:59.999999Z] (`[Timestamp.MIN,
-    * Timestamp.MAX]`).  Only such times can be stored as primitive `Time`s
-    * on the ledger.  Any [[Instant]] in that range can be converted to
-    * a [[Timestamp]] by calling `Time.discardNanos`.
-    */
+ * [0001-01-01T00:00:00Z, 9999-12-31T23:59:59.999999Z] (`[Timestamp.MIN,
+ * Timestamp.MAX]`).  Only such times can be stored as primitive `Time`s
+ * on the ledger.  Any [[Instant]] in that range can be converted to
+ * a [[Timestamp]] by calling `Time.discardNanos`.
+ */
   type Timestamp <: Instant
   val Timestamp: TimeApi
   type Unit = scala.Unit
@@ -102,9 +102,9 @@ sealed abstract class Primitive extends PrimitiveInstances {
     val MAX: Timestamp
 
     /** Reduce `t`'s resolution to exclude nanoseconds; return `None` if outside
-      * the `[MIN, MAX]` range, the reduced-resolution value
-      * otherwise.
-      */
+ * the `[MIN, MAX]` range, the reduced-resolution value
+ * otherwise.
+ */
     def discardNanos(t: Instant): Option[Timestamp]
 
     // bypass the value test
@@ -127,7 +127,7 @@ sealed abstract class Primitive extends PrimitiveInstances {
     private[binding] def substEx[F[_]](fa: F[rpcvalue.Identifier]): F[TemplateId[_]]
 
     /** Package ID, module name, and entity name.
-      */
+ */
     def unapply[Tpl](t: TemplateId[Tpl]): Option[(String, String, String)]
   }
 

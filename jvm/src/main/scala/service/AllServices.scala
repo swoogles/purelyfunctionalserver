@@ -10,7 +10,7 @@ import exercises.{ExerciseLogic, ExerciseRepositoryImpl, ExerciseService}
 import org.http4s.client.Client
 import org.http4s.implicits._
 import org.http4s.server.Router
-import org.http4s.server.staticcontent.{FileService, fileService}
+import org.http4s.server.staticcontent.{fileService, FileService}
 import org.http4s.{Header, HttpRoutes, Request, Response}
 import repository._
 import weather.{WeatherApi, WeatherService}
@@ -31,7 +31,7 @@ object AllServices {
     val environment = System.getenv("ENVIRONMENT")
     println("environment: " + environment)
     val authLogic =
-      if("local" == environment)
+      if ("local" == environment)
         new MockAuthLogic()
       else
         new OAuthLogic(client)
@@ -91,9 +91,9 @@ object AllServices {
       "/resources" -> resourceService,
       "/github"    -> githubService,
       "/exercises" -> exerciseService,
-      "/weather" -> weatherService,
+      "/weather"   -> weatherService,
       "/oauth"     -> authService,
-      "/daml"     -> damlService,
+      "/daml"      -> damlService,
 //      "/tsec" -> authenticatedEndpoint,
       "/login" -> loginService
     ).orNotFound

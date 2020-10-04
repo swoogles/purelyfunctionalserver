@@ -5,7 +5,7 @@ import fs2.Stream
 import io.circe.generic.auto._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-import org.http4s.headers.{Location, `Content-Type`}
+import org.http4s.headers.{`Content-Type`, Location}
 import org.http4s.{HttpRoutes, MediaType, Uri}
 import zio.Task
 import zio.interop.catz._
@@ -44,19 +44,23 @@ class DamlService(
     case req @ POST -> Root => {
       val user = authLogic.getUserFromRequest(req)
       for {
-        newExercise       <- req.decodeJson[Template]
-        wrappedResult <- templateLogic.insert(newExercise).map(_=>Created("Maybe we created a table!"))
+        newExercise <- req.decodeJson[Template]
+        wrappedResult <- templateLogic
+          .insert(newExercise)
+          .map(_ => Created("Maybe we created a table!"))
         bigResult <- wrappedResult
       } yield {
-          bigResult
+        bigResult
       }
     }
 
     case req @ POST -> Root / "contract" => {
       val user = authLogic.getUserFromRequest(req)
       for {
-        newExercise       <- req.decodeJson[Contract]
-        wrappedResult <- templateLogic.insert(newExercise).map(_=>Created("Maybe we created a contract entry!"))
+        newExercise <- req.decodeJson[Contract]
+        wrappedResult <- templateLogic
+          .insert(newExercise)
+          .map(_ => Created("Maybe we created a contract entry!"))
         bigResult <- wrappedResult
       } yield {
         bigResult

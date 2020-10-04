@@ -34,18 +34,20 @@ trait AuthLogic {
 }
 
 class MockAuthLogic extends AuthLogic {
+
   override def getUserInfo(accessToken: String): ZIO[Any, Throwable, UserInfo] =
-    ZIO { UserInfo("local_sub")}
+    ZIO { UserInfo("local_sub") }
 
   override def getTokenFromCallbackCode(code: String): ZIO[Any, Throwable, TokenResponse] =
-    ZIO { TokenResponse(
-
-      "access_token",
-      "id_token",
-      "scope",
-      200000,  // expires_in: Int,
-      "token_type"
-    ) }
+    ZIO {
+      TokenResponse(
+        "access_token",
+        "id_token",
+        "scope",
+        200000, // expires_in: Int,
+        "token_type"
+      )
+    }
 
   override def getTokenFromRequest(request: Request[Task]): Option[String] =
     Some("token_string")
@@ -66,7 +68,7 @@ class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] with AuthLogic {
 
   private val chaoticPublicUser = "ChaoticPublicUser"
 
-  private implicit def userInfoDecoder: EntityDecoder[Task, UserInfo] =
+  implicit private def userInfoDecoder: EntityDecoder[Task, UserInfo] =
     jsonOf
 
   def getUserInfo(accessToken: String): ZIO[Any, Throwable, UserInfo] = {
@@ -127,7 +129,7 @@ class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] with AuthLogic {
       }
   }
 
-  private implicit val runtime: Runtime[Any] = new DefaultRuntime {}
+  implicit private val runtime: Runtime[Any] = new DefaultRuntime {}
 
   def getUserFromRequest(request: Request[Task]): Sub =
     getTokenFromRequest(request)

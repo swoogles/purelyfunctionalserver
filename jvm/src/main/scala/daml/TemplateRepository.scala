@@ -13,8 +13,8 @@ trait TemplateRepository {
   def insert(contract: Contract): Task[Unit]
 }
 
-
 class TemplateRepositoryImpl(transactor: Transactor[Task]) extends TemplateRepository {
+
   override def createTableFor(template: Template): Task[Unit] = {
     val contractColumns =
       fr" id SERIAL, agreement_text TEXT, "
@@ -28,9 +28,7 @@ class TemplateRepositoryImpl(transactor: Transactor[Task]) extends TemplateRepos
     println("Fragment: ")
     println(fragment)
 
-    fragment
-      .update
-      .run
+    fragment.update.run
       .transact(transactor)
       .map(id => ())
 
@@ -41,28 +39,28 @@ class TemplateRepositoryImpl(transactor: Transactor[Task]) extends TemplateRepos
   }
 
   override def insert(contract: Contract): Task[Unit] = {
-    val columnNames = fr"id, agreement_text, " ++ Fragment.const(contract.template.arguments.map(_.name).mkString(",") + ",") ++
+    val columnNames = fr"id, agreement_text, " ++ Fragment.const(
+        contract.template.arguments.map(_.name).mkString(",") + ","
+      ) ++
       Fragment.const(contract.template.signatories.mkString(","))
     val valueList: Seq[String] =
-      List(contract.contractId, contract.agreementText).concat(contract.userDefinedColumnValues.map(_.value)) //todo ugh, toString
-      .concat(contract.signatories)
-      .map("'" + _ + "'")
-
-
+      List(contract.contractId, contract.agreementText)
+        .concat(contract.userDefinedColumnValues.map(_.value)) //todo ugh, toString
+        .concat(contract.signatories)
+        .map("'" + _ + "'")
 
     val fullGoal =
-      Fragment.const( s"INSERT INTO daml.${contract.template.name}  ") ++
-        fr"(" ++ columnNames ++  Fragment.const(") VALUES (") ++
-        Fragment.const(
+      Fragment.const(s"INSERT INTO daml.${contract.template.name}  ") ++
+      fr"(" ++ columnNames ++ Fragment.const(") VALUES (") ++
+      Fragment.const(
         valueList
-          .map(value => value).mkString(", ")
-        ) ++
+          .map(value => value)
+          .mkString(", ")
+      ) ++
       fr")"
     println(fullGoal)
 
-    fullGoal
-      .update
-      .run
+    fullGoal.update.run
       .transact(transactor)
       .map(id => ())
   }

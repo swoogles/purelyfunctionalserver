@@ -3,6 +3,7 @@ package daml
 import daml.ApiTypes.Party
 
 trait ContractSandbox {
+
   trait db {
     def save[T](template: Template): Unit
     def save[T](contract: Contract): Unit

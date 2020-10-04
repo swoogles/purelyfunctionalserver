@@ -6,7 +6,7 @@ import io.circe.generic.auto._
 import io.circe.syntax._
 import org.http4s.circe._
 import org.http4s.dsl.Http4sDsl
-import org.http4s.headers.{Location, `Content-Type`}
+import org.http4s.headers.{`Content-Type`, Location}
 import org.http4s.{HttpRoutes, MediaType, Uri}
 import zio.Task
 import zio.interop.catz._
@@ -34,10 +34,10 @@ class ExerciseService(
       val user = authLogic.getUserFromRequest(request)
       Ok(
         Stream("[") ++
-          exerciseLogic
-            .getExerciseHistoriesFor(exerciseName, user.id)
-            .map(_.asJson.noSpaces)
-            .intersperse(",") ++ Stream("]"),
+        exerciseLogic
+          .getExerciseHistoriesFor(exerciseName, user.id)
+          .map(_.asJson.noSpaces)
+          .intersperse(",") ++ Stream("]"),
         `Content-Type`(MediaType.application.json)
       )
     }
@@ -54,7 +54,9 @@ class ExerciseService(
               Location(Uri.unsafeFromString(s"/exercises/${successfullyCreatedExercise.id.get}"))
             )
           case Left(illegalStateException) =>
-            InternalServerError("IllegalStateException while posting exercise: " + illegalStateException.getMessage)
+            InternalServerError(
+              "IllegalStateException while posting exercise: " + illegalStateException.getMessage
+            )
         }
         bigResult <- wrappedResult
       } yield {

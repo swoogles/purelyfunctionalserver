@@ -16,7 +16,6 @@ import zio.{DefaultRuntime, Runtime, Task, ZEnv, ZIO}
 import zio.interop.catz._
 import zio.interop.catz.implicits._
 
-
 import scala.concurrent.ExecutionContext
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Properties

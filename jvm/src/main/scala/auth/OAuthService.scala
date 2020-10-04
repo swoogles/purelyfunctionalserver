@@ -4,7 +4,7 @@ import cats.data.NonEmptyList
 import io.chrisdavenport.vault.{Key, Vault}
 import org.http4s.client.Client
 import org.http4s.dsl.Http4sDsl
-import org.http4s.headers.{Authorization, Cookie, Location, `Content-Type`}
+import org.http4s.headers.{`Content-Type`, Authorization, Cookie, Location}
 import org.http4s.{HttpRoutes, MediaType, Response, Uri, _}
 import zio.interop.catz._
 import zio.{DefaultRuntime, Runtime, Task}
