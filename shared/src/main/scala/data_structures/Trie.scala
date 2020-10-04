@@ -8,6 +8,7 @@ trait Trie {
 }
 
 case class Node(hasValue: Boolean, children: Map[Char, Node] = Map()) {
+
   def add(s: Seq[Char]): Node = {
     println("s: " + s)
     s match {
@@ -25,14 +26,34 @@ case class Node(hasValue: Boolean, children: Map[Char, Node] = Map()) {
     }
   }
 
-  def contains(s: Seq[Char]): Boolean = s match {
-    case nextChar +: Seq() => {
-      children.get(nextChar).map(_.hasValue).getOrElse(false)
+  def addV2(s: Seq[Char]): Node =
+    s match {
+      case Seq() => this.copy(hasValue = true)
+      case nextChar +: restOfString =>
+        children.get(nextChar) match {
+          case Some(childNode) => this.copy(children = children.updated(nextChar, childNode.add(restOfString)))
+          case None => this.copy(children = children.updated(nextChar, Node(false).add(restOfString)))
+        }
+    }
+
+  def addV3(s: Seq[Char]): Node =
+    s match {
+      case Seq() => this.copy(hasValue = true)
+
+      case nextChar +: restOfString =>
+        this.copy(children =
+          children.updated(
+            nextChar,
+            children.getOrElse(nextChar, Node(false)).add(restOfString)))
 
     }
-    case nextChar +: restOfWord => {
-      ???
-    }
+
+  def contains(s: Seq[Char]): Boolean = s match {
+    case Seq() => true
+    case nextChar +: restOfWord =>
+      children
+        .get(nextChar)
+        .exists(_.contains(restOfWord))
 
   }
 }
@@ -42,11 +63,11 @@ case class TrieImpl(root: Node = Node(false)) extends Trie {
 
   override def add(s: String): TrieImpl = {
     TrieImpl(
-      root.add(s)
+      root.addV3(s)
     )
   }
 
-  override def contains(s: String): Boolean = ???
+  override def contains(s: String): Boolean = root.contains(s)
 
   override def prefixesMatchingString(s: String): Set[String] = ???
 

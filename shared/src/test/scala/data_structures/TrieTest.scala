@@ -4,19 +4,25 @@ import utest._
 
 object TrieTest extends TestSuite {
   val tests = Tests {
-    test("first_test", {
-      val trie = TrieImpl()
-//        .add("a")
-//        .add("ab")
+    val trie = TrieImpl()
       .add("mango")
       .add("mandarin")
       .add("map")
       .add("man")
-//        .add("abc")
+    test("first_test", {
+      //        .add("abc")
       pprint.pprintln(trie)
-//      Set("mango","mandarin","map","man").contains("map") ==> true
-//      Trie.return1() ==> 1
-//      ""
+      //      Set("mango","mandarin","map","man").contains("map") ==> true
+      //      Trie.return1() ==> 1
+      //      ""
+    })
+    test("contains", {
+        trie
+        .contains("mango") ==> true
+      //        .add("abc")
+      //      Set("mango","mandarin","map","man").contains("map") ==> true
+      //      Trie.return1() ==> 1
+      //      ""
     })
   }
 }
