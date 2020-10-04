@@ -19,10 +19,12 @@ object TrieTest extends TestSuite {
     test("contains", {
         trie
         .contains("mango") ==> true
-      //        .add("abc")
-      //      Set("mango","mandarin","map","man").contains("map") ==> true
-      //      Trie.return1() ==> 1
-      //      ""
+    })
+    test("prefixesMatchingString", {
+      pprint.pprintln(
+      trie
+        .prefixesMatchingString("mangosteen")
+      )
     })
   }
 }

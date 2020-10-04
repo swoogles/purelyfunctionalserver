@@ -56,6 +56,25 @@ case class Node(hasValue: Boolean, children: Map[Char, Node] = Map()) {
         .exists(_.contains(restOfWord))
 
   }
+
+  def prefixesMatchingString(s: Seq[Char], charsSoFar: Seq[Char]): Set[String] =
+    s match {
+      case Seq() =>
+        if(hasValue)
+          Set(charsSoFar.mkString)
+        else Set()
+
+      case nextChar +: restOfWord =>
+        (children.get(nextChar) match {
+          case Some(child) => child.prefixesMatchingString(restOfWord, charsSoFar :+ nextChar)
+          case None => Set()
+        }) ++ (
+        if(hasValue)
+          Set(charsSoFar.mkString)
+        else Set()
+          )
+
+    }
 }
 
 
@@ -69,7 +88,7 @@ case class TrieImpl(root: Node = Node(false)) extends Trie {
 
   override def contains(s: String): Boolean = root.contains(s)
 
-  override def prefixesMatchingString(s: String): Set[String] = ???
+  override def prefixesMatchingString(s: String): Set[String] =  root.prefixesMatchingString(s, Seq())
 
   override def stringsMatchingPrefix(s: String): Set[String] = ???
 }
