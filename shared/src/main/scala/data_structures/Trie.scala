@@ -81,20 +81,19 @@ case class Node(hasValue: Boolean, children: Map[Char, Node] = Map()) {
       if(hasValue)
         Set(charsSoFar.mkString)
       else Set()
-    if (children.isEmpty)
-      thisLevelResults
-    else
-      children.map{ case (key, value) => value.allValuesBeneathThisPoint(charsSoFar :+ key) }.foldLeft(Set[String]())( _ ++ _)
+    children.map{ case (key, child) => child.allValuesBeneathThisPoint(charsSoFar :+ key) }.foldLeft(thisLevelResults)( _ ++ _)
   }
 
   def stringsMatchingPrefix(s: Seq[Char], charsSoFar: Seq[Char]): Set[String] = {
     s match {
+      // We've fully consumed the input String, so everything below this point is a match
       case Seq() => allValuesBeneathThisPoint(charsSoFar)
+      // We need to keep eating characters before we can decide what the matches are
       case nextChar +: restOfWord =>
-        (children.get(nextChar) match {
+        children.get(nextChar) match {
           case Some(child) => child.stringsMatchingPrefix(restOfWord, charsSoFar :+ nextChar)
           case None => Set()
-        })
+        }
     }
 
   }
