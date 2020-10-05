@@ -2,7 +2,7 @@ package data_structures
 
 import utest._
 
-object TrieTest extends TestSuite {
+object TrieTest /* UNDO extends TestSuite */ {
   val tests = Tests {
     val trie = TrieImpl()
       .add("mango")

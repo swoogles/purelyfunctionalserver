@@ -9,27 +9,27 @@ trait Trie {
   def stringsMatchingPrefix(s: String): Set[String]
 }
 
-case class Node(hasValue: Boolean, children: Map[Char, Node] = Map()) {
+case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
 
-  def add(s: Seq[Char]): Node = {
+  def add(s: Seq[Char]): TrieNode = {
     s match {
       case nextChar +: Seq() =>
         children.get(nextChar) match {
           case Some(childNode) =>
             this.copy(children = children.updated(nextChar, childNode.copy(hasValue = true)))
-          case None => this.copy(children = children.updated(nextChar, Node(true)))
+          case None => this.copy(children = children.updated(nextChar, TrieNode(true)))
         }
       case nextChar +: restOfString =>
         children.get(nextChar) match {
           case Some(childNode) =>
             this.copy(children = children.updated(nextChar, childNode.add(restOfString)))
           case None =>
-            this.copy(children = children.updated(nextChar, Node(false).add(restOfString)))
+            this.copy(children = children.updated(nextChar, TrieNode(false).add(restOfString)))
         }
     }
   }
 
-  def addV2(s: Seq[Char]): Node =
+  def addV2(s: Seq[Char]): TrieNode =
     s match {
       case Seq() => this.copy(hasValue = true)
       case nextChar +: restOfString =>
@@ -37,18 +37,18 @@ case class Node(hasValue: Boolean, children: Map[Char, Node] = Map()) {
           case Some(childNode) =>
             this.copy(children = children.updated(nextChar, childNode.add(restOfString)))
           case None =>
-            this.copy(children = children.updated(nextChar, Node(false).add(restOfString)))
+            this.copy(children = children.updated(nextChar, TrieNode(false).add(restOfString)))
         }
     }
 
-  def addV3(s: Seq[Char]): Node =
+  def addV3(s: Seq[Char]): TrieNode =
     s match {
       case Seq() => this.copy(hasValue = true)
 
       case nextChar +: restOfString =>
         this.copy(
           children =
-            children.updated(nextChar, children.getOrElse(nextChar, Node(false)).add(restOfString))
+            children.updated(nextChar, children.getOrElse(nextChar, TrieNode(false)).add(restOfString))
         )
 
     }
@@ -103,7 +103,7 @@ case class Node(hasValue: Boolean, children: Map[Char, Node] = Map()) {
 
 }
 
-case class TrieImpl(root: Node = Node(false)) extends Trie {
+case class TrieImpl(root: TrieNode = TrieNode(false)) extends Trie {
 
   override def add(s: String): TrieImpl =
     TrieImpl(

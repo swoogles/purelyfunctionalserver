@@ -166,7 +166,7 @@ cbBuild := {
   (foo.js/Compile/fastOptJS).value
   (foo.jvm/Compile/compile).value
   (databaseExploration.js/Compile/fastOptJS).value
-  (foo.jm/Compile/scalafmt).value
+  (foo.jvm/Compile/scalafmt).value
   (Compile/scalafmt).value
   import scala.sys.process._
   //  "ls ./target/scala-2.13" !
