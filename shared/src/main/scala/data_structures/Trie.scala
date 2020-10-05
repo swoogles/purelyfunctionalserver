@@ -12,7 +12,6 @@ trait Trie {
 case class Node(hasValue: Boolean, children: Map[Char, Node] = Map()) {
 
   def add(s: Seq[Char]): Node = {
-    println("s: " + s)
     s match {
       case nextChar +: Seq() =>
         children.get(nextChar) match {

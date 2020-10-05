@@ -9,28 +9,18 @@ object TrieTest extends TestSuite {
       .add("mandarin")
       .add("map")
       .add("man")
-    test("first_test", {
-      //        .add("abc")
-      pprint.pprintln(trie)
-      //      Set("mango","mandarin","map","man").contains("map") ==> true
-      //      Trie.return1() ==> 1
-      //      ""
-    })
     test("contains", {
         trie
         .contains("mango") ==> true
     })
     test("prefixesMatchingString", {
-      pprint.pprintln(
       trie
-        .prefixesMatchingString("mangosteen")
-      )
+        .prefixesMatchingString("mangosteen") ==> Set("man", "mango")
+
     })
     test("stringsMatchingPrefixes", {
-      pprint.pprintln(
         trie
-          .stringsMatchingPrefix("ma")
-      )
+          .stringsMatchingPrefix("ma") ==> Set("mango", "mandarin", "map", "man")
     })
   }
 }
