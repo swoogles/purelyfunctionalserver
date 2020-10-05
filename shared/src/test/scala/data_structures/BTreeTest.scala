@@ -2,11 +2,9 @@ package data_structures
 
 import utest._
 
-import scala.collection.immutable.HashMap
-
 object BTreeTest extends TestSuite {
   val bTree =
-    new BTree(LeafNode, 3)
+    new BTree(Leaf, 3)
   val tests = Tests {
     test("insert", {
       pprint.pprintln(

@@ -26,7 +26,7 @@ case class InternalNode (values: List[Int], children: List[Node]) extends Node {
       val (lessThanChildren, greaterThanChildren) = children.splitAt(lessThanValues.length +1)
       InternalNode(
         lessThanValues:::value::greaterThanValues,
-        lessThanChildren:::LeafNode::greaterThanChildren)
+        lessThanChildren:::Leaf::greaterThanChildren)
 
     } else {
       val (lessThanValues, greaterThanValues) = values.partition( _ < value)
@@ -38,8 +38,8 @@ case class InternalNode (values: List[Int], children: List[Node]) extends Node {
     }
   }
 }
-case object LeafNode extends Node {
-  override def insert(value: Int, maxValues: Int): Node = InternalNode(List(value), List(LeafNode, LeafNode))
+case object Leaf extends Node {
+  override def insert(value: Int, maxValues: Int): Node = InternalNode(List(value), List(Leaf, Leaf))
 }
 
 case class BTree(root: Node, order: Int) {
