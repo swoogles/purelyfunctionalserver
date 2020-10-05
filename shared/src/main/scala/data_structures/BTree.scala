@@ -17,11 +17,11 @@ All values in the leftmost subtree will be less than a1, all values in the middl
 between a1 and a2, and all values in the rightmost subtree will be greater than a2.
  */
 sealed trait Node {
-  def insert(value: Int): Node
+  def insert(value: Int, maxValues: Int): Node
 }
 case class InternalNode (values: List[Int], children: List[Node]) extends Node {
-  override def insert(value: Int): Node = {
-    if (values.length < 3) {
+  override def insert(value: Int, maxValues: Int): Node = {
+    if (values.length < maxValues) {
       val (lessThanValues, greaterThanValues) = values.partition( _ < value)
       val (lessThanChildren, greaterThanChildren) = children.splitAt(lessThanValues.length +1)
       InternalNode(
@@ -34,15 +34,15 @@ case class InternalNode (values: List[Int], children: List[Node]) extends Node {
         children.splitAt(lessThanValues.length)
       InternalNode(
         values,
-        lessThanChildren:::targetChild.insert(value):: greaterThanChildren)
+        lessThanChildren:::targetChild.insert(value, maxValues):: greaterThanChildren)
     }
   }
 }
 case object LeafNode extends Node {
-  override def insert(value: Int): Node = InternalNode(List(value), List(LeafNode, LeafNode))
+  override def insert(value: Int, maxValues: Int): Node = InternalNode(List(value), List(LeafNode, LeafNode))
 }
 
 case class BTree(root: Node, order: Int) {
-  def insert(value: Int): BTree = BTree(root.insert(value), order)
+  def insert(value: Int): BTree = BTree(root.insert(value, order), order)
 
 }

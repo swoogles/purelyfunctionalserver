@@ -6,7 +6,7 @@ import scala.collection.immutable.HashMap
 
 object BTreeTest extends TestSuite {
   val bTree =
-    new BTree(LeafNode, 5)
+    new BTree(LeafNode, 3)
   val tests = Tests {
     test("insert", {
       pprint.pprintln(
