@@ -331,7 +331,7 @@ object Main {
         ),
         button(
           cls := "button is-link is-rounded medium",
-          onClick.mapTo(value = { postFunc(1); -1 }) --> armStretches,
+          onClick.mapTo(value = { postFunc(1); 1 }) --> armStretches,
           "+1"
         )
       )
