@@ -11,7 +11,7 @@ trait Trie {
 
 case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
 
-  def add(s: Seq[Char]): TrieNode = {
+  def add(s: Seq[Char]): TrieNode =
     s match {
       case nextChar +: Seq() =>
         children.get(nextChar) match {
@@ -27,7 +27,6 @@ case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
             this.copy(children = children.updated(nextChar, TrieNode(false).add(restOfString)))
         }
     }
-  }
 
   def addV2(s: Seq[Char]): TrieNode =
     s match {
@@ -48,7 +47,8 @@ case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
       case nextChar +: restOfString =>
         this.copy(
           children =
-            children.updated(nextChar, children.getOrElse(nextChar, TrieNode(false)).add(restOfString))
+            children.updated(nextChar,
+                             children.getOrElse(nextChar, TrieNode(false)).add(restOfString))
         )
 
     }

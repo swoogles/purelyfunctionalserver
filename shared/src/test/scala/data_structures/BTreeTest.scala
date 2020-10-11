@@ -4,7 +4,8 @@ import utest._
 
 object BTreeTest extends TestSuite {
   val bTree =
-    new BTree(Leaf, 4)
+    BTree(Leaf, 4)
+
   val tests = Tests {
     test("insert", {
       pprint.pprintln(

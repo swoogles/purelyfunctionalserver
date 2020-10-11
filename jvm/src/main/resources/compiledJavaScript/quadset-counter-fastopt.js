@@ -1495,6 +1495,9 @@ class $c_Lbillding_Main$ extends $c_O {
       return $m_Lbillding_ApiInteractions$().postExerciseSession__I__T__T__s_concurrent_Future(count$3, "shoulder_squeezes", "shoulder_squeezes_daily_total")
     }))(this)))];
     const appDiv = $$x20.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$3));
+    const this$42 = $m_s_Console$();
+    const this$43 = this$42.out__Ljava_io_PrintStream();
+    this$43.java$lang$JSConsoleBasedPrintStream$$printString__T__V("going to render laminarApp sunday 1:51\n");
     $m_Lcom_raquo_laminar_api_package$();
     const container = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().querySelector("#laminarApp");
     return new $c_Lcom_raquo_laminar_nodes_RootNode(container, appDiv)

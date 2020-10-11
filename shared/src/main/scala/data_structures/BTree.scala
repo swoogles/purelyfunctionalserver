@@ -19,27 +19,29 @@ between a1 and a2, and all values in the rightmost subtree will be greater than 
 sealed trait Node {
   def insert(value: Int, maxValues: Int): Node
 }
-case class InternalNode (values: List[Int], children: List[Node]) extends Node {
-  override def insert(value: Int, maxValues: Int): Node = {
+
+case class InternalNode(values: List[Int], children: List[Node]) extends Node {
+
+  override def insert(value: Int, maxValues: Int): Node =
     if (values.length < maxValues) {
-      val (lessThanValues, greaterThanValues) = values.partition( _ < value)
-      val (lessThanChildren, greaterThanChildren) = children.splitAt(lessThanValues.length +1)
-      InternalNode(
-        lessThanValues:::value::greaterThanValues,
-        lessThanChildren:::Leaf::greaterThanChildren)
+      val (lessThanValues, greaterThanValues) = values.partition(_ < value)
+      val (lessThanChildren, greaterThanChildren) = children.splitAt(lessThanValues.length + 1)
+      InternalNode(lessThanValues ::: value :: greaterThanValues,
+                   lessThanChildren ::: Leaf :: greaterThanChildren)
 
     } else {
-      val (lessThanValues, greaterThanValues) = values.partition( _ < value)
-      val (lessThanChildren, targetChild::greaterThanChildren) =
+      val (lessThanValues, greaterThanValues) = values.partition(_ < value)
+      val (lessThanChildren, targetChild :: greaterThanChildren) =
         children.splitAt(lessThanValues.length)
-      InternalNode(
-        values,
-        lessThanChildren:::targetChild.insert(value, maxValues):: greaterThanChildren)
+      InternalNode(values,
+                   lessThanChildren ::: targetChild.insert(value, maxValues) :: greaterThanChildren)
     }
-  }
 }
+
 case object Leaf extends Node {
-  override def insert(value: Int, maxValues: Int): Node = InternalNode(List(value), List(Leaf, Leaf))
+
+  override def insert(value: Int, maxValues: Int): Node =
+    InternalNode(List(value), List(Leaf, Leaf))
 }
 
 case class BTree(root: Node, order: Int) {

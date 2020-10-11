@@ -6,7 +6,7 @@ import io.circe.literal._
 import org.http4s.circe._
 import org.http4s.client.blaze.{BlazeClientBuilder, Http1Client}
 import org.http4s.{Method, Request, Status, Uri}
-import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
+//import org.scalatest.{BeforeAndAfterAll, Matchers, WordSpec}
 import io.circe.optics.JsonPath._
 import org.http4s.server.{Server => Http4sServer}
 import org.http4s.server.blaze.BlazeBuilder

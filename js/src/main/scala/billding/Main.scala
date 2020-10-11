@@ -493,6 +493,7 @@ object Main {
       )
     )
 
+    println("going to render laminarApp sunday 1:51")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
