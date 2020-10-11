@@ -912,77 +912,70 @@ class $c_Lbillding_ApiInteractions$ extends $c_O {
     const x = $as_T(storage.getItem("access_token_fromJS"));
     let request;
     if ((x !== "")) {
-      const this$6 = $m_s_Console$();
-      const this$7 = this$6.out__Ljava_io_PrintStream();
-      this$7.java$lang$JSConsoleBasedPrintStream$$printString__T__V("We have a stored token. Use it to post authorized info\n");
-      const this$8 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri);
-      const this$15 = new $c_Lsttp_client_SpecifyAuthScheme($m_Lsttp_model_HeaderNames$().Authorization__T(), this$8, $m_Lsttp_client_DigestAuthenticationBackend$().DigestAuthTag__T()).bearer__T__Lsttp_client_RequestT($as_T(storage.getItem("access_token_fromJS")));
-      const this$14 = $m_Lsttp_client_circe_package$();
+      const this$5 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri);
+      const this$12 = new $c_Lsttp_client_SpecifyAuthScheme($m_Lsttp_model_HeaderNames$().Authorization__T(), this$5, $m_Lsttp_client_DigestAuthenticationBackend$().DigestAuthTag__T()).bearer__T__Lsttp_client_RequestT($as_T(storage.getItem("access_token_fromJS")));
+      const this$11 = $m_Lsttp_client_circe_package$();
       $m_Lio_circe_Encoder$();
       const inst$macro$16 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$15$1().inst$macro$1__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
-      const t = new $c_sjsr_AnonFunction0(((this$9, inst$macro$16$1) => (() => inst$macro$16$1))(this, inst$macro$16));
+      const t = new $c_sjsr_AnonFunction0(((this$6, inst$macro$16$1) => (() => inst$macro$16$1))(this, inst$macro$16));
       const lv = new $c_Lshapeless_Lazy$$anon$1(t);
       const exported = $as_Lio_circe_Encoder$AsObject(lv.value__O());
       const printer = $m_Lio_circe_Printer$().Lio_circe_Printer$__f_noSpaces;
-      const evidence$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$14, exported, printer);
-      request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$15, exercise, evidence$1)
+      const evidence$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$11, exported, printer);
+      request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$12, exercise, evidence$1)
     } else {
-      const this$16 = $m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken;
-      if ((!this$16.isEmpty__Z())) {
-        const this$22 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
-        const this$21 = $m_Lsttp_client_circe_package$();
+      const this$13 = $m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken;
+      if ((!this$13.isEmpty__Z())) {
+        const this$19 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+        const this$18 = $m_Lsttp_client_circe_package$();
         $m_Lio_circe_Encoder$();
         const inst$macro$32 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$31$1().inst$macro$17__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
         const t$1 = new $c_sjsr_AnonFunction0(((this$2$1, inst$macro$32$1) => (() => inst$macro$32$1))(this, inst$macro$32));
         const lv$1 = new $c_Lshapeless_Lazy$$anon$1(t$1);
         const exported$1 = $as_Lio_circe_Encoder$AsObject(lv$1.value__O());
         const printer$1 = $m_Lio_circe_Printer$().Lio_circe_Printer$__f_noSpaces;
-        const evidence$1$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$21, exported$1, printer$1);
-        request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$22, exercise, evidence$1$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken.get__O())))
+        const evidence$1$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$18, exported$1, printer$1);
+        request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$19, exercise, evidence$1$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken.get__O())))
       } else {
-        const this$28 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
-        const this$27 = $m_Lsttp_client_circe_package$();
+        const this$25 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+        const this$24 = $m_Lsttp_client_circe_package$();
         $m_Lio_circe_Encoder$();
         const inst$macro$48 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$47$1().inst$macro$33__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
         const t$2 = new $c_sjsr_AnonFunction0(((this$3$1, inst$macro$48$1) => (() => inst$macro$48$1))(this, inst$macro$48));
         const lv$2 = new $c_Lshapeless_Lazy$$anon$1(t$2);
         const exported$2 = $as_Lio_circe_Encoder$AsObject(lv$2.value__O());
         const printer$2 = $m_Lio_circe_Printer$().Lio_circe_Printer$__f_noSpaces;
-        const evidence$1$2 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$27, exported$2, printer$2);
-        request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$28, exercise, evidence$1$2).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri)
+        const evidence$1$2 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$24, exported$2, printer$2);
+        request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$25, exercise, evidence$1$2).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri)
       }
     };
-    const x$1 = ("About to make a request: " + request);
-    const this$30 = $m_s_Console$();
-    const this$31 = this$30.out__Ljava_io_PrintStream();
-    this$31.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
     const $$x1 = this.Lbillding_ApiInteractions$__f_backend;
-    const this$32 = $m_s_$less$colon$less$();
-    const this$33 = $as_s_concurrent_Future(request.send__Lsttp_client_SttpBackend__s_$eq$colon$eq__O($$x1, this$32.s_$less$colon$less$__f_singleton));
+    const this$26 = $m_s_$less$colon$less$();
+    const this$27 = $as_s_concurrent_Future(request.send__Lsttp_client_SttpBackend__s_$eq$colon$eq__O($$x1, this$26.s_$less$colon$less$__f_singleton));
     const p = new $c_sjsr_AnonFunction1(((this$4$1) => ((check$ifrefutable$2$2) => {
       const check$ifrefutable$2 = $as_Lsttp_client_Response(check$ifrefutable$2$2);
       return (check$ifrefutable$2 !== null)
     }))(this));
     const executor = this.Lbillding_ApiInteractions$__f_ec;
-    this$33.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$5$1) => ((response$2) => {
+    this$27.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).foreach__F1__s_concurrent_ExecutionContext__V(new $c_sjsr_AnonFunction1(((this$5$1) => ((response$2) => {
       const response = $as_Lsttp_client_Response(response$2);
       const x1 = $as_s_util_Either(response.Lsttp_client_Response__f_body);
       if ((x1 instanceof $c_s_util_Right)) {
         const x2 = $as_s_util_Right(x1);
         const jsonBody = $as_T(x2.s_util_Right__f_value);
         const $$x2 = $m_Lbillding_Main$();
-        const this$36 = $m_jl_Integer$();
-        $$x2.Lbillding_Main$__f_dailyTotal = this$36.parseInt__T__I__I(jsonBody, 10);
+        const this$30 = $m_jl_Integer$();
+        $$x2.Lbillding_Main$__f_dailyTotal = this$30.parseInt__T__I__I(jsonBody, 10);
         const $$x3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("daily_total");
-        const this$37 = $m_Lbillding_Main$().Lbillding_Main$__f_dailyTotal;
-        $$x3.innerHTML = ("" + this$37)
+        const this$31 = $m_Lbillding_Main$().Lbillding_Main$__f_dailyTotal;
+        $$x3.innerHTML = ("" + this$31)
       } else if ((x1 instanceof $c_s_util_Left)) {
         const x3 = $as_s_util_Left(x1);
         const failure = $as_T(x3.s_util_Left__f_value);
-        const x$2 = ("Failed to submit quadsets with error: " + failure);
-        const this$40 = $m_s_Console$();
-        const this$41 = this$40.out__Ljava_io_PrintStream();
-        this$41.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
+        const x$1 = ("Failed to submit quadsets with error: " + failure);
+        const this$34 = $m_s_Console$();
+        const this$35 = this$34.out__Ljava_io_PrintStream();
+        this$35.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"))
       } else {
         throw new $c_s_MatchError(x1)
       }
@@ -997,80 +990,73 @@ class $c_Lbillding_ApiInteractions$ extends $c_O {
     const x = $as_T(storage.getItem("access_token_fromJS"));
     let request;
     if ((x !== "")) {
-      const this$6 = $m_s_Console$();
-      const this$7 = this$6.out__Ljava_io_PrintStream();
-      this$7.java$lang$JSConsoleBasedPrintStream$$printString__T__V("We have a stored token. Use it to post authorized info\n");
-      const this$8 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri);
-      const this$15 = new $c_Lsttp_client_SpecifyAuthScheme($m_Lsttp_model_HeaderNames$().Authorization__T(), this$8, $m_Lsttp_client_DigestAuthenticationBackend$().DigestAuthTag__T()).bearer__T__Lsttp_client_RequestT($as_T(storage.getItem("access_token_fromJS")));
-      const this$14 = $m_Lsttp_client_circe_package$();
+      const this$5 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT().post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri);
+      const this$12 = new $c_Lsttp_client_SpecifyAuthScheme($m_Lsttp_model_HeaderNames$().Authorization__T(), this$5, $m_Lsttp_client_DigestAuthenticationBackend$().DigestAuthTag__T()).bearer__T__Lsttp_client_RequestT($as_T(storage.getItem("access_token_fromJS")));
+      const this$11 = $m_Lsttp_client_circe_package$();
       $m_Lio_circe_Encoder$();
       const inst$macro$16 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$15$2().inst$macro$1__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
-      const t = new $c_sjsr_AnonFunction0(((this$9, inst$macro$16$1) => (() => inst$macro$16$1))(this, inst$macro$16));
+      const t = new $c_sjsr_AnonFunction0(((this$6, inst$macro$16$1) => (() => inst$macro$16$1))(this, inst$macro$16));
       const lv = new $c_Lshapeless_Lazy$$anon$1(t);
       const exported = $as_Lio_circe_Encoder$AsObject(lv.value__O());
       const printer = $m_Lio_circe_Printer$().Lio_circe_Printer$__f_noSpaces;
-      const evidence$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$14, exported, printer);
-      request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$15, exercise, evidence$1)
+      const evidence$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$11, exported, printer);
+      request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$12, exercise, evidence$1)
     } else {
-      const this$16 = $m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken;
-      if ((!this$16.isEmpty__Z())) {
-        const this$22 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
-        const this$21 = $m_Lsttp_client_circe_package$();
+      const this$13 = $m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken;
+      if ((!this$13.isEmpty__Z())) {
+        const this$19 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+        const this$18 = $m_Lsttp_client_circe_package$();
         $m_Lio_circe_Encoder$();
         const inst$macro$32 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$31$2().inst$macro$17__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
         const t$1 = new $c_sjsr_AnonFunction0(((this$2$1, inst$macro$32$1) => (() => inst$macro$32$1))(this, inst$macro$32));
         const lv$1 = new $c_Lshapeless_Lazy$$anon$1(t$1);
         const exported$1 = $as_Lio_circe_Encoder$AsObject(lv$1.value__O());
         const printer$1 = $m_Lio_circe_Printer$().Lio_circe_Printer$__f_noSpaces;
-        const evidence$1$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$21, exported$1, printer$1);
-        request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$22, exercise, evidence$1$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken.get__O())))
+        const evidence$1$1 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$18, exported$1, printer$1);
+        request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$19, exercise, evidence$1$1).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri.param__T__T__Lsttp_model_Uri("access_token", $as_T($m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken.get__O())))
       } else {
-        const this$28 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
-        const this$27 = $m_Lsttp_client_circe_package$();
+        const this$25 = $m_Lsttp_client_package$().basicRequest__Lsttp_client_RequestT();
+        const this$24 = $m_Lsttp_client_circe_package$();
         $m_Lio_circe_Encoder$();
         const inst$macro$48 = new $c_Lbillding_ApiInteractions$anon$importedEncoder$macro$47$2().inst$macro$33__Lio_circe_generic_encoding_DerivedAsObjectEncoder();
         const t$2 = new $c_sjsr_AnonFunction0(((this$3$1, inst$macro$48$1) => (() => inst$macro$48$1))(this, inst$macro$48));
         const lv$2 = new $c_Lshapeless_Lazy$$anon$1(t$2);
         const exported$2 = $as_Lio_circe_Encoder$AsObject(lv$2.value__O());
         const printer$2 = $m_Lio_circe_Printer$().Lio_circe_Printer$__f_noSpaces;
-        const evidence$1$2 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$27, exported$2, printer$2);
-        request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$28, exercise, evidence$1$2).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri)
+        const evidence$1$2 = $f_Lsttp_client_circe_SttpCirceApi__circeBodySerializer__Lio_circe_Encoder__Lio_circe_Printer__F1(this$24, exported$2, printer$2);
+        request = $f_Lsttp_client_RequestTExtensions__body__O__F1__Lsttp_client_RequestT(this$25, exercise, evidence$1$2).post__Lsttp_model_Uri__Lsttp_client_RequestT(this.Lbillding_ApiInteractions$__f_exerciseUri)
       }
     };
-    const x$1 = ("About to make a request: " + request);
-    const this$30 = $m_s_Console$();
-    const this$31 = this$30.out__Ljava_io_PrintStream();
-    this$31.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
     const $$x1 = this.Lbillding_ApiInteractions$__f_backend;
-    const this$32 = $m_s_$less$colon$less$();
-    const this$33 = $as_s_concurrent_Future(request.send__Lsttp_client_SttpBackend__s_$eq$colon$eq__O($$x1, this$32.s_$less$colon$less$__f_singleton));
+    const this$26 = $m_s_$less$colon$less$();
+    const this$27 = $as_s_concurrent_Future(request.send__Lsttp_client_SttpBackend__s_$eq$colon$eq__O($$x1, this$26.s_$less$colon$less$__f_singleton));
     const p = new $c_sjsr_AnonFunction1(((this$4$1) => ((check$ifrefutable$3$2) => {
       const check$ifrefutable$3 = $as_Lsttp_client_Response(check$ifrefutable$3$2);
       return (check$ifrefutable$3 !== null)
     }))(this));
     const executor = this.Lbillding_ApiInteractions$__f_ec;
-    return this$33.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$5$1, unsafeElementCounterId$1) => ((response$2) => {
+    return this$27.filter__F1__s_concurrent_ExecutionContext__s_concurrent_Future(p, executor).map__F1__s_concurrent_ExecutionContext__s_concurrent_Future(new $c_sjsr_AnonFunction1(((this$5$1, unsafeElementCounterId$1) => ((response$2) => {
       const response = $as_Lsttp_client_Response(response$2);
       const x1 = $as_s_util_Either(response.Lsttp_client_Response__f_body);
       if ((x1 instanceof $c_s_util_Right)) {
         const x2 = $as_s_util_Right(x1);
         const jsonBody = $as_T(x2.s_util_Right__f_value);
         const $$x2 = $m_Lbillding_Main$();
-        const this$36 = $m_jl_Integer$();
-        $$x2.Lbillding_Main$__f_shoulderStretchTotal = this$36.parseInt__T__I__I(jsonBody, 10);
+        const this$30 = $m_jl_Integer$();
+        $$x2.Lbillding_Main$__f_shoulderStretchTotal = this$30.parseInt__T__I__I(jsonBody, 10);
         const $$x3 = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById(unsafeElementCounterId$1);
-        const this$39 = $m_jl_Integer$();
-        const this$40 = this$39.parseInt__T__I__I(jsonBody, 10);
-        $$x3.innerHTML = ("" + this$40);
-        const this$44 = $m_jl_Integer$();
-        return this$44.parseInt__T__I__I(jsonBody, 10)
+        const this$33 = $m_jl_Integer$();
+        const this$34 = this$33.parseInt__T__I__I(jsonBody, 10);
+        $$x3.innerHTML = ("" + this$34);
+        const this$38 = $m_jl_Integer$();
+        return this$38.parseInt__T__I__I(jsonBody, 10)
       } else if ((x1 instanceof $c_s_util_Left)) {
         const x3 = $as_s_util_Left(x1);
         const failure = $as_T(x3.s_util_Left__f_value);
-        const x$2 = ("Failed to submit armstretches with error: " + failure);
-        const this$46 = $m_s_Console$();
-        const this$47 = this$46.out__Ljava_io_PrintStream();
-        this$47.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"));
+        const x$1 = ("Failed to submit armstretches with error: " + failure);
+        const this$40 = $m_s_Console$();
+        const this$41 = this$40.out__Ljava_io_PrintStream();
+        this$41.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
         return 0
       } else {
         throw new $c_s_MatchError(x1)
@@ -1103,14 +1089,14 @@ class $c_Lbillding_Main$ extends $c_O {
     this.Lbillding_Main$__f_shoulderStretchTotal = 0;
     this.Lbillding_Main$__f_audioContext = null;
     this.Lbillding_Main$__f_startSound = null;
-    this.Lbillding_Main$__f_completeSound = null;
+    this.Lbillding_Main$__f_endSound = null;
     $n_Lbillding_Main$ = this;
     this.Lbillding_Main$__f_count = 0;
     this.Lbillding_Main$__f_dailyTotal = 0;
     this.Lbillding_Main$__f_shoulderStretchTotal = 0;
     this.Lbillding_Main$__f_audioContext = new AudioContext();
     this.Lbillding_Main$__f_startSound = this.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement("/resources/audio/startQuadSet/metronome_tock.wav");
-    this.Lbillding_Main$__f_completeSound = this.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement("/resources/audio/completeQuadSet/metronome_tink.wav")
+    this.Lbillding_Main$__f_endSound = this.sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement("/resources/audio/completeQuadSet/metronome_tink.wav")
   };
   sound__T__Lorg_scalajs_dom_raw_HTMLAudioElement(src) {
     const sound = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().createElement("audio");
@@ -1209,7 +1195,7 @@ class $c_Lbillding_Main$ extends $c_O {
     const eventProp$1 = this$50.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
     const this$52 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$51, eventProp$1).mapTo__F0__Lcom_raquo_laminar_emitter_EventPropTransformation(new $c_sjsr_AnonFunction0(((this$5$1, postFunc$2) => (() => {
       postFunc$2.apply__O__O(1);
-      return (-1)
+      return 1
     }))(this, postFunc)));
     const observer$1 = armStretches.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
     const array$5 = [$$x1, $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$1, this$52.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$52.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$52.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("+1"))];
@@ -1229,10 +1215,12 @@ class $c_Lbillding_Main$ extends $c_O {
     const \u03b4color = $f_Lcom_raquo_airstream_eventstream_EventStream__foldLeft__O__F2__Lcom_raquo_airstream_signal_Signal(this$2, "green", fn);
     const project = new $c_sjsr_AnonFunction1(((this$2$1) => ((color$3$2) => {
       const color$3 = $as_T(color$3$2);
-      if (((color$3 === "green") && $uZ($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("play-audio").checked))) {
-        $m_Lbillding_Main$().Lbillding_Main$__f_startSound.play()
-      } else if ($uZ($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("play-audio").checked)) {
-        $m_Lbillding_Main$().Lbillding_Main$__f_completeSound.play()
+      if ($uZ($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().getElementById("play-audio").checked)) {
+        if ((color$3 === "green")) {
+          $m_Lbillding_Main$().Lbillding_Main$__f_startSound.play()
+        } else {
+          $m_Lbillding_Main$().Lbillding_Main$__f_endSound.play()
+        }
       }
     }))(this));
     const noises = new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4color, project, $m_s_None$());
@@ -1497,34 +1485,16 @@ class $c_Lbillding_Main$ extends $c_O {
     const appDiv = $$x20.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$3));
     const this$42 = $m_s_Console$();
     const this$43 = this$42.out__Ljava_io_PrintStream();
-    this$43.java$lang$JSConsoleBasedPrintStream$$printString__T__V("going to render laminarApp sunday 1:51\n");
+    this$43.java$lang$JSConsoleBasedPrintStream$$printString__T__V("going to render laminarApp sunday 2:11\n");
     $m_Lcom_raquo_laminar_api_package$();
     const container = $m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().querySelector("#laminarApp");
     return new $c_Lcom_raquo_laminar_nodes_RootNode(container, appDiv)
   };
   main__AT__V(args) {
-    const this$2 = $m_s_Console$();
-    const this$3 = this$2.out__Ljava_io_PrintStream();
-    this$3.java$lang$JSConsoleBasedPrintStream$$printString__T__V("No more stupid file copies and separate projects!!\n");
     this.laminarStuff__Lcom_raquo_laminar_nodes_RootNode();
-    const x = ("Cookie: " + $as_T($m_Lorg_scalajs_dom_package$().document__Lorg_scalajs_dom_raw_HTMLDocument().cookie));
-    const this$5 = $m_s_Console$();
-    const this$6 = this$5.out__Ljava_io_PrintStream();
-    this$6.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
-    const storage = $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().localStorage;
-    const this$7 = $m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken;
-    if ((!this$7.isEmpty__Z())) {
+    const this$1 = $m_Lbillding_Meta$().Lbillding_Meta$__f_accessToken;
+    if ((!this$1.isEmpty__Z())) {
       $m_Lorg_scalajs_dom_package$().window__Lorg_scalajs_dom_raw_Window().location.href = "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
-    };
-    const x$1 = $as_T(storage.getItem("access_token_fromJS"));
-    if ((x$1 !== "")) {
-      const this$11 = $m_s_Console$();
-      const this$12 = this$11.out__Ljava_io_PrintStream();
-      this$12.java$lang$JSConsoleBasedPrintStream$$printString__T__V("Still have a token stored after loading the page without query params :)\n");
-      const x$2 = ("Value: " + $as_T(storage.getItem("access_token_fromJS")));
-      const this$14 = $m_s_Console$();
-      const this$15 = this$14.out__Ljava_io_PrintStream();
-      this$15.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$2 + "\n"))
     };
     $m_Lbillding_ApiInteractions$().getQuadSetHistory__V();
     $m_Lbillding_ApiInteractions$().postQuadSets__I__V(0)
@@ -1680,16 +1650,8 @@ class $c_Lbillding_Time$ extends $c_O {
       const this$7 = $uD(jsDate.getDate());
       daySection = ("0" + ("" + this$7))
     };
-    const x = ("Current hours: " + $uD(jsDate.getHours()));
-    const this$10 = $m_s_Console$();
-    const this$11 = this$10.out__Ljava_io_PrintStream();
-    this$11.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x + "\n"));
-    const x$1 = ("Full Date: " + jsDate);
-    const this$13 = $m_s_Console$();
-    const this$14 = this$13.out__Ljava_io_PrintStream();
-    this$14.java$lang$JSConsoleBasedPrintStream$$printString__T__V((x$1 + "\n"));
-    const this$15 = $uD(jsDate.getFullYear());
-    return ((((("" + this$15) + "-") + monthSection) + "-") + daySection)
+    const this$9 = $uD(jsDate.getFullYear());
+    return ((((("" + this$9) + "-") + monthSection) + "-") + daySection)
   };
 }
 const $d_Lbillding_Time$ = new $TypeData().initClass({

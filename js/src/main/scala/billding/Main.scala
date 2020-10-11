@@ -6,11 +6,8 @@ import billding.Main.{Increment, ResetCount}
 import com.raquo.airstream.core.Observable
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
-import org.scalajs.dom.{document, html, Event}
-import org.scalajs.dom.raw.Element
-import org.scalajs.dom.raw.HTMLAudioElement
-import org.scalajs.dom.raw.HTMLInputElement
-import org.scalajs.dom.raw.AudioContext
+import org.scalajs.dom.{Event, document, html}
+import org.scalajs.dom.raw.{AudioContext, Element, HTMLAudioElement, HTMLInputElement, Storage}
 import sttp.model.{Header, Uri}
 import sttp.client.circe._
 
@@ -41,9 +38,6 @@ object Time {
         jsDate.getDate().toString
       else
         "0" + jsDate.getDate().toString
-
-    println("Current hours: " + jsDate.getHours())
-    println("Full Date: " + jsDate)
 
     jsDate.getFullYear().toString + "-" + monthSection + "-" + daySection
   }
@@ -100,22 +94,14 @@ object ApiInteractions {
       println("I won't throw away those sweet reps!")
   }
 
-  def postQuadSetsTyped(count: Int): Main.CounterAction =
-    safelyPostQuadSets(count) match {
-      case 0     => ResetCount
-      case 1     => Increment(0) // todo better value
-      case other => throw new RuntimeException("ouch. bad status code from safelyPostQuadSets")
-    }
-
   def safelyPostQuadSets(count: Int) = {
     val confirmed =
       org.scalajs.dom.window.confirm(s"Are you sure you want to submit $count quadsets?")
     if (confirmed) {
       postQuadSets(count)
-      0
+      ResetCount
     } else {
-      println("Fine, I won't do anything then!")
-      1
+      Increment(0)
     }
   }
 
@@ -134,22 +120,18 @@ object ApiInteractions {
     )
 
   def getQuadSetHistory() = {
-
     val storage = org.scalajs.dom.window.localStorage
     val request = {
-      if (storage.getItem("access_token_fromJS").nonEmpty) {
-        println("We have a stored token. Use it for getting authorized info")
+      if (storage.getItem("access_token_fromJS").nonEmpty) { // We have a stored token. Use it for getting authorized info
         basicRequest
           .get(quadSetUri)
           .auth
           .bearer(storage.getItem("access_token_fromJS"))
-      } else if (Meta.accessToken.isDefined) {
-        println("We queryParameter token. Use it for getting authorized info. Non-ideal.")
+      } else if (Meta.accessToken.isDefined) { // We have a queryParameter token. Use it for getting authorized info. Non-ideal.
         basicRequest
           .get(quadSetUri.param("access_token", Meta.accessToken.get))
           .header(Header.authorization("Bearer", Meta.accessToken.get))
-      } else {
-        println("We have no token. Request information for public, chaotic user.")
+      } else { // no token. Request information for public, chaotic user.
         basicRequest
           .get(quadSetUri)
       }
@@ -183,10 +165,9 @@ object ApiInteractions {
     val exercise =
       DailyQuantizedExercise(name = "QuadSets", day = LocalDate.parse(localDate), count = count)
 
-    val storage = org.scalajs.dom.window.localStorage
+    val storage: Storage = org.scalajs.dom.window.localStorage
     val request =
       if (storage.getItem("access_token_fromJS").nonEmpty) {
-        println("We have a stored token. Use it to post authorized info")
         basicRequest
           .post(exerciseUri)
           .auth
@@ -202,7 +183,6 @@ object ApiInteractions {
           .post(exerciseUri)
       }
 
-    println("About to make a request: " + request)
     for {
       response: Response[Either[String, String]] <- request.send()
     } {
@@ -226,7 +206,6 @@ object ApiInteractions {
     val storage = org.scalajs.dom.window.localStorage
     val request =
       if (storage.getItem("access_token_fromJS").nonEmpty) {
-        println("We have a stored token. Use it to post authorized info")
         basicRequest
           .post(exerciseUri)
           .auth
@@ -242,7 +221,6 @@ object ApiInteractions {
           .post(exerciseUri)
       }
 
-    println("About to make a request: " + request)
     for {
       response: Response[Either[String, String]] <- request.send()
     } yield {
@@ -278,7 +256,7 @@ object Main {
   }
 
   val startSound = sound("/resources/audio/startQuadSet/metronome_tock.wav");
-  val completeSound = sound("/resources/audio/completeQuadSet/metronome_tink.wav");
+  val endSound = sound("/resources/audio/completeQuadSet/metronome_tink.wav");
 
   case class Counter(value: Int)
   sealed trait CounterAction
@@ -346,13 +324,12 @@ object Main {
     val $color: Signal[String] =
       clockTicks.events.foldLeft("green")((color, _) => if (color == "red") "green" else "red")
     val noises = $color.map(color => {
-      if (color == "green" && document
-            .getElementById("play-audio")
-            .asInstanceOf[HTMLInputElement]
-            .checked) {
-        startSound.play()
-      } else if (document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
-        completeSound.play()
+      if (document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
+        if (color == "green") {
+          startSound.play()
+        } else {
+          endSound.play()
+        }
       }
     })
     val diffBusT = new EventBus[CounterAction]()
@@ -377,8 +354,7 @@ object Main {
             inContext(
               context =>
                 onClick.mapTo(
-                  value = ApiInteractions.postQuadSetsTyped(
-                    //              $countT.observe(ownerDiv).now().value)) --> diffBusT)),
+                  value = ApiInteractions.safelyPostQuadSets(
                     context.ref.attributes.getNamedItem("data-count").value.toInt
                   )
                 ) --> diffBusT
@@ -493,23 +469,16 @@ object Main {
       )
     )
 
-    println("going to render laminarApp sunday 1:51")
+    println("going to render laminarApp sunday 2:11")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
   def main(args: Array[String]): Unit = {
-    println("No more stupid file copies and separate projects!!")
     laminarStuff()
 
-    println("Cookie: " + document.cookie)
-    val storage = org.scalajs.dom.window.localStorage
     if (Meta.accessToken.isDefined) {
       dom.window.location.href =
         "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
-    }
-    if (storage.getItem("access_token_fromJS").nonEmpty) {
-      println("Still have a token stored after loading the page without query params :)")
-      println("Value: " + storage.getItem("access_token_fromJS"))
     }
 
     ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
