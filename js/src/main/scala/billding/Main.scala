@@ -6,7 +6,7 @@ import billding.Main.{Increment, ResetCount}
 import com.raquo.airstream.core.Observable
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
-import org.scalajs.dom.{Event, document, html}
+import org.scalajs.dom.{document, html, Event}
 import org.scalajs.dom.raw.{AudioContext, Element, HTMLAudioElement, HTMLInputElement, Storage}
 import sttp.model.{Header, Uri}
 import sttp.client.circe._
@@ -51,7 +51,7 @@ object Meta {
       case (a, b) => (a.mkString("/"), b.mkString("/"))
     }
 
-  val accessToken = {
+  val accessToken: Option[String] = {
     if (document.URL.contains("?")) {
       val queryParameters =
         document.URL.split('?')(1)
@@ -94,11 +94,11 @@ object ApiInteractions {
       println("I won't throw away those sweet reps!")
   }
 
-  def safelyPostQuadSets(count: Int) = {
+  def safelyPostQuadSets(count: Int, storage: Storage) = {
     val confirmed =
       org.scalajs.dom.window.confirm(s"Are you sure you want to submit $count quadsets?")
     if (confirmed) {
-      postQuadSets(count)
+      postQuadSets(count, storage)
       ResetCount
     } else {
       Increment(0)
@@ -119,10 +119,11 @@ object ApiInteractions {
         )
     )
 
-  def getQuadSetHistory() = {
-    val storage = org.scalajs.dom.window.localStorage
+  def getQuadSetHistory(storage: Storage) = {
     val request = {
-      if (storage.getItem("access_token_fromJS").nonEmpty) { // We have a stored token. Use it for getting authorized info
+      if (storage
+            .getItem("access_token_fromJS")
+            .nonEmpty) { // We have a stored token. Use it for getting authorized info
         basicRequest
           .get(quadSetUri)
           .auth
@@ -160,12 +161,11 @@ object ApiInteractions {
 
   }
 
-  def postQuadSets(count: Int) = {
+  def postQuadSets(count: Int, storage: Storage) = {
     val localDate = Time.formattedLocalDate()
     val exercise =
       DailyQuantizedExercise(name = "QuadSets", day = LocalDate.parse(localDate), count = count)
 
-    val storage: Storage = org.scalajs.dom.window.localStorage
     val request =
       if (storage.getItem("access_token_fromJS").nonEmpty) {
         basicRequest
@@ -278,7 +278,7 @@ object Main {
                                titleText: String,
                                displayCode: Binder[HtmlElement],
                                counterId: String,
-                               postFunc: (Int) => Future[Int]) = {
+                               postFunc: (Int) => Future[Int]): ReactiveHtmlElement[html.Div] = {
     val armStretches = new EventBus[Int]
     val $shoulderStretchTotal: Signal[Int] =
       armStretches.events.foldLeft(0)((acc, next) => acc + next)
@@ -317,7 +317,9 @@ object Main {
 
   }
 
-  def CounterComponent(id: Int, displayCode: Binder[HtmlElement]): ReactiveHtmlElement[html.Div] = {
+  def CounterComponent(id: Int,
+                       displayCode: Binder[HtmlElement],
+                       storage: Storage): ReactiveHtmlElement[html.Div] = {
     val repeater = RepeatingElement()
 
     val clockTicks = new EventBus[Int]
@@ -355,7 +357,8 @@ object Main {
               context =>
                 onClick.mapTo(
                   value = ApiInteractions.safelyPostQuadSets(
-                    context.ref.attributes.getNamedItem("data-count").value.toInt
+                    context.ref.attributes.getNamedItem("data-count").value.toInt,
+                    storage
                   )
                 ) --> diffBusT
             )
@@ -405,7 +408,7 @@ object Main {
       child.text <-- helloNameStream // dynamic child (text node in this case)
     )
 
-  def laminarStuff() = {
+  def laminarStuff(storage: Storage) = {
     val nameBus = new EventBus[String]
     val colorStream: EventStream[String] = nameBus.events.map { name =>
       if (name == "Sébastien") "red" else "unset" // make Sébastien feel special
@@ -442,7 +445,8 @@ object Main {
       CounterComponent(1,
                        styleAttr <-- $selectedComponent.map(
                          selection => s"""display: ${if (selection == 1) "inline" else "none"}"""
-                       )),
+                       ),
+                       storage),
       ExerciseSessionComponent(
         2,
         "Shoulder Stretches",
@@ -469,19 +473,20 @@ object Main {
       )
     )
 
-    println("going to render laminarApp sunday 2:11")
+    println("going to render laminarApp sunday 3:00")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
   def main(args: Array[String]): Unit = {
-    laminarStuff()
+    val storage = org.scalajs.dom.window.localStorage
+    laminarStuff(storage)
 
     if (Meta.accessToken.isDefined) {
       dom.window.location.href =
         "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
     }
 
-    ApiInteractions.getQuadSetHistory() // TODO Load this data up for certain pages
-    ApiInteractions.postQuadSets(0) // Doing this to get the initial count
+    ApiInteractions.getQuadSetHistory(storage) // TODO Load this data up for certain pages
+    ApiInteractions.postQuadSets(0, storage) // Doing this to get the initial count
   }
 }
