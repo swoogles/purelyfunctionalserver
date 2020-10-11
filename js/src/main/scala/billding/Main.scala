@@ -196,9 +196,7 @@ object ApiInteractions {
     }
   }
 
-  def postExerciseSession(count: Int,
-                          exerciseName: String,
-                          unsafeElementCounterId: String): Future[Int] = {
+  def postExerciseSession(count: Int, exerciseName: String): Future[Int] = {
     val localDate = Time.formattedLocalDate()
     val exercise =
       DailyQuantizedExercise(name = exerciseName, day = LocalDate.parse(localDate), count = count)
@@ -227,7 +225,6 @@ object ApiInteractions {
       response.body match {
         case Right(jsonBody) => {
           Main.shoulderStretchTotal = jsonBody.toInt
-          document.getElementById(unsafeElementCounterId).innerHTML = jsonBody.toInt.toString
           jsonBody.toInt
         }
         case Left(failure) => {
@@ -274,17 +271,21 @@ object Main {
 
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
-  def ExerciseSessionComponent(id: Int,
-                               titleText: String,
-                               displayCode: Binder[HtmlElement],
-                               counterId: String,
-                               postFunc: (Int) => Future[Int]): ReactiveHtmlElement[html.Div] = {
+  def ExerciseSessionComponent(
+    id: Int,
+    titleText: String,
+    displayCode: Binder[HtmlElement],
+    exerciseId: String,
+    postFunc: (Int, String) => Future[Int]
+  ): ReactiveHtmlElement[html.Div] = {
+    val counterId =
+      exerciseId + "_daily_total"
     val armStretches = new EventBus[Int]
     val $shoulderStretchTotal: Signal[Int] =
       armStretches.events.foldLeft(0)((acc, next) => acc + next)
     val $res: Signal[Int] =
       Signal
-        .fromFuture(postFunc(0))
+        .fromFuture(postFunc(0, exerciseId))
         .combineWith($shoulderStretchTotal)
         .map {
           case (optResult, latestResult) =>
@@ -304,12 +305,12 @@ object Main {
         cls := "centered",
         button(
           cls := "button is-link is-rounded medium",
-          onClick.mapTo(value = { postFunc(-1); -1 }) --> armStretches,
+          onClick.mapTo(value = { postFunc(-1, exerciseId); -1 }) --> armStretches,
           "-1"
         ),
         button(
           cls := "button is-link is-rounded medium",
-          onClick.mapTo(value = { postFunc(1); 1 }) --> armStretches,
+          onClick.mapTo(value = { postFunc(1, exerciseId); 1 }) --> armStretches,
           "+1"
         )
       )
@@ -453,11 +454,8 @@ object Main {
         styleAttr <-- $selectedComponent.map(
           selection => s"""display: ${if (selection == 2) "inline" else "none"}"""
         ),
-        "shoulder_stretches_daily_total",
-        (count) =>
-          ApiInteractions.postExerciseSession(count,
-                                              "shoulder_stretches",
-                                              "shoulder_stretches_daily_total")
+        "shoulder_stretches",
+        ApiInteractions.postExerciseSession
       ),
       ExerciseSessionComponent(
         3,
@@ -465,15 +463,12 @@ object Main {
         styleAttr <-- $selectedComponent.map(
           selection => s"""display: ${if (selection == 3) "inline" else "none"}"""
         ),
-        "shoulder_squeezes_daily_total",
-        (count) =>
-          ApiInteractions.postExerciseSession(count,
-                                              "shoulder_squeezes",
-                                              "shoulder_squeezes_daily_total")
+        "shoulder_squeezes",
+        ApiInteractions.postExerciseSession
       )
     )
 
-    println("going to render laminarApp sunday 3:00")
+    println("going to render laminarApp sunday 4:41")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
