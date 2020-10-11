@@ -169,14 +169,24 @@ cbBuild := {
   (foo.jvm/Compile/scalafmt).value
   (Compile/scalafmt).value
   import scala.sys.process._
-  //  "ls ./target/scala-2.13" !
   (Process("mkdir ./jvm/src/main/resources/compiledJavaScript") #||
     Process("cp ./databaseExploration/js/target/scala-2.13/databaseexploration-fastopt.js ./jvm/src/main/resources/compiledJavaScript/") #&&
     Process("cp ./js/target/scala-2.13/quadset-counter-fastopt.js ./jvm/src/main/resources/compiledJavaScript/")
-//    Process("cp ./target/scala-2.13/busriderapp-fastopt.js ./jvm/src/main/resources/compiledJavascript/") #&&
-//    Process("cp ./target/scala-2.13/busriderapp-fastopt.js.map src/main/resources/compiledJavascript/") #&&
-//    Process("cp sw/target/scala-2.13/sw-opt.js src/main/resources/") #&&
-//    Process("cp sw/target/scala-2.13/sw-opt.js.map src/main/resources/") #&&
-//    Process("cp ./target/scala-2.13/busriderapp-jsdeps.js src/main/resources/compiledJavascript/"))!
+    )!
+}
+
+lazy val cbPublish = taskKey[Unit]("Execute the shell script")
+
+cbPublish := {
+  (foo.js/Compile/scalafmt).value
+  (foo.js/Compile/fullOptJS).value
+  (foo.jvm/Compile/compile).value
+  (databaseExploration.js/Compile/fullOptJS).value
+  (foo.jvm/Compile/scalafmt).value
+  (Compile/scalafmt).value
+  import scala.sys.process._
+  (Process("mkdir ./jvm/src/main/resources/compiledJavaScript") #||
+    Process("cp ./databaseExploration/js/target/scala-2.13/databaseexploration-opt.js ./jvm/src/main/resources/compiledJavaScript/") #&&
+    Process("cp ./js/target/scala-2.13/quadset-counter-opt.js ./jvm/src/main/resources/compiledJavaScript/")
     )!
 }
