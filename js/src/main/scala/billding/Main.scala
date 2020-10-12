@@ -402,10 +402,9 @@ object Main {
           input(typ := "checkbox", idAttr := "play-audio", name := "play-audio", value := "true")
         ),
         div(
-          idAttr := "daily_total_section",
           styleAttr := "text-align: center; font-size: 2em",
           span("Daily Total:"),
-          span(idAttr := "daily_total", styleAttr := "font-size: 2em")
+          span(styleAttr := "font-size: 2em")
         ),
         a(href := "/", cls := "button is-link is-rounded medium", "Re-login"),
         div(idAttr := "exercise_history"),
