@@ -406,7 +406,7 @@ object Main {
           span("Daily Total:"),
           span(styleAttr := "font-size: 2em")
         ),
-        a(href := "/", cls := "button is-link is-rounded medium", "Re-login"),
+        a(href := "/oauth/login", cls := "button is-link is-rounded medium", "Re-login"),
         div(idAttr := "exercise_history"),
         repeater.repeatWithInterval(
           Increment(1).asInstanceOf[CounterAction],
@@ -436,9 +436,6 @@ object Main {
     ApiInteractions.postQuadSets(0, storage) // Doing this to get the initial count
 
     val nameBus = new EventBus[String]
-    val colorStream: EventStream[String] = nameBus.events.map { name =>
-      if (name == "Sébastien") "red" else "unset" // make Sébastien feel special
-    }
 
     val componentSelections = new EventBus[Exercise]
     val $selectedComponent: Signal[Exercise] =
@@ -477,10 +474,6 @@ object Main {
 //          typ := "text",
 //          inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
 //        )
-//      ),
-//      div(
-//        "Please accept our greeting: ",
-//        Hello(nameBus.events, colorStream)
 //      ),
       CounterComponent(QuadSets, $selectedComponent, storage, new SoundCreator),
       ExerciseSessionComponent(ShoulderStretches,
