@@ -23,6 +23,26 @@ import exercises.DailyQuantizedExercise
 import scala.concurrent.Future
 import scala.concurrent.duration.FiniteDuration
 
+sealed trait Exercise {
+  val id: String
+  val humanFriendlyName: String
+}
+
+case object QuadSets extends Exercise {
+  val id: String = "QuadSets"
+  val humanFriendlyName = "QuadSets"
+}
+
+case object ShoulderStretches extends Exercise {
+  val id: String = "shoulder_stretches"
+  val humanFriendlyName = "Shoulder Stretches"
+}
+
+case object ShoulderSqueezes extends Exercise {
+  val id: String = "shoulder_squeezes"
+  val humanFriendlyName = "Shoulder Squeezes"
+}
+
 object Time {
 
   def formattedLocalDate(): String = {
@@ -105,9 +125,9 @@ object ApiInteractions {
     }
   }
 
-  import scalatags.JsDom.all._
-
-  def representQuadSets(quadsets: List[DailyQuantizedExercise]) =
+  // TODO Convert this to laminar
+  def representQuadSets(quadsets: List[DailyQuantizedExercise]) = {
+    import scalatags.JsDom.all._
     div(
       quadsets
         .map(
@@ -118,6 +138,7 @@ object ApiInteractions {
             )
         )
     )
+  }
 
   def getQuadSetHistory(storage: Storage) = {
     val request = {
@@ -138,6 +159,7 @@ object ApiInteractions {
       }
     }
 
+    import scalatags.JsDom.all._
     for {
       response: Response[Either[String, String]] <- request.send()
     } {
@@ -224,7 +246,6 @@ object ApiInteractions {
     } yield {
       response.body match {
         case Right(jsonBody) => {
-          Main.shoulderStretchTotal = jsonBody.toInt
           jsonBody.toInt
         }
         case Left(failure) => {
@@ -239,21 +260,7 @@ object ApiInteractions {
 object Main {
   var count = 0
   var dailyTotal = 0
-  var shoulderStretchTotal = 0
   var audioContext = new AudioContext()
-
-  def sound(src: String): HTMLAudioElement = {
-    val sound: HTMLAudioElement = document.createElement("audio").asInstanceOf[HTMLAudioElement]
-    sound.src = src
-    sound.setAttribute("preload", "auto")
-    sound.setAttribute("controls", "none")
-    sound.style.display = "none"
-    document.body.appendChild(sound)
-    sound
-  }
-
-  val startSound = sound("/resources/audio/startQuadSet/metronome_tock.wav");
-  val endSound = sound("/resources/audio/completeQuadSet/metronome_tink.wav");
 
   case class Counter(value: Int)
   sealed trait CounterAction
@@ -272,45 +279,40 @@ object Main {
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
   def ExerciseSessionComponent(
-    id: Int,
-    titleText: String,
-    displayCode: Binder[HtmlElement],
-    exerciseId: String,
+    exercise: Exercise,
+    $selectedComponent: Signal[Exercise],
     postFunc: (Int, String) => Future[Int]
   ): ReactiveHtmlElement[html.Div] = {
-    val counterId =
-      exerciseId + "_daily_total"
-    val armStretches = new EventBus[Int]
-    val $shoulderStretchTotal: Signal[Int] =
-      armStretches.events.foldLeft(0)((acc, next) => acc + next)
+    val exerciseSubmissions = new EventBus[Int]
+    val $exerciseTotal: Signal[Int] =
+      exerciseSubmissions.events.foldLeft(0)((acc, next) => acc + next)
     val $res: Signal[Int] =
       Signal
-        .fromFuture(postFunc(0, exerciseId))
-        .combineWith($shoulderStretchTotal)
+        .fromFuture(postFunc(0, exercise.id))
+        .combineWith($exerciseTotal)
         .map {
           case (optResult, latestResult) =>
             if (optResult.isDefined) optResult.get + latestResult else latestResult
         }
 
     div(
-      idAttr := s"counter_component_$id",
-      displayCode,
+      conditionallyDisplay(exercise, $selectedComponent),
       cls("centered"),
       div(
         cls("session-counter"),
-        div(cls := "medium", titleText),
-        div(idAttr := counterId, child <-- $res.map(count => div(count.toString)))
+        div(cls := "medium", exercise.humanFriendlyName),
+        div(child <-- $res.map(count => div(count.toString)))
       ),
       div(
         cls := "centered",
         button(
           cls := "button is-link is-rounded medium",
-          onClick.mapTo(value = { postFunc(-1, exerciseId); -1 }) --> armStretches,
+          onClick.mapTo(value = { postFunc(-1, exercise.id); -1 }) --> exerciseSubmissions,
           "-1"
         ),
         button(
           cls := "button is-link is-rounded medium",
-          onClick.mapTo(value = { postFunc(1, exerciseId); 1 }) --> armStretches,
+          onClick.mapTo(value = { postFunc(1, exercise.id); 1 }) --> exerciseSubmissions,
           "+1"
         )
       )
@@ -318,20 +320,45 @@ object Main {
 
   }
 
-  def CounterComponent(id: Int,
-                       displayCode: Binder[HtmlElement],
-                       storage: Storage): ReactiveHtmlElement[html.Div] = {
+  def conditionallyDisplay(
+    id: Exercise,
+    $selectedComponent: Signal[Exercise]
+  ): Binder[HtmlElement] = {
+    def createCssContent =
+      (selection: Exercise) => s"""display: ${if (selection == id) "inline" else "none"}"""
+    styleAttr <-- $selectedComponent.map(createCssContent)
+  }
+
+  def CounterComponent(id: Exercise,
+                       $selectedComponent: Signal[Exercise],
+                       storage: Storage,
+                       soundCreator: SoundCreator): ReactiveHtmlElement[html.Div] = {
     val repeater = RepeatingElement()
 
     val clockTicks = new EventBus[Int]
+
+    sealed trait CounterState
+    case object Firing extends CounterState
+    case object Relaxed extends CounterState
+
+    val $counterState =
+      clockTicks.events.foldLeft[CounterState](Relaxed)(
+        (counterState, _) => if (counterState == Relaxed) Firing else Relaxed
+      )
+
     val $color: Signal[String] =
-      clockTicks.events.foldLeft("green")((color, _) => if (color == "red") "green" else "red")
-    val noises = $color.map(color => {
+      $counterState.map {
+        case Firing  => "red"
+        case Relaxed => "green"
+      }
+
+    val noises = $counterState.map(counterState => {
+      // TODO properly get this value from the element below, in a streamy fashion
       if (document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
-        if (color == "green") {
-          startSound.play()
+        if (counterState == Firing) {
+          soundCreator.startSound.play()
         } else {
-          endSound.play()
+          soundCreator.endSound.play()
         }
       }
     })
@@ -342,8 +369,7 @@ object Main {
     val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
 
     div(
-      displayCode,
-      idAttr := s"counter_component_$id",
+      conditionallyDisplay(id, $selectedComponent),
       cls := "centered",
       div(
         dataAttr("noise") <-- noises.observable.map(_ => "noise!"),
@@ -387,12 +413,10 @@ object Main {
         repeater.repeatWithInterval(
           Increment(1).asInstanceOf[CounterAction],
           duration * 2
-//        new FiniteDuration(20, scala.concurrent.duration.SECONDS) // todo restore after dev
         ) --> diffBusT,
         repeater.repeatWithInterval(
           1,
           duration
-          //        new FiniteDuration(20, scala.concurrent.duration.SECONDS) // todo restore after dev
         ) --> clockTicks
       )
     )
@@ -410,28 +434,29 @@ object Main {
     )
 
   def laminarStuff(storage: Storage) = {
+    ApiInteractions.getQuadSetHistory(storage) // TODO Load this data up for certain pages
+    ApiInteractions.postQuadSets(0, storage) // Doing this to get the initial count
+
     val nameBus = new EventBus[String]
     val colorStream: EventStream[String] = nameBus.events.map { name =>
       if (name == "Sébastien") "red" else "unset" // make Sébastien feel special
     }
 
-    val componentSelections = new EventBus[Int]
-    val $selectedComponent: Signal[Int] =
-      componentSelections.events.foldLeft(1)((_, selection) => selection)
+    val componentSelections = new EventBus[Exercise]
+    val $selectedComponent: Signal[Exercise] =
+      componentSelections.events.foldLeft[Exercise](QuadSets)((_, selection) => selection)
+
+    def exerciseSelectButton(exercise: Exercise) =
+      button(exercise.humanFriendlyName,
+             cls := "button is-primary is-rounded small",
+             onClick.mapTo(exercise) --> componentSelections)
 
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
-      button("QuadSets",
-             cls := "button is-primary is-rounded small",
-             onClick.mapTo(1) --> componentSelections),
-      button("Shoulder Stretches",
-             cls := "button is-primary is-rounded small",
-             onClick.mapTo(2) --> componentSelections),
-      button("Shoulder Squeezes",
-             cls := "button is-primary is-rounded small",
-             onClick.mapTo(3) --> componentSelections),
-      //      h1("User Welcomer 9000"),
+      exerciseSelectButton(QuadSets),
+      exerciseSelectButton(ShoulderStretches),
+      exerciseSelectButton(ShoulderSqueezes),
 //      div(
 //        "Please enter your name:",
 //        input(
@@ -443,32 +468,16 @@ object Main {
 //        "Please accept our greeting: ",
 //        Hello(nameBus.events, colorStream)
 //      ),
-      CounterComponent(1,
-                       styleAttr <-- $selectedComponent.map(
-                         selection => s"""display: ${if (selection == 1) "inline" else "none"}"""
-                       ),
-                       storage),
-      ExerciseSessionComponent(
-        2,
-        "Shoulder Stretches",
-        styleAttr <-- $selectedComponent.map(
-          selection => s"""display: ${if (selection == 2) "inline" else "none"}"""
-        ),
-        "shoulder_stretches",
-        ApiInteractions.postExerciseSession
-      ),
-      ExerciseSessionComponent(
-        3,
-        "Shoulder Blade Squeezes",
-        styleAttr <-- $selectedComponent.map(
-          selection => s"""display: ${if (selection == 3) "inline" else "none"}"""
-        ),
-        "shoulder_squeezes",
-        ApiInteractions.postExerciseSession
-      )
+      CounterComponent(QuadSets, $selectedComponent, storage, new SoundCreator),
+      ExerciseSessionComponent(ShoulderStretches,
+                               $selectedComponent,
+                               ApiInteractions.postExerciseSession),
+      ExerciseSessionComponent(ShoulderSqueezes,
+                               $selectedComponent,
+                               ApiInteractions.postExerciseSession)
     )
 
-    println("going to render laminarApp sunday 4:41")
+    println("going to render laminarApp sunday 10:05")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
@@ -480,8 +489,5 @@ object Main {
       dom.window.location.href =
         "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
     }
-
-    ApiInteractions.getQuadSetHistory(storage) // TODO Load this data up for certain pages
-    ApiInteractions.postQuadSets(0, storage) // Doing this to get the initial count
   }
 }
