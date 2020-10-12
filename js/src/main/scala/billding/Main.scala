@@ -300,7 +300,6 @@ object Main {
       cls("centered"),
       div(
         cls("session-counter"),
-        div(cls := "medium", exercise.humanFriendlyName),
         div(child <-- $res.map(count => div(count.toString)))
       ),
       div(
@@ -446,10 +445,26 @@ object Main {
     val $selectedComponent: Signal[Exercise] =
       componentSelections.events.foldLeft[Exercise](QuadSets)((_, selection) => selection)
 
+    def indicateSelectedButton(
+      exerciseOfCurrentComponent: Exercise
+    ): Binder[HtmlElement] =
+      cls <--
+      $selectedComponent.map { selectedComponent: Exercise =>
+        "button small " +
+        (if (selectedComponent == exerciseOfCurrentComponent)
+           "is-primary"
+         else
+           "is-link is-rounded ")
+      }
+
     def exerciseSelectButton(exercise: Exercise) =
-      button(exercise.humanFriendlyName,
-             cls := "button is-primary is-rounded small",
-             onClick.mapTo(exercise) --> componentSelections)
+      button(
+        exercise.humanFriendlyName,
+        indicateSelectedButton(exercise),
+        onClick.mapTo {
+          exercise
+        } --> componentSelections
+      )
 
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
