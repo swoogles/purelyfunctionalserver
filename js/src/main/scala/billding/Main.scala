@@ -361,9 +361,9 @@ object Main {
         }
       }
     })
-    val diffBusT = new EventBus[CounterAction]()
+    val counterActionBus = new EventBus[CounterAction]()
     val $countT: Signal[Counter] =
-      diffBusT.events.foldLeft(Counter(0))((acc, next) => CounterAction.update(next, acc))
+      counterActionBus.events.foldLeft(Counter(0))((acc, next) => CounterAction.update(next, acc))
 
     val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
 
@@ -386,14 +386,14 @@ object Main {
                     context.ref.attributes.getNamedItem("data-count").value.toInt,
                     storage
                   )
-                ) --> diffBusT
+                ) --> counterActionBus
             )
           )
         ),
         div(
           button("Reset",
                  cls := "button is-warning is-rounded medium",
-                 onClick.mapTo(ResetCount) --> diffBusT)
+                 onClick.mapTo(ResetCount) --> counterActionBus)
         ),
         div(
           styleAttr := "font-size: 4em",
@@ -408,10 +408,11 @@ object Main {
         ),
         a(href := "/oauth/login", cls := "button is-link is-rounded medium", "Re-login"),
         div(idAttr := "exercise_history"),
+        // TODO Look at method to derive this first repeater off of the 2nd
         repeater.repeatWithInterval(
           Increment(1).asInstanceOf[CounterAction],
           duration * 2
-        ) --> diffBusT,
+        ) --> counterActionBus,
         repeater.repeatWithInterval(
           1,
           duration
