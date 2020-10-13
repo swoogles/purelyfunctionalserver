@@ -2,7 +2,7 @@ package billding
 
 import java.time.LocalDate
 
-import billding.Main.{Increment, ResetCount}
+import com.billding.exercises.{Exercise, QuadSets, ShoulderSqueezes, ShoulderStretches}
 import com.raquo.airstream.core.Observable
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
@@ -23,25 +23,9 @@ import exercises.DailyQuantizedExercise
 import scala.concurrent.Future
 import scala.concurrent.duration.FiniteDuration
 
-sealed trait Exercise {
-  val id: String
-  val humanFriendlyName: String
-}
-
-case object QuadSets extends Exercise {
-  val id: String = "QuadSets"
-  val humanFriendlyName = "QuadSets"
-}
-
-case object ShoulderStretches extends Exercise {
-  val id: String = "shoulder_stretches"
-  val humanFriendlyName = "Shoulder Stretches"
-}
-
-case object ShoulderSqueezes extends Exercise {
-  val id: String = "shoulder_squeezes"
-  val humanFriendlyName = "Shoulder Squeezes"
-}
+sealed trait CounterAction
+case object ResetCount extends CounterAction
+case class Increment(value: Int) extends CounterAction
 
 object Time {
 
@@ -207,13 +191,19 @@ object ApiInteractions {
 
     for {
       response: Response[Either[String, String]] <- request.send()
-    } {
+    } yield {
       response.body match {
         case Right(jsonBody) => {
           Main.dailyTotal = jsonBody.toInt
+//          jsonBody --> countEvents
+          // TODO Handle inside component, rather than this ugly id-based retrieval
           document.getElementById("daily_total").innerHTML = Main.dailyTotal.toString
+          1
         }
-        case Left(failure) => println("Failed to submit quadsets with error: " + failure)
+        case Left(failure) => {
+          println("Failed to submit quadsets with error: " + failure)
+          1
+        }
       }
     }
   }
@@ -263,9 +253,6 @@ object Main {
   var audioContext = new AudioContext()
 
   case class Counter(value: Int)
-  sealed trait CounterAction
-  case object ResetCount extends CounterAction
-  case class Increment(value: Int) extends CounterAction
 
   object CounterAction {
 
@@ -328,6 +315,10 @@ object Main {
     styleAttr <-- $selectedComponent.map(createCssContent)
   }
 
+  sealed trait CounterState
+  case object Firing extends CounterState
+  case object Relaxed extends CounterState
+
   def CounterComponent(id: Exercise,
                        $selectedComponent: Signal[Exercise],
                        storage: Storage,
@@ -335,10 +326,6 @@ object Main {
     val repeater = RepeatingElement()
 
     val clockTicks = new EventBus[Int]
-
-    sealed trait CounterState
-    case object Firing extends CounterState
-    case object Relaxed extends CounterState
 
     val $counterState =
       clockTicks.events.foldLeft[CounterState](Relaxed)(
@@ -362,6 +349,8 @@ object Main {
       }
     })
     val counterActionBus = new EventBus[CounterAction]()
+
+    // Doing this to get the initial count
     val $countT: Signal[Counter] =
       counterActionBus.events.foldLeft(Counter(0))((acc, next) => CounterAction.update(next, acc))
 
@@ -404,6 +393,7 @@ object Main {
         div(
           styleAttr := "text-align: center; font-size: 2em",
           span("Daily Total:"),
+          span(idAttr := "daily_total"),
           span(styleAttr := "font-size: 2em")
         ),
         a(href := "/oauth/login", cls := "button is-link is-rounded medium", "Re-login"),
@@ -434,7 +424,7 @@ object Main {
 
   def laminarStuff(storage: Storage) = {
     ApiInteractions.getQuadSetHistory(storage) // TODO Load this data up for certain pages
-    ApiInteractions.postQuadSets(0, storage) // Doing this to get the initial count
+    ApiInteractions.postQuadSets(0, storage)
 
     val nameBus = new EventBus[String]
 
@@ -485,7 +475,7 @@ object Main {
                                ApiInteractions.postExerciseSession)
     )
 
-    println("going to render laminarApp sunday 10:05")
+    println("going to render laminarApp monday 10:05")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
