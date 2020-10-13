@@ -2,7 +2,15 @@ package billding
 
 import java.time.LocalDate
 
-import com.billding.exercises.{Exercise, QuadSets, ShoulderSqueezes, ShoulderStretches}
+import com.billding.exercises.{
+  DoorRadialIsometrics,
+  Exercise,
+  KettleStyleLifts,
+  ProneShoulderPresses,
+  QuadSets,
+  ShoulderSqueezes,
+  ShoulderStretches
+}
 import com.raquo.airstream.core.Observable
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
@@ -459,18 +467,30 @@ object Main {
       exerciseSelectButton(QuadSets),
       exerciseSelectButton(ShoulderStretches),
       exerciseSelectButton(ShoulderSqueezes),
-//      div(
-//        "Please enter your name:",
-//        input(
-//          typ := "text",
-//          inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
-//        )
-//      ),
+      exerciseSelectButton(DoorRadialIsometrics),
+      exerciseSelectButton(KettleStyleLifts),
+      exerciseSelectButton(ProneShoulderPresses),
+      //      div(
+      //        "Please enter your name:",
+      //        input(
+      //          typ := "text",
+      //          inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
+      //        )
+      //      ),
       CounterComponent(QuadSets, $selectedComponent, storage, new SoundCreator),
       ExerciseSessionComponent(ShoulderStretches,
                                $selectedComponent,
                                ApiInteractions.postExerciseSession),
       ExerciseSessionComponent(ShoulderSqueezes,
+                               $selectedComponent,
+                               ApiInteractions.postExerciseSession),
+      ExerciseSessionComponent(KettleStyleLifts,
+                               $selectedComponent,
+                               ApiInteractions.postExerciseSession),
+      ExerciseSessionComponent(ProneShoulderPresses,
+                               $selectedComponent,
+                               ApiInteractions.postExerciseSession),
+      ExerciseSessionComponent(DoorRadialIsometrics,
                                $selectedComponent,
                                ApiInteractions.postExerciseSession)
     )
