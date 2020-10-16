@@ -5,6 +5,7 @@ import java.time.LocalDate
 import com.billding.exercises.{
   DoorRadialIsometrics,
   Exercise,
+  Exercises,
   KettleStyleLifts,
   ProneShoulderPresses,
   QuadSets,
@@ -438,7 +439,7 @@ object Main {
 
     val componentSelections = new EventBus[Exercise]
     val $selectedComponent: Signal[Exercise] =
-      componentSelections.events.foldLeft[Exercise](QuadSets)((_, selection) => selection)
+      componentSelections.events.foldLeft[Exercise](Exercises.QuadSets)((_, selection) => selection)
 
     def indicateSelectedButton(
       exerciseOfCurrentComponent: Exercise
@@ -464,7 +465,7 @@ object Main {
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
-      exerciseSelectButton(QuadSets),
+      exerciseSelectButton(Exercises.QuadSets),
       exerciseSelectButton(ShoulderStretches),
       exerciseSelectButton(ShoulderSqueezes),
       exerciseSelectButton(DoorRadialIsometrics),
@@ -477,7 +478,7 @@ object Main {
       //          inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
       //        )
       //      ),
-      CounterComponent(QuadSets, $selectedComponent, storage, new SoundCreator),
+      CounterComponent(Exercises.QuadSets, $selectedComponent, storage, new SoundCreator),
       ExerciseSessionComponent(ShoulderStretches,
                                $selectedComponent,
                                ApiInteractions.postExerciseSession),

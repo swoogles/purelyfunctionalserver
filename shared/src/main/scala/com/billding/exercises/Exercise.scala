@@ -5,6 +5,19 @@ sealed trait Exercise {
   val humanFriendlyName: String
 }
 
+case class ExerciseGeneric(
+  id: String,
+  humanFriendlyName: String
+) extends Exercise
+
+object Exercises {
+
+  val QuadSets = ExerciseGeneric(
+    id = "QuadSets",
+    humanFriendlyName = "QuadSets"
+  )
+}
+
 case object QuadSets extends Exercise {
   val id: String = "QuadSets"
   val humanFriendlyName = "QuadSets"
