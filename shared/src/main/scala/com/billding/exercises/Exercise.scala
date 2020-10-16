@@ -16,34 +16,52 @@ object Exercises {
     id = "QuadSets",
     humanFriendlyName = "QuadSets"
   )
-}
 
-case object QuadSets extends Exercise {
-  val id: String = "QuadSets"
-  val humanFriendlyName = "QuadSets"
-}
+  val manuallyCountedExercises = List(
+    ExerciseGeneric(
+      id = "shoulder_stretches",
+      humanFriendlyName = "Shoulder Stretches"
+    ),
+    ExerciseGeneric(
+      id = "shoulder_squeezes",
+      humanFriendlyName = "Shoulder Squeezes"
+    ),
+    ExerciseGeneric(
+      id = "door_radial_isometrics",
+      humanFriendlyName = "Door Radial Isometrics"
+    ),
+    ExerciseGeneric(
+      id = "prone_shoulder_presses",
+      humanFriendlyName = "Prone Shoulder Presses"
+    ),
+    ExerciseGeneric(
+      id = "kettle_style_lifts",
+      humanFriendlyName = "Kettle Style Lifts"
+    ),
+    ExerciseGeneric(
+      id = "supine_shoulder_external_rotation_with_aid",
+      humanFriendlyName = "Supine Shoulder External Rotation with aid"
+    ),
+    ExerciseGeneric(
+      id = "supine_shoulder_flexion_with_aid",
+      humanFriendlyName = "Supine Shoulder Flexion with aid"
+    ),
+    ExerciseGeneric(
+      id = "sitting_shoulder_flexion_with_aid",
+      humanFriendlyName = "Sitting Shoulder Flexion With Aid"
+    ),
+    ExerciseGeneric(
+      id = "isometric_shoulder_external_rotation",
+      humanFriendlyName = "Isometric Shoulder External Rotation"
+    ),
+    ExerciseGeneric(
+      id = "isometric_shoulder_internal_rotation",
+      humanFriendlyName = "Isometric Shoulder Internal Rotation"
+    ),
+    ExerciseGeneric(
+      id = "inclined_row_unweighted",
+      humanFriendlyName = "Inclined Row (unweighted)"
+    )
+  )
 
-case object ShoulderStretches extends Exercise {
-  val id: String = "shoulder_stretches"
-  val humanFriendlyName = "Shoulder Stretches"
-}
-
-case object ShoulderSqueezes extends Exercise {
-  val id: String = "shoulder_squeezes"
-  val humanFriendlyName = "Shoulder Squeezes"
-}
-
-case object DoorRadialIsometrics extends Exercise {
-  val id: String = "door_radial_isometrics"
-  val humanFriendlyName = "Door Radial Isometrics"
-}
-
-case object ProneShoulderPresses extends Exercise {
-  val id: String = "prone_shoulder_presses"
-  val humanFriendlyName = "Prone Shoulder Presses"
-}
-
-case object KettleStyleLifts extends Exercise {
-  val id: String = "kettle_style_lifts"
-  val humanFriendlyName = "Kettle Style Lifts"
 }

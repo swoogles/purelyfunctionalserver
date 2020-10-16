@@ -2,16 +2,8 @@ package billding
 
 import java.time.LocalDate
 
-import com.billding.exercises.{
-  DoorRadialIsometrics,
-  Exercise,
-  Exercises,
-  KettleStyleLifts,
-  ProneShoulderPresses,
-  QuadSets,
-  ShoulderSqueezes,
-  ShoulderStretches
-}
+import com.billding.exercises.{Exercise, Exercises}
+
 import com.raquo.airstream.core.Observable
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
@@ -466,34 +458,16 @@ object Main {
       idAttr := "full_laminar_app",
       cls := "centered",
       exerciseSelectButton(Exercises.QuadSets),
-      exerciseSelectButton(ShoulderStretches),
-      exerciseSelectButton(ShoulderSqueezes),
-      exerciseSelectButton(DoorRadialIsometrics),
-      exerciseSelectButton(KettleStyleLifts),
-      exerciseSelectButton(ProneShoulderPresses),
-      //      div(
-      //        "Please enter your name:",
-      //        input(
-      //          typ := "text",
-      //          inContext(thisNode => onInput.mapTo(thisNode.ref.value) --> nameBus) // extract text entered into this input node whenever the user types in it
-      //        )
-      //      ),
+      Exercises.manuallyCountedExercises
+        .map(exerciseSelectButton),
       CounterComponent(Exercises.QuadSets, $selectedComponent, storage, new SoundCreator),
-      ExerciseSessionComponent(ShoulderStretches,
-                               $selectedComponent,
-                               ApiInteractions.postExerciseSession),
-      ExerciseSessionComponent(ShoulderSqueezes,
-                               $selectedComponent,
-                               ApiInteractions.postExerciseSession),
-      ExerciseSessionComponent(KettleStyleLifts,
-                               $selectedComponent,
-                               ApiInteractions.postExerciseSession),
-      ExerciseSessionComponent(ProneShoulderPresses,
-                               $selectedComponent,
-                               ApiInteractions.postExerciseSession),
-      ExerciseSessionComponent(DoorRadialIsometrics,
-                               $selectedComponent,
-                               ApiInteractions.postExerciseSession)
+      Exercises.manuallyCountedExercises
+        .map(
+          exercise =>
+            ExerciseSessionComponent(exercise,
+                                     $selectedComponent,
+                                     ApiInteractions.postExerciseSession)
+        )
     )
 
     println("going to render laminarApp monday 10:05")
