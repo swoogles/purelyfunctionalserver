@@ -6,6 +6,7 @@ import org.scalajs.dom.raw.HTMLAudioElement
 class SoundCreator {
   val startSound = sound("/resources/audio/startQuadSet/metronome_tock.wav");
   val endSound = sound("/resources/audio/completeQuadSet/metronome_tink.wav");
+  val goalReached = sound("/resources/audio/goalReached/109662__grunz__success.wav")
 
   def sound(src: String): HTMLAudioElement = {
     val sound: HTMLAudioElement = document.createElement("audio").asInstanceOf[HTMLAudioElement]

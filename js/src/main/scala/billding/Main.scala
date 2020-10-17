@@ -270,7 +270,8 @@ object Main {
     componentSelections: EventBus[Exercise],
     exercise: Exercise,
     $selectedComponent: Signal[Exercise],
-    postFunc: (Int, String) => Future[Int]
+    postFunc: (Int, String) => Future[Int],
+    soundCreator: SoundCreator
   ) {
 
     private val exerciseSubmissions = new EventBus[Int]
@@ -286,6 +287,11 @@ object Main {
           case (optResult, latestResult) =>
             if (optResult.isDefined) optResult.get + latestResult else latestResult
         }
+
+    val countObserver = Observer[Int](
+      onNext =
+        currentCount => if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
+    )
 
     private def indicateSelectedButton(
       ): Binder[HtmlElement] =
@@ -318,6 +324,8 @@ object Main {
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
+//        $res.addObserver(countObserver),
+        $res --> countObserver,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
         div(
@@ -537,7 +545,8 @@ object Main {
               componentSelections,
               exercise,
               $selectedComponent,
-              ApiInteractions.postExerciseSession
+              ApiInteractions.postExerciseSession,
+              new SoundCreator
             )
         )
 
