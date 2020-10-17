@@ -266,6 +266,43 @@ object Main {
 
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
+  def menu(choices: List[ReactiveHtmlElement[html.Div]]) =
+    div(
+      idAttr := "main-menu",
+      cls := "navbar",
+      role := "navigation",
+      aria.label := "main navigation",
+      div(
+        cls := "navbar-brand",
+        a(
+          role := "button",
+          cls := "navbar-burger burger",
+          aria.label := "menu",
+          aria.expanded(false),
+//          aria.expanded := ,
+          dataAttr("target") := "navbarBasicExample",
+          span(aria.hidden(true)),
+          span(aria.hidden(true)),
+          span(aria.hidden(true))
+        )
+      ),
+      div(
+        idAttr := "navbarBasicExample",
+        cls := "navbar-menu",
+        div(
+          cls := "navbar-start",
+          div(
+            cls := "navbar-item has-dropdown is-hoverable",
+            a(cls("navbar-link"), "Exercises"),
+            div(cls("navbar-dropdown"), choices.map { choice =>
+              choice.ref.classList.add("navbar-item"); choice
+            })
+          )
+        ),
+        div(cls("navbar-end"))
+      )
+    )
+
   class ExerciseSessionComponentWithExternalStatus(
     componentSelections: EventBus[Exercise],
     exercise: Exercise,
@@ -289,7 +326,9 @@ object Main {
         }
 
     val countObserver = Observer[Int](
-      onNext =
+      onNext = // Currently, this will try to play sounds on page load if goals have been reached
+        // I don't want that, but "luckily" the page won't play sounds until there's user interaction
+        // This gives the desired behavior, but seems a little janky.
         currentCount => if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
     )
 
@@ -309,7 +348,7 @@ object Main {
            })
       }
 
-    def exerciseSelectButton() =
+    def exerciseSelectButton(): ReactiveHtmlElement[html.Div] =
       div(
         button(
           child.text <-- $res.map(
@@ -328,6 +367,7 @@ object Main {
         $res --> countObserver,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
+        div(exercise.humanFriendlyName, cls := "exercise-title"),
         div(
           cls("session-counter"),
           div(child <-- $res.map(count => div(count.toString)))
@@ -529,12 +569,14 @@ object Main {
       }
 
     def exerciseSelectButton(exercise: Exercise) =
-      button(
-        exercise.humanFriendlyName,
-        indicateSelectedButton(exercise),
-        onClick.mapTo {
-          exercise
-        } --> componentSelections
+      div(
+        button(
+          exercise.humanFriendlyName,
+          indicateSelectedButton(exercise),
+          onClick.mapTo {
+            exercise
+          } --> componentSelections
+        )
       )
 
     val betterExerciseComponents =
@@ -553,8 +595,11 @@ object Main {
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
-      exerciseSelectButton(Exercises.QuadSets),
-      betterExerciseComponents.map(_.exerciseSelectButton()),
+      menu(
+        betterExerciseComponents
+          .map(_.exerciseSelectButton()) :+ exerciseSelectButton(Exercises.QuadSets)
+      ),
+//      betterExerciseComponents.map(_.exerciseSelectButton()),
       TickingExerciseCounterComponent(Exercises.QuadSets,
                                       $selectedComponent,
                                       storage,
