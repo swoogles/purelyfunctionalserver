@@ -20,6 +20,13 @@ object Exercises {
     dailyGoal = 100
   )
 
+  val supineShoulderExternalRotation =
+    ExerciseGeneric(
+      id = "supine_shoulder_external_rotation_with_aid",
+      humanFriendlyName = "Supine Shoulder External Rotation with aid",
+      dailyGoal = 2
+    )
+
   val manuallyCountedExercises = List(
     ExerciseGeneric(
       id = "shoulder_stretches",
@@ -46,11 +53,7 @@ object Exercises {
       humanFriendlyName = "Kettle Style Lifts",
       dailyGoal = 2
     ),
-    ExerciseGeneric(
-      id = "supine_shoulder_external_rotation_with_aid",
-      humanFriendlyName = "Supine Shoulder External Rotation with aid",
-      dailyGoal = 2
-    ),
+    supineShoulderExternalRotation,
     ExerciseGeneric(
       id = "supine_shoulder_flexion_with_aid",
       humanFriendlyName = "Supine Shoulder Flexion with aid",

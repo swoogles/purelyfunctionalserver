@@ -267,10 +267,10 @@ object Main {
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
   def menu(choices: List[ReactiveHtmlElement[html.Div]]) = {
-    val exerciseSubmissions = new EventBus[dom.Event]
+    val menuClicks = new EventBus[dom.Event]
 
     val activeStyling =
-      exerciseSubmissions.events.foldLeft("")(
+      menuClicks.events.foldLeft("")(
         (acc, next) => if (!acc.contains("is-active")) "is-active" else ""
       )
 
@@ -301,9 +301,9 @@ object Main {
           div(
             cls := "navbar-item has-dropdown is-hoverable",
             cls <-- activeStyling,
-            a(onClick --> exerciseSubmissions, cls("navbar-link"), "Exercises"),
+            a(onClick --> menuClicks, cls("navbar-link"), "Exercises"),
             div(cls("navbar-dropdown"), choices.map { choice =>
-              choice.ref.classList.add("navbar-item"); choice
+              choice.ref.classList.add("navbar-item"); div(onClick --> menuClicks, choice)
             })
           )
         ),
@@ -563,7 +563,8 @@ object Main {
 
     val componentSelections = new EventBus[Exercise]
     val $selectedComponent: Signal[Exercise] =
-      componentSelections.events.foldLeft[Exercise](Exercises.QuadSets)((_, selection) => selection)
+      componentSelections.events
+        .foldLeft[Exercise](Exercises.supineShoulderExternalRotation)((_, selection) => selection)
 
     def indicateSelectedButton(
       exerciseOfCurrentComponent: Exercise
