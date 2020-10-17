@@ -288,15 +288,19 @@ object Main {
         }
 
     private def indicateSelectedButton(
-      exerciseOfCurrentComponent: Exercise
-    ): Binder[HtmlElement] =
+      ): Binder[HtmlElement] =
       cls <--
-      $selectedComponent.map { selectedComponent: Exercise =>
-        "button small " +
-        (if (selectedComponent == exerciseOfCurrentComponent)
-           "is-primary"
-         else
-           "is-link is-rounded ")
+      $selectedComponent.combineWith($res).map {
+        case (selectedExercise, currentCount) =>
+          "button small " +
+          (if (selectedExercise == exercise)
+             "is-primary"
+           else {
+             if (currentCount >= exercise.dailyGoal)
+               "is-success is-rounded "
+             else
+               "is-link is-rounded "
+           })
       }
 
     def exerciseSelectButton() =
@@ -304,7 +308,7 @@ object Main {
         child.text <-- $res.map(
           count => exercise.humanFriendlyName + " " + count + "/" + exercise.dailyGoal
         ),
-        indicateSelectedButton(exercise),
+        indicateSelectedButton(),
         onClick.mapTo {
           exercise
         } --> componentSelections
