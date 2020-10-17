@@ -266,6 +266,75 @@ object Main {
 
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
+  class ExerciseSessionComponentWithExternalStatus(
+    componentSelections: EventBus[Exercise],
+    exercise: Exercise,
+    $selectedComponent: Signal[Exercise],
+    postFunc: (Int, String) => Future[Int]
+  ) {
+
+    private val exerciseSubmissions = new EventBus[Int]
+
+    private val $exerciseTotal: Signal[Int] =
+      exerciseSubmissions.events.foldLeft(0)((acc, next) => acc + next)
+
+    private val $res: Signal[Int] =
+      Signal
+        .fromFuture(postFunc(0, exercise.id))
+        .combineWith($exerciseTotal)
+        .map {
+          case (optResult, latestResult) =>
+            if (optResult.isDefined) optResult.get + latestResult else latestResult
+        }
+
+    private def indicateSelectedButton(
+      exerciseOfCurrentComponent: Exercise
+    ): Binder[HtmlElement] =
+      cls <--
+      $selectedComponent.map { selectedComponent: Exercise =>
+        "button small " +
+        (if (selectedComponent == exerciseOfCurrentComponent)
+           "is-primary"
+         else
+           "is-link is-rounded ")
+      }
+
+    def exerciseSelectButton() =
+      button(
+        child.text <-- $res.map(
+          count => exercise.humanFriendlyName + " " + count + "/" + exercise.dailyGoal
+        ),
+        indicateSelectedButton(exercise),
+        onClick.mapTo {
+          exercise
+        } --> componentSelections
+      )
+
+    def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
+      div(
+        conditionallyDisplay(exercise, $selectedComponent),
+        cls("centered"),
+        div(
+          cls("session-counter"),
+          div(child <-- $res.map(count => div(count.toString)))
+        ),
+        div(
+          cls := "centered",
+          button(
+            cls := "button is-link is-rounded medium",
+            onClick.mapTo(value = { postFunc(-1, exercise.id); -1 }) --> exerciseSubmissions,
+            "-1"
+          ),
+          button(
+            cls := "button is-link is-rounded medium",
+            onClick.mapTo(value = { postFunc(1, exercise.id); 1 }) --> exerciseSubmissions,
+            "+1"
+          )
+        )
+      )
+
+  }
+
   def ExerciseSessionComponent(
     exercise: Exercise,
     $selectedComponent: Signal[Exercise],
@@ -320,10 +389,10 @@ object Main {
   case object Firing extends CounterState
   case object Relaxed extends CounterState
 
-  def CounterComponent(id: Exercise,
-                       $selectedComponent: Signal[Exercise],
-                       storage: Storage,
-                       soundCreator: SoundCreator): ReactiveHtmlElement[html.Div] = {
+  def TickingExerciseCounterComponent(id: Exercise,
+                                      $selectedComponent: Signal[Exercise],
+                                      storage: Storage,
+                                      soundCreator: SoundCreator): ReactiveHtmlElement[html.Div] = {
     val repeater = RepeatingElement()
 
     val clockTicks = new EventBus[Int]
@@ -454,23 +523,31 @@ object Main {
         } --> componentSelections
       )
 
+    val betterExerciseComponents =
+      Exercises.manuallyCountedExercises
+        .map(
+          exercise =>
+            new ExerciseSessionComponentWithExternalStatus(
+              componentSelections,
+              exercise,
+              $selectedComponent,
+              ApiInteractions.postExerciseSession
+            )
+        )
+
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
       exerciseSelectButton(Exercises.QuadSets),
-      Exercises.manuallyCountedExercises
-        .map(exerciseSelectButton),
-      CounterComponent(Exercises.QuadSets, $selectedComponent, storage, new SoundCreator),
-      Exercises.manuallyCountedExercises
-        .map(
-          exercise =>
-            ExerciseSessionComponent(exercise,
-                                     $selectedComponent,
-                                     ApiInteractions.postExerciseSession)
-        )
+      betterExerciseComponents.map(_.exerciseSelectButton()),
+      TickingExerciseCounterComponent(Exercises.QuadSets,
+                                      $selectedComponent,
+                                      storage,
+                                      new SoundCreator),
+      betterExerciseComponents.map(_.exerciseSessionComponent())
     )
 
-    println("going to render laminarApp monday 10:05")
+    println("going to render laminarApp saturday 3:06")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
