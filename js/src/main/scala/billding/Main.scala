@@ -297,21 +297,23 @@ object Main {
              "is-primary"
            else {
              if (currentCount >= exercise.dailyGoal)
-               "is-success is-rounded "
+               "is-success is-rounded is-light"
              else
                "is-link is-rounded "
            })
       }
 
     def exerciseSelectButton() =
-      button(
-        child.text <-- $res.map(
-          count => exercise.humanFriendlyName + " " + count + "/" + exercise.dailyGoal
-        ),
-        indicateSelectedButton(),
-        onClick.mapTo {
-          exercise
-        } --> componentSelections
+      div(
+        button(
+          child.text <-- $res.map(
+            count => exercise.humanFriendlyName + " " + count + "/" + exercise.dailyGoal
+          ),
+          indicateSelectedButton(),
+          onClick.mapTo {
+            exercise
+          } --> componentSelections
+        )
       )
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =

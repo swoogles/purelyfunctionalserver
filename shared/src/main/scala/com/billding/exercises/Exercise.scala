@@ -71,6 +71,6 @@ object Exercises {
       humanFriendlyName = "Isometric Shoulder Internal Rotation",
       dailyGoal = 2
     )
-  )
+  ).sortBy(_.humanFriendlyName)
 
 }
