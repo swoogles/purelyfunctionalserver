@@ -284,9 +284,9 @@ object Main {
         a(
           role := "button",
           cls := "navbar-burger burger",
+          onClick --> menuClicks,
           aria.label := "menu",
           aria.expanded(false),
-//          aria.expanded := ,
           dataAttr("target") := "navbarBasicExample",
           span(aria.hidden(true)),
           span(aria.hidden(true)),
@@ -296,12 +296,12 @@ object Main {
       div(
         idAttr := "navbarBasicExample",
         cls := "navbar-menu",
+        cls <-- activeStyling,
         div(
           cls := "navbar-start",
           div(
             cls := "navbar-item has-dropdown is-hoverable",
-            cls <-- activeStyling,
-            a(onClick --> menuClicks, cls("navbar-link"), "Exercises"),
+            a(onClick --> menuClicks, cls("navbar-link centered"), "Exercises"),
             div(cls("navbar-dropdown"), choices.map { choice =>
               choice.ref.classList.add("navbar-item"); div(onClick --> menuClicks, choice)
             })
