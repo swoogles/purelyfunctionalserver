@@ -447,7 +447,7 @@ object Main {
         ),
         div(
           styleAttr := "font-size: 4em",
-          cls := "box",
+          cls := "electox",
           span("Play Sounds:"),
           input(typ := "checkbox", idAttr := "play-audio", name := "play-audio", value := "true")
         ),
