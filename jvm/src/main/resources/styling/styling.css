@@ -4,29 +4,29 @@
 }
 .session-counter {
     text-align: center;
-    font-size: 14em
+    font-size: 5em
 }
 .exercise-title {
     text-align: center;
-    font-size: 5em
+    font-size: 2em
 }
 .navbar-link {
     font-size: 3em;
 }
 button.button {
-    font-size: 6em;
+    font-size: 3em;
     margin: 15px;
 }
 button.button.small {
-    font-size: 2em;
+    font-size: 1.5em;
     margin: 15px;
 }
 button.button.medium {
-    font-size: 4em;
+    font-size: 2em;
     margin: 15px;
 }
 a.button.medium {
-    font-size: 4em;
+    font-size: 2em;
     margin: 15px;
 }
 .medium {
@@ -35,7 +35,7 @@ a.button.medium {
 
 a.button {
     margin: 15px;
-    font-size: 6em;
+    font-size: 2em;
     -webkit-appearance: button;
     -moz-appearance: button;
 
