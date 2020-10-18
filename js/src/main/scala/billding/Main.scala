@@ -4,21 +4,17 @@ import java.time.LocalDate
 
 import com.billding.exercises.{Exercise, Exercises}
 
-import com.raquo.airstream.core.Observable
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
-import org.scalajs.dom.{document, html, Event}
-import org.scalajs.dom.raw.{AudioContext, Element, HTMLAudioElement, HTMLInputElement, Storage}
+import org.scalajs.dom.{document, html}
+import org.scalajs.dom.raw.{AudioContext, HTMLInputElement, Storage}
 import sttp.model.{Header, Uri}
 import sttp.client.circe._
 
 import scala.concurrent.ExecutionContext.global
-import scala.scalajs.js.{Date, URIUtils}
 import io.circe.generic.auto._
-import io.circe.syntax._
 import com.raquo.laminar.api.L._
 import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
-import com.raquo.laminar.nodes.ReactiveElement.Base
 import exercises.DailyQuantizedExercise
 
 import scala.concurrent.Future
@@ -27,27 +23,6 @@ import scala.concurrent.duration.FiniteDuration
 sealed trait CounterAction
 case object ResetCount extends CounterAction
 case class Increment(value: Int) extends CounterAction
-
-object Time {
-
-  def formattedLocalDate(): String = {
-    val jsDate = new Date()
-    val monthSection =
-      if (jsDate.getMonth() + 1 > 9)
-        (jsDate.getMonth() + 1).toString
-      else
-        "0" + (jsDate.getMonth() + 1).toString
-
-    val daySection =
-      if (jsDate.getDate() > 9)
-        jsDate.getDate().toString
-      else
-        "0" + jsDate.getDate().toString
-
-    jsDate.getFullYear().toString + "-" + monthSection + "-" + daySection
-  }
-
-}
 
 object Meta {
 
@@ -125,7 +100,7 @@ object ApiInteractions {
     )
   }
 
-  def getQuadSetHistory(storage: Storage) = {
+  def getQuadSetHistoryInUnsafeScalaTagsForm(storage: Storage) = {
     val request = {
       if (storage
             .getItem("access_token_fromJS")
@@ -266,52 +241,6 @@ object Main {
 
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
-  def menu(choices: List[ReactiveHtmlElement[html.Div]]) = {
-    val menuClicks = new EventBus[dom.Event]
-
-    val activeStyling =
-      menuClicks.events.foldLeft("")(
-        (acc, next) => if (!acc.contains("is-active")) "is-active" else ""
-      )
-
-    div(
-      idAttr := "main-menu",
-      cls := "navbar",
-      role := "navigation",
-      aria.label := "main navigation",
-      div(
-        cls := "navbar-brand",
-        a(
-          role := "button",
-          cls := "navbar-burger burger",
-          onClick --> menuClicks,
-          aria.label := "menu",
-          aria.expanded(false),
-          dataAttr("target") := "navbarBasicExample",
-          span(aria.hidden(true)),
-          span(aria.hidden(true)),
-          span(aria.hidden(true))
-        )
-      ),
-      div(
-        idAttr := "navbarBasicExample",
-        cls := "navbar-menu",
-        cls <-- activeStyling,
-        div(
-          cls := "navbar-start",
-          div(
-            cls := "navbar-item has-dropdown is-hoverable",
-            a(onClick --> menuClicks, cls("navbar-link centered"), "Exercises"),
-            div(cls("navbar-dropdown"), choices.map { choice =>
-              choice.ref.classList.add("navbar-item"); div(onClick --> menuClicks, choice)
-            })
-          )
-        ),
-        div(cls("navbar-end"))
-      )
-    )
-  }
-
   class ExerciseSessionComponentWithExternalStatus(
     componentSelections: EventBus[Exercise],
     exercise: Exercise,
@@ -333,13 +262,6 @@ object Main {
           case (optResult, latestResult) =>
             if (optResult.isDefined) optResult.get + latestResult else latestResult
         }
-
-    val countObserver = Observer[Int](
-      onNext = // Currently, this will try to play sounds on page load if goals have been reached
-        // I don't want that, but "luckily" the page won't play sounds until there's user interaction
-        // This gives the desired behavior, but seems a little janky.
-        currentCount => if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
-    )
 
     private def indicateSelectedButton(
       ): Binder[HtmlElement] =
@@ -370,9 +292,15 @@ object Main {
         )
       )
 
+    val countObserver = Observer[Int](
+      onNext = // Currently, this will try to play sounds on page load if goals have been reached
+        // I don't want that, but "luckily" the page won't play sounds until there's user interaction
+        // This gives the desired behavior, but seems a little janky.
+        currentCount => if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
+    )
+
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
-//        $res.addObserver(countObserver),
         $res --> countObserver,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
@@ -556,7 +484,7 @@ object Main {
     )
 
   def laminarStuff(storage: Storage) = {
-    ApiInteractions.getQuadSetHistory(storage) // TODO Load this data up for certain pages
+    ApiInteractions.getQuadSetHistoryInUnsafeScalaTagsForm(storage) // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(0, storage)
 
     val nameBus = new EventBus[String]
@@ -605,7 +533,7 @@ object Main {
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
-      menu(
+      Bulma.menu(
         betterExerciseComponents
           .map(_.exerciseSelectButton()) :+ exerciseSelectButton(Exercises.QuadSets)
       ),
