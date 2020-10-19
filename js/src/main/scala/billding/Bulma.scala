@@ -67,6 +67,7 @@ object Bulma {
         cls <-- activeStyling,
         div(
           cls := "navbar-start",
+          a(href := "/oauth/login", cls := "button is-link is-rounded medium", "Re-login"),
           div(
             cls := "navbar-item has-dropdown is-hoverable",
             a(onClick --> menuClicks, cls("navbar-link centered"), "Incompleted Exercises"),
@@ -76,6 +77,11 @@ object Bulma {
             cls := "navbar-item has-dropdown is-hoverable",
             a(onClick --> menuClicks, cls("navbar-link centered"), "Completed Exercises"),
             div(cls("navbar-dropdown"), child <-- $completedRenderedButtons)
+          ),
+          div(
+            cls := "navbar-item has-dropdown is-hoverable",
+            a(onClick --> menuClicks, cls("navbar-link centered"), "Timed Exercises"),
+            div(cls("navbar-dropdown"), quadSetCounter)
           )
         ),
         div(cls("navbar-end"))
