@@ -1,5 +1,6 @@
 package billding
 
+import billding.Main.ExerciseSessionComponentWithExternalStatus
 import com.raquo.laminar.api.L._
 //import com.raquo.laminar.api.Laminar.aria
 import com.raquo.laminar.nodes.ReactiveHtmlElement
@@ -8,13 +9,38 @@ import org.scalajs.dom.html
 
 object Bulma {
 
-  def menu(choices: List[ReactiveHtmlElement[html.Div]]) = {
+  def menu(
+//            categorizedExercises: Signal[(Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)], Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)])],
+           $completedExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]],
+           $incompleteExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]],
+           choices: Seq[ReactiveHtmlElement[html.Div]],
+           quadSetCounter: ReactiveHtmlElement[html.Div]) = {
     val menuClicks = new EventBus[dom.Event]
 
     val activeStyling =
       menuClicks.events.foldLeft("")(
         (acc, next) => if (!acc.contains("is-active")) "is-active" else ""
       )
+
+    val $completedExerciseButtons: Signal[Seq[ReactiveHtmlElement[html.Div]]] =
+      $completedExercises.map(_.map(_.exerciseSelectButton()))
+
+    val $completedRenderedButtons =
+      $completedExerciseButtons.map { exerciseList =>
+        div(exerciseList.map { choice =>
+          choice.ref.classList.add("navbar-item"); div(onClick --> menuClicks, choice)
+        })
+      }
+
+    val $incompleteExerciseButtons: Signal[Seq[ReactiveHtmlElement[html.Div]]] =
+      $incompleteExercises.map(_.map(_.exerciseSelectButton()))
+
+    val $incompleteRenderedButtons =
+      $incompleteExerciseButtons.map { exerciseList =>
+        div(exerciseList.map { choice =>
+          choice.ref.classList.add("navbar-item"); div(onClick --> menuClicks, choice)
+        })
+      }
 
     div(
       idAttr := "main-menu",
@@ -43,10 +69,13 @@ object Bulma {
           cls := "navbar-start",
           div(
             cls := "navbar-item has-dropdown is-hoverable",
-            a(onClick --> menuClicks, cls("navbar-link centered"), "Exercises"),
-            div(cls("navbar-dropdown"), choices.map { choice =>
-              choice.ref.classList.add("navbar-item"); div(onClick --> menuClicks, choice)
-            })
+            a(onClick --> menuClicks, cls("navbar-link centered"), "Incompleted Exercises"),
+            div(cls("navbar-dropdown"), child <-- $incompleteRenderedButtons)
+          ),
+          div(
+            cls := "navbar-item has-dropdown is-hoverable",
+            a(onClick --> menuClicks, cls("navbar-link centered"), "Completed Exercises"),
+            div(cls("navbar-dropdown"), child <-- $completedRenderedButtons)
           )
         ),
         div(cls("navbar-end"))

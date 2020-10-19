@@ -243,10 +243,11 @@ object Main {
 
   class ExerciseSessionComponentWithExternalStatus(
     componentSelections: EventBus[Exercise],
-    exercise: Exercise,
+    val exercise: Exercise,
     $selectedComponent: Signal[Exercise],
     postFunc: (Int, String) => Future[Int],
-    soundCreator: SoundCreator
+    soundCreator: SoundCreator,
+    updateMonitor: Observer[(Boolean, Exercise)]
   ) {
 
     private val exerciseSubmissions = new EventBus[Int]
@@ -262,6 +263,12 @@ object Main {
           case (optResult, latestResult) =>
             if (optResult.isDefined) optResult.get + latestResult else latestResult
         }
+
+    val $complete: Signal[Boolean] =
+      $res.map(_ >= exercise.dailyGoal)
+
+    val $completeWithExercise: Signal[(Boolean, Exercise)] =
+      $complete.map((_, exercise))
 
     private def indicateSelectedButton(
       ): Binder[HtmlElement] =
@@ -302,6 +309,7 @@ object Main {
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
         $res --> countObserver,
+        $completeWithExercise --> updateMonitor,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
         div(exercise.humanFriendlyName, cls := "exercise-title"),
@@ -517,7 +525,25 @@ object Main {
         )
       )
 
-    val betterExerciseComponents =
+    val allExerciseCounters = Var[Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)]](Seq())
+    val updateMonitor = Observer[(Boolean, Exercise)](onNext = {
+      case (isComplete, exercise) => {
+        println("Exercise: " + exercise + "  complete: " + isComplete)
+        allExerciseCounters.update(
+          previousExercises =>
+            previousExercises.map {
+              case (currentExerciseComponent, wasComplete) => {
+                if (currentExerciseComponent.exercise == exercise) {
+                  (currentExerciseComponent, isComplete)
+                } else (currentExerciseComponent, wasComplete)
+              }
+            }
+        )
+        pprint.pprintln(allExerciseCounters.now)
+      }
+    })
+
+    val betterExerciseComponents: Seq[ExerciseSessionComponentWithExternalStatus] =
       Exercises.manuallyCountedExercises
         .map(
           exercise =>
@@ -526,16 +552,67 @@ object Main {
               exercise,
               $selectedComponent,
               ApiInteractions.postExerciseSession,
-              new SoundCreator
+              new SoundCreator,
+              updateMonitor
             )
         )
+
+    allExerciseCounters.set(betterExerciseComponents.map((_, false)))
+
+    val partitionedExercises: Signal[
+      (Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)],
+       Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)])
+    ] =
+      allExerciseCounters.signal.map(
+        exerciseCounters =>
+          exerciseCounters.partition { case (exerciseCounter, complete) => complete }
+      )
+
+    val $completedExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]] =
+      partitionedExercises.map(_._1.map(_._1))
+    val $incompleteExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]] =
+      partitionedExercises.map(_._2.map(_._1))
+
+    class ComponentCollection(components: Seq[ComponentX]) {
+      val completedComponents: Signal[Seq[ComponentX]] = ???
+      val incompleteComponents: Signal[Seq[ComponentX]] = ???
+    }
+
+    class ComponentX(val $complete: Signal[Boolean])
+
+    class ExercisesRegimen(
+      betterExerciseComponents: Seq[ExerciseSessionComponentWithExternalStatus]
+    ) {
+      val res: Seq[Signal[Option[ExerciseSessionComponentWithExternalStatus]]] =
+        betterExerciseComponents.map(
+          exercise => exercise.$complete.map(if (_) Some(exercise) else None)
+        )
+
+      val completions: Signal[Boolean] =
+        betterExerciseComponents
+          .map(exercise => exercise.$complete)
+          .foldLeft(Val(true).asInstanceOf[Signal[Boolean]]) {
+            case (a: Val[Boolean], b: Signal[Boolean]) =>
+              a.combineWith(b).map { case (aRes, bRes) => aRes || bRes }
+          }
+
+      val updates: EventStream[Boolean] =
+        betterExerciseComponents
+          .map(exercise => exercise.$complete.changes)
+          .reduce(EventStream.merge(_, _))
+
+      val completedExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]] = ???
+    }
 
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
       Bulma.menu(
+        $completedExercises,
+        $incompleteExercises,
         betterExerciseComponents
-          .map(_.exerciseSelectButton()) :+ exerciseSelectButton(Exercises.QuadSets)
+          .map(_.exerciseSelectButton()),
+        exerciseSelectButton(Exercises.QuadSets)
       ),
 //      betterExerciseComponents.map(_.exerciseSelectButton()),
       TickingExerciseCounterComponent(Exercises.QuadSets,
