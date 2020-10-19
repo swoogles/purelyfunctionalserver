@@ -528,7 +528,6 @@ object Main {
     val allExerciseCounters = Var[Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)]](Seq())
     val updateMonitor = Observer[(Boolean, Exercise)](onNext = {
       case (isComplete, exercise) => {
-        println("Exercise: " + exercise + "  complete: " + isComplete)
         allExerciseCounters.update(
           previousExercises =>
             previousExercises.map {
@@ -539,7 +538,6 @@ object Main {
               }
             }
         )
-        pprint.pprintln(allExerciseCounters.now)
       }
     })
 
