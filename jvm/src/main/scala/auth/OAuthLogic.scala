@@ -1,5 +1,7 @@
 package auth
 
+import java.time.Instant
+
 import org.http4s.{AuthScheme, Credentials, Request, UrlForm}
 import cats.effect.IO
 import cats.implicits._
@@ -71,23 +73,46 @@ class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] with AuthLogic {
   implicit private def userInfoDecoder: EntityDecoder[Task, UserInfo] =
     jsonOf
 
-  def getUserInfo(accessToken: String): ZIO[Any, Throwable, UserInfo] = {
-    println("About to retrieve userInfo for token: " + accessToken)
-    C.expect[UserInfo](
-        GET(
-          Uri.fromString("https://quiet-glitter-8635.auth0.com/userinfo").right.get,
-          Authorization(Credentials.Token(AuthScheme.Bearer, accessToken))
-        )
-      )
-      .map { userInfoResponse: UserInfo =>
-        println("UserInfoResponse: " + userInfoResponse); userInfoResponse
-      }
-      .catchAll(error => {
-        println("error getting user info: " + error)
-        ZIO { throw new RuntimeException(error) }
-      })
-//      .handleErrorWith( error => IO { println("user info request error : " + error); error.getMessage})
+  private val HIDEOUS_UNSAFE_USER_INFO_CACHE =
+    scala.collection.mutable.Map[String, (Instant, UserInfo)]()
 
+  def getUserInfo(accessToken: String): ZIO[Any, Throwable, UserInfo] = {
+    val existingFreshUserInfo: Option[UserInfo] =
+      HIDEOUS_UNSAFE_USER_INFO_CACHE
+        .get(accessToken)
+        .filter {
+          case (timestamp, userInfo) => Instant.now().isBefore(timestamp.plusSeconds(30))
+        }
+        .map(_._2)
+    existingFreshUserInfo match {
+      case None => {
+        println("About to retrieve userInfo for token: " + accessToken)
+        C.expect[UserInfo](
+            GET(
+              Uri.fromString("https://quiet-glitter-8635.auth0.com/userinfo").right.get,
+              Authorization(Credentials.Token(AuthScheme.Bearer, accessToken))
+            )
+          )
+          .map { userInfoResponse: UserInfo =>
+            println("UserInfoResponse: " + userInfoResponse);
+            HIDEOUS_UNSAFE_USER_INFO_CACHE(accessToken) = (Instant.now, userInfoResponse);
+            userInfoResponse
+          }
+          .catchAll(error => {
+            println("error getting user info: " + error)
+            ZIO {
+              throw new RuntimeException(error)
+            }
+          })
+        //      .handleErrorWith( error => IO { println("user info request error : " + error); error.getMessage})
+      }
+      case Some(token) =>
+        ZIO {
+          println("using existing user info and not blasting the oauth servers")
+          token
+        }
+
+    }
   }
 
   def getTokenFromCallbackCode(code: String): ZIO[Any, Throwable, TokenResponse] = {
