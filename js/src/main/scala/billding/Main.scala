@@ -431,7 +431,6 @@ object Main {
       conditionallyDisplay(id, $selectedComponent),
       cls := "centered",
       div(
-        dataAttr("noise") <-- noises.observable.map(_ => "noise!"),
         styleAttr <-- $color.map(color => s"background: $color"),
         div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
         div(
@@ -442,7 +441,6 @@ object Main {
             onClick.mapTo(
               value = ApiInteractions.safelyPostQuadSets(
                 $countVar.now().value,
-//                    context.ref.attributes.getNamedItem("data-count").value.toInt,
                 storage
               )
             ) --> counterActionBus
@@ -480,22 +478,9 @@ object Main {
     )
   }
 
-  def Hello(
-    helloNameStream: EventStream[String],
-    helloColorStream: EventStream[String]
-  ): Div =
-    div(
-      fontSize := "20px", // static CSS property
-      color <-- helloColorStream, // dynamic CSS property
-      strong("Hello, "), // static child element with a grandchild text node
-      child.text <-- helloNameStream // dynamic child (text node in this case)
-    )
-
   def laminarStuff(storage: Storage) = {
     ApiInteractions.getQuadSetHistoryInUnsafeScalaTagsForm(storage) // TODO Load this data up for certain pages
     ApiInteractions.postQuadSets(0, storage)
-
-    val nameBus = new EventBus[String]
 
     val componentSelections = new EventBus[Exercise]
     val $selectedComponent: Signal[Exercise] =
