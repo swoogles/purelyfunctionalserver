@@ -423,6 +423,8 @@ object Main {
     val $countT: Signal[Counter] =
       counterActionBus.events.foldLeft(Counter(0))((acc, next) => CounterAction.update(next, acc))
 
+    val $countVar: Var[Counter] = Var(Counter(0))
+
     val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
 
     div(
@@ -436,16 +438,14 @@ object Main {
           button(
             "Submit",
             cls := "button is-link is-rounded",
-            dataAttr("count") <-- $countT.map(_.value.toString),
-            inContext(
-              context =>
-                onClick.mapTo(
-                  value = ApiInteractions.safelyPostQuadSets(
-                    context.ref.attributes.getNamedItem("data-count").value.toInt,
-                    storage
-                  )
-                ) --> counterActionBus
-            )
+            $countT --> $countVar.writer,
+            onClick.mapTo(
+              value = ApiInteractions.safelyPostQuadSets(
+                $countVar.now().value,
+//                    context.ref.attributes.getNamedItem("data-count").value.toInt,
+                storage
+              )
+            ) --> counterActionBus
           )
         ),
         div(
@@ -620,7 +620,7 @@ object Main {
       betterExerciseComponents.map(_.exerciseSessionComponent())
     )
 
-    println("going to render laminarApp saturday 3:06")
+    println("going to render laminarApp tuesday 10:06")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
