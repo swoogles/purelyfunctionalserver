@@ -23,24 +23,14 @@ object Exercises {
   val supineShoulderExternalRotation =
     ExerciseGeneric(
       id = "supine_shoulder_external_rotation_with_aid",
-      humanFriendlyName = "Supine Shoulder External Rotation with aid",
+      humanFriendlyName = "Lying External Rotation with aid",
       dailyGoal = 2
     )
 
   val manuallyCountedExercises = List(
     ExerciseGeneric(
-      id = "shoulder_stretches",
-      humanFriendlyName = "Shoulder Stretches",
-      dailyGoal = 2
-    ),
-    ExerciseGeneric(
       id = "shoulder_squeezes",
       humanFriendlyName = "Shoulder Squeezes",
-      dailyGoal = 2
-    ),
-    ExerciseGeneric(
-      id = "door_radial_isometrics",
-      humanFriendlyName = "Door Radial Isometrics",
       dailyGoal = 2
     ),
     ExerciseGeneric(
@@ -56,22 +46,47 @@ object Exercises {
     supineShoulderExternalRotation,
     ExerciseGeneric(
       id = "supine_shoulder_flexion_with_aid",
-      humanFriendlyName = "Supine Shoulder Flexion with aid",
+      humanFriendlyName = "Lying Shoulder Flexion with aid",
       dailyGoal = 2
     ),
     ExerciseGeneric(
       id = "sitting_shoulder_flexion_with_aid",
-      humanFriendlyName = "Sitting Shoulder Flexion With Aid",
+      humanFriendlyName = "Standing Shoulder Flexion With Aid",
       dailyGoal = 2
     ),
     ExerciseGeneric(
       id = "isometric_shoulder_external_rotation",
-      humanFriendlyName = "Isometric Shoulder External Rotation",
+      humanFriendlyName = "Banded External Anti-Rotation",
       dailyGoal = 2
     ),
     ExerciseGeneric(
       id = "isometric_shoulder_internal_rotation",
-      humanFriendlyName = "Isometric Shoulder Internal Rotation",
+      humanFriendlyName = "Banded Internal Anti-Rotation",
+      dailyGoal = 2
+    ),
+    ExerciseGeneric(
+      id = "band_rotating_internal_rotation",
+      humanFriendlyName = "Banded Internal Rotation",
+      dailyGoal = 2
+    ),
+    ExerciseGeneric(
+      id = "band_rotating_external_rotation",
+      humanFriendlyName = "Banded External Rotation",
+      dailyGoal = 2
+    ),
+    ExerciseGeneric(
+      id = "straight_forward_arm_raises",
+      humanFriendlyName = "Straight Forward Arm Raises",
+      dailyGoal = 2
+    ),
+    ExerciseGeneric(
+      id = "45_degree_arm_raises",
+      humanFriendlyName = "45 Degree Arm_raises",
+      dailyGoal = 2
+    ),
+    ExerciseGeneric(
+      id = "",
+      humanFriendlyName = "",
       dailyGoal = 2
     )
   ).sortBy(_.humanFriendlyName)
