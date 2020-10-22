@@ -83,11 +83,6 @@ object Exercises {
       id = "45_degree_arm_raises",
       humanFriendlyName = "45 Degree Arm_raises",
       dailyGoal = 2
-    ),
-    ExerciseGeneric(
-      id = "",
-      humanFriendlyName = "",
-      dailyGoal = 2
     )
   ).sortBy(_.humanFriendlyName)
 
