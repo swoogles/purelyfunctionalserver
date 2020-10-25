@@ -68,16 +68,28 @@ object Bulma {
         div(
           cls := "navbar-start",
           a(href := "/oauth/login", cls := "button is-link is-rounded medium", "Re-login"),
-          div(
-            cls := "navbar-item has-dropdown is-hoverable",
-            a(onClick --> menuClicks, cls("navbar-link centered"), "Incompleted Exercises"),
-            div(cls("navbar-dropdown"), child <-- $incompleteRenderedButtons)
-          ),
-          div(
-            cls := "navbar-item has-dropdown is-hoverable",
-            a(onClick --> menuClicks, cls("navbar-link centered"), "Completed Exercises"),
-            div(cls("navbar-dropdown"), child <-- $completedRenderedButtons)
-          ),
+          child <-- $incompleteExercises.map { incompleteExercises =>
+            if (incompleteExercises.nonEmpty) {
+              div(
+                cls := "navbar-item has-dropdown is-hoverable",
+                a(onClick --> menuClicks, cls("navbar-link centered"), "Incomplete Exercises"),
+                div(cls("navbar-dropdown"), child <-- $incompleteRenderedButtons)
+              )
+            } else {
+              div()
+            }
+          },
+          child <-- $completedExercises.map { completedExercises =>
+            if (completedExercises.nonEmpty) {
+              div(
+                cls := "navbar-item has-dropdown is-hoverable",
+                a(onClick --> menuClicks, cls("navbar-link centered"), "Completed Exercises"),
+                div(cls("navbar-dropdown"), child <-- $completedRenderedButtons)
+              )
+            } else {
+              div()
+            }
+          },
           div(
             cls := "navbar-item has-dropdown is-hoverable",
             a(onClick --> menuClicks, cls("navbar-link centered"), "Timed Exercises"),
