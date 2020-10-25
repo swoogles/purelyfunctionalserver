@@ -301,7 +301,9 @@ object Main {
       onNext = // Currently, this will try to play sounds on page load if goals have been reached
         // I don't want that, but "luckily" the page won't play sounds until there's user interaction
         // This gives the desired behavior, but seems a little janky.
-        currentCount => if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
+        currentCount =>
+          if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
+          else soundCreator.addExerciseSet.play()
     )
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
