@@ -78,7 +78,7 @@ object ApiInteractions {
     val confirmed =
       org.scalajs.dom.window.confirm(s"Are you sure you want to submit $count quadsets?")
     if (confirmed) {
-      postQuadSets(count, storage)
+      postExerciseSession(count, Exercises.QuadSets.id)
       ResetCount
     } else {
       Increment(0)
@@ -143,47 +143,7 @@ object ApiInteractions {
 
   }
 
-  def postQuadSets(count: Int, storage: Storage) = {
-    val localDate = Time.formattedLocalDate()
-    val exercise =
-      DailyQuantizedExercise(name = "QuadSets", day = LocalDate.parse(localDate), count = count)
-
-    val request =
-      if (storage.getItem("access_token_fromJS").nonEmpty) {
-        basicRequest
-          .post(exerciseUri)
-          .auth
-          .bearer(storage.getItem("access_token_fromJS"))
-          .body(exercise)
-      } else if (Meta.accessToken.isDefined) {
-        basicRequest
-          .body(exercise)
-          .post(exerciseUri.param("access_token", Meta.accessToken.get))
-      } else {
-        basicRequest
-          .body(exercise)
-          .post(exerciseUri)
-      }
-
-    for {
-      response: Response[Either[String, String]] <- request.send()
-    } yield {
-      response.body match {
-        case Right(jsonBody) => {
-          Main.dailyTotal = jsonBody.toInt
-//          jsonBody --> countEvents
-          // TODO Handle inside component, rather than this ugly id-based retrieval
-          document.getElementById("daily_total").innerHTML = Main.dailyTotal.toString
-          1
-        }
-        case Left(failure) => {
-          println("Failed to submit quadsets with error: " + failure)
-          1
-        }
-      }
-    }
-  }
-
+  //todo accept storage as parameter
   def postExerciseSession(count: Int, exerciseName: String): Future[Int] = {
     val localDate = Time.formattedLocalDate()
     val exercise =
@@ -224,8 +184,6 @@ object ApiInteractions {
 }
 
 object Main {
-  var count = 0
-  var dailyTotal = 0
   var audioContext = new AudioContext()
 
   case class Counter(value: Int)
@@ -348,10 +306,23 @@ object Main {
   case object Firing extends CounterState
   case object Relaxed extends CounterState
 
-  def TickingExerciseCounterComponent(id: Exercise,
+  def TickingExerciseCounterComponent(exercise: Exercise,
                                       $selectedComponent: Signal[Exercise],
+                                      postFunc: (Int, String) => Future[Int],
                                       storage: Storage,
                                       soundCreator: SoundCreator): ReactiveHtmlElement[html.Div] = {
+    val exerciseSubmissions = new EventBus[Int]
+
+    val exerciseServerResultsBus = new EventBus[Int]
+
+    val exerciseServerResults: EventStream[Int] =
+      exerciseSubmissions.events
+        .map(submission => EventStream.fromFuture(postFunc(submission, exercise.id)))
+        .flatten
+
+    val $exerciseTotal: Signal[Int] =
+      exerciseServerResultsBus.events.foldLeft(0)((acc, next) => next)
+
     val repeater = RepeatingElement()
 
     val clockTicks = new EventBus[Int]
@@ -385,10 +356,16 @@ object Main {
 
     val $countVar: Var[Counter] = Var(Counter(0))
 
-    val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
+    // todo restore to 10 seconds
+    val duration = new FiniteDuration(1, scala.concurrent.duration.SECONDS)
 
     div(
-      conditionallyDisplay(id, $selectedComponent),
+      conditionallyDisplay(exercise, $selectedComponent),
+      exerciseServerResults --> exerciseServerResultsBus,
+      exerciseServerResultsBus.events
+        .map[CounterAction](result => if (result != 0) ResetCount else Increment(0)) --> counterActionBus,
+      EventStream
+        .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus,
       cls := "centered",
       div(
         styleAttr <-- $color.map(color => s"background: $color"),
@@ -398,12 +375,16 @@ object Main {
             "Submit",
             cls := "button is-link is-rounded",
             $countT --> $countVar.writer,
-            onClick.mapTo(
-              value = ApiInteractions.safelyPostQuadSets(
-                $countVar.now().value,
-                storage
-              )
-            ) --> counterActionBus
+            // todo make sure I reset current counter on submission
+//            onClick.mapTo(
+//              value = ApiInteractions.safelyPostQuadSets(
+//                $countVar.now().value,
+//                storage
+//              )
+//            ) --> counterActionBus,
+            onClick.map(
+              _ => $countVar.now().value
+            ) --> exerciseSubmissions
           )
         ),
         div(
@@ -420,7 +401,8 @@ object Main {
         div(
           styleAttr := "text-align: center; font-size: 2em",
           span("Daily Total:"),
-          span(idAttr := "daily_total"),
+//          span(idAttr := "daily_total"),
+          span(child <-- $exerciseTotal.map(count => div(count.toString))),
           span(styleAttr := "font-size: 2em")
         ),
         a(href := "/oauth/login", cls := "button is-link is-rounded medium", "Re-login"),
@@ -440,7 +422,6 @@ object Main {
 
   def laminarStuff(storage: Storage) = {
     ApiInteractions.getQuadSetHistoryInUnsafeScalaTagsForm(storage) // TODO Load this data up for certain pages
-    ApiInteractions.postQuadSets(0, storage)
 
     val componentSelections = new EventBus[Exercise]
     val $selectedComponent: Signal[Exercise] =
@@ -529,12 +510,13 @@ object Main {
 //      betterExerciseComponents.map(_.exerciseSelectButton()),
       TickingExerciseCounterComponent(Exercises.QuadSets,
                                       $selectedComponent,
+                                      ApiInteractions.postExerciseSession,
                                       storage,
                                       new SoundCreator),
       betterExerciseComponents.map(_.exerciseSessionComponent())
     )
 
-    println("going to render laminarApp sunday 10:20")
+    println("going to render laminarApp sunday 10:40")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
