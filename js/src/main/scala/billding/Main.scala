@@ -23,6 +23,7 @@ import scala.concurrent.duration.FiniteDuration
 sealed trait CounterAction
 case object ResetCount extends CounterAction
 case class Increment(value: Int) extends CounterAction
+case object DoNotUpdate extends CounterAction
 
 object Meta {
 
@@ -194,6 +195,7 @@ object Main {
       counterAction match {
         case ResetCount           => Counter(0)
         case increment: Increment => counter.copy(counter.value + increment.value)
+        case DoNotUpdate          => counter
       }
   }
 
@@ -363,7 +365,7 @@ object Main {
       conditionallyDisplay(exercise, $selectedComponent),
       exerciseServerResults --> exerciseServerResultsBus,
       exerciseServerResultsBus.events
-        .map[CounterAction](result => if (result != 0) ResetCount else Increment(0)) --> counterActionBus,
+        .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
       EventStream
         .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus,
       cls := "centered",
@@ -375,13 +377,6 @@ object Main {
             "Submit",
             cls := "button is-link is-rounded",
             $countT --> $countVar.writer,
-            // todo make sure I reset current counter on submission
-//            onClick.mapTo(
-//              value = ApiInteractions.safelyPostQuadSets(
-//                $countVar.now().value,
-//                storage
-//              )
-//            ) --> counterActionBus,
             onClick.map(
               _ => $countVar.now().value
             ) --> exerciseSubmissions
@@ -394,7 +389,7 @@ object Main {
         ),
         div(
           styleAttr := "font-size: 4em",
-          cls := "electox",
+          cls := "checkbox",
           span("Play Sounds:"),
           input(typ := "checkbox", idAttr := "play-audio", name := "play-audio", value := "true")
         ),
@@ -409,13 +404,12 @@ object Main {
         div(idAttr := "exercise_history"),
         // TODO Look at method to derive this first repeater off of the 2nd
         repeater.repeatWithInterval(
-          Increment(1).asInstanceOf[CounterAction],
-          duration * 2
-        ) --> counterActionBus,
-        repeater.repeatWithInterval(
           1,
           duration
-        ) --> clockTicks
+        ) --> clockTicks,
+        $counterState.map[CounterAction](
+          counterState => if (counterState == Relaxed) Increment(1) else DoNotUpdate
+        ).changes --> counterActionBus
       )
     )
   }
