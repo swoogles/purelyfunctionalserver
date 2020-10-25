@@ -265,9 +265,6 @@ object Main {
     val $complete: Signal[Boolean] =
       $exerciseTotal.map(_ >= exercise.dailyGoal)
 
-    val $completeWithExercise: Signal[(Boolean, Exercise)] =
-      $complete.map((_, exercise))
-
     private def indicateSelectedButton(
       ): Binder[HtmlElement] =
       cls <--
@@ -297,7 +294,7 @@ object Main {
         )
       )
 
-    val countObserver = Observer[Int](
+    val countSoundEffectObserver = Observer[Int](
       onNext = // Currently, this will try to play sounds on page load if goals have been reached
         // I don't want that, but "luckily" the page won't play sounds until there's user interaction
         // This gives the desired behavior, but seems a little janky.
@@ -311,7 +308,7 @@ object Main {
         EventStream
           .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus,
         exerciseServerResults --> exerciseServerResultsBus,
-        $exerciseTotal --> countObserver,
+        $exerciseTotal --> countSoundEffectObserver,
         $complete --> updateMonitor,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
@@ -335,55 +332,6 @@ object Main {
           )
         )
       )
-
-  }
-
-  def ExerciseSessionComponent(
-    exercise: Exercise,
-    $selectedComponent: Signal[Exercise],
-    postFunc: (Int, String) => Future[Int]
-  ): ReactiveHtmlElement[html.Div] = {
-    implicit val strategy = SwitchFutureStrategy
-    val exerciseSubmissions = new EventBus[Int]
-
-    val trueExerciseSubmissions: EventStream[Int] =
-      exerciseSubmissions.events
-        .map(submission => EventStream.fromFuture(postFunc(submission, exercise.id)))
-        .flatten
-
-    val $exerciseTotal: Signal[Int] =
-      trueExerciseSubmissions.foldLeft(0)((acc, next) => acc + next)
-    val $res: Signal[Int] =
-      Signal
-        .fromFuture(postFunc(0, exercise.id))
-        .combineWith($exerciseTotal)
-        .map {
-          case (optResult, latestResult) =>
-            if (optResult.isDefined) optResult.get + latestResult else latestResult
-        }
-
-    div(
-      conditionallyDisplay(exercise, $selectedComponent),
-      cls("centered"),
-      div(
-        cls("session-counter"),
-        div(child <-- $res.map(count => div(count.toString)))
-      ),
-      div(
-        cls := "centered",
-        button(
-          cls := "button is-link is-rounded medium",
-//          onClick.mapTo(value = { postFunc(-1, exercise.id); -1 }) --> exerciseSubmissions,
-          onClick.map(_ => -1) --> exerciseSubmissions,
-          "-1"
-        ),
-        button(
-          cls := "button is-link is-rounded medium",
-          onClick.mapTo(value = { postFunc(1, exercise.id); 1 }) --> exerciseSubmissions,
-          "+1"
-        )
-      )
-    )
 
   }
 
@@ -526,8 +474,8 @@ object Main {
     val updateMonitor = Observer[(Boolean, Exercise)](onNext = {
       case (isComplete, exercise) => {
         allExerciseCounters.update(
-          previousExercises =>
-            previousExercises.map {
+          previousExerciseCounters =>
+            previousExerciseCounters.map {
               case (currentExerciseComponent, wasComplete) => {
                 if (currentExerciseComponent.exercise == exercise) {
                   (currentExerciseComponent, isComplete)
@@ -567,37 +515,6 @@ object Main {
       partitionedExercises.map(_._1.map(_._1))
     val $incompleteExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]] =
       partitionedExercises.map(_._2.map(_._1))
-
-    class ComponentCollection(components: Seq[ComponentX]) {
-      val completedComponents: Signal[Seq[ComponentX]] = ???
-      val incompleteComponents: Signal[Seq[ComponentX]] = ???
-    }
-
-    class ComponentX(val $complete: Signal[Boolean])
-
-    class ExercisesRegimen(
-      betterExerciseComponents: Seq[ExerciseSessionComponentWithExternalStatus]
-    ) {
-      val res: Seq[Signal[Option[ExerciseSessionComponentWithExternalStatus]]] =
-        betterExerciseComponents.map(
-          exercise => exercise.$complete.map(if (_) Some(exercise) else None)
-        )
-
-      val completions: Signal[Boolean] =
-        betterExerciseComponents
-          .map(exercise => exercise.$complete)
-          .foldLeft(Val(true).asInstanceOf[Signal[Boolean]]) {
-            case (a: Val[Boolean], b: Signal[Boolean]) =>
-              a.combineWith(b).map { case (aRes, bRes) => aRes || bRes }
-          }
-
-      val updates: EventStream[Boolean] =
-        betterExerciseComponents
-          .map(exercise => exercise.$complete.changes)
-          .reduce(EventStream.merge(_, _))
-
-      val completedExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]] = ???
-    }
 
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
