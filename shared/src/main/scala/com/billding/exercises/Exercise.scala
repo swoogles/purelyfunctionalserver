@@ -35,7 +35,7 @@ object Exercises {
     ),
     ExerciseGeneric(
       id = "prone_shoulder_presses",
-      humanFriendlyName = "Prone Shoulder Presses",
+      humanFriendlyName = "Lying Shoulder Presses",
       dailyGoal = 2
     ),
     ExerciseGeneric(
@@ -56,32 +56,32 @@ object Exercises {
     ),
     ExerciseGeneric(
       id = "isometric_shoulder_external_rotation",
-      humanFriendlyName = "Banded External Anti-Rotation",
+      humanFriendlyName = "Banded Anti-Rotation (External )",
       dailyGoal = 2
     ),
     ExerciseGeneric(
       id = "isometric_shoulder_internal_rotation",
-      humanFriendlyName = "Banded Internal Anti-Rotation",
+      humanFriendlyName = "Banded Anti-Rotation (Internal)",
       dailyGoal = 2
     ),
     ExerciseGeneric(
       id = "band_rotating_internal_rotation",
-      humanFriendlyName = "Banded Internal Rotation",
+      humanFriendlyName = "Banded Rotation (Internal)",
       dailyGoal = 2
     ),
     ExerciseGeneric(
       id = "band_rotating_external_rotation",
-      humanFriendlyName = "Banded External Rotation",
+      humanFriendlyName = "Banded Rotation (External)",
       dailyGoal = 2
     ),
     ExerciseGeneric(
       id = "straight_forward_arm_raises",
-      humanFriendlyName = "Straight Forward Arm Raises",
+      humanFriendlyName = "Arm Raises (Straight Forward)",
       dailyGoal = 2
     ),
     ExerciseGeneric(
       id = "45_degree_arm_raises",
-      humanFriendlyName = "45 Degree Arm_raises",
+      humanFriendlyName = "Arm Raises (45 Degrees)",
       dailyGoal = 2
     )
   ).sortBy(_.humanFriendlyName)
