@@ -252,20 +252,18 @@ object Main {
 
     private val exerciseSubmissions = new EventBus[Int]
 
-    private val $exerciseTotal: Signal[Int] =
-      exerciseSubmissions.events.foldLeft(0)((acc, next) => acc + next)
+    val exerciseServerResultsBus = new EventBus[Int]
 
-    private val $res: Signal[Int] =
-      Signal
-        .fromFuture(postFunc(0, exercise.id))
-        .combineWith($exerciseTotal)
-        .map {
-          case (optResult, latestResult) =>
-            if (optResult.isDefined) optResult.get + latestResult else latestResult
-        }
+    val exerciseServerResults: EventStream[Int] =
+      exerciseSubmissions.events
+        .map(submission => EventStream.fromFuture(postFunc(submission, exercise.id)))
+        .flatten
+
+    private val $exerciseTotal: Signal[Int] =
+      exerciseServerResultsBus.events.foldLeft(0)((acc, next) => next)
 
     val $complete: Signal[Boolean] =
-      $res.map(_ >= exercise.dailyGoal)
+      $exerciseTotal.map(_ >= exercise.dailyGoal)
 
     val $completeWithExercise: Signal[(Boolean, Exercise)] =
       $complete.map((_, exercise))
@@ -273,7 +271,7 @@ object Main {
     private def indicateSelectedButton(
       ): Binder[HtmlElement] =
       cls <--
-      $selectedComponent.combineWith($res).map {
+      $selectedComponent.combineWith($exerciseTotal).map {
         case (selectedExercise, currentCount) =>
           "button small " +
           (if (selectedExercise == exercise)
@@ -289,7 +287,7 @@ object Main {
     def exerciseSelectButton(): ReactiveHtmlElement[html.Div] =
       div(
         button(
-          child.text <-- $res.map(
+          child.text <-- $exerciseTotal.map(
             count => exercise.humanFriendlyName + " " + count + "/" + exercise.dailyGoal
           ),
           indicateSelectedButton(),
@@ -308,25 +306,29 @@ object Main {
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
-        $res --> countObserver,
+        EventStream
+          .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus,
+        exerciseServerResults --> exerciseServerResultsBus,
+        $exerciseTotal --> countObserver,
         $completeWithExercise --> updateMonitor,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
         div(exercise.humanFriendlyName, cls := "exercise-title"),
         div(
           cls("session-counter"),
-          div(child <-- $res.map(count => div(count.toString)))
+          div(child <-- $exerciseTotal.map(count => div(count.toString)))
         ),
         div(
           cls := "centered",
           button(
             cls := "button is-link is-rounded medium",
-            onClick.mapTo(value = { postFunc(-1, exercise.id); -1 }) --> exerciseSubmissions,
+            onClick.map(_ => -1) --> exerciseSubmissions,
             "-1"
           ),
           button(
             cls := "button is-link is-rounded medium",
-            onClick.mapTo(value = { postFunc(1, exercise.id); 1 }) --> exerciseSubmissions,
+//            onClick.mapTo(value = { postFunc(1, exercise.id); 1 }) --> exerciseSubmissions,
+            onClick.map(_ => 1) --> exerciseSubmissions,
             "+1"
           )
         )
@@ -339,9 +341,16 @@ object Main {
     $selectedComponent: Signal[Exercise],
     postFunc: (Int, String) => Future[Int]
   ): ReactiveHtmlElement[html.Div] = {
+    implicit val strategy = SwitchFutureStrategy
     val exerciseSubmissions = new EventBus[Int]
+
+    val trueExerciseSubmissions: EventStream[Int] =
+      exerciseSubmissions.events
+        .map(submission => EventStream.fromFuture(postFunc(submission, exercise.id)))
+        .flatten
+
     val $exerciseTotal: Signal[Int] =
-      exerciseSubmissions.events.foldLeft(0)((acc, next) => acc + next)
+      trueExerciseSubmissions.foldLeft(0)((acc, next) => acc + next)
     val $res: Signal[Int] =
       Signal
         .fromFuture(postFunc(0, exercise.id))
@@ -362,7 +371,8 @@ object Main {
         cls := "centered",
         button(
           cls := "button is-link is-rounded medium",
-          onClick.mapTo(value = { postFunc(-1, exercise.id); -1 }) --> exerciseSubmissions,
+//          onClick.mapTo(value = { postFunc(-1, exercise.id); -1 }) --> exerciseSubmissions,
+          onClick.map(_ => -1) --> exerciseSubmissions,
           "-1"
         ),
         button(
@@ -605,7 +615,7 @@ object Main {
       betterExerciseComponents.map(_.exerciseSessionComponent())
     )
 
-    println("going to render laminarApp tuesday 10:06")
+    println("going to render laminarApp saturday 12:06")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
