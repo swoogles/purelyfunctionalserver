@@ -281,6 +281,10 @@ object Main {
           cls := "centered",
           button(
             cls := "button is-link is-rounded medium",
+            disabled <--
+            $exerciseTotal.map(
+              exerciseTotal => (exerciseTotal <= 0)
+            ),
             onClick.map(_ => -1) --> exerciseSubmissions,
             "-1"
           ),
