@@ -270,10 +270,15 @@ object Main {
         $complete --> updateMonitor,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
-        div(exercise.humanFriendlyName, cls := "exercise-title"),
         div(
-          cls("session-counter"),
-          div(child <-- $exerciseTotal.map(count => div(count.toString)))
+          cls <-- $exerciseTotal.map(
+            currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
+          ),
+          div(exercise.humanFriendlyName, cls := "exercise-title"),
+          div(
+            cls("session-counter"),
+            div(child <-- $exerciseTotal.map(count => div(count.toString)))
+          )
         ),
         div(
           cls := "centered",
