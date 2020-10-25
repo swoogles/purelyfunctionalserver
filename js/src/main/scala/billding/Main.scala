@@ -247,7 +247,7 @@ object Main {
     $selectedComponent: Signal[Exercise],
     postFunc: (Int, String) => Future[Int],
     soundCreator: SoundCreator,
-    updateMonitor: Observer[(Boolean, Exercise)]
+    updateMonitor: Observer[Boolean]
   ) {
 
     private val exerciseSubmissions = new EventBus[Int]
@@ -312,7 +312,7 @@ object Main {
           .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus,
         exerciseServerResults --> exerciseServerResultsBus,
         $exerciseTotal --> countObserver,
-        $completeWithExercise --> updateMonitor,
+        $complete --> updateMonitor,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
         div(exercise.humanFriendlyName, cls := "exercise-title"),
@@ -548,7 +548,7 @@ object Main {
               $selectedComponent,
               ApiInteractions.postExerciseSession,
               new SoundCreator,
-              updateMonitor
+              updateMonitor.contramap[Boolean](isComplete => (isComplete, exercise))
             )
         )
 
@@ -617,7 +617,7 @@ object Main {
       betterExerciseComponents.map(_.exerciseSessionComponent())
     )
 
-    println("going to render laminarApp saturday 12:06")
+    println("going to render laminarApp sunday 10:20")
     render(dom.document.querySelector("#laminarApp"), appDiv)
   }
 
