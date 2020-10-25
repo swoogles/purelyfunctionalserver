@@ -230,9 +230,9 @@ object Main {
       cls <--
       $selectedComponent.combineWith($exerciseTotal).map {
         case (selectedExercise, currentCount) =>
-          "button small " +
+          "small " +
           (if (selectedExercise == exercise)
-             "is-primary"
+             "is-primary has-background-primary"
            else {
              if (currentCount >= exercise.dailyGoal)
                "is-success is-rounded is-light"
@@ -243,15 +243,13 @@ object Main {
 
     def exerciseSelectButton(): ReactiveHtmlElement[html.Div] =
       div(
-        button(
-          child.text <-- $exerciseTotal.map(
-            count => exercise.humanFriendlyName + " " + count + "/" + exercise.dailyGoal
-          ),
-          indicateSelectedButton(),
-          onClick.mapTo {
-            exercise
-          } --> componentSelections
-        )
+        child.text <-- $exerciseTotal.map(
+          count => exercise.humanFriendlyName + " " + count + "/" + exercise.dailyGoal
+        ),
+        indicateSelectedButton(),
+        onClick.mapTo {
+          exercise
+        } --> componentSelections
       )
 
     val countSoundEffectObserver = Observer[Int](
