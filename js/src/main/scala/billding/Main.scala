@@ -61,31 +61,6 @@ object ApiInteractions {
   implicit val backend = FetchBackend()
   implicit val ec = global
 
-  def getCurrentWheelCount(): Int =
-    document.getElementById("wheel_count").innerHTML.toInt
-
-  def resetReps() =
-    println("not actually resetting the counter anymore...")
-
-  def safeResetReps() = {
-    val confirmed = org.scalajs.dom.window.confirm(s"Are you sure you want to reset the count?")
-    if (confirmed)
-      resetReps
-    else
-      println("I won't throw away those sweet reps!")
-  }
-
-  def safelyPostQuadSets(count: Int, storage: Storage) = {
-    val confirmed =
-      org.scalajs.dom.window.confirm(s"Are you sure you want to submit $count quadsets?")
-    if (confirmed) {
-      postExerciseSession(count, Exercises.QuadSets.id)
-      ResetCount
-    } else {
-      Increment(0)
-    }
-  }
-
   // TODO Convert this to laminar
   def representQuadSets(quadsets: List[DailyQuantizedExercise]) = {
     import scalatags.JsDom.all._
@@ -243,8 +218,15 @@ object Main {
 
     def exerciseSelectButton(): ReactiveHtmlElement[html.Div] =
       div(
-        child.text <-- $exerciseTotal.map(
-          count => exercise.humanFriendlyName + " " + count + "/" + exercise.dailyGoal
+        cls := "menu-item-with-count",
+        div(
+          cls := "has-text-left ml-5",
+          exercise.humanFriendlyName
+        ),
+        div(
+          child.text <-- $exerciseTotal.map(
+            count => count + "/" + exercise.dailyGoal
+          )
         ),
         indicateSelectedButton(),
         onClick.mapTo {

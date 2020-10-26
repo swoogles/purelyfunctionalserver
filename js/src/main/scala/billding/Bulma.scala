@@ -79,14 +79,18 @@ object Bulma {
           child <-- $completedExercises.map { completedExercises =>
             if (completedExercises.nonEmpty) {
               div(
-                cls := "navbar-item has-dropdown is-hoverable",
-                a(onClick --> menuClicks, cls("navbar-link centered"), "Completed Exercises"),
-                div(cls("navbar-dropdown"), child <-- $completedRenderedButtons)
+                hr(cls := "navbar-divider"),
+                div(
+                  cls := "navbar-item has-dropdown is-hoverable",
+                  a(onClick --> menuClicks, cls("navbar-link centered"), "Completed Exercises"),
+                  div(cls("navbar-dropdown"), child <-- $completedRenderedButtons)
+                )
               )
             } else {
               div()
             }
           },
+          hr(cls := "navbar-divider"),
           div(
             cls := "navbar-item has-dropdown is-hoverable",
             a(onClick --> menuClicks, cls("navbar-link centered"), "Timed Exercises"),

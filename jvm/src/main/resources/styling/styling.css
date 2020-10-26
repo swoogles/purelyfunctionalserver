@@ -11,7 +11,7 @@
     font-size: 2em
 }
 .navbar-link {
-    font-size: 3em;
+    font-size: 1.5em;
 }
 button.button {
     font-size: 3em;
@@ -60,4 +60,9 @@ input[type='checkbox']:checked {
 
 body {
     color: black;
+}
+
+.menu-item-with-count {
+    display: grid;
+    grid-template-columns:  1fr minmax(100px, 20%);
 }
