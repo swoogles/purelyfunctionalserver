@@ -956,7 +956,7 @@ function $m_Lbillding_ApiInteractions$() {
   return $n_Lbillding_ApiInteractions$
 }
 class $c_Lbillding_Bulma$ extends $c_O {
-  menu__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_airstream_signal_Signal__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(\u03b4completedExercises, \u03b4incompleteExercises, choices, quadSetCounter) {
+  menu__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_laminar_nodes_ReactiveHtmlElement__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(\u03b4completedExercises, \u03b4incompleteExercises, quadSetCounter) {
     const menuClicks = new $c_Lcom_raquo_airstream_eventbus_EventBus();
     const this$3 = menuClicks.Lcom_raquo_airstream_eventbus_EventBus__f_events;
     const fn = new $c_sjsr_AnonFunction2(((this$1) => ((acc$2, next$2) => {
@@ -1025,164 +1025,184 @@ class $c_Lbillding_Bulma$ extends $c_O {
     }))(this, menuClicks));
     const \u03b4incompleteRenderedButtons = new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4incompleteExerciseButtons, project$3, $m_s_None$());
     const this$32 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x55 = this$32.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x57 = this$32.div__Lcom_raquo_laminar_builders_HtmlTag();
     const this$33 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x54 = this$33.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("main-menu");
+    const $$x56 = this$33.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("main-menu");
     const this$34 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const this$35 = this$34.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x53 = this$35.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar", this$35.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const $$x55 = this$35.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar", this$35.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const this$36 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.role__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x52 = this$36.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navigation", this$36.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const $$x54 = this$36.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navigation", this$36.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const this$37 = $m_Lcom_raquo_laminar_api_Laminar$aria$();
-    const $$x51 = this$37.label__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("main navigation");
+    const $$x53 = this$37.label__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("main navigation");
     const this$38 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x50 = this$38.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x52 = this$38.div__Lcom_raquo_laminar_builders_HtmlTag();
     const this$39 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const this$40 = this$39.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x49 = this$40.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-brand", this$40.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const $$x51 = this$40.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-brand", this$40.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const this$41 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x48 = this$41.a__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x50 = this$41.a__Lcom_raquo_laminar_builders_HtmlTag();
     const this$42 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.role__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x47 = this$42.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button", this$42.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const $$x49 = this$42.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button", this$42.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const this$43 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const this$44 = this$43.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x46 = this$44.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-burger burger", this$44.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const $$x48 = this$44.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-burger burger", this$44.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const this$46 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const this$45 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const eventProp$2 = this$45.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
     const this$47 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$46, eventProp$2);
     const observer$2 = menuClicks.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
-    const $$x45 = $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$2, this$47.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$47.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$47.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor);
+    const $$x47 = $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$2, this$47.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$47.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$47.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor);
     const this$48 = $m_Lcom_raquo_laminar_api_Laminar$aria$();
-    const $$x44 = this$48.label__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("menu");
+    const $$x46 = this$48.label__Lcom_raquo_laminar_keys_ReactiveHtmlAttr().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("menu");
     const this$49 = $m_Lcom_raquo_laminar_api_Laminar$aria$();
     const this$50 = this$49.expanded__Lcom_raquo_laminar_keys_ReactiveHtmlAttr();
-    const $$x43 = this$50.$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter(false);
+    const $$x45 = this$50.$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter(false);
     const this$51 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x42 = $f_Lcom_raquo_laminar_defs_ReactiveComplexHtmlKeys__dataAttr__T__Lcom_raquo_laminar_keys_ReactiveHtmlAttr(this$51, "target").$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("navbarBasicExample");
+    const $$x44 = $f_Lcom_raquo_laminar_defs_ReactiveComplexHtmlKeys__dataAttr__T__Lcom_raquo_laminar_keys_ReactiveHtmlAttr(this$51, "target").$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("navbarBasicExample");
     const this$52 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x41 = this$52.span__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x43 = this$52.span__Lcom_raquo_laminar_builders_HtmlTag();
     const this$53 = $m_Lcom_raquo_laminar_api_Laminar$aria$();
     const this$54 = this$53.hidden__Lcom_raquo_laminar_keys_ReactiveHtmlAttr();
     const array$4 = [this$54.$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter(true)];
-    const $$x40 = $$x41.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$4));
+    const $$x42 = $$x43.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$4));
     const this$58 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x39 = this$58.span__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x41 = this$58.span__Lcom_raquo_laminar_builders_HtmlTag();
     const this$59 = $m_Lcom_raquo_laminar_api_Laminar$aria$();
     const this$60 = this$59.hidden__Lcom_raquo_laminar_keys_ReactiveHtmlAttr();
     const array$5 = [this$60.$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter(true)];
-    const $$x38 = $$x39.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$5));
+    const $$x40 = $$x41.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$5));
     const this$64 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x37 = this$64.span__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x39 = this$64.span__Lcom_raquo_laminar_builders_HtmlTag();
     const this$65 = $m_Lcom_raquo_laminar_api_Laminar$aria$();
     const this$66 = this$65.hidden__Lcom_raquo_laminar_keys_ReactiveHtmlAttr();
     const array$6 = [this$66.$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter(true)];
-    const array$7 = [$$x47, $$x46, $$x45, $$x44, $$x43, $$x42, $$x40, $$x38, $$x37.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$6))];
-    const array$8 = [$$x49, $$x48.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$7))];
-    const $$x36 = $$x50.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$8));
+    const array$7 = [$$x49, $$x48, $$x47, $$x46, $$x45, $$x44, $$x42, $$x40, $$x39.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$6))];
+    const array$8 = [$$x51, $$x50.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$7))];
+    const $$x38 = $$x52.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$8));
     const this$76 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x35 = this$76.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x37 = this$76.div__Lcom_raquo_laminar_builders_HtmlTag();
     const this$77 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x34 = this$77.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("navbarBasicExample");
+    const $$x36 = this$77.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("navbarBasicExample");
     const this$78 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const this$79 = this$78.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x33 = this$79.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-menu", this$79.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const $$x35 = this$79.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-menu", this$79.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const this$80 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x32 = this$80.cls__Lcom_raquo_laminar_keys_CompositeAttr().$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMapper__Lcom_raquo_laminar_modifiers_Binder(activeStyling, $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$());
+    const $$x34 = this$80.cls__Lcom_raquo_laminar_keys_CompositeAttr().$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMapper__Lcom_raquo_laminar_modifiers_Binder(activeStyling, $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$());
     const this$81 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x31 = this$81.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x33 = this$81.div__Lcom_raquo_laminar_builders_HtmlTag();
     const this$82 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const this$83 = this$82.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x30 = this$83.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-start", this$83.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const $$x32 = this$83.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-start", this$83.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const this$84 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x29 = this$84.a__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x31 = this$84.a__Lcom_raquo_laminar_builders_HtmlTag();
     const this$85 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x28 = this$85.href__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("/oauth/login");
+    const $$x30 = this$85.href__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("/oauth/login");
     const this$86 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const this$87 = this$86.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const array$9 = [$$x28, this$87.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-link is-rounded medium", this$87.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Re-login"))];
-    const $$x27 = $$x29.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$9));
-    const this$92 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x26 = this$92.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$93 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$94 = this$93.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x25 = this$94.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-item has-dropdown is-hoverable", this$94.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
-    const this$95 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x24 = this$95.a__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$97 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$96 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const eventProp$3 = this$96.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
-    const this$98 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$97, eventProp$3);
-    const observer$3 = menuClicks.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
-    const $$x23 = $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$3, this$98.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$98.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$98.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor);
-    const this$99 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$100 = this$99.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const array$10 = [$$x23, this$100.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-link centered", this$100.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Incompleted Exercises"))];
-    const $$x22 = $$x24.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$10));
-    const this$105 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x21 = this$105.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$106 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$107 = this$106.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const array$11 = [this$107.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-dropdown", this$107.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(\u03b4incompleteRenderedButtons)];
-    const array$12 = [$$x25, $$x22, $$x21.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$11))];
-    const $$x20 = $$x26.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$12));
-    const this$114 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x19 = this$114.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$115 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$116 = this$115.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x18 = this$116.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-item has-dropdown is-hoverable", this$116.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
-    const this$117 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x17 = this$117.a__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$119 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$118 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const eventProp$4 = this$118.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
-    const this$120 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$119, eventProp$4);
-    const observer$4 = menuClicks.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
-    const $$x16 = $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$4, this$120.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$120.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$120.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor);
-    const this$121 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$122 = this$121.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const array$13 = [$$x16, this$122.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-link centered", this$122.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Completed Exercises"))];
-    const $$x15 = $$x17.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$13));
-    const this$127 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x14 = this$127.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$128 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$129 = this$128.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const array$14 = [this$129.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-dropdown", this$129.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(\u03b4completedRenderedButtons)];
-    const array$15 = [$$x18, $$x15, $$x14.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$14))];
-    const $$x13 = $$x19.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$15));
-    const this$136 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x12 = this$136.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$137 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$138 = this$137.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x11 = this$138.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-item has-dropdown is-hoverable", this$138.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const array$9 = [$$x30, this$87.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("button is-link is-rounded medium", this$87.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Re-login"))];
+    const $$x29 = $$x31.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$9));
+    const $$x28 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child;
+    const project$4 = new $c_sjsr_AnonFunction1(((this$6$1, menuClicks$3, \u03b4incompleteRenderedButtons$1) => ((incompleteExercises$2) => {
+      const incompleteExercises = $as_sci_Seq(incompleteExercises$2);
+      if ((!incompleteExercises.isEmpty__Z())) {
+        const this$92 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const $$x27 = this$92.div__Lcom_raquo_laminar_builders_HtmlTag();
+        const this$93 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const this$94 = this$93.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+        const $$x26 = this$94.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-item has-dropdown is-hoverable", this$94.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+        const this$95 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const $$x25 = this$95.a__Lcom_raquo_laminar_builders_HtmlTag();
+        const this$97 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const this$96 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const eventProp$3 = this$96.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
+        const this$98 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$97, eventProp$3);
+        const observer$3 = menuClicks$3.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
+        const $$x24 = $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$3, this$98.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$98.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$98.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor);
+        const this$99 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const this$100 = this$99.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+        const array$10 = [$$x24, this$100.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-link centered", this$100.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Incomplete Exercises"))];
+        const $$x23 = $$x25.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$10));
+        const this$105 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const $$x22 = this$105.div__Lcom_raquo_laminar_builders_HtmlTag();
+        const this$106 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const this$107 = this$106.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+        const array$11 = [this$107.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-dropdown", this$107.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(\u03b4incompleteRenderedButtons$1)];
+        const array$12 = [$$x26, $$x23, $$x22.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$11))];
+        return $$x27.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$12))
+      } else {
+        const this$114 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        return this$114.div__Lcom_raquo_laminar_builders_HtmlTag().apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($m_sci_Nil$())
+      }
+    }))(this, menuClicks, \u03b4incompleteRenderedButtons));
+    const $$x21 = $$x28.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4incompleteExercises, project$4, $m_s_None$()));
+    const $$x20 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child;
+    const project$5 = new $c_sjsr_AnonFunction1(((this$7$1, menuClicks$4, \u03b4completedRenderedButtons$1) => ((completedExercises$2) => {
+      const completedExercises = $as_sci_Seq(completedExercises$2);
+      if ((!completedExercises.isEmpty__Z())) {
+        const this$115 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const $$x19 = this$115.div__Lcom_raquo_laminar_builders_HtmlTag();
+        const this$116 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const this$117 = this$116.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+        const $$x18 = this$117.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-item has-dropdown is-hoverable", this$117.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+        const this$118 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const $$x17 = this$118.a__Lcom_raquo_laminar_builders_HtmlTag();
+        const this$120 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const this$119 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const eventProp$4 = this$119.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
+        const this$121 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$120, eventProp$4);
+        const observer$4 = menuClicks$4.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
+        const $$x16 = $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$4, this$121.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$121.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$121.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor);
+        const this$122 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const this$123 = this$122.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+        const array$13 = [$$x16, this$123.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-link centered", this$123.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Completed Exercises"))];
+        const $$x15 = $$x17.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$13));
+        const this$128 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const $$x14 = this$128.div__Lcom_raquo_laminar_builders_HtmlTag();
+        const this$129 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        const this$130 = this$129.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+        const array$14 = [this$130.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-dropdown", this$130.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_child.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(\u03b4completedRenderedButtons$1)];
+        const array$15 = [$$x18, $$x15, $$x14.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$14))];
+        return $$x19.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$15))
+      } else {
+        const this$137 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+        return this$137.div__Lcom_raquo_laminar_builders_HtmlTag().apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($m_sci_Nil$())
+      }
+    }))(this, menuClicks, \u03b4completedRenderedButtons));
+    const $$x13 = $$x20.$less$minus$minus__Lcom_raquo_airstream_core_Observable__Lcom_raquo_laminar_modifiers_Inserter(new $c_Lcom_raquo_airstream_signal_MapSignal(\u03b4completedExercises, project$5, $m_s_None$()));
+    const this$138 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x12 = this$138.div__Lcom_raquo_laminar_builders_HtmlTag();
     const this$139 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x10 = this$139.a__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$140 = this$139.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const $$x11 = this$140.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-item has-dropdown is-hoverable", this$140.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
     const this$141 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$140 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const eventProp$5 = this$140.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
-    const this$142 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$141, eventProp$5);
-    const observer$5 = menuClicks.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
-    const $$x9 = $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$5, this$142.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$142.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$142.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor);
+    const $$x10 = this$141.a__Lcom_raquo_laminar_builders_HtmlTag();
     const this$143 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$144 = this$143.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const array$16 = [$$x9, this$144.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-link centered", this$144.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Timed Exercises"))];
+    const this$142 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const eventProp$5 = this$142.onClick__Lcom_raquo_laminar_keys_ReactiveEventProp();
+    const this$144 = $f_Lcom_raquo_laminar_Implicits__eventPropToEventPropTransformation__Lcom_raquo_laminar_keys_ReactiveEventProp__Lcom_raquo_laminar_emitter_EventPropTransformation(this$143, eventProp$5);
+    const observer$5 = menuClicks.Lcom_raquo_airstream_eventbus_EventBus__f_writer;
+    const $$x9 = $m_Lcom_raquo_laminar_modifiers_EventPropBinder$().apply__Lcom_raquo_airstream_core_Observer__Lcom_raquo_domtypes_generic_keys_EventProp__Z__F1__Lcom_raquo_laminar_modifiers_EventPropBinder(observer$5, this$144.Lcom_raquo_laminar_emitter_EventPropTransformation__f_eventProp, this$144.Lcom_raquo_laminar_emitter_EventPropTransformation__f_shouldUseCapture, this$144.Lcom_raquo_laminar_emitter_EventPropTransformation__f_processor);
+    const this$145 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$146 = this$145.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const array$16 = [$$x9, this$146.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-link centered", this$146.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), ($m_Lcom_raquo_laminar_api_package$(), new $c_Lcom_raquo_laminar_nodes_TextNode("Timed Exercises"))];
     const $$x8 = $$x10.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$16));
-    const this$149 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x7 = this$149.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$150 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$151 = this$150.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const array$17 = [this$151.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-dropdown", this$151.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), quadSetCounter];
+    const this$151 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x7 = this$151.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$152 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$153 = this$152.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const array$17 = [this$153.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-dropdown", this$153.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator)), quadSetCounter];
     const array$18 = [$$x11, $$x8, $$x7.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$17))];
-    const array$19 = [$$x30, $$x27, $$x20, $$x13, $$x12.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$18))];
-    const $$x6 = $$x31.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$19));
-    const this$161 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x5 = this$161.div__Lcom_raquo_laminar_builders_HtmlTag();
-    const this$162 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const this$163 = this$162.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const array$20 = [this$163.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-end", this$163.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator))];
-    const array$21 = [$$x34, $$x33, $$x32, $$x6, $$x5.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$20))];
-    const array$22 = [$$x54, $$x53, $$x52, $$x51, $$x36, $$x35.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$21))];
-    return $$x55.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$22))
+    const array$19 = [$$x32, $$x29, $$x21, $$x13, $$x12.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$18))];
+    const $$x6 = $$x33.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$19));
+    const this$163 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const $$x5 = this$163.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const this$164 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const this$165 = this$164.cls__Lcom_raquo_laminar_keys_CompositeAttr();
+    const array$20 = [this$165.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("navbar-end", this$165.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator))];
+    const array$21 = [$$x36, $$x35, $$x34, $$x6, $$x5.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$20))];
+    const array$22 = [$$x56, $$x55, $$x54, $$x53, $$x38, $$x37.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$21))];
+    return $$x57.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array$22))
   };
 }
 const $d_Lbillding_Bulma$ = new $TypeData().initClass({
@@ -1650,20 +1670,26 @@ class $c_Lbillding_Main$ extends $c_O {
     }))(this));
     const \u03b4incompleteExercises = new $c_Lcom_raquo_airstream_signal_MapSignal(partitionedExercises, project$3, $m_s_None$());
     const this$13 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x9 = this$13.div__Lcom_raquo_laminar_builders_HtmlTag();
+    const $$x7 = this$13.div__Lcom_raquo_laminar_builders_HtmlTag();
     const this$14 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const $$x8 = this$14.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("full_laminar_app");
+    const $$x6 = this$14.idAttr__Lcom_raquo_laminar_keys_ReactiveProp().$colon$eq__O__Lcom_raquo_laminar_modifiers_Setter("full_laminar_app");
     const this$15 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
     const this$16 = this$15.cls__Lcom_raquo_laminar_keys_CompositeAttr();
-    const $$x7 = this$16.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("centered", this$16.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
-    const $$x6 = $m_Lbillding_Bulma$();
-    const f$2 = ((this$8$1) => ((x$14$2) => {
+    const $$x5 = this$16.com$raquo$laminar$keys$CompositeAttr$$update__sjs_js_Dictionary__Lcom_raquo_laminar_modifiers_Setter($m_Lcom_raquo_laminar_api_Laminar$().StringValueMapper__Lcom_raquo_laminar_keys_CompositeAttr$CompositeValueMappers$StringValueMapper$().toDict__T__C__sjs_js_Dictionary("centered", this$16.Lcom_raquo_laminar_keys_CompositeAttr__f_com$raquo$laminar$keys$CompositeAttr$$separator));
+    const $$x4 = $m_Lbillding_Bulma$().menu__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_laminar_nodes_ReactiveHtmlElement__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(\u03b4completedExercises, \u03b4incompleteExercises, $p_Lbillding_Main$__exerciseSelectButton$1__Lcom_billding_exercises_Exercise__Lcom_raquo_airstream_eventbus_EventBus__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(this, $m_Lcom_billding_exercises_Exercises$().Lcom_billding_exercises_Exercises$__f_QuadSets, componentSelections, \u03b4selectedComponent));
+    const $$x3 = this.TickingExerciseCounterComponent__Lcom_billding_exercises_Exercise__Lcom_raquo_airstream_signal_Signal__F2__Lorg_scalajs_dom_raw_Storage__Lbillding_SoundCreator__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($m_Lcom_billding_exercises_Exercises$().Lcom_billding_exercises_Exercises$__f_QuadSets, \u03b4selectedComponent, new $c_sjsr_AnonFunction2(((this$8$1) => ((count$2$1, exerciseName$2$1) => {
+      const count$1 = $uI(count$2$1);
+      const exerciseName$1 = $as_T(exerciseName$2$1);
+      return $m_Lbillding_ApiInteractions$().postExerciseSession__I__T__s_concurrent_Future(count$1, exerciseName$1)
+    }))(this)), storage, new $c_Lbillding_SoundCreator());
+    const this$17 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
+    const f$2 = ((this$9$1) => ((x$14$2) => {
       const x$14 = $as_Lbillding_Main$ExerciseSessionComponentWithExternalStatus(x$14$2);
-      return x$14.exerciseSelectButton__Lcom_raquo_laminar_nodes_ReactiveHtmlElement()
+      return x$14.exerciseSessionComponent__Lcom_raquo_laminar_nodes_ReactiveHtmlElement()
     }))(this);
-    let $$x5;
+    let nodes;
     if ((betterExerciseComponents === $m_sci_Nil$())) {
-      $$x5 = $m_sci_Nil$()
+      nodes = $m_sci_Nil$()
     } else {
       const arg1$4 = betterExerciseComponents.head__O();
       const h$2 = new $c_sci_$colon$colon(f$2(arg1$4), $m_sci_Nil$());
@@ -1676,38 +1702,10 @@ class $c_Lbillding_Main$ extends $c_O {
         t$2 = nx$2;
         rest$2 = $as_sci_List(rest$2.tail__O())
       };
-      $$x5 = h$2
+      nodes = h$2
     };
-    const $$x4 = $$x6.menu__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_airstream_signal_Signal__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(\u03b4completedExercises, \u03b4incompleteExercises, $$x5, $p_Lbillding_Main$__exerciseSelectButton$1__Lcom_billding_exercises_Exercise__Lcom_raquo_airstream_eventbus_EventBus__Lcom_raquo_airstream_signal_Signal__Lcom_raquo_laminar_nodes_ReactiveHtmlElement(this, $m_Lcom_billding_exercises_Exercises$().Lcom_billding_exercises_Exercises$__f_QuadSets, componentSelections, \u03b4selectedComponent));
-    const $$x3 = this.TickingExerciseCounterComponent__Lcom_billding_exercises_Exercise__Lcom_raquo_airstream_signal_Signal__F2__Lorg_scalajs_dom_raw_Storage__Lbillding_SoundCreator__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($m_Lcom_billding_exercises_Exercises$().Lcom_billding_exercises_Exercises$__f_QuadSets, \u03b4selectedComponent, new $c_sjsr_AnonFunction2(((this$9$1) => ((count$2$1, exerciseName$2$1) => {
-      const count$1 = $uI(count$2$1);
-      const exerciseName$1 = $as_T(exerciseName$2$1);
-      return $m_Lbillding_ApiInteractions$().postExerciseSession__I__T__s_concurrent_Future(count$1, exerciseName$1)
-    }))(this)), storage, new $c_Lbillding_SoundCreator());
-    const this$17 = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L;
-    const f$3 = ((this$10$1) => ((x$15$2) => {
-      const x$15 = $as_Lbillding_Main$ExerciseSessionComponentWithExternalStatus(x$15$2);
-      return x$15.exerciseSessionComponent__Lcom_raquo_laminar_nodes_ReactiveHtmlElement()
-    }))(this);
-    let nodes;
-    if ((betterExerciseComponents === $m_sci_Nil$())) {
-      nodes = $m_sci_Nil$()
-    } else {
-      const arg1$6 = betterExerciseComponents.head__O();
-      const h$3 = new $c_sci_$colon$colon(f$3(arg1$6), $m_sci_Nil$());
-      let t$3 = h$3;
-      let rest$3 = $as_sci_List(betterExerciseComponents.tail__O());
-      while ((rest$3 !== $m_sci_Nil$())) {
-        const arg1$7 = rest$3.head__O();
-        const nx$3 = new $c_sci_$colon$colon(f$3(arg1$7), $m_sci_Nil$());
-        t$3.sci_$colon$colon__f_next = nx$3;
-        t$3 = nx$3;
-        rest$3 = $as_sci_List(rest$3.tail__O())
-      };
-      nodes = h$3
-    };
-    const array = [$$x8, $$x7, $$x4, $$x3, new $c_Lcom_raquo_laminar_Implicits$$anon$3(this$17, nodes)];
-    const appDiv = $$x9.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array));
+    const array = [$$x6, $$x5, $$x4, $$x3, new $c_Lcom_raquo_laminar_Implicits$$anon$3(this$17, nodes)];
+    const appDiv = $$x7.apply__sci_Seq__Lcom_raquo_laminar_nodes_ReactiveHtmlElement($ct_sjsr_WrappedVarArgs__sjs_js_Array__(new $c_sjsr_WrappedVarArgs(), array));
     const this$22 = $m_s_Console$();
     const this$23 = this$22.out__Ljava_io_PrintStream();
     this$23.java$lang$JSConsoleBasedPrintStream$$printString__T__V("going to render laminarApp sunday 10:40\n");
