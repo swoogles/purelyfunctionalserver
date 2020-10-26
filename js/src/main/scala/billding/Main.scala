@@ -256,7 +256,7 @@ object Main {
           cls <-- $exerciseTotal.map(
             currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
           ),
-          div(exercise.humanFriendlyName, cls := "exercise-title"),
+          div(exercise.humanFriendlyName, cls := "is-size-3"),
           div(
             cls("session-counter"),
             div(child <-- $exerciseTotal.map(count => div(count.toString)))
@@ -265,7 +265,7 @@ object Main {
         div(
           cls := "centered",
           button(
-            cls := "button is-link is-rounded medium",
+            cls := "button is-link is-rounded is-size-3",
             disabled <--
             $exerciseTotal.map(
               exerciseTotal => (exerciseTotal <= 0)
@@ -274,7 +274,7 @@ object Main {
             "-1"
           ),
           button(
-            cls := "button is-link is-rounded medium",
+            cls := "button is-link is-rounded is-size-3",
 //            onClick.mapTo(value = { postFunc(1, exercise.id); 1 }) --> exerciseSubmissions,
             onClick.map(_ => 1) --> exerciseSubmissions,
             "+1"
@@ -373,7 +373,7 @@ object Main {
         ),
         div(
           button("Reset",
-                 cls := "button is-warning is-rounded medium",
+                 cls := "button is-warning is-rounded is-size-3",
                  onClick.mapTo(ResetCount) --> counterActionBus)
         ),
         div(
@@ -385,11 +385,10 @@ object Main {
         div(
           styleAttr := "text-align: center; font-size: 2em",
           span("Daily Total:"),
-//          span(idAttr := "daily_total"),
           span(child <-- $exerciseTotal.map(count => div(count.toString))),
           span(styleAttr := "font-size: 2em")
         ),
-        a(href := "/oauth/login", cls := "button is-link is-rounded medium", "Re-login"),
+        a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login"),
         div(idAttr := "exercise_history"),
         // TODO Look at method to derive this first repeater off of the 2nd
         repeater.repeatWithInterval(

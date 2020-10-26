@@ -69,7 +69,9 @@ object Bulma {
             if (incompleteExercises.nonEmpty) {
               div(
                 cls := "navbar-item has-dropdown is-hoverable",
-                a(onClick --> menuClicks, cls("navbar-link centered"), "Incomplete Exercises"),
+                a(onClick --> menuClicks,
+                  cls("navbar-link centered is-size-4"),
+                  "Incomplete Exercises"),
                 div(cls("navbar-dropdown"), child <-- $incompleteRenderedButtons)
               )
             } else {
@@ -82,7 +84,9 @@ object Bulma {
                 hr(cls := "navbar-divider"),
                 div(
                   cls := "navbar-item has-dropdown is-hoverable",
-                  a(onClick --> menuClicks, cls("navbar-link centered"), "Completed Exercises"),
+                  a(onClick --> menuClicks,
+                    cls("navbar-link centered is-size-4"),
+                    "Completed Exercises"),
                   div(cls("navbar-dropdown"), child <-- $completedRenderedButtons)
                 )
               )
@@ -93,7 +97,7 @@ object Bulma {
           hr(cls := "navbar-divider"),
           div(
             cls := "navbar-item has-dropdown is-hoverable",
-            a(onClick --> menuClicks, cls("navbar-link centered"), "Timed Exercises"),
+            a(onClick --> menuClicks, cls("navbar-link centered is-size-4"), "Timed Exercises"),
             div(cls("navbar-dropdown"), quadSetCounter)
           )
         ),
