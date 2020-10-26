@@ -501,13 +501,9 @@ object Main {
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
-      Bulma.menu(
-        $completedExercises,
-        $incompleteExercises,
-        betterExerciseComponents
-          .map(_.exerciseSelectButton()),
-        exerciseSelectButton(Exercises.QuadSets)
-      ),
+      Bulma.menu($completedExercises,
+                 $incompleteExercises,
+                 exerciseSelectButton(Exercises.QuadSets)),
 //      betterExerciseComponents.map(_.exerciseSelectButton()),
       TickingExerciseCounterComponent(Exercises.QuadSets,
                                       $selectedComponent,

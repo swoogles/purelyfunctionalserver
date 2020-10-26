@@ -1,20 +1,17 @@
 package billding
 
 import billding.Main.ExerciseSessionComponentWithExternalStatus
+import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L._
-//import com.raquo.laminar.api.Laminar.aria
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import org.scalajs.dom
 import org.scalajs.dom.html
 
 object Bulma {
 
-  def menu(
-//            categorizedExercises: Signal[(Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)], Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)])],
-           $completedExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]],
+  def menu($completedExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]],
            $incompleteExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]],
-           choices: Seq[ReactiveHtmlElement[html.Div]],
-           quadSetCounter: ReactiveHtmlElement[html.Div]) = {
+           quadSetCounter: ReactiveHtmlElement[html.Div]): ReactiveHtmlElement[html.Div] = {
     val menuClicks = new EventBus[dom.Event]
 
     val activeStyling =
