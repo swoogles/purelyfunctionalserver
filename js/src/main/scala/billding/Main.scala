@@ -220,7 +220,7 @@ object Main {
       div(
         cls := "menu-item-with-count",
         div(
-          cls := "has-text-left ml-5",
+          cls := "has-text-left ml-1",
           exercise.humanFriendlyName
         ),
         div(
