@@ -26,7 +26,7 @@ input[type='checkbox']:checked {
 
 .menu-item-with-count {
     display: grid;
-    grid-template-columns:  1fr minmax(100px, 15%);
+    grid-template-columns:  1fr minmax(15%, 15%);
 }
 
 body {
