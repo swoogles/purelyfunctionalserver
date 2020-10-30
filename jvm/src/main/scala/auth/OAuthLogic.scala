@@ -2,7 +2,7 @@ package auth
 
 import java.time.Instant
 
-import org.http4s.{AuthScheme, Credentials, Request, UrlForm}
+import org.http4s.{AuthScheme, Credentials, EntityDecoder, Request, Response, Uri, UrlForm}
 import cats.effect.IO
 import cats.implicits._
 import org.http4s.circe.jsonOf
@@ -13,7 +13,6 @@ import org.http4s.Method._
 import org.http4s.client.dsl.Http4sClientDsl
 import org.http4s.client.dsl.io._
 import org.http4s.util.CaseInsensitiveString
-import org.http4s.{EntityDecoder, Uri}
 import zio.{DefaultRuntime, Runtime, Task, ZIO}
 import zio.interop.catz._
 
@@ -131,7 +130,9 @@ class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] with AuthLogic {
     implicit def commitEntityDecoder: EntityDecoder[Task, TokenResponse] =
       jsonOf
 
-    C.expect[TokenResponse](postRequest)
+    C.expectOr[TokenResponse](postRequest)(
+        (error: Response[Task]) => ZIO { new Exception(error.toString) }
+      )
       .map { response =>
         println("Response from token call: " + response)
         response
