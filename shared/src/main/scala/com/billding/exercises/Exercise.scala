@@ -29,13 +29,23 @@ object Exercises {
 
   val manuallyCountedExercises = List(
     ExerciseGeneric(
-      id = "shoulder_squeezes",
-      humanFriendlyName = "Shoulder Squeezes",
+      id = "face_down_t_lift",
+      humanFriendlyName = "Face-down T lift",
       dailyGoal = 2
     ),
     ExerciseGeneric(
-      id = "prone_shoulder_presses",
-      humanFriendlyName = "Lying Shoulder Presses",
+      id = "face_down_i_lift",
+      humanFriendlyName = "Face-down I lift",
+      dailyGoal = 2
+    ),
+    ExerciseGeneric(
+      id = "leaning_shoulder_taps",
+      humanFriendlyName = "Leaning Shoulder Taps",
+      dailyGoal = 2
+    ),
+    ExerciseGeneric(
+      id = "rows",
+      humanFriendlyName = "Rows",
       dailyGoal = 2
     ),
     ExerciseGeneric(
@@ -50,21 +60,6 @@ object Exercises {
       dailyGoal = 2
     ),
     ExerciseGeneric(
-      id = "sitting_shoulder_flexion_with_aid",
-      humanFriendlyName = "Standing Shoulder Flexion With Aid",
-      dailyGoal = 2
-    ),
-    ExerciseGeneric(
-      id = "isometric_shoulder_external_rotation",
-      humanFriendlyName = "Banded Anti-Rotation (External )",
-      dailyGoal = 2
-    ),
-    ExerciseGeneric(
-      id = "isometric_shoulder_internal_rotation",
-      humanFriendlyName = "Banded Anti-Rotation (Internal)",
-      dailyGoal = 2
-    ),
-    ExerciseGeneric(
       id = "band_rotating_internal_rotation",
       humanFriendlyName = "Banded Rotation (Internal)",
       dailyGoal = 2
@@ -76,7 +71,7 @@ object Exercises {
     ),
     ExerciseGeneric(
       id = "straight_forward_arm_raises",
-      humanFriendlyName = "Arm Raises (Straight Forward)",
+      humanFriendlyName = "Arm Raises (Straight into Cross)",
       dailyGoal = 2
     ),
     ExerciseGeneric(
