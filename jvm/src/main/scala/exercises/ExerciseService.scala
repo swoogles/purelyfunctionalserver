@@ -18,17 +18,6 @@ class ExerciseService(
 
   val service: HttpRoutes[Task] = HttpRoutes.of[Task] {
     // pf: PartialFunction[Request[F], F[Response[F]]]
-    case request @ GET -> Root => {
-      val user = authLogic.getUserFromRequest(request)
-      Ok(
-        Stream("[") ++
-        exerciseLogic
-          .getExerciseHistoriesFor("QuadSets", user.id)
-          .map(_.asJson.noSpaces)
-          .intersperse(",") ++ Stream("]"),
-        `Content-Type`(MediaType.application.json)
-      )
-    }
 
     case request @ GET -> Root / exerciseName => {
       val user = authLogic.getUserFromRequest(request)

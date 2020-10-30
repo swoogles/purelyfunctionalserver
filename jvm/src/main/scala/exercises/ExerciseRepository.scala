@@ -30,7 +30,10 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
 
   def getExerciseHistoryForUser(name: String,
                                 userId: String): Stream[Task, DailyQuantizedExercise] =
-    sql"SELECT id, name, day, count, user_id FROM daily_quantized_exercises WHERE name = $name AND user_id = ${userId} ORDER BY day DESC LIMIT 14"
+    sql"""SELECT id, name, day, count, user_id FROM daily_quantized_exercises
+          WHERE name = $name AND user_id = ${userId}
+          ORDER BY day DESC
+          LIMIT 14"""
       .query[DailyQuantizedExercise]
       .stream
       .transact(transactor)
@@ -38,29 +41,31 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
   def getExercise(name: String,
                   day: LocalDate,
                   userId: Option[String]): Task[Option[DailyQuantizedExercise]] =
-    sql"""SELECT id, name, day, count, user_id FROM daily_quantized_exercises WHERE name = $name AND day = $day AND user_id=${userId}"""
+    sql"""SELECT id, name, day, count, user_id FROM daily_quantized_exercises
+          WHERE name = $name AND day = $day AND user_id=$userId"""
       .query[DailyQuantizedExercise]
       .option
       .transact(transactor)
 
   def deleteEmptyExerciseRecords(name: String, day: LocalDate, userId: Option[String]): Task[Int] =
-    sql"""DELETE FROM daily_quantized_exercises WHERE name = $name AND day = $day AND user_id=${userId} AND count = 0""".update.run
+    sql"""DELETE FROM daily_quantized_exercises
+          WHERE name = $name AND day = $day AND user_id=$userId AND count = 0""".update.run
       .transact(transactor)
 
 //  id: Long, name: String, day: LocalDate, count: Int
   def createExercise(exercise: DailyQuantizedExercise): Task[DailyQuantizedExercise] =
     sql"""
-         |INSERT INTO daily_quantized_exercises (
-         |  name,
-         |  day,
-         |  count,
-         |  user_id
-         |) VALUES (
-         |  ${exercise.name},
-         |  ${exercise.day},
-         |  ${exercise.count},
-         |  ${exercise.userId}
-         |  )""".stripMargin.update
+          INSERT INTO daily_quantized_exercises (
+            name,
+            day,
+            count,
+            user_id
+          ) VALUES (
+            ${exercise.name},
+            ${exercise.day},
+            ${exercise.count},
+            ${exercise.userId}
+            )""".stripMargin.update
       .withUniqueGeneratedKeys[Long]("id")
       .transact(transactor)
       .map(id => exercise.copy(id = Some(id)))
@@ -69,7 +74,10 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
     exercise: DailyQuantizedExercise,
     reps: Int
   ): Task[Either[ExerciseNotFoundError.type, DailyQuantizedExercise]] =
-    sql"UPDATE daily_quantized_exercises SET count = ${exercise.count + reps} WHERE day = ${exercise.day} AND name = ${exercise.name} AND user_id = ${exercise.userId}".update.run
+    sql"""UPDATE daily_quantized_exercises
+          SET count = ${exercise.count + reps}
+          WHERE day = ${exercise.day} AND name = ${exercise.name} AND user_id = ${exercise.userId}"""
+      .update.run
       .transact(transactor)
       .map { affectedRows =>
         if (affectedRows == 1) {
