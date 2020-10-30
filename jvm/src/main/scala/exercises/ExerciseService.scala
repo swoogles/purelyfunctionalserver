@@ -34,18 +34,22 @@ class ExerciseService(
     case req @ POST -> Root => {
       val user = authLogic.getUserFromRequest(req)
       for {
-        newExercise       <- req.decodeJson[DailyQuantizedExercise]
-        wrappedResult <- exerciseLogic.createOrUpdate(newExercise.copy(userId = Some(user.id))).map {
-          successfullyCreatedExercise =>
+        newExercise <- req.decodeJson[DailyQuantizedExercise]
+        wrappedResult <- exerciseLogic
+          .createOrUpdate(newExercise.copy(userId = Some(user.id)))
+          .map { successfullyCreatedExercise =>
             Created(
               successfullyCreatedExercise.count.toString,
               Location(Uri.unsafeFromString(s"/exercises/${successfullyCreatedExercise.id.get}"))
             )
-        }
+          }
         bigResult <- wrappedResult
-          .catchAll(error => InternalServerError(
-            "Unhandled error: " + error.getMessage
-          ))
+          .catchAll(
+            error =>
+              InternalServerError(
+                "Unhandled error: " + error.getMessage
+              )
+          )
       } yield {
         bigResult
       }

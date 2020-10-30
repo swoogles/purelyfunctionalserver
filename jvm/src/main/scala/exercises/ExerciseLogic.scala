@@ -24,9 +24,11 @@ class ExerciseLogic(exerciseRepository: ExerciseRepository) {
                   existingExercise,
                   dailyQuantizedExercise.count
                 )
-                .map {
-                  updatedExercise => updatedExercise
-                    .getOrElse(throw new IllegalStateException("Can't update a nonexistent exercise record.") )
+                .map { updatedExercise =>
+                  updatedExercise
+                    .getOrElse(
+                      throw new IllegalStateException("Can't update a nonexistent exercise record.")
+                    )
                 }
             case None =>
               exerciseRepository

@@ -13,8 +13,8 @@ trait ExerciseRepository {
 
   // TODO Push F throughout the rest of this file
   def getExercise(
-                   exercise: DailyQuantizedExercise
-                   ): Task[Option[DailyQuantizedExercise]]
+    exercise: DailyQuantizedExercise
+  ): Task[Option[DailyQuantizedExercise]]
   def deleteEmptyExerciseRecords(exercise: DailyQuantizedExercise): Task[Int]
   def getExerciseHistoryForUser(name: String, userId: String): Stream[Task, DailyQuantizedExercise]
   def createExercise(exercise: DailyQuantizedExercise): Task[DailyQuantizedExercise]
@@ -39,8 +39,8 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
       .transact(transactor)
 
   def getExercise(
-                   exercise: DailyQuantizedExercise
-                   ): Task[Option[DailyQuantizedExercise]] =
+    exercise: DailyQuantizedExercise
+  ): Task[Option[DailyQuantizedExercise]] =
     sql"""SELECT id, name, day, count, user_id FROM daily_quantized_exercises
           WHERE name = ${exercise.name} AND day = ${exercise.day} AND user_id=${exercise.userId}"""
       .query[DailyQuantizedExercise]
@@ -76,8 +76,7 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
   ): Task[Either[ExerciseNotFoundError.type, DailyQuantizedExercise]] =
     sql"""UPDATE daily_quantized_exercises
           SET count = ${exercise.count + reps}
-          WHERE day = ${exercise.day} AND name = ${exercise.name} AND user_id = ${exercise.userId}"""
-      .update.run
+          WHERE day = ${exercise.day} AND name = ${exercise.name} AND user_id = ${exercise.userId}""".update.run
       .transact(transactor)
       .map { affectedRows =>
         if (affectedRows == 1) {
