@@ -11,7 +11,7 @@ class ExerciseLogic(exerciseRepository: ExerciseRepository) {
 
   def createOrUpdate(
     dailyQuantizedExercise: DailyQuantizedExercise
-  ): Task[Either[IllegalStateException, DailyQuantizedExercise]] =
+  ): Task[DailyQuantizedExercise] =
     exerciseRepository
       .deleteEmptyExerciseRecords(dailyQuantizedExercise)
       .flatMap { deletedRows =>
@@ -25,14 +25,12 @@ class ExerciseLogic(exerciseRepository: ExerciseRepository) {
                   dailyQuantizedExercise.count
                 )
                 .map {
-                  case Right(updatedExercise) => Right(updatedExercise)
-                  case Left(notFoundError) =>
-                    Left(new IllegalStateException("Can't update a nonexistent exercise record."))
+                  updatedExercise => updatedExercise
+                    .getOrElse(throw new IllegalStateException("Can't update a nonexistent exercise record.") )
                 }
             case None =>
               exerciseRepository
                 .createExercise(dailyQuantizedExercise)
-                .map(Right(_))
           }
       }
 

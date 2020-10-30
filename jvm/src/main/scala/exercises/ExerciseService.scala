@@ -36,17 +36,16 @@ class ExerciseService(
       for {
         newExercise       <- req.decodeJson[DailyQuantizedExercise]
         wrappedResult <- exerciseLogic.createOrUpdate(newExercise.copy(userId = Some(user.id))).map {
-          case Right(successfullyCreatedExercise) =>
+          successfullyCreatedExercise =>
             Created(
               successfullyCreatedExercise.count.toString,
               Location(Uri.unsafeFromString(s"/exercises/${successfullyCreatedExercise.id.get}"))
             )
-          case Left(illegalStateException) =>
-            InternalServerError(
-              "IllegalStateException while posting exercise: " + illegalStateException.getMessage
-            )
         }
         bigResult <- wrappedResult
+          .catchAll(error => InternalServerError(
+            "Unhandled error: " + error.getMessage
+          ))
       } yield {
         bigResult
       }
