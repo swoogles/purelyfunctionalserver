@@ -1,6 +1,6 @@
 package auth
 
-import java.time.Instant
+import java.time.{Duration, Instant}
 
 import org.http4s.{AuthScheme, Credentials, EntityDecoder, Request, Response, Uri, UrlForm}
 import cats.effect.IO
@@ -80,7 +80,7 @@ class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] with AuthLogic {
       HIDEOUS_UNSAFE_USER_INFO_CACHE
         .get(accessToken)
         .filter {
-          case (timestamp, userInfo) => Instant.now().isBefore(timestamp.plusSeconds(30))
+          case (timestamp, userInfo) => Instant.now().isBefore(timestamp.plus(Duration.ofDays(3)))
         }
         .map(_._2)
     existingFreshUserInfo match {
