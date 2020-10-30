@@ -12,10 +12,10 @@ import zio.interop.catz._
 trait ExerciseRepository {
 
   // TODO Push F throughout the rest of this file
-  def getExercise(name: String,
-                  day: LocalDate,
-                  userId: Option[String]): Task[Option[DailyQuantizedExercise]]
-  def deleteEmptyExerciseRecords(name: String, day: LocalDate, userId: Option[String]): Task[Int]
+  def getExercise(
+                   exercise: DailyQuantizedExercise
+                   ): Task[Option[DailyQuantizedExercise]]
+  def deleteEmptyExerciseRecords(exercise: DailyQuantizedExercise): Task[Int]
   def getExerciseHistoryForUser(name: String, userId: String): Stream[Task, DailyQuantizedExercise]
   def createExercise(exercise: DailyQuantizedExercise): Task[DailyQuantizedExercise]
 
@@ -38,18 +38,18 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
       .stream
       .transact(transactor)
 
-  def getExercise(name: String,
-                  day: LocalDate,
-                  userId: Option[String]): Task[Option[DailyQuantizedExercise]] =
+  def getExercise(
+                   exercise: DailyQuantizedExercise
+                   ): Task[Option[DailyQuantizedExercise]] =
     sql"""SELECT id, name, day, count, user_id FROM daily_quantized_exercises
-          WHERE name = $name AND day = $day AND user_id=$userId"""
+          WHERE name = ${exercise.name} AND day = ${exercise.day} AND user_id=${exercise.userId}"""
       .query[DailyQuantizedExercise]
       .option
       .transact(transactor)
 
-  def deleteEmptyExerciseRecords(name: String, day: LocalDate, userId: Option[String]): Task[Int] =
+  def deleteEmptyExerciseRecords(exercise: DailyQuantizedExercise): Task[Int] =
     sql"""DELETE FROM daily_quantized_exercises
-          WHERE name = $name AND day = $day AND user_id=$userId AND count = 0""".update.run
+          WHERE name = ${exercise.name} AND day = ${exercise.day} AND user_id=${exercise.userId} AND count = 0""".update.run
       .transact(transactor)
 
 //  id: Long, name: String, day: LocalDate, count: Int

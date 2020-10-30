@@ -13,16 +13,10 @@ class ExerciseLogic(exerciseRepository: ExerciseRepository) {
     dailyQuantizedExercise: DailyQuantizedExercise
   ): Task[Either[IllegalStateException, DailyQuantizedExercise]] =
     exerciseRepository
-      .deleteEmptyExerciseRecords(
-        dailyQuantizedExercise.name,
-        dailyQuantizedExercise.day,
-        dailyQuantizedExercise.userId
-      )
+      .deleteEmptyExerciseRecords(dailyQuantizedExercise)
       .flatMap { deletedRows =>
         exerciseRepository
-          .getExercise(dailyQuantizedExercise.name,
-                       dailyQuantizedExercise.day,
-                       dailyQuantizedExercise.userId)
+          .getExercise(dailyQuantizedExercise)
           .flatMap {
             case Some(existingExercise) =>
               exerciseRepository
