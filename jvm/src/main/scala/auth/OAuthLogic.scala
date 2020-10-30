@@ -131,7 +131,11 @@ class OAuthLogic(C: Client[Task]) extends Http4sClientDsl[Task] with AuthLogic {
       jsonOf
 
     C.expectOr[TokenResponse](postRequest)(
-        (error: Response[Task]) => ZIO { new Exception(error.toString) }
+        (error: Response[Task]) =>
+          ZIO {
+            println("Error: " + error)
+            new Exception(error.toString)
+          }
       )
       .map { response =>
         println("Response from token call: " + response)
