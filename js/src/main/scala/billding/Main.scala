@@ -176,6 +176,12 @@ object Main {
 
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
+  trait ExerciseSessionComponent {
+    val exercise: Exercise
+    def exerciseSelectButton(): ReactiveHtmlElement[html.Div]
+    def exerciseSessionComponent(): ReactiveHtmlElement[html.Div]
+  }
+
   class ExerciseSessionComponentWithExternalStatus(
     componentSelections: EventBus[Exercise],
     val exercise: Exercise,
@@ -183,7 +189,7 @@ object Main {
     postFunc: (Int, String) => Future[Int],
     soundCreator: SoundCreator,
     updateMonitor: Observer[Boolean]
-  ) {
+  ) extends ExerciseSessionComponent {
 
     private val exerciseSubmissions = new EventBus[Int]
 
@@ -297,11 +303,13 @@ object Main {
   case object Firing extends CounterState
   case object Relaxed extends CounterState
 
-  def TickingExerciseCounterComponent(exercise: Exercise,
-                                      $selectedComponent: Signal[Exercise],
-                                      postFunc: (Int, String) => Future[Int],
-                                      storage: Storage,
-                                      soundCreator: SoundCreator): ReactiveHtmlElement[html.Div] = {
+  case class TickingExerciseCounterComponent(componentSelections: EventBus[Exercise],
+                                             exercise: Exercise,
+                                             $selectedComponent: Signal[Exercise],
+                                             postFunc: (Int, String) => Future[Int],
+                                             storage: Storage,
+                                             soundCreator: SoundCreator)
+      extends ExerciseSessionComponent {
     val exerciseSubmissions = new EventBus[Int]
 
     val exerciseServerResultsBus = new EventBus[Int]
@@ -339,76 +347,6 @@ object Main {
         }
       }
     })
-    val counterActionBus = new EventBus[CounterAction]()
-
-    // Doing this to get the initial count
-    val $countT: Signal[Counter] =
-      counterActionBus.events.foldLeft(Counter(0))((acc, next) => CounterAction.update(next, acc))
-
-    val $countVar: Var[Counter] = Var(Counter(0))
-
-    // todo restore to 10 seconds
-    val duration = new FiniteDuration(1, scala.concurrent.duration.SECONDS)
-
-    div(
-      conditionallyDisplay(exercise, $selectedComponent),
-      exerciseServerResults --> exerciseServerResultsBus,
-      exerciseServerResultsBus.events
-        .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
-      EventStream
-        .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus,
-      cls := "centered",
-      div(
-        styleAttr <-- $color.map(color => s"background: $color"),
-        div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
-        div(
-          button(
-            "Submit",
-            cls := "button is-link is-rounded",
-            $countT --> $countVar.writer,
-            onClick.map(
-              _ => $countVar.now().value
-            ) --> exerciseSubmissions
-          )
-        ),
-        div(
-          button("Reset",
-                 cls := "button is-warning is-rounded is-size-3",
-                 onClick.mapTo(ResetCount) --> counterActionBus)
-        ),
-        div(
-          styleAttr := "font-size: 4em",
-          cls := "checkbox",
-          span("Play Sounds:"),
-          input(typ := "checkbox", idAttr := "play-audio", name := "play-audio", value := "true")
-        ),
-        div(
-          styleAttr := "text-align: center; font-size: 2em",
-          span("Daily Total:"),
-          span(child <-- $exerciseTotal.map(count => div(count.toString))),
-          span(styleAttr := "font-size: 2em")
-        ),
-        a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login"),
-        div(idAttr := "exercise_history"),
-        // TODO Look at method to derive this first repeater off of the 2nd
-        repeater.repeatWithInterval(
-          1,
-          duration
-        ) --> clockTicks,
-        $counterState.map[CounterAction](
-          counterState => if (counterState == Relaxed) Increment(1) else DoNotUpdate
-        ).changes --> counterActionBus
-      )
-    )
-  }
-
-  def laminarStuff(storage: Storage) = {
-    ApiInteractions.getQuadSetHistoryInUnsafeScalaTagsForm(storage) // TODO Load this data up for certain pages
-
-    val componentSelections = new EventBus[Exercise]
-    val $selectedComponent: Signal[Exercise] =
-      componentSelections.events
-        .foldLeft[Exercise](Exercises.supineShoulderExternalRotation)((_, selection) => selection)
 
     def indicateSelectedButton(
       exerciseOfCurrentComponent: Exercise
@@ -433,7 +371,105 @@ object Main {
         )
       )
 
-    val allExerciseCounters = Var[Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)]](Seq())
+    private def indicateSelectedButton(
+      ): Binder[HtmlElement] =
+      cls <--
+      $selectedComponent.combineWith($exerciseTotal).map {
+        case (selectedExercise, currentCount) =>
+          "small " +
+          (if (selectedExercise == exercise)
+             "is-primary has-background-primary"
+           else {
+             if (currentCount >= exercise.dailyGoal)
+               "is-success is-rounded is-light"
+             else
+               "is-link is-rounded "
+           })
+      }
+
+    def exerciseSelectButton(): ReactiveHtmlElement[html.Div] =
+      div(
+        cls := "menu-item-with-count",
+        div(
+          cls := "has-text-left ml-1",
+          exercise.humanFriendlyName
+        ),
+        div(
+          child.text <-- $exerciseTotal.map(
+            count => count + "/" + exercise.dailyGoal
+          )
+        ),
+        indicateSelectedButton(),
+        onClick.mapTo {
+          exercise
+        } --> componentSelections
+      )
+    val counterActionBus = new EventBus[CounterAction]()
+
+    // Doing this to get the initial count
+    val $countT: Signal[Counter] =
+      counterActionBus.events.foldLeft(Counter(0))((acc, next) => CounterAction.update(next, acc))
+
+    val $countVar: Var[Counter] = Var(Counter(0))
+
+    // todo restore to 10 seconds
+    val duration = new FiniteDuration(1, scala.concurrent.duration.SECONDS)
+
+    def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
+      div(
+        conditionallyDisplay(exercise, $selectedComponent),
+        exerciseServerResults --> exerciseServerResultsBus,
+        exerciseServerResultsBus.events
+          .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
+        EventStream
+          .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus,
+        cls := "centered",
+        div(
+          styleAttr <-- $color.map(color => s"background: $color"),
+          div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
+          div(
+            button(
+              "Submit",
+              cls := "button is-link is-rounded",
+              $countT --> $countVar.writer,
+              onClick.map(
+                _ => $countVar.now().value
+              ) --> exerciseSubmissions
+            )
+          ),
+          div(
+            button("Reset",
+                   cls := "button is-warning is-rounded is-size-3",
+                   onClick.mapTo(ResetCount) --> counterActionBus)
+          ),
+          div(
+            styleAttr := "font-size: 4em",
+            cls := "checkbox",
+            span("Play Sounds:"),
+            input(typ := "checkbox", idAttr := "play-audio", name := "play-audio", value := "true")
+          ),
+          div(
+            styleAttr := "text-align: center; font-size: 2em",
+            span("Daily Total:"),
+            span(child <-- $exerciseTotal.map(count => div(count.toString))),
+            span(styleAttr := "font-size: 2em")
+          ),
+          a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login"),
+          div(idAttr := "exercise_history"),
+          // TODO Look at method to derive this first repeater off of the 2nd
+          repeater.repeatWithInterval(
+            1,
+            duration
+          ) --> clockTicks,
+          $counterState.map[CounterAction](
+            counterState => if (counterState == Relaxed) Increment(1) else DoNotUpdate
+          ).changes --> counterActionBus
+        )
+      )
+  }
+
+  def laminarStuff(storage: Storage) = {
+    val allExerciseCounters = Var[Seq[(ExerciseSessionComponent, Boolean)]](Seq())
     val updateMonitor = Observer[(Boolean, Exercise)](onNext = {
       case (isComplete, exercise) => {
         allExerciseCounters.update(
@@ -449,7 +485,12 @@ object Main {
       }
     })
 
-    val betterExerciseComponents: Seq[ExerciseSessionComponentWithExternalStatus] =
+    val componentSelections = new EventBus[Exercise]
+    val $selectedComponent: Signal[Exercise] =
+      componentSelections.events
+        .foldLeft[Exercise](Exercises.supineShoulderExternalRotation)((_, selection) => selection)
+
+    val betterExerciseComponents: Seq[ExerciseSessionComponent] =
       Exercises.manuallyCountedExercises
         .map(
           exercise =>
@@ -461,41 +502,41 @@ object Main {
               new SoundCreator,
               updateMonitor.contramap[Boolean](isComplete => (isComplete, exercise))
             )
-        )
+        ) :+ TickingExerciseCounterComponent(componentSelections,
+                                             Exercises.QuadSets,
+                                             $selectedComponent,
+                                             ApiInteractions.postExerciseSession,
+                                             storage,
+                                             new SoundCreator)
 
     allExerciseCounters.set(betterExerciseComponents.map((_, false)))
 
     val partitionedExercises: Signal[
-      (Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)],
-       Seq[(ExerciseSessionComponentWithExternalStatus, Boolean)])
+      (Seq[(ExerciseSessionComponent, Boolean)], Seq[(ExerciseSessionComponent, Boolean)])
     ] =
       allExerciseCounters.signal.map(
         exerciseCounters =>
           exerciseCounters.partition { case (exerciseCounter, complete) => complete }
       )
 
-    val $completedExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]] =
+    val $completedExercises: Signal[Seq[ExerciseSessionComponent]] =
       partitionedExercises.map(_._1.map(_._1))
-    val $incompleteExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]] =
+    val $incompleteExercises: Signal[Seq[ExerciseSessionComponent]] =
       partitionedExercises.map(_._2.map(_._1))
 
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
-      Bulma.menu($completedExercises,
-                 $incompleteExercises,
-                 exerciseSelectButton(Exercises.QuadSets)),
+      Bulma.menu($completedExercises, $incompleteExercises),
 //      betterExerciseComponents.map(_.exerciseSelectButton()),
-      TickingExerciseCounterComponent(Exercises.QuadSets,
-                                      $selectedComponent,
-                                      ApiInteractions.postExerciseSession,
-                                      storage,
-                                      new SoundCreator),
       betterExerciseComponents.map(_.exerciseSessionComponent())
     )
 
     println("going to render laminarApp sunday 10:40")
     render(dom.document.querySelector("#laminarApp"), appDiv)
+    // TODO order matters with this unsafe call!!
+//    ApiInteractions.getQuadSetHistoryInUnsafeScalaTagsForm(storage) // TODO Load this data up for certain pages
+
   }
 
   def main(args: Array[String]): Unit = {

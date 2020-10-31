@@ -1,6 +1,6 @@
 package billding
 
-import billding.Main.ExerciseSessionComponentWithExternalStatus
+import billding.Main.{ExerciseSessionComponent, ExerciseSessionComponentWithExternalStatus}
 import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L._
 import com.raquo.laminar.nodes.ReactiveHtmlElement
@@ -9,9 +9,10 @@ import org.scalajs.dom.html
 
 object Bulma {
 
-  def menu($completedExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]],
-           $incompleteExercises: Signal[Seq[ExerciseSessionComponentWithExternalStatus]],
-           quadSetCounter: ReactiveHtmlElement[html.Div]): ReactiveHtmlElement[html.Div] = {
+  def menu(
+    $completedExercises: Signal[Seq[ExerciseSessionComponent]],
+    $incompleteExercises: Signal[Seq[ExerciseSessionComponent]]
+  ): ReactiveHtmlElement[html.Div] = {
     val menuClicks = new EventBus[dom.Event]
 
     val activeStyling =
@@ -93,13 +94,7 @@ object Bulma {
             } else {
               div()
             }
-          },
-          hr(cls := "navbar-divider"),
-          div(
-            cls := "navbar-item has-dropdown is-hoverable",
-            a(onClick --> menuClicks, cls("navbar-link centered is-size-4"), "Timed Exercises"),
-            div(cls("navbar-dropdown"), quadSetCounter)
-          )
+          }
         ),
         div(cls("navbar-end"))
       )
