@@ -310,6 +310,7 @@ object Main {
                                              storage: Storage,
                                              soundCreator: SoundCreator)
       extends ExerciseSessionComponent {
+
     val exerciseSubmissions = new EventBus[Int]
 
     val exerciseServerResultsBus = new EventBus[Int]
@@ -443,12 +444,6 @@ object Main {
                    onClick.mapTo(ResetCount) --> counterActionBus)
           ),
           div(
-            styleAttr := "font-size: 4em",
-            cls := "checkbox",
-            span("Play Sounds:"),
-            input(typ := "checkbox", idAttr := "play-audio", name := "play-audio", value := "true")
-          ),
-          div(
             styleAttr := "text-align: center; font-size: 2em",
             span("Daily Total:"),
             span(child <-- $exerciseTotal.map(count => div(count.toString))),
@@ -535,7 +530,7 @@ object Main {
     println("going to render laminarApp sunday 10:40")
     render(dom.document.querySelector("#laminarApp"), appDiv)
     // TODO order matters with this unsafe call!!
-//    ApiInteractions.getQuadSetHistoryInUnsafeScalaTagsForm(storage) // TODO Load this data up for certain pages
+    ApiInteractions.getQuadSetHistoryInUnsafeScalaTagsForm(storage) // TODO Load this data up for certain pages
 
   }
 

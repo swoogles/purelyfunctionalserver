@@ -13,6 +13,15 @@ object Bulma {
     $completedExercises: Signal[Seq[ExerciseSessionComponent]],
     $incompleteExercises: Signal[Seq[ExerciseSessionComponent]]
   ): ReactiveHtmlElement[html.Div] = {
+
+    val soundToggle =
+      div(
+        styleAttr := "font-size: 4em",
+        cls := "checkbox",
+        span("Play Sounds:"),
+        input(typ := "checkbox", idAttr := "play-audio", name := "play-audio", value := "true")
+      )
+
     val menuClicks = new EventBus[dom.Event]
 
     val activeStyling =
@@ -94,7 +103,8 @@ object Bulma {
             } else {
               div()
             }
-          }
+          },
+          soundToggle
         ),
         div(cls("navbar-end"))
       )
