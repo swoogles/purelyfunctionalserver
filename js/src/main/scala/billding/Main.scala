@@ -422,8 +422,7 @@ object Main {
 
     val $countVar: Var[Counter] = Var(Counter(0))
 
-    // todo restore to 10 seconds
-    val duration = new FiniteDuration(1, scala.concurrent.duration.SECONDS)
+    val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
