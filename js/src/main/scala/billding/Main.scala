@@ -126,6 +126,7 @@ object ApiInteractions {
       DailyQuantizedExercise(name = exerciseName, day = LocalDate.parse(localDate), count = count)
 
     val storage = org.scalajs.dom.window.localStorage
+
     val request =
       if (storage.getItem("access_token_fromJS").nonEmpty) {
         basicRequest
@@ -188,6 +189,7 @@ object Main {
     $selectedComponent: Signal[Exercise],
     postFunc: (Int, String) => Future[Int],
     soundCreator: SoundCreator,
+    storage: Storage,
     updateMonitor: Observer[Boolean]
   ) extends ExerciseSessionComponent {
 
@@ -258,6 +260,13 @@ object Main {
         $complete --> updateMonitor,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
+        (if (storage.getItem("access_token_fromJS") == "public")
+           div(
+             div("You're not actually logged in!"),
+             a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login")
+           )
+         else
+           div()),
         div(
           cls <-- $exerciseTotal.map(
             currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
@@ -419,6 +428,10 @@ object Main {
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
         conditionallyDisplay(exercise, $selectedComponent),
+        (if (storage.getItem("access_token_fromJS") == "public")
+           div("You're not actually logged in!")
+         else
+           div()),
         exerciseServerResults --> exerciseServerResultsBus,
         exerciseServerResultsBus.events
           .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
@@ -495,6 +508,7 @@ object Main {
               $selectedComponent,
               ApiInteractions.postExerciseSession,
               new SoundCreator,
+              storage,
               updateMonitor.contramap[Boolean](isComplete => (isComplete, exercise))
             )
         ) :+ TickingExerciseCounterComponent(componentSelections,
