@@ -169,9 +169,9 @@ cbBuild := {
   (foo.jvm/Compile/scalafmt).value
   (Compile/scalafmt).value
   import scala.sys.process._
-  (Process("mkdir ./jvm/src/main/resources/compiledJavaScript") #||
-    Process("cp ./databaseExploration/js/target/scala-2.13/databaseexploration-fastopt.js ./jvm/src/main/resources/compiledJavaScript/") #&&
-    Process("cp ./js/target/scala-2.13/quadset-counter-fastopt.js ./jvm/src/main/resources/compiledJavaScript/")
+  (//Process("mkdir ./jvm/src/main/resources/compiledJavaScript") #||
+    Process("cp ./databaseExploration/js/target/scala-2.13/databaseexploration-fastopt.js ./jvm/src/main/resources/html/PhysicalTherapyTracker/compiledJavaScript/") #&&
+    Process("cp ./js/target/scala-2.13/quadset-counter-fastopt.js ./jvm/src/main/resources/html/PhysicalTherapyTracker/compiledJavaScript/")
     )!
 }
 
@@ -186,7 +186,7 @@ cbPublish := {
   (Compile/scalafmt).value
   import scala.sys.process._
   (Process("mkdir ./jvm/src/main/resources/compiledJavaScript") #||
-    Process("cp ./databaseExploration/js/target/scala-2.13/databaseexploration-opt.js ./jvm/src/main/resources/html/PhysicalTherapyTracker/compiledJavaScript/") #&&
+    Process("cp ./databaseExploration/js/target/scala-2.13/databaseexploration-opt.js ./jvm/src/main/resources/html/DataStructures") #&&
     Process("cp ./js/target/scala-2.13/quadset-counter-opt.js ./jvm/src/main/resources/html/PhysicalTherapyTracker/compiledJavaScript/") #&&
     Process("cp sw/target/scala-2.12/sw-opt.js ./jvm/src/main/resources/html/PhysicalTherapyTracker") #&&
     Process("cp sw/target/scala-2.12/sw-opt.js.map ./jvm/src/main/resources/html/PhysicalTherapyTracker")
