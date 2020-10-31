@@ -177,9 +177,50 @@ object Main {
 
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
+  def SelectorButton(
+    $selectedComponent: Signal[Exercise],
+    exercise: Exercise,
+    componentSelections: EventBus[Exercise],
+    $exerciseTotal: Signal[Int]
+  ) = {
+    def indicateSelectedButton(
+      ): Binder[HtmlElement] =
+      cls <--
+      $selectedComponent.combineWith($exerciseTotal).map {
+        case (selectedExercise, currentCount) =>
+          "small " +
+          (if (selectedExercise == exercise)
+             "is-primary has-background-primary"
+           else {
+             if (currentCount >= exercise.dailyGoal)
+               "is-success is-rounded is-light"
+             else
+               "is-link is-rounded "
+           })
+      }
+
+    div(
+      cls := "menu-item-with-count",
+      div(
+        cls := "has-text-left ml-1",
+        exercise.humanFriendlyName
+      ),
+      div(
+        child.text <-- $exerciseTotal.map(
+          count => count + "/" + exercise.dailyGoal
+        )
+      ),
+      indicateSelectedButton(),
+      onClick.mapTo {
+        exercise
+      } --> componentSelections
+    )
+
+  }
+
   trait ExerciseSessionComponent {
     val exercise: Exercise
-    def exerciseSelectButton(): ReactiveHtmlElement[html.Div]
+    val exerciseSelectButton: ReactiveHtmlElement[html.Div]
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div]
   }
 
@@ -224,23 +265,30 @@ object Main {
            })
       }
 
-    def exerciseSelectButton(): ReactiveHtmlElement[html.Div] =
-      div(
-        cls := "menu-item-with-count",
-        div(
-          cls := "has-text-left ml-1",
-          exercise.humanFriendlyName
-        ),
-        div(
-          child.text <-- $exerciseTotal.map(
-            count => count + "/" + exercise.dailyGoal
-          )
-        ),
-        indicateSelectedButton(),
-        onClick.mapTo {
-          exercise
-        } --> componentSelections
+    val exerciseSelectButton: ReactiveHtmlElement[html.Div] =
+      SelectorButton(
+        $selectedComponent,
+        exercise: Exercise,
+        componentSelections,
+        $exerciseTotal
       )
+
+    div(
+      cls := "menu-item-with-count",
+      div(
+        cls := "has-text-left ml-1",
+        exercise.humanFriendlyName
+      ),
+      div(
+        child.text <-- $exerciseTotal.map(
+          count => count + "/" + exercise.dailyGoal
+        )
+      ),
+      indicateSelectedButton(),
+      onClick.mapTo {
+        exercise
+      } --> componentSelections
+    )
 
     val countSoundEffectObserver = Observer[Int](
       onNext = // Currently, this will try to play sounds on page load if goals have been reached
@@ -358,62 +406,14 @@ object Main {
       }
     })
 
-    def indicateSelectedButton(
-      exerciseOfCurrentComponent: Exercise
-    ): Binder[HtmlElement] =
-      cls <--
-      $selectedComponent.map { selectedComponent: Exercise =>
-        "button small " +
-        (if (selectedComponent == exerciseOfCurrentComponent)
-           "is-primary"
-         else
-           "is-link is-rounded ")
-      }
-
-    def exerciseSelectButton(exercise: Exercise) =
-      div(
-        button(
-          exercise.humanFriendlyName,
-          indicateSelectedButton(exercise),
-          onClick.mapTo {
-            exercise
-          } --> componentSelections
-        )
+    val exerciseSelectButton: ReactiveHtmlElement[html.Div] =
+      SelectorButton(
+        $selectedComponent,
+        exercise: Exercise,
+        componentSelections,
+        $exerciseTotal
       )
 
-    private def indicateSelectedButton(
-      ): Binder[HtmlElement] =
-      cls <--
-      $selectedComponent.combineWith($exerciseTotal).map {
-        case (selectedExercise, currentCount) =>
-          "small " +
-          (if (selectedExercise == exercise)
-             "is-primary has-background-primary"
-           else {
-             if (currentCount >= exercise.dailyGoal)
-               "is-success is-rounded is-light"
-             else
-               "is-link is-rounded "
-           })
-      }
-
-    def exerciseSelectButton(): ReactiveHtmlElement[html.Div] =
-      div(
-        cls := "menu-item-with-count",
-        div(
-          cls := "has-text-left ml-1",
-          exercise.humanFriendlyName
-        ),
-        div(
-          child.text <-- $exerciseTotal.map(
-            count => count + "/" + exercise.dailyGoal
-          )
-        ),
-        indicateSelectedButton(),
-        onClick.mapTo {
-          exercise
-        } --> componentSelections
-      )
     val counterActionBus = new EventBus[CounterAction]()
 
     // Doing this to get the initial count
