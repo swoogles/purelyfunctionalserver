@@ -126,7 +126,8 @@ class OAuthService(C: Client[Task], authLogic: AuthLogic) extends Http4sDsl[Task
         println("UserInfo: " + userInfo)
         val uri = Uri
           .fromString(
-            s"https://purelyfunctionalserver.herokuapp.com/resources/html/index.html?access_token=${tokenResponse.access_token}"
+            // TODO Figure out a less brittle solution here
+            s"https://purelyfunctionalserver.herokuapp.com/resources/html/PhysicalTherapyTracker/index.html?access_token=${tokenResponse.access_token}"
           )
           .right
           .get
