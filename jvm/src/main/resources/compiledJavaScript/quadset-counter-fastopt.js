@@ -49977,7 +49977,7 @@ class $c_Lbillding_Main$TickingExerciseCounterComponent extends $c_O {
     }))(this));
     this.Lbillding_Main$TickingExerciseCounterComponent__f_$countT = $f_Lcom_raquo_airstream_eventstream_EventStream__foldLeft__O__F2__Lcom_raquo_airstream_signal_Signal(this$10, initial$1, fn$2);
     this.Lbillding_Main$TickingExerciseCounterComponent__f_$countVar = $m_Lcom_raquo_laminar_api_package$().Lcom_raquo_laminar_api_package$__f_L.Lcom_raquo_laminar_api_Laminar$__f_Var.apply__O__Lcom_raquo_airstream_signal_Var(new $c_Lbillding_Main$Counter(0));
-    this.Lbillding_Main$TickingExerciseCounterComponent__f_duration = new $c_s_concurrent_duration_FiniteDuration(new $c_RTLong(1, 0), $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_SECONDS)
+    this.Lbillding_Main$TickingExerciseCounterComponent__f_duration = new $c_s_concurrent_duration_FiniteDuration(new $c_RTLong(10, 0), $m_ju_concurrent_TimeUnit$().ju_concurrent_TimeUnit$__f_SECONDS)
   };
   exercise__Lcom_billding_exercises_Exercise() {
     return this.Lbillding_Main$TickingExerciseCounterComponent__f_exercise
