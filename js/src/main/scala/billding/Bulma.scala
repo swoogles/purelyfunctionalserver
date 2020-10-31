@@ -30,7 +30,7 @@ object Bulma {
       )
 
     val $completedExerciseButtons: Signal[Seq[ReactiveHtmlElement[html.Div]]] =
-      $completedExercises.map(_.map(_.exerciseSelectButton()))
+      $completedExercises.map(_.map(_.exerciseSelectButton))
 
     val $completedRenderedButtons =
       $completedExerciseButtons.map { exerciseList =>
@@ -40,7 +40,7 @@ object Bulma {
       }
 
     val $incompleteExerciseButtons: Signal[Seq[ReactiveHtmlElement[html.Div]]] =
-      $incompleteExercises.map(_.map(_.exerciseSelectButton()))
+      $incompleteExercises.map(_.map(_.exerciseSelectButton))
 
     val $incompleteRenderedButtons =
       $incompleteExerciseButtons.map { exerciseList =>

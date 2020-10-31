@@ -1,0 +1,27 @@
+{
+  "short_name": "PhysTher",
+  "name": "Physical Therapy",
+  "description": "Keep track of physical therapy exercises",
+  "icons": [
+    {
+      "src": "images/BILLDING_LogoMark-256.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "images/BILLDING_LogoMark-500.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+         {
+           "src": "images/BILLDING_LogoMark-1000.png",
+           "sizes": "1000x1000",
+           "type": "image/png"
+         }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#444444",
+  "background_color": "#444444"
+}
