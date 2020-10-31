@@ -86,7 +86,9 @@ class OAuthService(C: Client[Task], authLogic: AuthLogic) extends Http4sDsl[Task
 //      import org.http4s.dsl.io._, org.http4s.implicits._
 
       val uri = Uri
-        .fromString("http://localhost:8080/resources/html/index.html?access_token=needARealToken")
+        .fromString(
+          "http://localhost:8080/resources/html/PhysicalTherapyTracker/index.html?access_token=needARealToken"
+        )
         .right
         .get
       println("parsed uri with query param: " + uri)

@@ -553,7 +553,7 @@ object Main {
 
     if (Meta.accessToken.isDefined) {
       dom.window.location.href =
-        "https://purelyfunctionalserver.herokuapp.com/resources/html/index.html"
+        "https://purelyfunctionalserver.herokuapp.com/resources/html/PhysicalTherapyTracker/index.html"
     }
   }
 }

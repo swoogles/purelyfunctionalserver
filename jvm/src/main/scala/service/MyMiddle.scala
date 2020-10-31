@@ -41,7 +41,9 @@ class MyMiddle(
   def applyBeforeLogic(service: HttpRoutes[Task]) =
     HttpRoutes.of[Task] {
       // pf: PartialFunction[Request[F], F[Response[F]]]
-      case request @ GET -> Root / "html" / "index.html" :? AccessTokenParamMatcher(accessToken) => {
+      case request @ GET -> Root / "html" / "PhysicalTherapyTracker" / "index.html" :? AccessTokenParamMatcher(
+            accessToken
+          ) => {
         println("Before actual resource behavior")
         authLogic.getOptionalUserFromRequest(request) match {
           case Some(user) => {
@@ -67,7 +69,7 @@ class MyMiddle(
         }
       }
       // TODO de-duplicate logic
-      case request @ GET -> Root / "html" / "index.html" => {
+      case request @ GET -> Root / "html" / "PhysicalTherapyTracker" / "index.html" => {
         println("Before actual resource behavior")
         authLogic.getOptionalUserFromRequest(request) match {
           case Some(user) => {
