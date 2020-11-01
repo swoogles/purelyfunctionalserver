@@ -313,6 +313,15 @@ object Main {
             "+1"
           )
         ),
+        child <-- $exerciseTotal.map { exerciseTotal =>
+          // TODO A proper, pretty progress bar
+          val completionSegments = 10
+          val completedSegments =
+            ((exerciseTotal.toFloat / exercise.dailyGoal.toFloat) * completionSegments).toInt
+          div(
+            ("X" * completedSegments) + ("-" * (completionSegments - completedSegments))
+          )
+        },
         child <-- $complete.map {
           case true  => div("Good job! You reached your daily goal!")
           case false => div("")
