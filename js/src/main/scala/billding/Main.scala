@@ -253,22 +253,6 @@ object Main {
     val $complete: Signal[Boolean] =
       $exerciseTotal.map(_ >= exercise.dailyGoal)
 
-    private def indicateSelectedButton(
-      ): Binder[HtmlElement] =
-      cls <--
-      $selectedComponent.combineWith($exerciseTotal).map {
-        case (selectedExercise, currentCount) =>
-          "small " +
-          (if (selectedExercise == exercise)
-             "is-primary has-background-primary"
-           else {
-             if (currentCount >= exercise.dailyGoal)
-               "is-success is-rounded is-light"
-             else
-               "is-link is-rounded "
-           })
-      }
-
     val exerciseSelectButton: ReactiveHtmlElement[html.Div] =
       SelectorButton(
         $selectedComponent,
@@ -276,23 +260,6 @@ object Main {
         componentSelections,
         $exerciseTotal
       )
-
-    div(
-      cls := "menu-item-with-count",
-      div(
-        cls := "has-text-left ml-1",
-        exercise.humanFriendlyName
-      ),
-      div(
-        child.text <-- $exerciseTotal.map(
-          count => count + "/" + exercise.dailyGoal
-        )
-      ),
-      indicateSelectedButton(),
-      onClick.mapTo {
-        exercise
-      } --> componentSelections
-    )
 
     val counterAndSoundStatusObserver = Observer[(Int, SoundStatus)] {
       case (currentCount, soundStatus) => {
@@ -342,7 +309,6 @@ object Main {
           ),
           button(
             cls := "button is-link is-rounded is-size-3",
-//            onClick.mapTo(value = { postFunc(1, exercise.id); 1 }) --> exerciseSubmissions,
             onClick.map(_ => 1) --> exerciseSubmissions,
             "+1"
           )
