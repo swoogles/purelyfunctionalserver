@@ -16,16 +16,20 @@ object ServiceWorker {
 
   val todoAssets: js.Array[RequestInfo] = List[RequestInfo](
 //    "/",
-    "index.html",
-    //    "/compiledJavascript/sw-opt.js",
-//    "/styling/style.css",
-//    "/compiledJavascript/cb-bus-opt.js",
-//    "/glyphicons/svg/individual-svg/glyphicons-basic-32-bus.svg",
-//    "styling/popup_nojs.css",
-//    "styling/bulma.min.css",
+//    "/index.html",
+//    "/sw-opt.js",
+//    "images/BILLDING_LogoMark-256.png",
+//    "images/BILLDING_LogoMark-500.png",
+//    "images/BILLDING_LogoMark-1000.png",
+//    "/resources/html/PhysicalTherapyTracker/index.html",
+//    "/resources/html/PhysicalTherapyTracker/compiledJavaScript/quadset-counter-opt.js",
+//    "/resources/audio/goalReached/109662__grunz__success.wav",
+//    "/resources/audio/startQuadSet/metronome_tock.wav",
+//    "https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css",
   ).toJSArray
 
   def main(args: Array[String]): Unit = {
+    println("about to add install listener")
     self.addEventListener(
       "install",
       (event: ExtendableEvent) => {
@@ -36,18 +40,20 @@ object ServiceWorker {
       }
     )
 
+    println("about to add activate listener")
     self.addEventListener(
       "activate",
       (event: ExtendableEvent) => {
 //        println(
 //          s"activate: service worker activated > ${event.toString}"
 //        )
-//        invalidateCache() // TODO Do I need this at all?
+        invalidateCache() // TODO Do I need this at all?
 //      event.waitUntil(toCache().toJSPromise)
         self.clients.claim()
       }
     )
 
+    println("about to add message listener")
     self.addEventListener(
       "message",
       (event: MessageEvent) => {
@@ -110,9 +116,9 @@ object ServiceWorker {
     self.caches
       .open(todoCache)
       .toFuture
-      .flatMap(cache =>
-        //          println("toCache: caching assets...")
-        cache.addAll(todoAssets).toFuture)
+      .flatMap{cache =>
+                  println("toCache: caching assets...")
+        cache.addAll(todoAssets).toFuture}
   }
 
   def fromCache(request: Request): Future[Response] =

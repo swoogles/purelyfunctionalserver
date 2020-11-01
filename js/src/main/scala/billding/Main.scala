@@ -3,7 +3,6 @@ package billding
 import java.time.LocalDate
 
 import com.billding.exercises.{Exercise, Exercises}
-
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
 import org.scalajs.dom.{document, html}
@@ -16,9 +15,12 @@ import io.circe.generic.auto._
 import com.raquo.laminar.api.L._
 import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
 import exercises.DailyQuantizedExercise
+import org.scalajs.dom.experimental.serviceworkers.toServiceWorkerNavigator
 
 import scala.concurrent.Future
 import scala.concurrent.duration.FiniteDuration
+import scala.scalajs.js
+import scala.util.{Failure, Success}
 
 sealed trait CounterAction
 case object ResetCount extends CounterAction
@@ -555,5 +557,24 @@ object Main {
       dom.window.location.href =
         "https://purelyfunctionalserver.herokuapp.com/resources/html/PhysicalTherapyTracker/index.html"
     }
+
+    import scala.concurrent.ExecutionContext.Implicits.global
+
+//    override def body(): HTMLElement = document.body
+
+    toServiceWorkerNavigator(org.scalajs.dom.window.navigator).serviceWorker
+      .register("./sw-opt.js", js.Dynamic.literal(scope = "./"))
+      .toFuture
+      .onComplete {
+        case Success(registration) => {
+          println("successful registration!")
+          registration.update()
+          println("updated registration!")
+        }
+        case Failure(error) =>
+          println(
+            s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}"
+          )
+      }
   }
 }
