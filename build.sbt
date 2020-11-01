@@ -171,7 +171,8 @@ cbBuild := {
   import scala.sys.process._
   (//Process("mkdir ./jvm/src/main/resources/compiledJavaScript") #||
     Process("cp ./databaseExploration/js/target/scala-2.13/databaseexploration-fastopt.js ./jvm/src/main/resources/html/PhysicalTherapyTracker/compiledJavaScript/") #&&
-    Process("cp ./js/target/scala-2.13/quadset-counter-fastopt.js ./jvm/src/main/resources/html/PhysicalTherapyTracker/compiledJavaScript/")
+    Process("cp ./js/target/scala-2.13/quadset-counter-fastopt.js ./jvm/src/main/resources/html/PhysicalTherapyTracker/compiledJavaScript/") #&&
+      Process("cp ./js/target/scala-2.13/quadset-counter-fastopt.js.map ./jvm/src/main/resources/html/PhysicalTherapyTracker/compiledJavaScript/")
     )!
 }
 

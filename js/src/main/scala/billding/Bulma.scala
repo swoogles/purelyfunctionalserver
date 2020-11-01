@@ -11,15 +11,30 @@ object Bulma {
 
   def menu(
     $completedExercises: Signal[Seq[ExerciseSessionComponent]],
-    $incompleteExercises: Signal[Seq[ExerciseSessionComponent]]
+    $incompleteExercises: Signal[Seq[ExerciseSessionComponent]],
+    soundStatusObserver: WriteBus[SoundStatus] // TODO Should this just be an observer that sends the update back?
   ): ReactiveHtmlElement[html.Div] = {
+
+    def renderCheckboxInput() =
+      input(
+        cls("toggle"),
+        typ("checkbox"),
+        checked(false),
+        inContext { thisNode =>
+          onInput.mapTo {
+            println("updating checked value: " + thisNode.ref.checked)
+            if (thisNode.ref.checked)
+              FULL
+            else OFF
+          } --> soundStatusObserver
+        }
+      )
 
     val soundToggle =
       div(
-        styleAttr := "font-size: 4em",
         cls := "checkbox",
         span("Play Sounds:"),
-        input(typ := "checkbox", idAttr := "play-audio", name := "play-audio", value := "true")
+        renderCheckboxInput()
       )
 
     val menuClicks = new EventBus[dom.Event]

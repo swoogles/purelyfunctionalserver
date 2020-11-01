@@ -3,6 +3,7 @@ package billding
 import java.time.LocalDate
 
 import com.billding.exercises.{Exercise, Exercises}
+import com.raquo.airstream.eventbus.EventBus
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
 import org.scalajs.dom.{document, html}
@@ -367,7 +368,8 @@ object Main {
                                              $selectedComponent: Signal[Exercise],
                                              postFunc: (Int, String) => Future[Int],
                                              storage: Storage,
-                                             soundCreator: SoundCreator)
+                                             soundCreator: SoundCreator,
+                                             soundStatus: Signal[SoundStatus])
       extends ExerciseSessionComponent {
 
     val exerciseSubmissions = new EventBus[Int]
@@ -397,16 +399,28 @@ object Main {
         case Relaxed => "green"
       }
 
-    val noises = $counterState.map(counterState => {
-      // TODO properly get this value from the element below, in a streamy fashion
-      if (document.getElementById("play-audio").asInstanceOf[HTMLInputElement].checked) {
-        if (counterState == Firing) {
-          soundCreator.startSound.play()
-        } else {
-          soundCreator.endSound.play()
+    soundStatus.map { status =>
+      println("updated status: " + status)
+    }
+
+    val counterObserver = Observer[CounterState] {
+      case anything => println("any state: " + anything)
+    }
+
+    // TODO See if this triggers unwanted noises when soundStatus changes
+    val counterAndSoundStatusObserver = Observer[(CounterState, SoundStatus)] {
+      case (counterState, soundStatus) => {
+        println("should do some noises because the counter and/or soundStatus changed!")
+        // TODO properly get this value from the element below, in a streamy fashion
+        if (soundStatus == FULL) {
+          if (counterState == Firing) {
+            soundCreator.startSound.play()
+          } else {
+            soundCreator.endSound.play()
+          }
         }
       }
-    })
+    }
 
     val exerciseSelectButton: ReactiveHtmlElement[html.Div] =
       SelectorButton(
@@ -428,6 +442,8 @@ object Main {
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
+        $counterState.changes.withCurrentValueOf(soundStatus) --> counterAndSoundStatusObserver,
+        $counterState --> counterObserver,
         conditionallyDisplay(exercise, $selectedComponent),
         (if (storage.getItem("access_token_fromJS") == "public")
            div("You're not actually logged in!")
@@ -485,9 +501,12 @@ object Main {
           previousExerciseCounters =>
             previousExerciseCounters.map {
               case (currentExerciseComponent, wasComplete) => {
-                if (currentExerciseComponent.exercise == exercise) {
-                  (currentExerciseComponent, isComplete)
-                } else (currentExerciseComponent, wasComplete)
+                val finalCompletionState =
+                  if (currentExerciseComponent.exercise == exercise)
+                    isComplete
+                  else wasComplete
+
+                (currentExerciseComponent, finalCompletionState)
               }
             }
         )
@@ -498,6 +517,15 @@ object Main {
     val $selectedComponent: Signal[Exercise] =
       componentSelections.events
         .foldLeft[Exercise](Exercises.supineShoulderExternalRotation)((_, selection) => selection)
+
+    val soundStatusEventBus = new EventBus[SoundStatus]
+    val $soundStatus =
+      soundStatusEventBus.events.foldLeft[SoundStatus](OFF) {
+        case (oldStatus: SoundStatus, newStatus: SoundStatus) => {
+          println("New status in parent: " + newStatus)
+          newStatus
+        }
+      }
 
     val betterExerciseComponents: Seq[ExerciseSessionComponent] =
       Exercises.manuallyCountedExercises
@@ -517,7 +545,8 @@ object Main {
                                              $selectedComponent,
                                              ApiInteractions.postExerciseSession,
                                              storage,
-                                             new SoundCreator)
+                                             new SoundCreator,
+                                             $soundStatus)
 
     allExerciseCounters.set(betterExerciseComponents.map((_, false)))
 
@@ -537,7 +566,7 @@ object Main {
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
-      Bulma.menu($completedExercises, $incompleteExercises),
+      Bulma.menu($completedExercises, $incompleteExercises, soundStatusEventBus.writer),
 //      betterExerciseComponents.map(_.exerciseSelectButton()),
       betterExerciseComponents.map(_.exerciseSessionComponent())
     )
