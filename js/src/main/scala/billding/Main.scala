@@ -234,7 +234,8 @@ object Main {
     postFunc: (Int, String) => Future[Int],
     soundCreator: SoundCreator,
     storage: Storage,
-    updateMonitor: Observer[Boolean]
+    updateMonitor: Observer[Boolean],
+    soundStatus: Signal[SoundStatus]
   ) extends ExerciseSessionComponent {
 
     private val exerciseSubmissions = new EventBus[Int]
@@ -293,21 +294,21 @@ object Main {
       } --> componentSelections
     )
 
-    val countSoundEffectObserver = Observer[Int](
-      onNext = // Currently, this will try to play sounds on page load if goals have been reached
-        // I don't want that, but "luckily" the page won't play sounds until there's user interaction
-        // This gives the desired behavior, but seems a little janky.
-        currentCount =>
+    val counterAndSoundStatusObserver = Observer[(Int, SoundStatus)] {
+      case (currentCount, soundStatus) => {
+        if (soundStatus == FULL) {
           if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
           else soundCreator.addExerciseSet.play()
-    )
+        }
+      }
+    }
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
         EventStream
           .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus,
         exerciseServerResults --> exerciseServerResultsBus,
-        $exerciseTotal --> countSoundEffectObserver,
+        $exerciseTotal.changes.withCurrentValueOf(soundStatus) --> counterAndSoundStatusObserver,
         $complete --> updateMonitor,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
@@ -369,7 +370,7 @@ object Main {
                                              postFunc: (Int, String) => Future[Int],
                                              storage: Storage,
                                              soundCreator: SoundCreator,
-                                             soundStatus: Signal[SoundStatus])
+                                             $soundStatus: Signal[SoundStatus])
       extends ExerciseSessionComponent {
 
     val exerciseSubmissions = new EventBus[Int]
@@ -398,14 +399,6 @@ object Main {
         case Firing  => "red"
         case Relaxed => "green"
       }
-
-    soundStatus.map { status =>
-      println("updated status: " + status)
-    }
-
-    val counterObserver = Observer[CounterState] {
-      case anything => println("any state: " + anything)
-    }
 
     // TODO See if this triggers unwanted noises when soundStatus changes
     val counterAndSoundStatusObserver = Observer[(CounterState, SoundStatus)] {
@@ -442,8 +435,7 @@ object Main {
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
-        $counterState.changes.withCurrentValueOf(soundStatus) --> counterAndSoundStatusObserver,
-        $counterState --> counterObserver,
+        $counterState.changes.withCurrentValueOf($soundStatus) --> counterAndSoundStatusObserver,
         conditionallyDisplay(exercise, $selectedComponent),
         (if (storage.getItem("access_token_fromJS") == "public")
            div("You're not actually logged in!")
@@ -536,9 +528,10 @@ object Main {
               exercise,
               $selectedComponent,
               ApiInteractions.postExerciseSession,
-              new SoundCreator,
+              new SoundCreator, // TODO Encapuslate $soundStatus in SoundCreator
               storage,
-              updateMonitor.contramap[Boolean](isComplete => (isComplete, exercise))
+              updateMonitor.contramap[Boolean](isComplete => (isComplete, exercise)),
+              $soundStatus
             )
         ) :+ TickingExerciseCounterComponent(componentSelections,
                                              Exercises.QuadSets,
