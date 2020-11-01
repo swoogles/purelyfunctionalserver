@@ -312,7 +312,11 @@ object Main {
             onClick.map(_ => 1) --> exerciseSubmissions,
             "+1"
           )
-        )
+        ),
+        child <-- $complete.map {
+          case true  => div("Good job! You reached your daily goal!")
+          case false => div("")
+        }
       )
 
   }
