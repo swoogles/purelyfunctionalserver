@@ -19,7 +19,8 @@
            "type": "image/png"
          }
   ],
-  "start_url": "/",
+  "start_url": "./",
+  "theme_color" : "AB70B7",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#444444",

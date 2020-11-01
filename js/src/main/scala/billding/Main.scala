@@ -543,6 +543,8 @@ object Main {
     )
 
     println("going to render laminarApp sunday 10:40")
+
+    dom.document.querySelector("#laminarApp").innerHTML = "" // Ugly emptying method
     render(dom.document.querySelector("#laminarApp"), appDiv)
     // TODO order matters with this unsafe call!!
     ApiInteractions.getQuadSetHistoryInUnsafeScalaTagsForm(storage) // TODO Load this data up for certain pages
