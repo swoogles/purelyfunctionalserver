@@ -178,19 +178,6 @@ object Main {
       }
   }
 
-  def percentageComplete(current: Int, goal: Int) =
-    ((current.toFloat / goal.toFloat) * 100).toInt
-
-  def renderProgressBar(current: Int, goal: Int) = {
-    // TODO A proper, pretty progress bar
-    val percentageCompleted = percentageComplete(current, goal)
-    div(
-      width := s"$percentageCompleted%",
-      backgroundColor := "green",
-      percentageCompleted.toString
-    )
-  }
-
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
   def SelectorButton(
@@ -326,7 +313,7 @@ object Main {
           )
         ),
         child <-- $exerciseTotal.map { exerciseTotal =>
-          renderProgressBar(exerciseTotal, exercise.dailyGoal)
+          Widgets.progressBar(exerciseTotal, exercise.dailyGoal)
         },
         child <-- $complete.map {
           case true  => div("Good job! You reached your daily goal!")
