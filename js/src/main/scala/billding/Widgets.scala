@@ -1,7 +1,6 @@
 package billding
 
 import com.raquo.laminar.api.L._
-import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
 
 object Widgets {
   private def percentageComplete(current: Int, goal: Int) =

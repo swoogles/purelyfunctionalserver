@@ -33,6 +33,7 @@ class ExerciseService(
 
     case req @ POST -> Root => {
       val user = authLogic.getUserFromRequest(req)
+      println("Authenticated user: " + user)
       for {
         newExercise <- req.decodeJson[DailyQuantizedExercise]
         wrappedResult <- exerciseLogic
