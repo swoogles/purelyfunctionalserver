@@ -35,7 +35,7 @@ object Meta {
       case (a, b) => (a.mkString("/"), b.mkString("/"))
     }
 
-  val accessToken: Option[String] = {
+  val accessToken: Option[String] =
     if (document.URL.contains("?")) {
       val queryParameters =
         document.URL.split('?')(1)
@@ -51,7 +51,7 @@ object Meta {
     } else {
       None
     }
-  }
+
 }
 
 object ApiInteractions {
@@ -183,7 +183,7 @@ object Main {
   def SelectorButton(
     $selectedComponent: Signal[Exercise],
     exercise: Exercise,
-    componentSelections: EventBus[Exercise],
+    componentSelections: WriteBus[Exercise],
     $exerciseTotal: Signal[Int]
   ) = {
     def indicateSelectedButton(
@@ -228,7 +228,7 @@ object Main {
   }
 
   class ExerciseSessionComponentWithExternalStatus(
-    componentSelections: EventBus[Exercise],
+    componentSelections: WriteBus[Exercise],
     val exercise: Exercise,
     $selectedComponent: Signal[Exercise],
     postFunc: (Int, String) => Future[Int],
@@ -262,12 +262,11 @@ object Main {
       )
 
     val counterAndSoundStatusObserver = Observer[(Int, SoundStatus)] {
-      case (currentCount, soundStatus) => {
+      case (currentCount, soundStatus) =>
         if (soundStatus == FULL) {
           if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
           else soundCreator.addExerciseSet.play()
         }
-      }
     }
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
@@ -343,7 +342,7 @@ object Main {
   case object Firing extends CounterState
   case object Relaxed extends CounterState
 
-  case class TickingExerciseCounterComponent(componentSelections: EventBus[Exercise],
+  case class TickingExerciseCounterComponent(componentSelections: WriteBus[Exercise],
                                              exercise: Exercise,
                                              $selectedComponent: Signal[Exercise],
                                              postFunc: (Int, String) => Future[Int],
@@ -503,7 +502,7 @@ object Main {
         .map(
           exercise =>
             new ExerciseSessionComponentWithExternalStatus(
-              componentSelections,
+              componentSelections.writer,
               exercise,
               $selectedComponent,
               ApiInteractions.postExerciseSession,
@@ -512,7 +511,7 @@ object Main {
               updateMonitor.contramap[Boolean](isComplete => (isComplete, exercise)),
               $soundStatus
             )
-        ) :+ TickingExerciseCounterComponent(componentSelections,
+        ) :+ TickingExerciseCounterComponent(componentSelections.writer,
                                              Exercises.QuadSets,
                                              $selectedComponent,
                                              ApiInteractions.postExerciseSession,
