@@ -1,36 +1,10 @@
 package patient_settings
 
-import auth.Sub
-
-import scala.util.Try
-
-case class Preference(
-  name: String
-)
-
-case class UserSetting(
-  preference: Preference,
-  user: Sub
-)
-
-case class UserSettingWithValue(
-  preference: Preference,
-  user: Sub,
-  value: String
-)
-
-case class UserSettingWithDefaultValue(
-  preference: Preference,
-  value: String
-) {
-
-  def forUser(user: Sub) =
-    UserSettingWithValue(preference, user, value)
-}
+import com.billding.settings.{Setting, SettingWithValue, Sub, UserSettingWithValue}
 
 trait SettingsLogic {
-  def getValueFor(patient: Preference, user: Sub): Option[UserSettingWithValue]
-  def getDefaultValueFor__unsafe(preference: Preference): UserSettingWithDefaultValue
+  def getValueFor(setting: Setting, user: Sub): Option[UserSettingWithValue]
+  def getDefaultValueFor__unsafe(setting: Setting): SettingWithValue
 
   def saveValue(patientSettingWithValue: UserSettingWithValue): UserSettingWithValue
 }

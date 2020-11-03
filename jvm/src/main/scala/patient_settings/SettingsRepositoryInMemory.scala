@@ -1,31 +1,32 @@
 package patient_settings
-import auth.Sub
+
+import com.billding.settings.{Setting, SettingWithValue, Sub, UserSettingWithValue}
 
 import scala.collection.mutable
 import scala.util.Try
 
 class SettingsRepositoryInMemory extends SettingsLogic {
 
-  private val userSettings: mutable.Map[(Preference, Sub), UserSettingWithValue] =
+  private val userSettings: mutable.Map[(Setting, Sub), UserSettingWithValue] =
     new mutable.HashMap()
 
-  private val defaultSettings: mutable.Map[Preference, UserSettingWithDefaultValue] =
+  private val defaultSettings: mutable.Map[Setting, SettingWithValue] =
     new mutable.HashMap()
 
   def setupData(): Unit =
-    defaultSettings.put(Preference("SoundStatus"),
-                        UserSettingWithDefaultValue(Preference("SoundStatus"), "OFF"))
+    defaultSettings.put(Setting("SoundStatus"), SettingWithValue(Setting("SoundStatus"), "OFF"))
+
   setupData()
 
-  override def getValueFor(preference: Preference, user: Sub): Option[UserSettingWithValue] =
-    userSettings.get((preference, user))
+  override def getValueFor(setting: Setting, user: Sub): Option[UserSettingWithValue] =
+    userSettings.get((setting, user))
 
-  override def getDefaultValueFor__unsafe(preference: Preference): UserSettingWithDefaultValue =
-    defaultSettings.getOrElse(preference,
-                              throw new RuntimeException("Invalid Preference name: " + preference))
+  override def getDefaultValueFor__unsafe(setting: Setting): SettingWithValue =
+    defaultSettings.getOrElse(setting,
+                              throw new RuntimeException("Invalid Preference name: " + setting))
 
   override def saveValue(userSettingWithValue: UserSettingWithValue): UserSettingWithValue = {
-    userSettings.put((userSettingWithValue.preference, userSettingWithValue.user),
+    userSettings.put((userSettingWithValue.setting, userSettingWithValue.user),
                      userSettingWithValue)
     userSettingWithValue
   }

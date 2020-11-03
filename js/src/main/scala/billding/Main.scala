@@ -4,6 +4,7 @@ import java.time.LocalDate
 
 import com.billding.{FULL, OFF, SoundStatus}
 import com.billding.exercises.{Exercise, Exercises}
+import com.billding.settings.{Setting, SettingWithValue, UserSettingWithValue}
 import com.raquo.airstream.eventbus.EventBus
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
@@ -121,6 +122,81 @@ object ApiInteractions {
       }
     }
 
+  }
+
+  def getUserSetting(setting: Setting): Future[UserSettingWithValue] = {
+    val storage = org.scalajs.dom.window.localStorage
+
+    val settingsUri: Uri = uri"${Meta.host}/user_settings/${setting.name}"
+    val request =
+      if (storage.getItem("access_token_fromJS").nonEmpty) {
+        basicRequest
+          .get(settingsUri)
+          .auth
+          .bearer(storage.getItem("access_token_fromJS"))
+      } else if (Meta.accessToken.isDefined) {
+        basicRequest
+          .get(settingsUri.param("access_token", Meta.accessToken.get))
+      } else {
+        basicRequest
+          .get(settingsUri)
+      }
+
+    for {
+      response: Response[Either[String, String]] <- request.send()
+    } yield {
+
+      response.body match {
+        case Right(jsonBody) => {
+          circe.deserializeJson[UserSettingWithValue].apply(jsonBody) match {
+            case Right(value) => {
+              value
+            }
+            case Left(failure) => throw new RuntimeException("Parse failure: " + failure)
+          }
+        }
+        case Left(failure) => {
+          throw new RuntimeException("failure: " + failure)
+        }
+      }
+    }
+  }
+
+  //todo accept storage as parameter
+  def postUserSetting(setting: SettingWithValue): Future[Int] = {
+    val storage = org.scalajs.dom.window.localStorage
+
+    val settingsUri: Uri = uri"${Meta.host}/user_settings"
+    val request =
+      if (storage.getItem("access_token_fromJS").nonEmpty) {
+        basicRequest
+          .post(settingsUri)
+          .auth
+          .bearer(storage.getItem("access_token_fromJS"))
+          .body(setting)
+      } else if (Meta.accessToken.isDefined) {
+        basicRequest
+          .post(settingsUri.param("access_token", Meta.accessToken.get))
+          .body(setting)
+      } else {
+        basicRequest
+          .body(setting)
+          .post(settingsUri)
+      }
+
+    for {
+      response: Response[Either[String, String]] <- request.send()
+    } yield {
+      response.body match {
+        case Right(jsonBody) => {
+          jsonBody.toInt
+        }
+        case Left(failure) => {
+          println("Failed to submit armstretches with error: " + failure)
+          0
+        }
+      }
+    }
   }
 
   //todo accept storage as parameter
@@ -529,11 +605,34 @@ object Main {
     val $incompleteExercises: Signal[Seq[ExerciseSessionComponent]] =
       partitionedExercises.map(_._2.map(_._1))
 
+    import scala.concurrent.ExecutionContext.Implicits.global
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
       cls := "centered",
-      Bulma.menu($completedExercises, $incompleteExercises, soundStatusEventBus.writer),
-//      betterExerciseComponents.map(_.exerciseSelectButton()),
+      soundStatusEventBus.events --> Observer[SoundStatus] { (nextValue: SoundStatus) =>
+        println("About to submit a new soundstatus")
+        ApiInteractions.postUserSetting(
+          SettingWithValue(Setting("SoundStatus"), nextValue.toString)
+        )
+      },
+      EventStream
+        .fromFuture(
+          ApiInteractions
+            .getUserSetting(
+              Setting("SoundStatus")
+            )
+            .map { settingWithValue =>
+              println("Returned setting with value : " + settingWithValue)
+              println("Value: " + settingWithValue.value)
+              if (settingWithValue.value == "FULL") FULL else OFF
+            }
+        ) --> soundStatusEventBus.writer,
+      Bulma.menu(
+        $completedExercises,
+        $incompleteExercises,
+        soundStatusEventBus.writer,
+        soundStatusEventBus.events.toSignal(OFF)
+      ),
       betterExerciseComponents.map(_.exerciseSessionComponent())
     )
 

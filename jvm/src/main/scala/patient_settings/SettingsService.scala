@@ -8,8 +8,8 @@ import zio.Task
 import zio.interop.catz._
 import io.circe.generic.auto._
 import io.circe.syntax._
-
 import auth.AuthLogic
+import com.billding.settings.{Setting, SettingWithValue, UserSettingWithValue}
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
@@ -30,10 +30,10 @@ class SettingsService(
       val user = authLogic.getUserFromRequest(request)
       Ok(
         settingsLogic
-          .getValueFor(Preference(settingName), user)
+          .getValueFor(Setting(settingName), user)
           .getOrElse(
             settingsLogic
-              .getDefaultValueFor__unsafe(Preference(settingName))
+              .getDefaultValueFor__unsafe(Setting(settingName))
               .forUser(user)
           )
           .asJson
@@ -46,10 +46,10 @@ class SettingsService(
       val user = authLogic.getUserFromRequest(req)
       println("Authenticated user: " + user)
       for {
-        userSetting: UserSettingWithValue <- req.decodeJson[UserSettingWithValue]
+        settingWithValue: SettingWithValue <- req.decodeJson[SettingWithValue]
         result <- Created(
-          settingsLogic.saveValue(userSetting).asJson.noSpaces,
-          Location(Uri.unsafeFromString(s"/user_settings/${userSetting.preference.name}"))
+          settingsLogic.saveValue(settingWithValue.forUser(user)).asJson.noSpaces,
+          Location(Uri.unsafeFromString(s"/user_settings/${settingWithValue.setting.name}"))
         )
       } yield {
         result

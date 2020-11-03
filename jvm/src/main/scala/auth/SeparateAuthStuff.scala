@@ -1,12 +1,11 @@
 package auth
 
 import cats.effect.{ConcurrentEffect, IO, Sync}
+import com.billding.settings.Sub
 import org.http4s.dsl.Http4sDsl
 import org.http4s.{Request, Response}
 
 case class AuthorizedRequest[F[_]](sub: String, request: Request[F])
-
-case class Sub(id: String)
 
 case class AccessToken(value: String)
 
