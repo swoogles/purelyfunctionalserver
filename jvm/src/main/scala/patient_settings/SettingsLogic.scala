@@ -30,7 +30,7 @@ case class UserSettingWithDefaultValue(
 
 trait SettingsLogic {
   def getValueFor(patient: Preference, user: Sub): Option[UserSettingWithValue]
-  def getDefaultValueFor(patient: Preference): Try[UserSettingWithDefaultValue]
+  def getDefaultValueFor__unsafe(preference: Preference): UserSettingWithDefaultValue
 
-  def saveValue(patientSettingWithValue: UserSettingWithValue)
+  def saveValue(patientSettingWithValue: UserSettingWithValue): UserSettingWithValue
 }

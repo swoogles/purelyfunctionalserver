@@ -12,6 +12,7 @@ import org.http4s.implicits._
 import org.http4s.server.Router
 import org.http4s.server.staticcontent.{fileService, FileService}
 import org.http4s.{Header, HttpRoutes, Request, Response}
+import patient_settings.{SettingsRepositoryInMemory, SettingsService}
 import repository._
 import weather.{WeatherApi, WeatherService}
 import zio.{Runtime, Task}
@@ -78,6 +79,10 @@ object AllServices {
         new WeatherService(WeatherApi.impl(client)).service
       )
 
+    val userSettingsService = {
+      new SettingsService(new SettingsRepositoryInMemory, authLogic).service
+    }
+
 //    val authenticatedEndpoint =
 //      Auth.liftService(
 //        new AuthenticatedEndpoint(
@@ -88,12 +93,13 @@ object AllServices {
     Router[Task](
       "/" -> homePageService,
       //      "/resources" -> myMiddle.applyBeforeLogic(resourceService),
-      "/resources" -> resourceService,
-      "/github"    -> githubService,
-      "/exercises" -> exerciseService,
-      "/weather"   -> weatherService,
-      "/oauth"     -> authService,
-      "/daml"      -> damlService,
+      "/resources"     -> resourceService,
+      "/user_settings" -> userSettingsService,
+      "/github"        -> githubService,
+      "/exercises"     -> exerciseService,
+      "/weather"       -> weatherService,
+      "/oauth"         -> authService,
+      "/daml"          -> damlService,
 //      "/tsec" -> authenticatedEndpoint,
       "/login" -> loginService
     ).orNotFound
