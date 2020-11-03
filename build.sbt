@@ -35,6 +35,8 @@ lazy val uTestVersion = "0.7.1"
 
 lazy val zioVersion = "1.0.0-RC17"
 
+lazy val enumeratumVersion = "1.6.1"
+
 lazy val tsecV = "0.2.0-M2"
 
 testFrameworks += new TestFramework("utest.runner.Framework")
@@ -80,6 +82,7 @@ lazy val foo =
     libraryDependencies ++= Seq(
     "io.circe" %%% "circe-generic" % CirceVersion,
     "io.circe" %%% "circe-literal" % CirceVersion,
+    "com.beachape" %%% "enumeratum" % enumeratumVersion,
     "com.lihaoyi" %%% "utest" % "0.7.5" % "test",
 "com.lihaoyi" %%% "pprint" % "0.6.0",
 )

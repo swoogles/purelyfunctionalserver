@@ -2,6 +2,7 @@ package billding
 
 import java.time.LocalDate
 
+import com.billding.{FULL, OFF, SoundStatus}
 import com.billding.exercises.{Exercise, Exercises}
 import com.raquo.airstream.eventbus.EventBus
 import com.raquo.airstream.signal.Signal

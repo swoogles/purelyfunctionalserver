@@ -3,6 +3,7 @@ package billding
 import com.raquo.laminar.api.L._
 
 object Widgets {
+
   private def percentageComplete(current: Int, goal: Int) =
     ((current.toFloat / goal.toFloat) * 100).toInt
 
@@ -15,6 +16,5 @@ object Widgets {
       percentageCompleted.toString
     )
   }
-
 
 }

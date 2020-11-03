@@ -1,4 +1,4 @@
-package billding
+package com.billding
 
 sealed trait SoundStatus {}
 case object FULL extends SoundStatus
