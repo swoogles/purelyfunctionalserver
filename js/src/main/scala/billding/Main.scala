@@ -370,6 +370,11 @@ object Main {
           div(
             cls("session-counter"),
             div(child <-- $exerciseTotal.map(count => div(count.toString)))
+          ),
+          div(
+            child <-- $exerciseTotal.map { exerciseTotal =>
+              Widgets.progressBar(exerciseTotal, exercise.dailyGoal)
+            }
           )
         ),
         div(
@@ -397,9 +402,6 @@ object Main {
           ),
           div(s"Daily Goal: ${exercise.dailyGoal} reps")
         ),
-        child <-- $exerciseTotal.map { exerciseTotal =>
-          Widgets.progressBar(exerciseTotal, exercise.dailyGoal)
-        },
         child <-- $complete.map {
           case true  => div("Good job! You reached your daily goal!")
           case false => div("")

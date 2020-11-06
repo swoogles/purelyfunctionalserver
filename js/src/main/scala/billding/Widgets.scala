@@ -12,8 +12,8 @@ object Widgets {
     val percentageCompleted = percentageComplete(current, goal)
     div(
       width := s"$percentageCompleted%",
-      backgroundColor := "green",
-      percentageCompleted.toString
+      cls := "has-background-success",
+      percentageCompleted.toString + "%"
     )
   }
 
