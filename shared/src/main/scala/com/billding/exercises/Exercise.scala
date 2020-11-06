@@ -12,6 +12,16 @@ case class ExerciseGeneric(
   dailyGoal: Int
 ) extends Exercise
 
+case class ExerciseGenericWithReps(
+  id: String,
+  humanFriendlyName: String,
+  repsPerSet: Int,
+  setsPerSession: Int,
+  sessionDailyGoal: Int
+) extends Exercise {
+  val dailyGoal: Int = (repsPerSet * setsPerSession) * sessionDailyGoal
+}
+
 object Exercises {
 
   val QuadSets = ExerciseGeneric(
@@ -21,63 +31,85 @@ object Exercises {
   )
 
   val supineShoulderExternalRotation =
-    ExerciseGeneric(
+    ExerciseGenericWithReps(
       id = "supine_shoulder_external_rotation_with_aid",
       humanFriendlyName = "Lying External Rotation with aid",
-      dailyGoal = 2
+      repsPerSet = 10,
+      setsPerSession = 1,
+      sessionDailyGoal = 2
     )
 
-  val manuallyCountedExercises = List(
-    ExerciseGeneric(
+  val manuallyCountedExercises: Seq[ExerciseGenericWithReps] = List(
+    ExerciseGenericWithReps(
       id = "face_down_t_lift",
       humanFriendlyName = "Face-down T lift",
-      dailyGoal = 2
+      repsPerSet = 10,
+      setsPerSession = 3,
+      sessionDailyGoal = 2
     ),
-    ExerciseGeneric(
+    ExerciseGenericWithReps(
       id = "face_down_i_lift",
       humanFriendlyName = "Face-down I lift",
-      dailyGoal = 2
+      repsPerSet = 10,
+      setsPerSession = 3,
+      sessionDailyGoal = 2
     ),
-    ExerciseGeneric(
+    ExerciseGenericWithReps(
       id = "leaning_shoulder_taps",
       humanFriendlyName = "Leaning Shoulder Taps",
-      dailyGoal = 2
+      repsPerSet = 20,
+      setsPerSession = 2,
+      sessionDailyGoal = 2
     ),
-    ExerciseGeneric(
+    ExerciseGenericWithReps(
       id = "rows",
       humanFriendlyName = "Rows",
-      dailyGoal = 2
+      repsPerSet = 10,
+      setsPerSession = 3,
+      sessionDailyGoal = 2
     ),
-    ExerciseGeneric(
+    ExerciseGenericWithReps(
       id = "kettle_style_lifts",
       humanFriendlyName = "Kettle Style Lifts",
-      dailyGoal = 2
+      repsPerSet = 10,
+      setsPerSession = 3,
+      sessionDailyGoal = 2
     ),
     supineShoulderExternalRotation,
-    ExerciseGeneric(
+    ExerciseGenericWithReps(
       id = "supine_shoulder_flexion_with_aid",
       humanFriendlyName = "Lying Shoulder Flexion with aid",
-      dailyGoal = 2
+      repsPerSet = 10,
+      setsPerSession = 1,
+      sessionDailyGoal = 2
     ),
-    ExerciseGeneric(
+    ExerciseGenericWithReps(
       id = "band_rotating_internal_rotation",
       humanFriendlyName = "Banded Rotation (Internal)",
-      dailyGoal = 2
+      repsPerSet = 15,
+      setsPerSession = 3,
+      sessionDailyGoal = 2
     ),
-    ExerciseGeneric(
+    ExerciseGenericWithReps(
       id = "band_rotating_external_rotation",
       humanFriendlyName = "Banded Rotation (External)",
-      dailyGoal = 2
+      repsPerSet = 15,
+      setsPerSession = 3,
+      sessionDailyGoal = 2
     ),
-    ExerciseGeneric(
+    ExerciseGenericWithReps(
       id = "straight_forward_arm_raises",
       humanFriendlyName = "Arm Raises (Straight into Cross)",
-      dailyGoal = 2
+      repsPerSet = 10,
+      setsPerSession = 3,
+      sessionDailyGoal = 2
     ),
-    ExerciseGeneric(
+    ExerciseGenericWithReps(
       id = "45_degree_arm_raises",
       humanFriendlyName = "Arm Raises (45 Degrees)",
-      dailyGoal = 2
+      repsPerSet = 10,
+      setsPerSession = 3,
+      sessionDailyGoal = 2
     )
   ).sortBy(_.humanFriendlyName)
 

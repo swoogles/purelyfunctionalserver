@@ -3,7 +3,7 @@ package billding
 import java.time.LocalDate
 
 import com.billding.{FULL, OFF, SoundStatus}
-import com.billding.exercises.{Exercise, Exercises}
+import com.billding.exercises.{Exercise, ExerciseGenericWithReps, Exercises}
 import com.billding.settings.{Setting, SettingWithValue, UserSettingWithValue}
 import com.raquo.airstream.eventbus.EventBus
 import com.raquo.airstream.signal.Signal
@@ -306,7 +306,7 @@ object Main {
 
   class ExerciseSessionComponentWithExternalStatus(
     componentSelections: WriteBus[Exercise],
-    val exercise: Exercise,
+    val exercise: ExerciseGenericWithReps,
     $selectedComponent: Signal[Exercise],
     postFunc: (Int, String) => Future[Int],
     soundCreator: SoundCreator,
@@ -380,14 +380,22 @@ object Main {
             $exerciseTotal.map(
               exerciseTotal => (exerciseTotal <= 0)
             ),
-            onClick.map(_ => -1) --> exerciseSubmissions,
-            "-1"
+            onClick.map(_ => -exercise.repsPerSet) --> exerciseSubmissions,
+            s"-${exercise.repsPerSet}"
           ),
           button(
             cls := "button is-link is-rounded is-size-3",
-            onClick.map(_ => 1) --> exerciseSubmissions,
-            "+1"
+            onClick.map(_ => exercise.repsPerSet) --> exerciseSubmissions,
+            s"+${exercise.repsPerSet}"
           )
+        ),
+        div(
+          cls("rep-explanation"),
+          div(
+            s"""Session: ${exercise.setsPerSession} set${if (exercise.setsPerSession > 1) "s"
+            else ""} of ${exercise.repsPerSet}"""
+          ),
+          div(s"Daily Goal: ${exercise.dailyGoal} reps")
         ),
         child <-- $exerciseTotal.map { exerciseTotal =>
           Widgets.progressBar(exerciseTotal, exercise.dailyGoal)
