@@ -306,10 +306,11 @@ object Main {
   }
 
   class ServerBackedExerciseCounter(
-    val exercise: Exercise,
+    exercise: Exercise,
     postFunc: (Int, String) => Future[Int]
   ) {
-    val exerciseSubmissions = new EventBus[Int]
+    private val exerciseSubmissions = new EventBus[Int]
+    val exerciseSubmissionsWriter = exerciseSubmissions.writer
 
     private val exerciseServerResultsBus = new EventBus[Int]
     val exerciseServerResultsBusEvents = exerciseServerResultsBus.events
@@ -329,7 +330,7 @@ object Main {
       EventStream
         .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus
 
-    val behavior =
+    val behavior: ReactiveHtmlElement[html.Div] =
       div(
         weirdExerciseCounterCycle,
         initializeCount
@@ -347,18 +348,18 @@ object Main {
     soundStatus: Signal[SoundStatus]
   ) extends ExerciseSessionComponent {
 
-    val serverBackedExerciseTotal =
+    val exerciseCounter =
       new ServerBackedExerciseCounter(exercise, postFunc)
 
     val $complete: Signal[Boolean] =
-      serverBackedExerciseTotal.$exerciseTotal.map(_ >= exercise.dailyGoal)
+      exerciseCounter.$exerciseTotal.map(_ >= exercise.dailyGoal)
 
     val exerciseSelectButton: ReactiveHtmlElement[html.Div] =
       SelectorButton(
         $selectedComponent,
         exercise: Exercise,
         componentSelections,
-        serverBackedExerciseTotal.$exerciseTotal
+        exerciseCounter.$exerciseTotal
       )
 
     val counterAndSoundStatusObserver = Observer[(Int, SoundStatus, Exercise)] {
@@ -371,8 +372,8 @@ object Main {
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
-        serverBackedExerciseTotal.behavior,
-        serverBackedExerciseTotal.$exerciseTotal.changes
+        exerciseCounter.behavior,
+        exerciseCounter.$exerciseTotal.changes
           .withCurrentValueOf(soundStatus)
           .withCurrentValueOf($selectedComponent)
           .map {
@@ -390,18 +391,18 @@ object Main {
          else
            div()),
         div(
-          cls <-- serverBackedExerciseTotal.$exerciseTotal.map(
+          cls <-- exerciseCounter.$exerciseTotal.map(
             currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
           ),
           div(exercise.humanFriendlyName, cls := "is-size-3"),
           div(
             cls("session-counter"),
             div(
-              child <-- serverBackedExerciseTotal.$exerciseTotal.map(count => div(count.toString))
+              child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
             )
           ),
           div(
-            child <-- serverBackedExerciseTotal.$exerciseTotal.map { exerciseTotal =>
+            child <-- exerciseCounter.$exerciseTotal.map { exerciseTotal =>
               Widgets.progressBar(exerciseTotal, exercise.dailyGoal)
             }
           )
@@ -411,16 +412,16 @@ object Main {
           button(
             cls := "button is-link is-rounded is-size-3",
             disabled <--
-            serverBackedExerciseTotal.$exerciseTotal.map(
+            exerciseCounter.$exerciseTotal.map(
               exerciseTotal => (exerciseTotal <= 0)
             ),
             onClick
-              .map(_ => -exercise.repsPerSet) --> serverBackedExerciseTotal.exerciseSubmissions,
+              .map(_ => -exercise.repsPerSet) --> exerciseCounter.exerciseSubmissionsWriter,
             s"-${exercise.repsPerSet}"
           ),
           button(
             cls := "button is-link is-rounded is-size-3",
-            onClick.map(_ => exercise.repsPerSet) --> serverBackedExerciseTotal.exerciseSubmissions,
+            onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.exerciseSubmissionsWriter,
             s"+${exercise.repsPerSet}"
           )
         ),
@@ -462,10 +463,8 @@ object Main {
                                              $soundStatus: Signal[SoundStatus])
       extends ExerciseSessionComponent {
 
-    val serverBackedExerciseTotal =
+    val exerciseCounter =
       new ServerBackedExerciseCounter(exercise, postFunc)
-
-    val repeater = RepeatingElement()
 
     val clockTicks = new EventBus[Int]
 
@@ -500,7 +499,7 @@ object Main {
         $selectedComponent,
         exercise: Exercise,
         componentSelections,
-        serverBackedExerciseTotal.$exerciseTotal
+        exerciseCounter.$exerciseTotal
       )
 
     val counterActionBus = new EventBus[CounterAction]()
@@ -533,8 +532,8 @@ object Main {
            div("You're not actually logged in!")
          else
            div()),
-        serverBackedExerciseTotal.behavior,
-        serverBackedExerciseTotal.exerciseServerResultsBusEvents
+        exerciseCounter.behavior,
+        exerciseCounter.exerciseServerResultsBusEvents
           .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
         cls := "centered",
         div(
@@ -547,7 +546,7 @@ object Main {
               $countT --> $countVar.writer,
               onClick.map(
                 _ => $countVar.now().value
-              ) --> serverBackedExerciseTotal.exerciseSubmissions
+              ) --> exerciseCounter.exerciseSubmissionsWriter
             )
           ),
           div(
@@ -559,14 +558,14 @@ object Main {
             styleAttr := "text-align: center; font-size: 2em",
             span("Daily Total:"),
             span(
-              child <-- serverBackedExerciseTotal.$exerciseTotal.map(count => div(count.toString))
+              child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
             ),
             span(styleAttr := "font-size: 2em")
           ),
           a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login"),
           div(idAttr := "exercise_history"),
           // TODO Look at method to derive this first repeater off of the 2nd
-          repeater.repeatWithInterval(
+          RepeatingElement().repeatWithInterval(
             1,
             duration
           ) --> clockTicks,
