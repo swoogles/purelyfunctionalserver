@@ -338,9 +338,9 @@ object Main {
         $exerciseTotal
       )
 
-    val counterAndSoundStatusObserver = Observer[(Int, SoundStatus)] {
-      case (currentCount, soundStatus) =>
-        if (soundStatus == FULL) {
+    val counterAndSoundStatusObserver = Observer[(Int, SoundStatus, Exercise)] {
+      case (currentCount, soundStatus, selectedExercise) =>
+        if (soundStatus == FULL && selectedExercise == exercise) {
           if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
           else soundCreator.addExerciseSet.play()
         }
@@ -351,7 +351,13 @@ object Main {
         EventStream
           .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus,
         exerciseServerResults --> exerciseServerResultsBus,
-        $exerciseTotal.changes.withCurrentValueOf(soundStatus) --> counterAndSoundStatusObserver,
+        $exerciseTotal.changes
+          .withCurrentValueOf(soundStatus)
+          .withCurrentValueOf($selectedComponent)
+          .map {
+            case ((counter, soundStatus), selectedComponent) =>
+              (counter, soundStatus, selectedComponent)
+          } --> counterAndSoundStatusObserver,
         $complete --> updateMonitor,
         conditionallyDisplay(exercise, $selectedComponent),
         cls("centered"),
@@ -460,11 +466,11 @@ object Main {
       }
 
     // TODO See if this triggers unwanted noises when soundStatus changes
-    val counterAndSoundStatusObserver = Observer[(CounterState, SoundStatus)] {
-      case (counterState, soundStatus) => {
+    val counterAndSoundStatusObserver = Observer[(CounterState, SoundStatus, Exercise)] {
+      case (counterState, soundStatus, selectedExercise) => {
         println("should do some noises because the counter and/or soundStatus changed!")
         // TODO properly get this value from the element below, in a streamy fashion
-        if (soundStatus == FULL) {
+        if (soundStatus == FULL && selectedExercise == exercise) {
           if (counterState == Firing) {
             soundCreator.startSound.play()
           } else {
@@ -486,15 +492,27 @@ object Main {
 
     // Doing this to get the initial count
     val $countT: Signal[Counter] =
-      counterActionBus.events.foldLeft(Counter(0))((acc, next) => CounterAction.update(next, acc))
+      counterActionBus.events.withCurrentValueOf($selectedComponent).foldLeft(Counter(0)) {
+        case (acc, (next, selectedComponent)) =>
+          if (selectedComponent == exercise)
+            CounterAction.update(next, acc)
+          else
+            acc
+      }
 
     val $countVar: Var[Counter] = Var(Counter(0))
 
-    val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
+    val duration = new FiniteDuration(1, scala.concurrent.duration.SECONDS)
 
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
-        $counterState.changes.withCurrentValueOf($soundStatus) --> counterAndSoundStatusObserver,
+        $counterState.changes
+          .withCurrentValueOf($soundStatus)
+          .withCurrentValueOf($selectedComponent)
+          .map {
+            case ((counter, soundStatus), selectedComponent) =>
+              (counter, soundStatus, selectedComponent)
+          } --> counterAndSoundStatusObserver,
         conditionallyDisplay(exercise, $selectedComponent),
         (if (storage.getItem("access_token_fromJS") == "public")
            div("You're not actually logged in!")
