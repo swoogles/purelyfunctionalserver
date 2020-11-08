@@ -310,7 +310,7 @@ object Main {
     postFunc: (Int, String) => Future[Int]
   ) {
     private val exerciseSubmissions = new EventBus[Int]
-    val exerciseSubmissionsWriter: WriteBus[Int] = exerciseSubmissions.writer
+    val submissionsWriter: WriteBus[Int] = exerciseSubmissions.writer
 
     private val exerciseServerResultsBus = new EventBus[Int]
     val exerciseServerResultsBusEvents: EventStream[Int] = exerciseServerResultsBus.events
@@ -422,12 +422,12 @@ object Main {
               exerciseTotal => (exerciseTotal <= 0)
             ),
             onClick
-              .map(_ => -exercise.repsPerSet) --> exerciseCounter.exerciseSubmissionsWriter,
+              .map(_ => -exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
             s"-${exercise.repsPerSet}"
           ),
           button(
             cls := "button is-link is-rounded is-size-3",
-            onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.exerciseSubmissionsWriter,
+            onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
             s"+${exercise.repsPerSet}"
           )
         ),
@@ -543,8 +543,10 @@ object Main {
           .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
         cls := "centered",
         div(
-          styleAttr <-- $color.map(color => s"background: $color"),
-          div(cls("session-counter"), child.text <-- $countT.map(_.value.toString)),
+          div(cls("session-counter"),
+              child.text <-- $countT.map(_.value.toString),
+              styleAttr <-- $color.map(color => s"background: $color")
+          ),
           div(
             button(
               "Submit",
@@ -552,7 +554,7 @@ object Main {
               $countT --> $countVar.writer,
               onClick.map(
                 _ => $countVar.now().value
-              ) --> exerciseCounter.exerciseSubmissionsWriter
+              ) --> exerciseCounter.submissionsWriter
             )
           ),
           div(
@@ -568,7 +570,11 @@ object Main {
             ),
             span(styleAttr := "font-size: 2em")
           ),
-          a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login"),
+          div(
+            child <-- exerciseCounter.$percentageComplete.map(
+              Widgets.progressBar
+            )
+          ),
           div(idAttr := "exercise_history"),
           // TODO Look at method to derive this first repeater off of the 2nd
           RepeatingElement().repeatWithInterval(
