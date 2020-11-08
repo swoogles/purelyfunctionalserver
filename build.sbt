@@ -103,7 +103,6 @@ lazy val foo =
       "com.softwaremill.sttp.client" %%% "circe" % "2.0.0-RC5",
       "com.pauldijou" %% "jwt-core" % "4.2.0",
       "com.pauldijou" %% "jwt-circe" % "4.2.0",
-      "com.lihaoyi" %%% "scalatags" % "0.9.1",
       "io.github.cquiroz" %%% "scala-java-time" % "2.0.0",
     )
   )

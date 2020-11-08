@@ -66,22 +66,7 @@ object ApiInteractions {
   implicit val backend = FetchBackend()
   implicit val ec = global
 
-  // TODO Convert this to laminar
-  def representQuadSets(quadsets: List[DailyQuantizedExercise]) = {
-    import scalatags.JsDom.all._
-    div(
-      quadsets
-        .map(
-          quadSet =>
-            div(style := "text-weight: bold; background-color: white; font-size: 18pt;")(
-              span(quadSet.day + ": "),
-              span(quadSet.count)
-            )
-        )
-    )
-  }
-
-  def getHistoryInUnsafeScalaTagsForm(storage: Storage, exercise: Exercise) = {
+  def getHistory(storage: Storage, exercise: Exercise): Future[List[DailyQuantizedExercise]] = {
     val historyUri: Uri = uri"${Meta.host}/exercises/${exercise.id}"
 
     val request = {
@@ -102,24 +87,20 @@ object ApiInteractions {
       }
     }
 
-    import scalatags.JsDom.all._
     for {
       response: Response[Either[String, String]] <- request.send()
-    } {
+    } yield {
       response.body match {
         case Right(jsonBody) => {
           circe.deserializeJson[List[DailyQuantizedExercise]].apply(jsonBody) match {
             case Right(value) => {
-              document
-                .getElementById("exercise_history")
-                // TODO Why do I need the double .render call?
-                .appendChild(representQuadSets(value).render.render)
+              value
             }
-            case Left(failure) => println("Parse failure: " + failure)
+            case Left(failure) => List()
           }
         }
         case Left(failure) => {
-          println("Failure: " + failure)
+          List()
         }
       }
     }
@@ -525,6 +506,17 @@ object Main {
 
     val duration = new FiniteDuration(1, scala.concurrent.duration.SECONDS)
 
+    def representQuadSetsSafely(quadsets: List[DailyQuantizedExercise]) =
+      div(
+        quadsets
+          .map(
+            quadSet =>
+              div(styleAttr := "text-weight: bold; background-color: white; font-size: 18pt;",
+                  span(quadSet.day + ": "),
+                  span(quadSet.count.toString))
+          )
+      )
+
     def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
       div(
         $counterState.changes
@@ -576,8 +568,9 @@ object Main {
               Widgets.progressBar
             )
           ),
-          div(idAttr := "exercise_history"),
-          // TODO Look at method to derive this first repeater off of the 2nd
+          child <-- EventStream
+            .fromFuture(ApiInteractions.getHistory(storage, exercise))
+            .map(representQuadSetsSafely),
           RepeatingElement().repeatWithInterval(
             1,
             duration
@@ -695,9 +688,6 @@ object Main {
 
     dom.document.querySelector("#laminarApp").innerHTML = "" // Ugly emptying method
     render(dom.document.querySelector("#laminarApp"), appDiv)
-    // TODO order matters with this unsafe call!!
-    ApiInteractions.getHistoryInUnsafeScalaTagsForm(storage, Exercises.QuadSets) // TODO Load this data up for certain pages
-
   }
 
   def main(args: Array[String]): Unit = {
