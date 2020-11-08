@@ -155,6 +155,47 @@ object Main {
       )
   }
 
+  def BrokenLoginPrompt(storage: Storage) =
+    if (storage.getItem("access_token_fromJS") == "public")
+      div(
+        div("You're not actually logged in!"),
+        a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login")
+      )
+    else
+      div()
+
+  def ControlCounterButtons(
+    exerciseCounter: ServerBackedExerciseCounter,
+    exercise: ExerciseGenericWithReps
+  ) =
+    div(
+      button(
+        cls := "button is-link is-rounded is-size-3 mx-2 my-2",
+        disabled <--
+        exerciseCounter.$exerciseTotal.map(
+          exerciseTotal => (exerciseTotal <= 0)
+        ),
+        onClick
+          .map(_ => -exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
+        s"-${exercise.repsPerSet}"
+      ),
+      button(
+        cls := "button is-link is-rounded is-size-3 mx-2 my-2",
+        onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
+        s"+${exercise.repsPerSet}"
+      )
+    )
+
+  def GoalExplanation(exercise: ExerciseGenericWithReps) =
+    div(
+      cls("rep-explanation"),
+      div(
+        s"""Session: ${exercise.setsPerSession} set${if (exercise.setsPerSession > 1) "s"
+        else ""} of ${exercise.repsPerSet}"""
+      ),
+      div(s"Daily Goal: ${exercise.dailyGoal} reps")
+    )
+
   def ManualExerciseComponent(
     exercise: ExerciseGenericWithReps,
     $selectedComponent: Signal[Exercise],
@@ -184,13 +225,7 @@ object Main {
         } --> counterAndSoundStatusObserver,
       exerciseCounter.$complete --> updateMonitor,
       conditionallyDisplay(exercise, $selectedComponent),
-      (if (storage.getItem("access_token_fromJS") == "public")
-         div(
-           div("You're not actually logged in!"),
-           a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login")
-         )
-       else
-         div()),
+      BrokenLoginPrompt(storage),
       div(
         cls <-- exerciseCounter.$exerciseTotal.map(
           currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
@@ -203,35 +238,12 @@ object Main {
       child <-- exerciseCounter.$percentageComplete.map(
         Widgets.progressBar
       ),
-      div(
-        button(
-          cls := "button is-link is-rounded is-size-3 mx-2 my-2",
-          disabled <--
-          exerciseCounter.$exerciseTotal.map(
-            exerciseTotal => (exerciseTotal <= 0)
-          ),
-          onClick
-            .map(_ => -exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
-          s"-${exercise.repsPerSet}"
-        ),
-        button(
-          cls := "button is-link is-rounded is-size-3 mx-2 my-2",
-          onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
-          s"+${exercise.repsPerSet}"
-        )
-      ),
-      div(
-        cls("rep-explanation"),
-        div(
-          s"""Session: ${exercise.setsPerSession} set${if (exercise.setsPerSession > 1) "s"
-          else ""} of ${exercise.repsPerSet}"""
-        ),
-        div(s"Daily Goal: ${exercise.dailyGoal} reps")
-      ),
+      ControlCounterButtons(exerciseCounter, exercise),
+      GoalExplanation(exercise),
       child <-- exerciseCounter.$complete.map {
-        case true  => div("Good job! You reached your daily goal!")
-        case false => div("")
-      }
+        case true  => "Good job! You reached your daily goal!"
+        case false => ""
+      }.map(div(_))
     )
   }
 
