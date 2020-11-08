@@ -7,7 +7,9 @@ class ExerciseLogic(exerciseRepository: ExerciseRepository) {
 
   def getExerciseHistoriesFor(name: String,
                               userIdOpt: String): Stream[Task, DailyQuantizedExercise] =
-    exerciseRepository.getExerciseHistoryForUser(name, userIdOpt)
+    exerciseRepository
+      .getExerciseHistoryForUser(name, userIdOpt)
+      .drop(1) // Drop today's record. It will be displayed elsewhere.
 
   def createOrUpdate(
     dailyQuantizedExercise: DailyQuantizedExercise

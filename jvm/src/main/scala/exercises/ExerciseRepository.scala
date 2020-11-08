@@ -33,7 +33,7 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
     sql"""SELECT id, name, day, count, user_id FROM daily_quantized_exercises
           WHERE name = $name AND user_id = ${userId}
           ORDER BY day DESC
-          LIMIT 14"""
+          LIMIT 15"""
       .query[DailyQuantizedExercise]
       .stream
       .transact(transactor)
