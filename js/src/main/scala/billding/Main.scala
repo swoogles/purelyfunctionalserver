@@ -67,102 +67,11 @@ object Main {
 
   case class RepeatingElement() extends RepeatWithIntervalHelper
 
-  def SelectorButton(
-    $selectedComponent: Signal[Exercise],
-    exercise: Exercise,
-    componentSelections: WriteBus[Exercise],
-    $exerciseTotal: Signal[Int]
-  ) = {
-    def indicateSelectedButton(
-      ): Binder[HtmlElement] =
-      cls <--
-      $selectedComponent.combineWith($exerciseTotal).map {
-        case (selectedExercise, currentCount) =>
-          "small " +
-          (if (selectedExercise == exercise)
-             "is-primary has-background-primary"
-           else {
-             if (currentCount >= exercise.dailyGoal)
-               "is-success is-rounded is-light"
-             else
-               "is-link is-rounded "
-           })
-      }
-
-    div(
-      cls := "menu-item-with-count",
-      div(
-        cls := "has-text-left ml-1",
-        exercise.humanFriendlyName
-      ),
-      div(
-        child.text <-- $exerciseTotal.map(
-          count => count + "/" + exercise.dailyGoal
-        )
-      ),
-      indicateSelectedButton(),
-      onClick.mapTo {
-        exercise
-      } --> componentSelections
-    )
-
-  }
-
   trait ExerciseSessionComponent {
     val exercise: Exercise
     val exerciseSelectButton: ReactiveHtmlElement[html.Div]
     val exerciseSessionComponent: ReactiveHtmlElement[html.Div]
   }
-
-  class ServerBackedExerciseCounter(
-    exercise: Exercise,
-    postFunc: (Int, String) => Future[Int]
-  ) {
-    private val exerciseSubmissions = new EventBus[Int]
-    val submissionsWriter: WriteBus[Int] = exerciseSubmissions.writer
-
-    private val exerciseServerResultsBus = new EventBus[Int]
-    val exerciseServerResultsBusEvents: EventStream[Int] = exerciseServerResultsBus.events
-
-    private val exerciseServerResults: EventStream[Int] =
-      exerciseSubmissions.events
-        .map(submission => EventStream.fromFuture(postFunc(submission, exercise.id)))
-        .flatten
-
-    val $exerciseTotal: Signal[Int] =
-      exerciseServerResultsBus.events.foldLeft(0)((acc, next) => next)
-
-    private def percentageComplete(current: Int, goal: Int) =
-      ((current.toFloat / goal.toFloat) * 100).toInt
-
-    val $percentageComplete: Signal[Int] =
-      $exerciseTotal.map(exerciseTotal => percentageComplete(exerciseTotal, exercise.dailyGoal))
-
-    val $complete: Signal[Boolean] =
-      $exerciseTotal.map(_ >= exercise.dailyGoal)
-
-    private val weirdExerciseCounterCycle
-      : Binder[Base] = exerciseServerResults --> exerciseServerResultsBus
-
-    private val initializeCount =
-      EventStream
-        .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus
-
-    val behavior: ReactiveHtmlElement[html.Div] =
-      div(
-        weirdExerciseCounterCycle,
-        initializeCount
-      )
-  }
-
-  def BrokenLoginPrompt(storage: Storage) =
-    if (storage.getItem("access_token_fromJS") == "public")
-      div(
-        div("You're not actually logged in!"),
-        a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login")
-      )
-    else
-      div()
 
   def ControlCounterButtons(
     exerciseCounter: ServerBackedExerciseCounter,
@@ -183,30 +92,6 @@ object Main {
         cls := "button is-link is-rounded is-size-3 mx-2 my-2",
         onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
         s"+${exercise.repsPerSet}"
-      )
-    )
-
-  def GoalExplanation(exercise: ExerciseGenericWithReps) =
-    div(
-      cls("rep-explanation"),
-      div(
-        s"""Session: ${exercise.setsPerSession} set${if (exercise.setsPerSession > 1) "s"
-        else ""} of ${exercise.repsPerSet}"""
-      ),
-      div(s"Daily Goal: ${exercise.dailyGoal} reps")
-    )
-
-  def CounterDisplay(
-    exerciseCounter: ServerBackedExerciseCounter,
-    exercise: Exercise
-  ) =
-    div(
-      cls <-- exerciseCounter.$exerciseTotal.map(
-        currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
-      ),
-      div(exercise.humanFriendlyName, cls := "is-size-3"),
-      child <-- exerciseCounter.$exerciseTotal.map(
-        count => div(cls("has-text-centered is-size-1"), count.toString)
       )
     )
 
@@ -239,13 +124,13 @@ object Main {
         } --> counterAndSoundStatusObserver,
       exerciseCounter.$complete --> updateMonitor,
       conditionallyDisplay(exercise, $selectedComponent),
-      BrokenLoginPrompt(storage),
-      CounterDisplay(exerciseCounter, exercise),
+      Components.BrokenLoginPrompt(storage),
+      Components.CounterDisplay(exerciseCounter.$exerciseTotal, exercise),
       child <-- exerciseCounter.$percentageComplete.map(
         Widgets.progressBar
       ),
       ControlCounterButtons(exerciseCounter, exercise),
-      GoalExplanation(exercise),
+      Components.GoalExplanation(exercise),
       child <-- exerciseCounter.$complete.map {
         case true  => "Good job! You reached your daily goal!"
         case false => ""
@@ -268,7 +153,7 @@ object Main {
       new ServerBackedExerciseCounter(exercise, postFunc)
 
     val exerciseSelectButton: ReactiveHtmlElement[html.Div] =
-      SelectorButton(
+      Components.SelectorButton(
         $selectedComponent,
         exercise: Exercise,
         componentSelections,
@@ -342,7 +227,7 @@ object Main {
     }
 
     val exerciseSelectButton: ReactiveHtmlElement[html.Div] =
-      SelectorButton(
+      Components.SelectorButton(
         $selectedComponent,
         exercise: Exercise,
         componentSelections,
@@ -365,17 +250,6 @@ object Main {
 
     val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
 
-    def representQuadSetsSafely(quadsets: List[DailyQuantizedExercise]) =
-      div(
-        quadsets
-          .map(
-            quadSet =>
-              div(styleAttr := "text-weight: bold; background-color: white; font-size: 18pt;",
-                  span(quadSet.day + ": "),
-                  span(quadSet.count.toString))
-          )
-      )
-
     val exerciseSessionComponent: ReactiveHtmlElement[html.Div] =
       div(
         $counterState.changes
@@ -386,7 +260,7 @@ object Main {
               (counter, soundStatus, selectedComponent)
           } --> counterAndSoundStatusObserver,
         conditionallyDisplay(exercise, $selectedComponent),
-        BrokenLoginPrompt(storage),
+        Components.BrokenLoginPrompt(storage),
         exerciseCounter.behavior,
         exerciseCounter.exerciseServerResultsBusEvents
           .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
@@ -411,16 +285,14 @@ object Main {
             )
           ),
           div(
-            styleAttr := "text-align: center; font-size: 2em",
+            cls("is-size-3 has-text-centered"),
             div("Daily Total:"),
             child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
           ),
           child <-- exerciseCounter.$percentageComplete.map(
             Widgets.progressBar
           ),
-          child <-- EventStream
-            .fromFuture(ApiInteractions.getHistory(storage, exercise))
-            .map(representQuadSetsSafely),
+          child <-- Components.FullyLoadedHistory(exercise, storage),
           RepeatingElement().repeatWithInterval(
             1,
             duration
