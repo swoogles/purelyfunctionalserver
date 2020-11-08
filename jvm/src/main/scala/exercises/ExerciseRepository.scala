@@ -11,7 +11,6 @@ import zio.interop.catz._
 
 trait ExerciseRepository {
 
-  // TODO Push F throughout the rest of this file
   def getExercise(
     exercise: DailyQuantizedExercise
   ): Task[Option[DailyQuantizedExercise]]

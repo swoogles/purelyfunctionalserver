@@ -62,7 +62,6 @@ object ApiInteractions {
 
   val exerciseUri: Uri = uri"${Meta.host}/exercises"
   val quadSetUri: Uri = uri"${Meta.host}/exercises/QuadSets"
-  val armStretchesUri: Uri = uri"${Meta.host}/exercises/arm_stretches"
 
   implicit val backend = FetchBackend()
   implicit val ec = global
@@ -82,22 +81,24 @@ object ApiInteractions {
     )
   }
 
-  def getQuadSetHistoryInUnsafeScalaTagsForm(storage: Storage) = {
+  def getHistoryInUnsafeScalaTagsForm(storage: Storage, exercise: Exercise) = {
+    val historyUri: Uri = uri"${Meta.host}/exercises/${exercise.id}"
+
     val request = {
       if (storage
             .getItem("access_token_fromJS")
             .nonEmpty) { // We have a stored token. Use it for getting authorized info
         basicRequest
-          .get(quadSetUri)
+          .get(historyUri)
           .auth
           .bearer(storage.getItem("access_token_fromJS"))
       } else if (Meta.accessToken.isDefined) { // We have a queryParameter token. Use it for getting authorized info. Non-ideal.
         basicRequest
-          .get(quadSetUri.param("access_token", Meta.accessToken.get))
+          .get(historyUri.param("access_token", Meta.accessToken.get))
           .header(Header.authorization("Bearer", Meta.accessToken.get))
       } else { // no token. Request information for public, chaotic user.
         basicRequest
-          .get(quadSetUri)
+          .get(historyUri)
       }
     }
 
@@ -695,7 +696,7 @@ object Main {
     dom.document.querySelector("#laminarApp").innerHTML = "" // Ugly emptying method
     render(dom.document.querySelector("#laminarApp"), appDiv)
     // TODO order matters with this unsafe call!!
-    ApiInteractions.getQuadSetHistoryInUnsafeScalaTagsForm(storage) // TODO Load this data up for certain pages
+    ApiInteractions.getHistoryInUnsafeScalaTagsForm(storage, Exercises.QuadSets) // TODO Load this data up for certain pages
 
   }
 
