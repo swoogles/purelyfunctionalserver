@@ -111,7 +111,7 @@ object Main {
   trait ExerciseSessionComponent {
     val exercise: Exercise
     val exerciseSelectButton: ReactiveHtmlElement[html.Div]
-    def exerciseSessionComponent(): ReactiveHtmlElement[html.Div]
+    val exerciseSessionComponent: ReactiveHtmlElement[html.Div]
   }
 
   class ServerBackedExerciseCounter(
@@ -138,6 +138,9 @@ object Main {
     val $percentageComplete: Signal[Int] =
       $exerciseTotal.map(exerciseTotal => percentageComplete(exerciseTotal, exercise.dailyGoal))
 
+    val $complete: Signal[Boolean] =
+      $exerciseTotal.map(_ >= exercise.dailyGoal)
+
     private val weirdExerciseCounterCycle
       : Binder[Base] = exerciseServerResults --> exerciseServerResultsBus
 
@@ -150,6 +153,86 @@ object Main {
         weirdExerciseCounterCycle,
         initializeCount
       )
+  }
+
+  def ManualExerciseComponent(
+    exercise: ExerciseGenericWithReps,
+    $selectedComponent: Signal[Exercise],
+    storage: Storage,
+    updateMonitor: Observer[Boolean],
+    soundCreator: SoundCreator,
+    exerciseCounter: ServerBackedExerciseCounter,
+    soundStatus: Signal[SoundStatus]
+  ): ReactiveHtmlElement[html.Div] = {
+
+    val counterAndSoundStatusObserver = Observer[(Int, SoundStatus, Exercise)] {
+      case (currentCount, soundStatus, selectedExercise) =>
+        if (soundStatus == FULL && selectedExercise == exercise) {
+          if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
+          else soundCreator.addExerciseSet.play()
+        }
+    }
+
+    div(
+      exerciseCounter.behavior,
+      exerciseCounter.$exerciseTotal.changes
+        .withCurrentValueOf(soundStatus)
+        .withCurrentValueOf($selectedComponent)
+        .map {
+          case ((counter, soundStatus), selectedComponent) =>
+            (counter, soundStatus, selectedComponent)
+        } --> counterAndSoundStatusObserver,
+      exerciseCounter.$complete --> updateMonitor,
+      conditionallyDisplay(exercise, $selectedComponent),
+      (if (storage.getItem("access_token_fromJS") == "public")
+         div(
+           div("You're not actually logged in!"),
+           a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login")
+         )
+       else
+         div()),
+      div(
+        cls <-- exerciseCounter.$exerciseTotal.map(
+          currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
+        ),
+        div(exercise.humanFriendlyName, cls := "is-size-3"),
+        child <-- exerciseCounter.$exerciseTotal.map(
+          count => div(cls("has-text-centered is-size-1"), count.toString)
+        )
+      ),
+      child <-- exerciseCounter.$percentageComplete.map(
+        Widgets.progressBar
+      ),
+      div(
+        button(
+          cls := "button is-link is-rounded is-size-3 mx-2 my-2",
+          disabled <--
+          exerciseCounter.$exerciseTotal.map(
+            exerciseTotal => (exerciseTotal <= 0)
+          ),
+          onClick
+            .map(_ => -exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
+          s"-${exercise.repsPerSet}"
+        ),
+        button(
+          cls := "button is-link is-rounded is-size-3 mx-2 my-2",
+          onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
+          s"+${exercise.repsPerSet}"
+        )
+      ),
+      div(
+        cls("rep-explanation"),
+        div(
+          s"""Session: ${exercise.setsPerSession} set${if (exercise.setsPerSession > 1) "s"
+          else ""} of ${exercise.repsPerSet}"""
+        ),
+        div(s"Daily Goal: ${exercise.dailyGoal} reps")
+      ),
+      child <-- exerciseCounter.$complete.map {
+        case true  => div("Good job! You reached your daily goal!")
+        case false => div("")
+      }
+    )
   }
 
   class ExerciseSessionComponentWithExternalStatus(
@@ -166,9 +249,6 @@ object Main {
     val exerciseCounter =
       new ServerBackedExerciseCounter(exercise, postFunc)
 
-    val $complete: Signal[Boolean] =
-      exerciseCounter.$exerciseTotal.map(_ >= exercise.dailyGoal)
-
     val exerciseSelectButton: ReactiveHtmlElement[html.Div] =
       SelectorButton(
         $selectedComponent,
@@ -177,77 +257,15 @@ object Main {
         exerciseCounter.$exerciseTotal
       )
 
-    val counterAndSoundStatusObserver = Observer[(Int, SoundStatus, Exercise)] {
-      case (currentCount, soundStatus, selectedExercise) =>
-        if (soundStatus == FULL && selectedExercise == exercise) {
-          if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
-          else soundCreator.addExerciseSet.play()
-        }
-    }
-
-    def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
-      div(
-        exerciseCounter.behavior,
-        exerciseCounter.$exerciseTotal.changes
-          .withCurrentValueOf(soundStatus)
-          .withCurrentValueOf($selectedComponent)
-          .map {
-            case ((counter, soundStatus), selectedComponent) =>
-              (counter, soundStatus, selectedComponent)
-          } --> counterAndSoundStatusObserver,
-        $complete --> updateMonitor,
-        conditionallyDisplay(exercise, $selectedComponent),
-        (if (storage.getItem("access_token_fromJS") == "public")
-           div(
-             div("You're not actually logged in!"),
-             a(href := "/oauth/login", cls := "button is-link is-rounded is-size-3", "Re-login")
-           )
-         else
-           div()),
-        div(
-          cls <-- exerciseCounter.$exerciseTotal.map(
-            currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
-          ),
-          div(exercise.humanFriendlyName, cls := "is-size-3"),
-          div(
-            cls("has-text-centered is-size-1"),
-            child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
-          )
-        ),
-        div(
-          child <-- exerciseCounter.$percentageComplete.map(
-            Widgets.progressBar
-          )
-        ),
-        div(
-          button(
-            cls := "button is-link is-rounded is-size-3 mx-2 my-2",
-            disabled <--
-            exerciseCounter.$exerciseTotal.map(
-              exerciseTotal => (exerciseTotal <= 0)
-            ),
-            onClick
-              .map(_ => -exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
-            s"-${exercise.repsPerSet}"
-          ),
-          button(
-            cls := "button is-link is-rounded is-size-3 mx-2 my-2",
-            onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
-            s"+${exercise.repsPerSet}"
-          )
-        ),
-        div(
-          cls("rep-explanation"),
-          div(
-            s"""Session: ${exercise.setsPerSession} set${if (exercise.setsPerSession > 1) "s"
-            else ""} of ${exercise.repsPerSet}"""
-          ),
-          div(s"Daily Goal: ${exercise.dailyGoal} reps")
-        ),
-        child <-- $complete.map {
-          case true  => div("Good job! You reached your daily goal!")
-          case false => div("")
-        }
+    val exerciseSessionComponent: ReactiveHtmlElement[html.Div] =
+      ManualExerciseComponent(
+        exercise,
+        $selectedComponent,
+        storage,
+        updateMonitor,
+        soundCreator,
+        exerciseCounter,
+        soundStatus
       )
 
   }
@@ -340,7 +358,7 @@ object Main {
           )
       )
 
-    def exerciseSessionComponent(): ReactiveHtmlElement[html.Div] =
+    val exerciseSessionComponent: ReactiveHtmlElement[html.Div] =
       div(
         $counterState.changes
           .withCurrentValueOf($soundStatus)
@@ -433,7 +451,6 @@ object Main {
     val $soundStatus =
       soundStatusEventBus.events.foldLeft[SoundStatus](OFF) {
         case (oldStatus: SoundStatus, newStatus: SoundStatus) => {
-          println("New status in parent: " + newStatus)
           newStatus
         }
       }
@@ -503,7 +520,7 @@ object Main {
         soundStatusEventBus.writer,
         soundStatusEventBus.events.toSignal(OFF)
       ),
-      betterExerciseComponents.map(_.exerciseSessionComponent())
+      betterExerciseComponents.map(_.exerciseSessionComponent)
     )
 
     println("going to render laminarApp sunday 10:40")
