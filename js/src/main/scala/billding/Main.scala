@@ -197,7 +197,6 @@ object Main {
           } --> counterAndSoundStatusObserver,
         $complete --> updateMonitor,
         conditionallyDisplay(exercise, $selectedComponent),
-        cls("centered"),
         (if (storage.getItem("access_token_fromJS") == "public")
            div(
              div("You're not actually logged in!"),
@@ -211,19 +210,16 @@ object Main {
           ),
           div(exercise.humanFriendlyName, cls := "is-size-3"),
           div(
-            cls("session-counter"),
-            div(
-              child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
-            )
-          ),
-          div(
-            child <-- exerciseCounter.$percentageComplete.map(
-              Widgets.progressBar
-            )
+            cls("has-text-centered is-size-1"),
+            child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
           )
         ),
         div(
-          cls := "centered",
+          child <-- exerciseCounter.$percentageComplete.map(
+            Widgets.progressBar
+          )
+        ),
+        div(
           button(
             cls := "button is-link is-rounded is-size-3 mx-2 my-2",
             disabled <--
@@ -361,10 +357,9 @@ object Main {
         exerciseCounter.behavior,
         exerciseCounter.exerciseServerResultsBusEvents
           .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
-        cls := "centered",
         div(
           div(exercise.humanFriendlyName, cls := "is-size-3"),
-          div(cls("session-counter"),
+          div(cls("is-size-1 has-text-centered"),
               child.text <-- $countT.map(_.value.toString),
               styleAttr <-- $color.map(color => s"background: $color")),
           div(
@@ -483,7 +478,7 @@ object Main {
     import scala.concurrent.ExecutionContext.Implicits.global
     val appDiv: Div = div(
       idAttr := "full_laminar_app",
-      cls := "centered",
+      cls := " has-text-centered",
       soundStatusEventBus.events --> Observer[SoundStatus] { (nextValue: SoundStatus) =>
         println("About to submit a new soundstatus")
         ApiInteractions.postUserSetting(

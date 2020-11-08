@@ -1,17 +1,3 @@
-.session-counter {
-    text-align: center;
-    font-size: 5em
-}
-
-.exercise-title {
-    text-align: center;
-    font-size: 2em
-}
-
-.centered {
-    text-align: center;
-}
-
 input[type='checkbox'] {
     -webkit-appearance:none;
     width:6em;
