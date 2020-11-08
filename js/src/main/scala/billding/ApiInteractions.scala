@@ -11,6 +11,9 @@ import sttp.model.{Header, Uri}
 import scala.concurrent.ExecutionContext.global
 import scala.concurrent.Future
 
+import io.circe.generic.auto._
+import sttp.client.circe._
+
 object ApiInteractions {
   import sttp.client._
 
