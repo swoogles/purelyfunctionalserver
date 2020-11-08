@@ -416,7 +416,7 @@ object Main {
         div(
           cls := "centered",
           button(
-            cls := "button is-link is-rounded is-size-3",
+            cls := "button is-link is-rounded is-size-3 mx-2 my-2",
             disabled <--
             exerciseCounter.$exerciseTotal.map(
               exerciseTotal => (exerciseTotal <= 0)
@@ -426,7 +426,7 @@ object Main {
             s"-${exercise.repsPerSet}"
           ),
           button(
-            cls := "button is-link is-rounded is-size-3",
+            cls := "button is-link is-rounded is-size-3 mx-2 my-2",
             onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
             s"+${exercise.repsPerSet}"
           )
@@ -543,24 +543,24 @@ object Main {
           .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
         cls := "centered",
         div(
+          div(exercise.humanFriendlyName, cls := "is-size-3"),
           div(cls("session-counter"),
               child.text <-- $countT.map(_.value.toString),
-              styleAttr <-- $color.map(color => s"background: $color")
+              styleAttr <-- $color.map(color => s"background: $color")),
+          div(
+            button("Reset",
+                   cls := "button is-warning is-rounded is-size-4 my-1",
+                   onClick.mapTo(ResetCount) --> counterActionBus)
           ),
           div(
             button(
               "Submit",
-              cls := "button is-link is-rounded",
+              cls := "button is-link is-rounded is-size-2 my-1",
               $countT --> $countVar.writer,
               onClick.map(
                 _ => $countVar.now().value
               ) --> exerciseCounter.submissionsWriter
             )
-          ),
-          div(
-            button("Reset",
-                   cls := "button is-warning is-rounded is-size-3",
-                   onClick.mapTo(ResetCount) --> counterActionBus)
           ),
           div(
             styleAttr := "text-align: center; font-size: 2em",
