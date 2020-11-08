@@ -196,6 +196,20 @@ object Main {
       div(s"Daily Goal: ${exercise.dailyGoal} reps")
     )
 
+  def CounterDisplay(
+    exerciseCounter: ServerBackedExerciseCounter,
+    exercise: Exercise
+  ) =
+    div(
+      cls <-- exerciseCounter.$exerciseTotal.map(
+        currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
+      ),
+      div(exercise.humanFriendlyName, cls := "is-size-3"),
+      child <-- exerciseCounter.$exerciseTotal.map(
+        count => div(cls("has-text-centered is-size-1"), count.toString)
+      )
+    )
+
   def ManualExerciseComponent(
     exercise: ExerciseGenericWithReps,
     $selectedComponent: Signal[Exercise],
@@ -226,15 +240,7 @@ object Main {
       exerciseCounter.$complete --> updateMonitor,
       conditionallyDisplay(exercise, $selectedComponent),
       BrokenLoginPrompt(storage),
-      div(
-        cls <-- exerciseCounter.$exerciseTotal.map(
-          currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
-        ),
-        div(exercise.humanFriendlyName, cls := "is-size-3"),
-        child <-- exerciseCounter.$exerciseTotal.map(
-          count => div(cls("has-text-centered is-size-1"), count.toString)
-        )
-      ),
+      CounterDisplay(exerciseCounter, exercise),
       child <-- exerciseCounter.$percentageComplete.map(
         Widgets.progressBar
       ),
@@ -380,10 +386,7 @@ object Main {
               (counter, soundStatus, selectedComponent)
           } --> counterAndSoundStatusObserver,
         conditionallyDisplay(exercise, $selectedComponent),
-        (if (storage.getItem("access_token_fromJS") == "public")
-           div("You're not actually logged in!")
-         else
-           div()),
+        BrokenLoginPrompt(storage),
         exerciseCounter.behavior,
         exerciseCounter.exerciseServerResultsBusEvents
           .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
@@ -409,16 +412,11 @@ object Main {
           ),
           div(
             styleAttr := "text-align: center; font-size: 2em",
-            span("Daily Total:"),
-            span(
-              child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
-            ),
-            span(styleAttr := "font-size: 2em")
+            div("Daily Total:"),
+            child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
           ),
-          div(
-            child <-- exerciseCounter.$percentageComplete.map(
-              Widgets.progressBar
-            )
+          child <-- exerciseCounter.$percentageComplete.map(
+            Widgets.progressBar
           ),
           child <-- EventStream
             .fromFuture(ApiInteractions.getHistory(storage, exercise))
@@ -437,7 +435,7 @@ object Main {
   def laminarStuff(storage: Storage, appElement: raw.Element) = {
     val allExerciseCounters = Var[Seq[(ExerciseSessionComponent, Boolean)]](Seq())
     val updateMonitor = Observer[(Boolean, Exercise)](onNext = {
-      case (isComplete, exercise) => {
+      case (isComplete, exercise) =>
         allExerciseCounters.update(
           previousExerciseCounters =>
             previousExerciseCounters.map {
@@ -451,7 +449,6 @@ object Main {
               }
             }
         )
-      }
     })
 
     val componentSelections = new EventBus[Exercise]
@@ -521,8 +518,6 @@ object Main {
               Setting("SoundStatus")
             )
             .map { settingWithValue =>
-              println("Returned setting with value : " + settingWithValue)
-              println("Value: " + settingWithValue.value)
               if (settingWithValue.value == "FULL") FULL else OFF
             }
         ) --> soundStatusEventBus.writer,
@@ -556,11 +551,8 @@ object Main {
       .register("./sw-opt.js", js.Dynamic.literal(scope = "./"))
       .toFuture
       .onComplete {
-        case Success(registration) => {
-          println("successful registration!")
+        case Success(registration) =>
           registration.update()
-          println("updated registration!")
-        }
         case Failure(error) =>
           println(
             s"registerServiceWorker: service worker registration failed > ${error.printStackTrace()}"
