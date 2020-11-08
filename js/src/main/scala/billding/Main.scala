@@ -6,9 +6,8 @@ import com.billding.settings.{Setting, SettingWithValue, UserSettingWithValue}
 import com.raquo.airstream.eventbus.EventBus
 import com.raquo.airstream.signal.Signal
 import org.scalajs.dom
-import org.scalajs.dom.{document, html}
+import org.scalajs.dom.{document, html, raw}
 import org.scalajs.dom.raw.{AudioContext, HTMLInputElement, Storage}
-
 import com.raquo.laminar.api.L._
 import com.raquo.laminar.nodes.ReactiveElement.Base
 import com.raquo.laminar.nodes.{ReactiveElement, ReactiveHtmlElement}
@@ -410,7 +409,7 @@ object Main {
       )
   }
 
-  def laminarStuff(storage: Storage) = {
+  def laminarStuff(storage: Storage, appElement: raw.Element) = {
     val allExerciseCounters = Var[Seq[(ExerciseSessionComponent, Boolean)]](Seq())
     val updateMonitor = Observer[(Boolean, Exercise)](onNext = {
       case (isComplete, exercise) => {
@@ -514,13 +513,13 @@ object Main {
 
     println("going to render laminarApp sunday 10:40")
 
-    dom.document.querySelector("#laminarApp").innerHTML = "" // Ugly emptying method
-    render(dom.document.querySelector("#laminarApp"), appDiv)
+    appElement.innerHTML = "" // Ugly emptying method
+    render(appElement, appDiv)
   }
 
   def main(args: Array[String]): Unit = {
     val storage = org.scalajs.dom.window.localStorage
-    laminarStuff(storage)
+    laminarStuff(storage, dom.document.querySelector("#laminarApp"))
 
     if (Meta.accessToken.isDefined) {
       dom.window.location.href =
