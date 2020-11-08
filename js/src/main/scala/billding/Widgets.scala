@@ -17,4 +17,11 @@ object Widgets {
     )
   }
 
+  def progressBar(percentageCompleted: Int) =
+    div(
+      width := s"$percentageCompleted%",
+      cls := "has-background-success",
+      percentageCompleted.toString + "%"
+    )
+
 }

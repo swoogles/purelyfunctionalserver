@@ -310,10 +310,10 @@ object Main {
     postFunc: (Int, String) => Future[Int]
   ) {
     private val exerciseSubmissions = new EventBus[Int]
-    val exerciseSubmissionsWriter = exerciseSubmissions.writer
+    val exerciseSubmissionsWriter: WriteBus[Int] = exerciseSubmissions.writer
 
     private val exerciseServerResultsBus = new EventBus[Int]
-    val exerciseServerResultsBusEvents = exerciseServerResultsBus.events
+    val exerciseServerResultsBusEvents: EventStream[Int] = exerciseServerResultsBus.events
 
     private val exerciseServerResults: EventStream[Int] =
       exerciseSubmissions.events
@@ -322,6 +322,12 @@ object Main {
 
     val $exerciseTotal: Signal[Int] =
       exerciseServerResultsBus.events.foldLeft(0)((acc, next) => next)
+
+    private def percentageComplete(current: Int, goal: Int) =
+      ((current.toFloat / goal.toFloat) * 100).toInt
+
+    val $percentageComplete: Signal[Int] =
+      $exerciseTotal.map(exerciseTotal => percentageComplete(exerciseTotal, exercise.dailyGoal))
 
     private val weirdExerciseCounterCycle
       : Binder[Base] = exerciseServerResults --> exerciseServerResultsBus
@@ -402,9 +408,9 @@ object Main {
             )
           ),
           div(
-            child <-- exerciseCounter.$exerciseTotal.map { exerciseTotal =>
-              Widgets.progressBar(exerciseTotal, exercise.dailyGoal)
-            }
+            child <-- exerciseCounter.$percentageComplete.map(
+              Widgets.progressBar
+            )
           )
         ),
         div(
