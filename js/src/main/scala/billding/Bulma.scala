@@ -1,6 +1,5 @@
 package billding
 
-import billding.Main.{ExerciseSessionComponent, ExerciseSessionComponentWithExternalStatus}
 import com.billding.{FULL, OFF, SoundStatus}
 import com.raquo.laminar.api.L
 import com.raquo.laminar.api.L._

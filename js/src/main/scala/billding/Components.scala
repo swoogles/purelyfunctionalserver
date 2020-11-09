@@ -1,5 +1,6 @@
 package billding
 
+import billding.ExerciseSessionComponent.{Firing, Relaxed, TriggerState}
 import com.billding.exercises.{Exercise, ExerciseGenericWithReps}
 import com.raquo.airstream.eventbus.{EventBus, WriteBus}
 import com.raquo.airstream.eventstream.EventStream
@@ -25,6 +26,9 @@ object Components {
       div(s"Daily Goal: ${exercise.dailyGoal} reps")
     )
 
+  def ExerciseHeader(headerText: String): ReactiveHtmlElement[html.Div] =
+    div(headerText, cls := "is-size-3")
+
   def CounterDisplay(
     $exerciseTotal: Signal[Int],
     exercise: Exercise
@@ -33,7 +37,7 @@ object Components {
       cls <-- $exerciseTotal.map(
         currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
       ),
-      div(exercise.humanFriendlyName, cls := "is-size-3"),
+      ExerciseHeader(exercise.humanFriendlyName),
       child <-- $exerciseTotal.map(
         count => div(cls("has-text-centered is-size-1"), count.toString)
       )
@@ -65,6 +69,19 @@ object Components {
     EventStream
       .fromFuture(ApiInteractions.getHistory(storage, exercise))
       .map(ExerciseHistory)
+
+  def BlinkyBox($countT: Signal[Counter],
+                $counterState: Signal[TriggerState]): ReactiveHtmlElement[html.Div] = {
+    val $color: Signal[String] =
+      $counterState.map {
+        case Firing  => "red"
+        case Relaxed => "green"
+      }
+
+    div(cls("is-size-1 has-text-centered"),
+        child.text <-- $countT.map(_.value.toString),
+        styleAttr <-- $color.map(color => s"background: $color"))
+  }
 
   def SelectorButton(
     $selectedComponent: Signal[Exercise],
@@ -107,6 +124,38 @@ object Components {
 
   }
 
+  def ControlCounterButtons(
+    exerciseCounter: ServerBackedExerciseCounter,
+    exercise: ExerciseGenericWithReps
+  ) =
+    div(
+      button(
+        cls := "button is-link is-rounded is-size-3 mx-2 my-2",
+        disabled <--
+        exerciseCounter.$exerciseTotal.map(
+          exerciseTotal => (exerciseTotal <= 0)
+        ),
+        onClick
+          .map(_ => -exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
+        s"-${exercise.repsPerSet}"
+      ),
+      button(
+        cls := "button is-link is-rounded is-size-3 mx-2 my-2",
+        onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
+        s"+${exercise.repsPerSet}"
+      )
+    )
+
+  def Kudos($complete: Signal[Boolean]): Inserter[Base] =
+    child.text <-- $complete.map {
+      case true  => "Good job! You reached your daily goal!"
+      case false => ""
+    }
+
+  def ProgressBar($percentageComplete: Signal[Int]) =
+    child <-- $percentageComplete.map(
+      Widgets.progressBar
+    )
 }
 
 class ServerBackedExerciseCounter(
