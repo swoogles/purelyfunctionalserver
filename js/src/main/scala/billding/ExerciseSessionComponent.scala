@@ -220,9 +220,7 @@ object ExerciseSessionComponent {
             div("Daily Total:"),
             child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
           ),
-          child <-- exerciseCounter.$percentageComplete.map(
-            Widgets.progressBar
-          ),
+          Components.ProgressBar(exerciseCounter.$percentageComplete),
           child <-- Components.FullyLoadedHistory(exercise, storage),
           RepeatingElement().repeatWithInterval(
             1,

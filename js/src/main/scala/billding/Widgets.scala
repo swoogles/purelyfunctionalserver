@@ -24,4 +24,20 @@ object Widgets {
       percentageCompleted.toString + "%"
     )
 
+  def reversedProgressBar(percentageCompleted: Int) =
+    div(
+      div(
+        styleAttr := "float: left;",
+        width := s"${100 - percentageCompleted}%",
+        cls := "has-background-warning",
+        "." // todo how do I make this appear without anything but whitespace?
+      ),
+      div(
+        styleAttr := "float: right;",
+        width := s"$percentageCompleted%",
+        cls := "has-background-success is-justify-content-right",
+        percentageCompleted.toString + "%"
+      )
+    )
+
 }

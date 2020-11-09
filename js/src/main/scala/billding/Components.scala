@@ -154,7 +154,7 @@ object Components {
 
   def ProgressBar($percentageComplete: Signal[Int]) =
     child <-- $percentageComplete.map(
-      Widgets.progressBar
+      Widgets.reversedProgressBar
     )
 }
 
