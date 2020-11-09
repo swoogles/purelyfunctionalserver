@@ -19,9 +19,18 @@ object Widgets {
 
   def progressBar(percentageCompleted: Int) =
     div(
-      width := s"$percentageCompleted%",
-      cls := "has-background-success",
-      percentageCompleted.toString + "%"
+      div(
+        styleAttr := "float: left;",
+        width := s"$percentageCompleted%",
+        cls := "has-background-success",
+        percentageCompleted.toString + "%"
+      ),
+      div(
+        styleAttr := "float: right;",
+        width := s"${100 - percentageCompleted}%",
+        cls := "has-background-warning",
+        nbsp
+      )
     )
 
   def reversedProgressBar(percentageCompleted: Int) =
@@ -30,14 +39,21 @@ object Widgets {
         styleAttr := "float: left;",
         width := s"${100 - percentageCompleted}%",
         cls := "has-background-warning",
-        "." // todo how do I make this appear without anything but whitespace?
+        nbsp
       ),
       div(
         styleAttr := "float: right;",
         width := s"$percentageCompleted%",
-        cls := "has-background-success is-justify-content-right",
-        percentageCompleted.toString + "%"
+        cls := "has-background-success",
+        nbsp
       )
+    )
+
+  def nonfunctioningVerticalProgressBar(percentageCompleted: Int) =
+    div(
+      height := s"$percentageCompleted%",
+      cls := "has-background-success",
+      nbsp
     )
 
 }

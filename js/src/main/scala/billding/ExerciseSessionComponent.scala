@@ -71,6 +71,7 @@ object ExerciseSessionComponent {
       exerciseCounter.$complete --> updateMonitor,
       conditionallyDisplay(exercise, $selectedComponent),
       Components.BrokenLoginPrompt(storage),
+      Components.ReverseProgressBar(exerciseCounter.$percentageComplete),
       Components.CounterDisplay(exerciseCounter.$exerciseTotal, exercise),
       Components.ProgressBar(exerciseCounter.$percentageComplete),
       Components.ControlCounterButtons(exerciseCounter, exercise),

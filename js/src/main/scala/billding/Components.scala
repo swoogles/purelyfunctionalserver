@@ -154,7 +154,17 @@ object Components {
 
   def ProgressBar($percentageComplete: Signal[Int]) =
     child <-- $percentageComplete.map(
+      Widgets.progressBar
+    )
+
+  def ReverseProgressBar($percentageComplete: Signal[Int]) =
+    child <-- $percentageComplete.map(
       Widgets.reversedProgressBar
+    )
+
+  def VerticalProgressBar($percentageComplete: Signal[Int]) =
+    child <-- $percentageComplete.map(
+      Widgets.nonfunctioningVerticalProgressBar
     )
 }
 
