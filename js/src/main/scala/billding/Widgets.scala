@@ -49,11 +49,36 @@ object Widgets {
       )
     )
 
-  def nonfunctioningVerticalProgressBar(percentageCompleted: Int) =
+  def descendingVerticalProgressBar(percentageCompleted: Int) =
     div(
-      height := s"$percentageCompleted%",
-      cls := "has-background-success",
-      nbsp
+      height := "100%",
+      width := "1em",
+      div(
+        height := s"$percentageCompleted%",
+        cls := "has-background-success",
+        nbsp
+      ),
+      div(
+        height := s"${100 - percentageCompleted}%",
+        cls := "has-background-warning",
+        nbsp
+      )
+    )
+
+  def ascendingVerticalProgressBar(percentageCompleted: Int) =
+    div(
+      height := "100%",
+      width := "1em",
+      div(
+        height := s"${100 - percentageCompleted}%",
+        cls := "has-background-warning",
+        nbsp
+      ),
+      div(
+        height := s"$percentageCompleted%",
+        cls := "has-background-success",
+        nbsp
+      )
     )
 
 }

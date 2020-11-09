@@ -152,7 +152,7 @@ object Components {
       case false => ""
     }
 
-  def ProgressBar($percentageComplete: Signal[Int]) =
+  def ProgressBar($percentageComplete: Signal[Int]): Inserter[Base] =
     child <-- $percentageComplete.map(
       Widgets.progressBar
     )
@@ -162,9 +162,30 @@ object Components {
       Widgets.reversedProgressBar
     )
 
-  def VerticalProgressBar($percentageComplete: Signal[Int]) =
+  def DescendingVerticalProgressBar($percentageComplete: Signal[Int]) =
     child <-- $percentageComplete.map(
-      Widgets.nonfunctioningVerticalProgressBar
+      Widgets.descendingVerticalProgressBar
+    )
+
+  def AscendingVerticalProgressBar($percentageComplete: Signal[Int]) =
+    child <-- $percentageComplete.map(
+      Widgets.ascendingVerticalProgressBar
+    )
+
+  def HolyGrail(
+    headerContent: Inserter[Base],
+    leftContent: Inserter[Base],
+    mainContent: ReactiveHtmlElement[html.Div],
+    rightContent: Inserter[Base],
+    footerContent: Inserter[Base]
+  ) =
+    div(
+      cls := "holy-grail",
+      div(cls := "holy-header", headerContent),
+      div(cls := "left-sidebar", leftContent),
+      div(cls := "holy-main", mainContent),
+      div(cls := "right-sidebar", rightContent),
+      div(cls := "holy-footer", footerContent)
     )
 }
 
