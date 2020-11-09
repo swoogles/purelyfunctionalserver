@@ -58,7 +58,7 @@ object Exercises {
       id = "leaning_shoulder_taps",
       humanFriendlyName = "Leaning Shoulder Taps",
       repsPerSet = 20,
-      setsPerSession = 2,
+      setsPerSession = 1,
       sessionDailyGoal = 2
     ),
     ExerciseGenericWithReps(
@@ -109,6 +109,13 @@ object Exercises {
       humanFriendlyName = "Arm Raises (45 Degrees)",
       repsPerSet = 10,
       setsPerSession = 3,
+      sessionDailyGoal = 2
+    ),
+    ExerciseGenericWithReps(
+      id = "wax_on_wax_off",
+      humanFriendlyName = "Wax-On Wax-Off (w/ towel)",
+      repsPerSet = 20,
+      setsPerSession = 2,
       sessionDailyGoal = 2
     )
   ).sortBy(_.humanFriendlyName)
