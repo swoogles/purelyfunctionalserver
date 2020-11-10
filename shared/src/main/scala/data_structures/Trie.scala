@@ -78,9 +78,8 @@ case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
       // We've fully consumed the input String, so everything below this point is a match
       case Seq() => {
         // children.map{ case (char, node) => }
-        println("all values beneath:")
         allValuesBeneathThisPoint(input) match {
-          case isEmpty => None
+          case emptySet if emptySet.isEmpty => None
           case allValuesBeneath =>
             Some(
               allValuesBeneath
@@ -92,7 +91,6 @@ case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
       }
       // We need to keep eating characters before we can decide what the matches are
       case nextChar +: restOfWord => {
-        println("Recursing with word remainder: " + restOfWord)
         Some(
           this.copy(
             children = children
