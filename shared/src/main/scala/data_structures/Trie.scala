@@ -4,6 +4,7 @@ import scala.collection.immutable.Map
 
 trait Trie {
   def add(s: String): Trie
+  def delete(s: String): Trie
   def contains(s: String): Boolean
   def prefixesMatchingString(s: String): Set[String]
   def stringsMatchingPrefix(s: String): Set[String]
@@ -12,35 +13,6 @@ trait Trie {
 case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
 
   def add(s: Seq[Char]): TrieNode =
-    s match {
-      case nextChar +: Seq() =>
-        children.get(nextChar) match {
-          case Some(childNode) =>
-            this.copy(children = children.updated(nextChar, childNode.copy(hasValue = true)))
-          case None => this.copy(children = children.updated(nextChar, TrieNode(true)))
-        }
-      case nextChar +: restOfString =>
-        children.get(nextChar) match {
-          case Some(childNode) =>
-            this.copy(children = children.updated(nextChar, childNode.add(restOfString)))
-          case None =>
-            this.copy(children = children.updated(nextChar, TrieNode(false).add(restOfString)))
-        }
-    }
-
-  def addV2(s: Seq[Char]): TrieNode =
-    s match {
-      case Seq() => this.copy(hasValue = true)
-      case nextChar +: restOfString =>
-        children.get(nextChar) match {
-          case Some(childNode) =>
-            this.copy(children = children.updated(nextChar, childNode.add(restOfString)))
-          case None =>
-            this.copy(children = children.updated(nextChar, TrieNode(false).add(restOfString)))
-        }
-    }
-
-  def addV3(s: Seq[Char]): TrieNode =
     s match {
       case Seq() => this.copy(hasValue = true)
 
@@ -62,32 +34,31 @@ case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
 
   }
 
-  def prefixesMatchingString(s: Seq[Char], charsSoFar: Seq[Char]): Set[String] = {
-    val thisLevelResults: Set[String] =
-      if (hasValue)
-        Set(charsSoFar.mkString)
-      else Set()
-    s match {
-      case Seq() => thisLevelResults
+  def stringsDownToThisLevel(charsSoFar: Seq[Char]): Set[String] =
+    if (hasValue)
+      Set(charsSoFar.mkString)
+    else Set()
+
+  def prefixesMatchingString(s: Seq[Char], charsSoFar: Seq[Char]): Set[String] =
+    stringsDownToThisLevel(charsSoFar) ++ (s match {
+      case Seq() => Set()
 
       case nextChar +: restOfWord =>
-        (children.get(nextChar) match {
+        children.get(nextChar) match {
           case Some(child) => child.prefixesMatchingString(restOfWord, charsSoFar :+ nextChar)
           case None        => Set()
-        }) ++ thisLevelResults
+        }
+    })
 
-    }
-  }
-
-  def allValuesBeneathThisPoint(charsSoFar: Seq[Char]): Set[String] = {
-    val thisLevelResults: Set[String] =
-      if (hasValue)
-        Set(charsSoFar.mkString)
-      else Set()
+  def allValuesBeneathThisPoint(charsSoFar: Seq[Char]): Set[String] =
     children
       .map { case (key, child) => child.allValuesBeneathThisPoint(charsSoFar :+ key) }
-      .foldLeft(thisLevelResults)(_ ++ _)
-  }
+      .foldLeft(stringsDownToThisLevel(charsSoFar))(_ ++ _)
+
+  val allValuesStrictlyBeneathThisPoint: Set[String] =
+    children
+      .map { case (key, child) => child.allValuesStrictlyBeneathThisPoint }
+      .foldLeft(Set[String]())(_ ++ _)
 
   def stringsMatchingPrefix(s: Seq[Char], charsSoFar: Seq[Char]): Set[String] =
     s match {
@@ -101,13 +72,45 @@ case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
         }
     }
 
+  def delete(input: Seq[Char]): TrieNode =
+    input match {
+      // We've fully consumed the input String, so everything below this point is a match
+      case Seq() => {
+        allValuesStrictlyBeneathThisPoint
+          .foldLeft(this.copy(hasValue = false)) {
+            case (acc, nextValue) => acc.add(nextValue)
+          }
+      }
+      // We need to keep eating characters before we can decide what the matches are
+      case nextChar +: restOfWord => {
+        println("Recursing with word remainder: " + restOfWord)
+        val unaffectedChildren: Map[Char, TrieNode] = children.removed(nextChar)
+        val updatedAffectedChild = children.get(nextChar).map { (child) =>
+          child.delete(restOfWord)
+        }
+        updatedAffectedChild match {
+          case Some(affectedChild) =>
+            this.copy(
+              children =
+                unaffectedChildren + (nextChar -> affectedChild)
+            )
+          case None =>
+            this
+        }
+//        this.copy(
+//          children =
+//          unaffectedChildren + (nextChar -> updatedAffectedChild)
+//        )
+      }
+    }
+
 }
 
 case class TrieImpl(root: TrieNode = TrieNode(false)) extends Trie {
 
   override def add(s: String): TrieImpl =
     TrieImpl(
-      root.addV3(s)
+      root.add(s)
     )
 
   override def contains(s: String): Boolean = root.contains(s)
@@ -116,6 +119,8 @@ case class TrieImpl(root: TrieNode = TrieNode(false)) extends Trie {
     root.prefixesMatchingString(s, Seq())
 
   override def stringsMatchingPrefix(s: String): Set[String] = root.stringsMatchingPrefix(s, Seq())
+
+  override def delete(s: String): Trie = TrieImpl(root.delete(s))
 }
 
 object Trie {
