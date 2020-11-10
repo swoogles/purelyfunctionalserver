@@ -33,7 +33,8 @@ object TrieTest extends TestSuite {
       val trie = TrieImpl()
         .add("me")
         .add("men")
-      pprint.pprintln(trie.delete("me").delete("men"))
+        .add("mentos")
+      pprint.pprintln(trie.delete("mentos"))
     })
   }
 }
