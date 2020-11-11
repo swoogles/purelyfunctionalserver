@@ -96,28 +96,59 @@ case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
             children = children
               .map {
                 case (char, child) =>
-                  if (char == nextChar)
+                  if (char == nextChar) {
                     (char, child.delete(restOfWord))
-                  else
+                  } else
                     (char, Some(child))
               }
               .flatMap { case (char, child) => child.map { (char, _) } }
               .toMap
           )
         )
-//        val unaffectedChildren: Map[Char, TrieNode] = children.removed(nextChar)
-//        val updatedAffectedChild: Option[TrieNode] = children.get(nextChar).flatMap { (child) =>
-//          child.delete(restOfWord)
-//        }
-//        updatedAffectedChild.flatMap {
-//          case affectedChild =>
-//            Some(
-//              this.copy(
-//                children =
-//                  unaffectedChildren + (nextChar -> affectedChild)
-//              )
-//            )
-//        }.getOrElse(Some(this))
+      }
+    }
+
+  def delete2(input: Seq[Char]): Option[TrieNode] =
+    input match {
+      // We've fully consumed the input String, so everything below this point is a match
+      case Seq() => {
+        // children.map{ case (char, node) => }
+        allValuesBeneathThisPoint(input) match {
+          case emptySet if emptySet.isEmpty => None
+          case allValuesBeneath =>
+            Some(
+              allValuesBeneath
+                .foldLeft(this.copy(hasValue = false, children = Map())) {
+                  case (acc, nextValue) => acc.add(nextValue)
+                }
+            )
+        }
+      }
+      // We need to keep eating characters before we can decide what the matches are
+      case nextChar +: restOfWord => {
+        Some(
+          this.copy(
+            children = children
+              .map {
+                case (char, child) =>
+                  if (char == nextChar) {
+                    val deleteResults = child.delete(restOfWord)
+                    val outputChild =
+                      deleteResults match {
+                        case Some(deleteResult) =>
+                          if (deleteResult.allValuesBeneathThisPoint("").isEmpty && !hasValue)
+                            None
+                          else Some(deleteResult)
+                        case None => None
+                      }
+                    (char, outputChild)
+                  } else
+                    (char, Some(child))
+              }
+              .flatMap { case (char, child) => child.map { (char, _) } }
+              .toMap
+          )
+        )
       }
     }
 
@@ -137,7 +168,7 @@ case class TrieImpl(root: TrieNode = TrieNode(false)) extends Trie {
 
   override def stringsMatchingPrefix(s: String): Set[String] = root.stringsMatchingPrefix(s, Seq())
 
-  override def delete(s: String): Trie = TrieImpl(root.delete(s).getOrElse(TrieNode(false)))
+  override def delete(s: String): Trie = TrieImpl(root.delete2(s).getOrElse(TrieNode(false)))
 }
 
 object Trie {
