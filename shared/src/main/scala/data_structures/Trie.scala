@@ -102,7 +102,6 @@ case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
                     (char, Some(child))
               }
               .flatMap { case (char, child) => child.map { (char, _) } }
-              .toMap
           )
         )
       }
@@ -114,41 +113,52 @@ case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
       case Seq() => {
         // children.map{ case (char, node) => }
         allValuesBeneathThisPoint(input) match {
-          case emptySet if emptySet.isEmpty => None
-          case allValuesBeneath =>
+          case emptySet if emptySet.isEmpty => {
+            println("just gonna return None, bro")
+            None
+          }
+          case allValuesBeneath => {
+            println("deleting but returning a Some")
             Some(
               allValuesBeneath
                 .foldLeft(this.copy(hasValue = false, children = Map())) {
                   case (acc, nextValue) => acc.add(nextValue)
                 }
             )
+          }
         }
       }
       // We need to keep eating characters before we can decide what the matches are
       case nextChar +: restOfWord => {
-        Some(
-          this.copy(
-            children = children
-              .map {
-                case (char, child) =>
-                  if (char == nextChar) {
-                    val deleteResults = child.delete(restOfWord)
-                    val outputChild =
-                      deleteResults match {
-                        case Some(deleteResult) =>
-                          if (deleteResult.allValuesBeneathThisPoint("").isEmpty && !hasValue)
-                            None
-                          else Some(deleteResult)
-                        case None => None
-                      }
-                    (char, outputChild)
-                  } else
-                    (char, Some(child))
+        val newChildren = children
+          .map {
+            case (char, child) =>
+              if (char == nextChar) {
+                println("deleting?")
+                val outputChild =
+                  child.delete2(restOfWord).flatMap {
+                    case (deleteResult) => {
+                      pprint.pprintln("values beneath after delete")
+                      pprint.pprintln(deleteResult.allValuesBeneathThisPoint(""))
+                      if (deleteResult.allValuesBeneathThisPoint("").isEmpty && !hasValue) {
+                        None
+                      } else Some(deleteResult)
+                    }
+                  }
+                (char, outputChild)
+              } else
+                (char, Some(child))
+          }
+          .flatMap {
+            case (char, child) =>
+              child.map {
+                (char, _)
               }
-              .flatMap { case (char, child) => child.map { (char, _) } }
-              .toMap
-          )
-        )
+          }
+        if (newChildren.isEmpty)
+          None
+        else
+          Some(this.copy(children = newChildren))
       }
     }
 

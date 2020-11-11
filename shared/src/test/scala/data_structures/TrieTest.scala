@@ -34,6 +34,8 @@ object TrieTest extends TestSuite {
         .add("me")
         .add("men")
         .add("mentos")
+      pprint.pprintln("INitial trie before deletes")
+      pprint.pprintln(trie)
       pprint.pprintln(trie.delete("mentos"))
     })
   }
