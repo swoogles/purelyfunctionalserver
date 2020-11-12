@@ -6,6 +6,10 @@ case class DataBlock(rawContent: String)
 
 case class Hash(value: String)
 
+case class CompositeHash(hashes: Set[Hash]) {
+//  hashes.
+}
+
 object Hash {
 
   def of(dataBlock: DataBlock): Hash =
@@ -20,15 +24,13 @@ object Hash {
 
 trait HashTreeElement {
   val hash: Hash
-
 }
 
 // todo remove case
-case class Leaf(dataBlock: DataBlock) extends HashTreeElement {
-
-  val hash =
-    Hash.of(dataBlock)
-}
+//case class Leaf(dataBlock: DataBlock) extends HashTreeElement {
+//  val hash =
+//    Hash.of(dataBlock)
+//}
 
 case class TransactionLeaf(transaction: Transaction, hash: Hash) extends HashTreeElement {}
 
@@ -52,15 +54,6 @@ object Node {
 
 object MerkleTree {
 
-  def apply(rawData: List[DataBlock]): HashTreeElement =
-    rawData match {
-      case head :: tail =>
-        tail.foldLeft[HashTreeElement](Leaf(head))(
-          (acc, nextBlock) => Node(List(acc, Leaf(nextBlock)))
-        )
-      case Nil => Node(Hash("EMPTY ROOT HASH"), Seq())
-    }
-
   def ofTransactions(rawData: List[Transaction]): HashTreeElement =
     rawData match {
       case head :: tail =>
@@ -71,7 +64,7 @@ object MerkleTree {
     }
 
   // todo dunno that this is actually important
-  def applyInPasses(transactions: List[Transaction]): Hash =
+  def applyInPasses(transactions: List[Transaction]): HashTreeElement =
     applyToNodesInPasses(
       transactions
         .grouped(2)
@@ -83,12 +76,12 @@ object MerkleTree {
         .toList
     )
 
-  def applyToNodesInPasses(transactions: List[Node]): Hash =
-    if (transactions.length == 1)
-      transactions.head.hash
+  def applyToNodesInPasses(nodes: List[Node]): HashTreeElement =
+    if (nodes.length == 1)
+      nodes.head
     else {
       applyToNodesInPasses(
-        transactions
+        nodes
           .grouped(2)
           .map {
             case item1 :: item2 :: Nil => Node(List(item1, item2))
@@ -99,15 +92,23 @@ object MerkleTree {
       )
     }
 
-}
+  def merklePathOf(transaction: Transaction, hashTreeElement: HashTreeElement): Seq[Hash] =
+    hashTreeElement match {
+      case Node(hash, children) =>
+        if (hash.value.contains(transaction.giver.name) || hash.value.contains(transaction.acceptor.name))
+          children.map(merklePathOf(transaction, _)).reduce(_ ++ _)
+        else
+          Seq(hash)
+//          children.map(merklePathOf(transaction, _)).reduce(_ ++ _)
 
-trait User {
-  def submitTransaction(dataBlock: DataBlock, lastKnownState: HashTreeElement): HashTreeElement
-}
+      case TransactionLeaf(leafTransaction, hash) =>
+        if (transaction == leafTransaction)
+          Seq()
+        else
+          Seq(hash)
 
-trait BlockChain {
-  def blocks: List[DataBlock]
-  def addBlock(dataBlock: DataBlock): BlockChain
+    }
+
 }
 
 case class Block(

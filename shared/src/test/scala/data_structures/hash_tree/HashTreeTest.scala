@@ -42,6 +42,31 @@ object HashTreeTest extends TestSuite {
       )
     })
 
+    test({
+      pprint.pprintln(
+        MerkleTree.ofTransactions(List(Transaction(Party("A"), Party("B")), Transaction(Party("C"), Party("D")), Transaction(Party("E"), Party("F"))))
+      )
+    })
+
+    test({
+      val merkleTree =
+        MerkleTree.applyInPasses(
+          List(
+            Transaction(Party("A"), Party("B")),
+            Transaction(Party("C"), Party("D")),
+            Transaction(Party("E"), Party("F")),
+            Transaction(Party("G"), Party("H")),
+            Transaction(Party("I"), Party("J")),
+            Transaction(Party("K"), Party("L")),
+          ))
+
+      pprint.pprintln(
+        MerkleTree.merklePathOf(Transaction(Party("A"), Party("B")),
+          merkleTree
+        )
+      )
+    })
+
   }
 }
 //
