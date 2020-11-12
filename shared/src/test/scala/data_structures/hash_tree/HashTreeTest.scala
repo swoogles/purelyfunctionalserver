@@ -60,11 +60,21 @@ object HashTreeTest extends TestSuite {
             Transaction(Party("K"), Party("L")),
           ))
 
-      pprint.pprintln(
-        MerkleTree.merklePathOf(Transaction(Party("A"), Party("B")),
-          merkleTree
-        )
+      pprint.pprintln("MerkleHash to recreate: " + merkleTree.hash)
+
+      val transaction = Transaction(Party("A"), Party("B"))
+
+      val merklePath =
+      MerkleTree.merklePathOf(
+        transaction,
+        merkleTree
       )
+      pprint.pprintln( merklePath )
+
+      pprint.pprintln("Reconstructed hash:" +
+        merklePath.foldLeft(Hash.of(transaction)){ case (hashSoFar: Hash, nextHash: Hash) => Hash(Seq(hashSoFar, nextHash))}
+      )
+
     })
 
   }

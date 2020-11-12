@@ -20,6 +20,9 @@ object Hash {
 
   def of(header: Header): Hash =
     Hash("BLOCK:" + header.merkleRootHash)
+
+  def apply(children: Seq[Hash]): Hash =
+      Hash(children.map(_.value).mkString(":"))
 }
 
 trait HashTreeElement {
@@ -70,7 +73,7 @@ object MerkleTree {
         .grouped(2)
         .map {
           case item1 :: item2 :: Nil => Node(List(TransactionLeaf(item1), TransactionLeaf(item2)))
-          case item1 :: Nil          => Node(List(TransactionLeaf(item1), TransactionLeaf(item1)))
+          case item1 :: Nil          => Node(List(TransactionLeaf(item1))) // The real thing hashes item1 twice
           case Nil                   => throw new RuntimeException("not handled")
         }
         .toList
@@ -85,7 +88,7 @@ object MerkleTree {
           .grouped(2)
           .map {
             case item1 :: item2 :: Nil => Node(List(item1, item2))
-            case item1 :: Nil          => Node(List(item1, item1))
+            case item1 :: Nil          => Node(List(item1)) // The real thing hashes item1 twice
             case Nil                   => throw new RuntimeException("not handled")
           }
           .toList
