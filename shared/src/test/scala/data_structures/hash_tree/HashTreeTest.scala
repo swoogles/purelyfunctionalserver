@@ -35,6 +35,13 @@ object HashTreeTest extends TestSuite {
         )
       )
     })
+
+    test({
+      pprint.pprintln(
+        MerkleTree.ofTransactions(List(Transaction(Party("A"), Party("B")), Transaction(Party("C"), Party("D")), Transaction(Party("E"), Party("F"))))
+      )
+    })
+
   }
 }
 //

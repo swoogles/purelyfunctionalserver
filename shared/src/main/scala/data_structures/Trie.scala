@@ -56,11 +56,6 @@ case class TrieNode(hasValue: Boolean, children: Map[Char, TrieNode] = Map()) {
       .foldLeft(stringsDownToThisLevel(charsSoFar))(_ ++ _)
       .filter(_.nonEmpty)
 
-  val allValuesStrictlyBeneathThisPoint: Set[String] =
-    children
-      .map { case (key, child) => child.allValuesStrictlyBeneathThisPoint }
-      .foldLeft(Set[String]())(_ ++ _)
-
   def stringsMatchingPrefix(s: Seq[Char], charsSoFar: Seq[Char]): Set[String] =
     s match {
       // We've fully consumed the input String, so everything below this point is a match
