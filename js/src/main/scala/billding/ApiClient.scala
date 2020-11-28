@@ -14,17 +14,19 @@ import scala.concurrent.Future
 import io.circe.generic.auto._
 import sttp.client.circe._
 
-object ApiInteractions {
+class ApiClient(host: String,
+                accessToken: Option[String] // TODO Should be updatable in some way
+) {
   import sttp.client._
 
-  val exerciseUri: Uri = uri"${Meta.host}/exercises"
-  val quadSetUri: Uri = uri"${Meta.host}/exercises/QuadSets"
+  val exerciseUri: Uri = uri"${host}/exercises"
+  val quadSetUri: Uri = uri"${host}/exercises/QuadSets"
 
   implicit val backend = FetchBackend()
   implicit val ec = global
 
   def getHistory(storage: Storage, exercise: Exercise): Future[List[DailyQuantizedExercise]] = {
-    val historyUri: Uri = uri"${Meta.host}/exercises/${exercise.id}"
+    val historyUri: Uri = uri"${host}/exercises/${exercise.id}"
 
     val request = {
       if (storage
@@ -34,10 +36,10 @@ object ApiInteractions {
           .get(historyUri)
           .auth
           .bearer(storage.getItem("access_token_fromJS"))
-      } else if (Meta.accessToken.isDefined) { // We have a queryParameter token. Use it for getting authorized info. Non-ideal.
+      } else if (accessToken.isDefined) { // We have a queryParameter token. Use it for getting authorized info. Non-ideal.
         basicRequest
-          .get(historyUri.param("access_token", Meta.accessToken.get))
-          .header(Header.authorization("Bearer", Meta.accessToken.get))
+          .get(historyUri.param("access_token", accessToken.get))
+          .header(Header.authorization("Bearer", accessToken.get))
       } else { // no token. Request information for public, chaotic user.
         basicRequest
           .get(historyUri)
@@ -67,16 +69,16 @@ object ApiInteractions {
   def getUserSetting(setting: Setting): Future[UserSettingWithValue] = {
     val storage = org.scalajs.dom.window.localStorage
 
-    val settingsUri: Uri = uri"${Meta.host}/user_settings/${setting.name}"
+    val settingsUri: Uri = uri"${host}/user_settings/${setting.name}"
     val request =
       if (storage.getItem("access_token_fromJS").nonEmpty) {
         basicRequest
           .get(settingsUri)
           .auth
           .bearer(storage.getItem("access_token_fromJS"))
-      } else if (Meta.accessToken.isDefined) {
+      } else if (accessToken.isDefined) {
         basicRequest
-          .get(settingsUri.param("access_token", Meta.accessToken.get))
+          .get(settingsUri.param("access_token", accessToken.get))
       } else {
         basicRequest
           .get(settingsUri)
@@ -106,7 +108,7 @@ object ApiInteractions {
   def postUserSetting(setting: SettingWithValue): Future[Int] = {
     val storage = org.scalajs.dom.window.localStorage
 
-    val settingsUri: Uri = uri"${Meta.host}/user_settings"
+    val settingsUri: Uri = uri"${host}/user_settings"
     val request =
       if (storage.getItem("access_token_fromJS").nonEmpty) {
         basicRequest
@@ -114,9 +116,9 @@ object ApiInteractions {
           .auth
           .bearer(storage.getItem("access_token_fromJS"))
           .body(setting)
-      } else if (Meta.accessToken.isDefined) {
+      } else if (accessToken.isDefined) {
         basicRequest
-          .post(settingsUri.param("access_token", Meta.accessToken.get))
+          .post(settingsUri.param("access_token", accessToken.get))
           .body(setting)
       } else {
         basicRequest
@@ -154,10 +156,10 @@ object ApiInteractions {
           .auth
           .bearer(storage.getItem("access_token_fromJS"))
           .body(exercise)
-      } else if (Meta.accessToken.isDefined) {
+      } else if (accessToken.isDefined) {
         basicRequest
           .body(exercise)
-          .post(exerciseUri.param("access_token", Meta.accessToken.get))
+          .post(exerciseUri.param("access_token", accessToken.get))
       } else {
         basicRequest
           .body(exercise)

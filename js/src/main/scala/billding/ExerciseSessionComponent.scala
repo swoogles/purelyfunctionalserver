@@ -141,7 +141,8 @@ object ExerciseSessionComponent {
                                              postFunc: (Int, String) => Future[Int],
                                              storage: Storage,
                                              soundCreator: SoundCreator,
-                                             $soundStatus: Signal[SoundStatus])
+                                             $soundStatus: Signal[SoundStatus],
+                                             apiClient: ApiClient)
       extends ExerciseSessionComponent {
 
     private val exerciseCounter =
@@ -226,7 +227,7 @@ object ExerciseSessionComponent {
             child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
           ),
           Components.ProgressBar(exerciseCounter.$percentageComplete),
-          child <-- Components.FullyLoadedHistory(exercise, storage),
+          child <-- Components.FullyLoadedHistory(exercise, storage, apiClient),
           RepeatingElement().repeatWithInterval(
             1,
             duration

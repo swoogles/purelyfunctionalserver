@@ -65,9 +65,10 @@ object Components {
     )
 
   def FullyLoadedHistory(exercise: Exercise,
-                         storage: Storage): EventStream[ReactiveHtmlElement[html.Div]] =
+                         storage: Storage,
+                         apiClient: ApiClient): EventStream[ReactiveHtmlElement[html.Div]] =
     EventStream
-      .fromFuture(ApiInteractions.getHistory(storage, exercise))
+      .fromFuture(apiClient.getHistory(storage, exercise))
       .map(ExerciseHistory)
 
   def BlinkyBox($countT: Signal[Counter],

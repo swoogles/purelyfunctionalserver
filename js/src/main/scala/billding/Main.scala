@@ -46,6 +46,7 @@ object Meta {
 
 object Main {
   var audioContext = new AudioContext()
+  val apiClient = new ApiClient(Meta.host, Meta.accessToken)
 
   def laminarStuff(storage: Storage, appElement: raw.Element) = {
     val allExerciseCounters = Var[Seq[(ExerciseSessionComponent, Boolean)]](Seq())
@@ -87,7 +88,7 @@ object Main {
               componentSelections.writer,
               exercise,
               $selectedComponent,
-              ApiInteractions.postExerciseSession,
+              apiClient.postExerciseSession,
               new SoundCreator, // TODO Encapuslate $soundStatus in SoundCreator
               storage,
               updateMonitor.contramap[Boolean](isComplete => (isComplete, exercise)),
@@ -96,10 +97,11 @@ object Main {
         ) :+ TickingExerciseCounterComponent(componentSelections.writer,
                                              Exercises.QuadSets,
                                              $selectedComponent,
-                                             ApiInteractions.postExerciseSession,
+                                             apiClient.postExerciseSession,
                                              storage,
                                              new SoundCreator,
-                                             $soundStatus)
+                                             $soundStatus,
+                                             apiClient)
 
     allExerciseCounters.set(betterExerciseComponents.map((_, false)))
 
@@ -122,13 +124,13 @@ object Main {
       cls := " has-text-centered",
       soundStatusEventBus.events --> Observer[SoundStatus] { (nextValue: SoundStatus) =>
         println("About to submit a new soundstatus")
-        ApiInteractions.postUserSetting(
+        apiClient.postUserSetting(
           SettingWithValue(Setting("SoundStatus"), nextValue.toString)
         )
       },
       EventStream
         .fromFuture(
-          ApiInteractions
+          apiClient
             .getUserSetting(
               Setting("SoundStatus")
             )
