@@ -142,10 +142,12 @@ class ApiClient(host: String,
   }
 
   //todo accept storage as parameter
-  def postExerciseSession(count: Int, exerciseName: String): Future[Int] = {
+  def postExerciseSession(count: Increment, exerciseName: String): Future[Int] = {
     val localDate = Time.formattedLocalDate()
     val exercise =
-      DailyQuantizedExercise(name = exerciseName, day = LocalDate.parse(localDate), count = count)
+      DailyQuantizedExercise(name = exerciseName,
+                             day = LocalDate.parse(localDate),
+                             count = count.value)
 
     val storage = org.scalajs.dom.window.localStorage
 

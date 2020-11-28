@@ -88,7 +88,7 @@ object ExerciseSessionComponent {
     componentSelections: WriteBus[Exercise],
     val exercise: ExerciseGenericWithReps,
     $selectedComponent: Signal[Exercise],
-    postFunc: (Int, String) => Future[Int],
+    postFunc: (Increment, String) => Future[Int],
     soundCreator: SoundCreator,
     storage: Storage,
     updateMonitor: Observer[Boolean],
@@ -138,7 +138,7 @@ object ExerciseSessionComponent {
   case class TickingExerciseCounterComponent(componentSelections: WriteBus[Exercise],
                                              exercise: Exercise,
                                              $selectedComponent: Signal[Exercise],
-                                             postFunc: (Int, String) => Future[Int],
+                                             postFunc: (Increment, String) => Future[Int],
                                              storage: Storage,
                                              soundCreator: SoundCreator,
                                              $soundStatus: Signal[SoundStatus],
@@ -216,9 +216,11 @@ object ExerciseSessionComponent {
               "Submit",
               cls := "button is-link is-rounded is-size-2 my-1",
               $countT --> $countVar.writer,
-              onClick.map(
-                _ => $countVar.now().value
-              ) --> exerciseCounter.submissionsWriter
+              onClick
+                .map(
+                  _ => $countVar.now().value
+                )
+                .map(Increment) --> exerciseCounter.submissionsWriter
             )
           ),
           div(

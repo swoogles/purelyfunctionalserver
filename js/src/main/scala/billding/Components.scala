@@ -137,12 +137,13 @@ object Components {
           exerciseTotal => (exerciseTotal <= 0)
         ),
         onClick
-          .map(_ => -exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
+          .map(_ => -exercise.repsPerSet)
+          .map(Increment) --> exerciseCounter.submissionsWriter,
         s"-${exercise.repsPerSet}"
       ),
       button(
         cls := "button is-link is-rounded is-size-3 mx-2 my-2",
-        onClick.map(_ => exercise.repsPerSet) --> exerciseCounter.submissionsWriter,
+        onClick.map(_ => exercise.repsPerSet).map(Increment) --> exerciseCounter.submissionsWriter,
         s"+${exercise.repsPerSet}"
       )
     )
@@ -192,10 +193,10 @@ object Components {
 
 class ServerBackedExerciseCounter(
   exercise: Exercise,
-  postFunc: (Int, String) => Future[Int]
+  postFunc: (Increment, String) => Future[Int]
 ) {
-  private val exerciseSubmissions = new EventBus[Int]
-  val submissionsWriter: WriteBus[Int] = exerciseSubmissions.writer
+  private val exerciseSubmissions = new EventBus[Increment]
+  val submissionsWriter: WriteBus[Increment] = exerciseSubmissions.writer
 
   private val exerciseServerResultsBus = new EventBus[Int]
   val exerciseServerResultsBusEvents: EventStream[Int] = exerciseServerResultsBus.events
@@ -222,7 +223,7 @@ class ServerBackedExerciseCounter(
 
   private val initializeCount =
     EventStream
-      .fromFuture(postFunc(0, exercise.id)) --> exerciseServerResultsBus
+      .fromFuture(postFunc(Increment(0), exercise.id)) --> exerciseServerResultsBus
 
   val behavior: ReactiveHtmlElement[html.Div] =
     div(
