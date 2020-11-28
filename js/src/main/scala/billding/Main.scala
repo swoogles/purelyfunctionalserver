@@ -92,7 +92,8 @@ object Main {
               new SoundCreator, // TODO Encapuslate $soundStatus in SoundCreator
               storage,
               updateMonitor.contramap[Boolean](isComplete => (isComplete, exercise)),
-              $soundStatus
+              $soundStatus,
+              apiClient
             )
         ) :+ TickingExerciseCounterComponent(componentSelections.writer,
                                              Exercises.QuadSets,

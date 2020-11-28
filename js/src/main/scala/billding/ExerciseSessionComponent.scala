@@ -48,7 +48,8 @@ object ExerciseSessionComponent {
     updateMonitor: Observer[Boolean],
     soundCreator: SoundCreator,
     exerciseCounter: ServerBackedExerciseCounter,
-    soundStatus: Signal[SoundStatus]
+    soundStatus: Signal[SoundStatus],
+    apiClient: ApiClient
   ): ReactiveHtmlElement[html.Div] = {
 
     val counterAndSoundStatusObserver = Observer[(PersistentDailyTotal, SoundStatus, Exercise)] {
@@ -80,7 +81,8 @@ object ExerciseSessionComponent {
       ),
       Components.ControlCounterButtons(exerciseCounter, exercise),
       Components.GoalExplanation(exercise),
-      Components.Kudos(exerciseCounter.$complete)
+      Components.Kudos(exerciseCounter.$complete),
+      child <-- Components.FullyLoadedHistory(exercise, storage, apiClient)
     )
   }
 
@@ -92,7 +94,8 @@ object ExerciseSessionComponent {
     soundCreator: SoundCreator,
     storage: Storage,
     updateMonitor: Observer[Boolean],
-    soundStatus: Signal[SoundStatus]
+    soundStatus: Signal[SoundStatus],
+    apiClient: ApiClient
   ) extends ExerciseSessionComponent {
 
     val exerciseCounter =
@@ -114,7 +117,8 @@ object ExerciseSessionComponent {
         updateMonitor,
         soundCreator,
         exerciseCounter,
-        soundStatus
+        soundStatus,
+        apiClient
       )
 
   }
