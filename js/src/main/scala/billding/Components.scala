@@ -193,7 +193,7 @@ object Components {
 
 class ServerBackedExerciseCounter(
   exercise: Exercise,
-  postFunc: (Increment, String) => Future[Int]
+  postFunc: (Increment, Exercise) => Future[Int]
 ) {
   private val exerciseSubmissions = new EventBus[Increment]
   val submissionsWriter: WriteBus[Increment] = exerciseSubmissions.writer
@@ -203,7 +203,7 @@ class ServerBackedExerciseCounter(
 
   private val exerciseServerResults: EventStream[Int] =
     exerciseSubmissions.events
-      .map(submission => EventStream.fromFuture(postFunc(submission, exercise.id)))
+      .map(submission => EventStream.fromFuture(postFunc(submission, exercise)))
       .flatten
 
   val $exerciseTotal: Signal[Int] =
@@ -223,7 +223,7 @@ class ServerBackedExerciseCounter(
 
   private val initializeCount =
     EventStream
-      .fromFuture(postFunc(Increment(0), exercise.id)) --> exerciseServerResultsBus
+      .fromFuture(postFunc(Increment(0), exercise)) --> exerciseServerResultsBus
 
   val behavior: ReactiveHtmlElement[html.Div] =
     div(

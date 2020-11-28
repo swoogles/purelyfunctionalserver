@@ -142,10 +142,10 @@ class ApiClient(host: String,
   }
 
   //todo accept storage as parameter
-  def postExerciseSession(count: Increment, exerciseName: String): Future[Int] = {
+  def postExerciseSession(count: Increment, exercise: Exercise): Future[Int] = {
     val localDate = Time.formattedLocalDate()
-    val exercise =
-      DailyQuantizedExercise(name = exerciseName,
+    val dailyQuantizedExercise =
+      DailyQuantizedExercise(name = exercise.id,
                              day = LocalDate.parse(localDate),
                              count = count.value)
 
@@ -157,14 +157,14 @@ class ApiClient(host: String,
           .post(exerciseUri)
           .auth
           .bearer(storage.getItem("access_token_fromJS"))
-          .body(exercise)
+          .body(dailyQuantizedExercise)
       } else if (accessToken.isDefined) {
         basicRequest
-          .body(exercise)
+          .body(dailyQuantizedExercise)
           .post(exerciseUri.param("access_token", accessToken.get))
       } else {
         basicRequest
-          .body(exercise)
+          .body(dailyQuantizedExercise)
           .post(exerciseUri)
       }
 
