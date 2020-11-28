@@ -65,13 +65,54 @@ object HashTreeTest extends TestSuite {
       val transaction = Transaction(Party("A"), Party("B"))
 
       val merklePath =
-      MerkleTree.merklePathOf(
-        transaction,
-        merkleTree
-      )
+        MerkleTree.merklePathOf(
+          transaction,
+          merkleTree
+        )
+
       pprint.pprintln( merklePath )
 
-      pprint.pprintln("Reconstructed hash:" +
+      pprint.pprintln("    Reconstructed hash: " +
+        merklePath.foldLeft(Hash.of(transaction)){ case (hashSoFar: Hash, nextHash: Hash) => Hash(Seq(hashSoFar, nextHash))}
+      )
+
+    })
+
+    test({
+      val merkleTree =
+        MerkleTree.applyInPasses(
+          List(
+            Transaction(Party("A"), Party("A")),
+            Transaction(Party("B"), Party("B")),
+            Transaction(Party("C"), Party("C")),
+            Transaction(Party("D"), Party("D")),
+            Transaction(Party("E"), Party("E")),
+            Transaction(Party("F"), Party("F")),
+            Transaction(Party("G"), Party("G")),
+            Transaction(Party("H"), Party("H")),
+            Transaction(Party("I"), Party("I")),
+            Transaction(Party("J"), Party("J")),
+            Transaction(Party("K"), Party("K")),
+            Transaction(Party("L"), Party("L")),
+            Transaction(Party("M"), Party("M")),
+            Transaction(Party("N"), Party("N")),
+            Transaction(Party("O"), Party("O")),
+            Transaction(Party("P"), Party("P")),
+          ))
+
+      pprint.pprintln("MerkleHash to recreate: " + merkleTree.hash)
+
+      val transaction = Transaction(Party("K"), Party("K"))
+
+      val merklePath =
+        MerkleTree.merklePathOf(
+          transaction,
+          merkleTree
+        )
+
+      pprint.pprintln( merklePath )
+
+      pprint.pprintln("    Reconstructed hash: " +
         merklePath.foldLeft(Hash.of(transaction)){ case (hashSoFar: Hash, nextHash: Hash) => Hash(Seq(hashSoFar, nextHash))}
       )
 

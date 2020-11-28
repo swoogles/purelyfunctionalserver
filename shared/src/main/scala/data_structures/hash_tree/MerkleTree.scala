@@ -16,13 +16,14 @@ object Hash {
     Hash(dataBlock.rawContent + "#")
 
   def of(transaction: Transaction): Hash =
-    Hash("#" + transaction.acceptor.name + "->" + transaction.giver.name + "#")
+    // Hash("#" + transaction.acceptor.name + "->" + transaction.giver.name + "#") // TODO Restore this after imitating picture
+    Hash(transaction.acceptor.name)
 
   def of(header: Header): Hash =
     Hash("BLOCK:" + header.merkleRootHash)
 
   def apply(children: Seq[Hash]): Hash =
-      Hash(children.map(_.value).mkString(":"))
+    Hash(children.map(_.value).mkString(":"))
 }
 
 trait HashTreeElement {
@@ -73,8 +74,9 @@ object MerkleTree {
         .grouped(2)
         .map {
           case item1 :: item2 :: Nil => Node(List(TransactionLeaf(item1), TransactionLeaf(item2)))
-          case item1 :: Nil          => Node(List(TransactionLeaf(item1))) // The real thing hashes item1 twice
-          case Nil                   => throw new RuntimeException("not handled")
+          case item1 :: Nil =>
+            Node(List(TransactionLeaf(item1))) // The real thing hashes item1 twice
+          case Nil => throw new RuntimeException("not handled")
         }
         .toList
     )
@@ -98,7 +100,9 @@ object MerkleTree {
   def merklePathOf(transaction: Transaction, hashTreeElement: HashTreeElement): Seq[Hash] =
     hashTreeElement match {
       case Node(hash, children) =>
-        if (hash.value.contains(transaction.giver.name) || hash.value.contains(transaction.acceptor.name))
+        if (hash.value.contains(transaction.giver.name) || hash.value.contains(
+              transaction.acceptor.name
+            ))
           children.map(merklePathOf(transaction, _)).reduce(_ ++ _)
         else
           Seq(hash)
