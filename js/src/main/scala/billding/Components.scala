@@ -115,7 +115,7 @@ object Components {
       ),
       div(
         child.text <-- $exerciseTotal.map(
-          count => count + "/" + exercise.dailyGoal
+          exerciseTotal => exerciseTotal.count + "/" + exercise.dailyGoal
         )
       ),
       indicateSelectedButton(),
