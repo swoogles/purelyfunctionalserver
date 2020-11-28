@@ -18,7 +18,7 @@ import org.scalajs.dom.experimental.serviceworkers.toServiceWorkerNavigator
 import scala.scalajs.js
 import scala.util.{Failure, Success}
 
-object Meta {
+private class Meta(document: org.scalajs.dom.html.Document) {
 
   val (host, path) =
     document.URL.split("/").splitAt(3) match {
@@ -46,9 +46,9 @@ object Meta {
 
 object Main {
   var audioContext = new AudioContext()
-  val apiClient = new ApiClient(Meta.host, Meta.accessToken)
 
-  def laminarStuff(storage: Storage, appElement: raw.Element) = {
+  def laminarStuff(storage: Storage, appElement: raw.Element, meta: Meta) = {
+    val apiClient = new ApiClient(meta.host, meta.accessToken)
     val allExerciseCounters = Var[Seq[(ExerciseSessionComponent, Boolean)]](Seq())
     val updateMonitor = Observer[(Boolean, Exercise)](onNext = {
       case (isComplete, exercise) =>
@@ -154,9 +154,12 @@ object Main {
   }
 
   def main(args: Array[String]): Unit = {
-    laminarStuff(org.scalajs.dom.window.localStorage, dom.document.querySelector("#laminarApp"))
+    val meta = new Meta(document)
+    laminarStuff(org.scalajs.dom.window.localStorage,
+                 dom.document.querySelector("#laminarApp"),
+                 meta)
 
-    if (Meta.accessToken.isDefined) {
+    if (meta.accessToken.isDefined) {
       dom.window.location.href =
         "https://purelyfunctionalserver.herokuapp.com/resources/html/PhysicalTherapyTracker/index.html"
     }
