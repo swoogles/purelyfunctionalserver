@@ -91,6 +91,14 @@ object Components {
     componentSelections: WriteBus[Exercise],
     $exerciseTotal: Signal[PersistentDailyTotal]
   ): ReactiveHtmlElement[html.Div] = {
+    /* This prevents a string conversion bug where I was displaying:
+        PersistentDailyTotal(0)/20
+       instead of:
+        0/20
+     */
+    def renderFraction(numerator: Int, denominator: Int) =
+      s"$numerator/$denominator"
+
     def indicateSelectedButton(
       ): Binder[HtmlElement] =
       cls <--
@@ -115,14 +123,7 @@ object Components {
       ),
       div(
         child.text <-- $exerciseTotal.map(
-          /* this string conversion allowed a bug to slip through where I was displaying:
-              PersistentDailyTotal(0)/20
-             instead of:
-              0/20
-
-              TODO Figure out how to make this impossible in the future
-           */
-          exerciseTotal => exerciseTotal.count + "/" + exercise.dailyGoal
+          exerciseTotal => renderFraction(exerciseTotal.count, exercise.dailyGoal)
         )
       ),
       indicateSelectedButton(),
