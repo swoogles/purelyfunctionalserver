@@ -1,6 +1,6 @@
 package billding
 
-import com.billding.exercises.{Exercise, ExerciseGenericWithReps}
+import com.billding.exercises.{Exercise, ExerciseGenericWithReps, PersistentDailyTotal}
 import com.billding.{FULL, SoundStatus}
 import com.raquo.airstream.eventbus.EventBus
 import com.raquo.airstream.signal.Signal
@@ -51,10 +51,10 @@ object ExerciseSessionComponent {
     soundStatus: Signal[SoundStatus]
   ): ReactiveHtmlElement[html.Div] = {
 
-    val counterAndSoundStatusObserver = Observer[(Int, SoundStatus, Exercise)] {
-      case (currentCount, soundStatus, selectedExercise) =>
+    val counterAndSoundStatusObserver = Observer[(PersistentDailyTotal, SoundStatus, Exercise)] {
+      case (dailyTotal, soundStatus, selectedExercise) =>
         if (soundStatus == FULL && selectedExercise == exercise) {
-          if (currentCount == exercise.dailyGoal) soundCreator.goalReached.play()
+          if (dailyTotal.count == exercise.dailyGoal) soundCreator.goalReached.play()
           else soundCreator.addExerciseSet.play()
         }
     }
@@ -88,7 +88,7 @@ object ExerciseSessionComponent {
     componentSelections: WriteBus[Exercise],
     val exercise: ExerciseGenericWithReps,
     $selectedComponent: Signal[Exercise],
-    postFunc: (Increment, Exercise) => Future[Int],
+    postFunc: (Increment, Exercise) => Future[PersistentDailyTotal],
     soundCreator: SoundCreator,
     storage: Storage,
     updateMonitor: Observer[Boolean],
@@ -135,15 +135,16 @@ object ExerciseSessionComponent {
 
   case object Relaxed extends TriggerState
 
-  case class TickingExerciseCounterComponent(componentSelections: WriteBus[Exercise],
-                                             exercise: Exercise,
-                                             $selectedComponent: Signal[Exercise],
-                                             postFunc: (Increment, Exercise) => Future[Int],
-                                             storage: Storage,
-                                             soundCreator: SoundCreator,
-                                             $soundStatus: Signal[SoundStatus],
-                                             apiClient: ApiClient)
-      extends ExerciseSessionComponent {
+  case class TickingExerciseCounterComponent(
+    componentSelections: WriteBus[Exercise],
+    exercise: Exercise,
+    $selectedComponent: Signal[Exercise],
+    postFunc: (Increment, Exercise) => Future[PersistentDailyTotal],
+    storage: Storage,
+    soundCreator: SoundCreator,
+    $soundStatus: Signal[SoundStatus],
+    apiClient: ApiClient
+  ) extends ExerciseSessionComponent {
 
     private val exerciseCounter =
       new ServerBackedExerciseCounter(exercise, postFunc)
@@ -202,7 +203,7 @@ object ExerciseSessionComponent {
         Components.BrokenLoginPrompt(storage),
         exerciseCounter.behavior,
         exerciseCounter.exerciseServerResultsBusEvents
-          .map[CounterAction](result => if (result != 0) ResetCount else DoNotUpdate) --> counterActionBus,
+          .map[CounterAction](result => if (result.count != 0) ResetCount else DoNotUpdate) --> counterActionBus,
         div(
           Components.ExerciseHeader(exercise.humanFriendlyName),
           Components.BlinkyBox($countT, $triggerState),

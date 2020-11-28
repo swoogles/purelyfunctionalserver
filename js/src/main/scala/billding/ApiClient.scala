@@ -2,7 +2,7 @@ package billding
 
 import java.time.LocalDate
 
-import com.billding.exercises.Exercise
+import com.billding.exercises.{Exercise, PersistentDailyTotal}
 import com.billding.settings.{Setting, SettingWithValue, UserSettingWithValue}
 import exercises.DailyQuantizedExercise
 import org.scalajs.dom.raw.Storage
@@ -10,7 +10,6 @@ import sttp.model.{Header, Uri}
 
 import scala.concurrent.ExecutionContext.global
 import scala.concurrent.Future
-
 import io.circe.generic.auto._
 import sttp.client.circe._
 
@@ -142,7 +141,7 @@ class ApiClient(host: String,
   }
 
   //todo accept storage as parameter
-  def postExerciseSession(count: Increment, exercise: Exercise): Future[Int] = {
+  def postExerciseSession(count: Increment, exercise: Exercise): Future[PersistentDailyTotal] = {
     val localDate = Time.formattedLocalDate()
     val dailyQuantizedExercise =
       DailyQuantizedExercise(name = exercise.id,
@@ -173,11 +172,11 @@ class ApiClient(host: String,
     } yield {
       response.body match {
         case Right(jsonBody) => {
-          jsonBody.toInt
+          PersistentDailyTotal(jsonBody.toInt)
         }
         case Left(failure) => {
           println("Failed to submit armstretches with error: " + failure)
-          0
+          PersistentDailyTotal(0) // TODO should probably pass the failure along
         }
       }
     }

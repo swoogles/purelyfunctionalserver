@@ -1,7 +1,7 @@
 package billding
 
 import billding.ExerciseSessionComponent.{Firing, Relaxed, TriggerState}
-import com.billding.exercises.{Exercise, ExerciseGenericWithReps}
+import com.billding.exercises.{Exercise, ExerciseGenericWithReps, PersistentDailyTotal}
 import com.raquo.airstream.eventbus.{EventBus, WriteBus}
 import com.raquo.airstream.eventstream.EventStream
 import com.raquo.airstream.signal.Signal
@@ -30,12 +30,13 @@ object Components {
     div(headerText, cls := "is-size-3")
 
   def CounterDisplay(
-    $exerciseTotal: Signal[Int],
+    $exerciseTotal: Signal[PersistentDailyTotal],
     exercise: Exercise
   ): ReactiveHtmlElement[html.Div] =
     div(
       cls <-- $exerciseTotal.map(
-        currentCount => if (currentCount >= exercise.dailyGoal) "has-background-success" else ""
+        exerciseTotal =>
+          if (exerciseTotal.count >= exercise.dailyGoal) "has-background-success" else ""
       ),
       ExerciseHeader(exercise.humanFriendlyName),
       child <-- $exerciseTotal.map(
@@ -88,18 +89,18 @@ object Components {
     $selectedComponent: Signal[Exercise],
     exercise: Exercise,
     componentSelections: WriteBus[Exercise],
-    $exerciseTotal: Signal[Int]
+    $exerciseTotal: Signal[PersistentDailyTotal]
   ): ReactiveHtmlElement[html.Div] = {
     def indicateSelectedButton(
       ): Binder[HtmlElement] =
       cls <--
       $selectedComponent.combineWith($exerciseTotal).map {
-        case (selectedExercise, currentCount) =>
+        case (selectedExercise, dailyTotal) =>
           "small " +
           (if (selectedExercise == exercise)
              "is-primary has-background-primary"
            else {
-             if (currentCount >= exercise.dailyGoal)
+             if (dailyTotal.count >= exercise.dailyGoal)
                "is-success is-rounded is-light"
              else
                "is-link is-rounded "
@@ -134,7 +135,7 @@ object Components {
         cls := "button is-link is-rounded is-size-3 mx-2 my-2",
         disabled <--
         exerciseCounter.$exerciseTotal.map(
-          exerciseTotal => (exerciseTotal <= 0)
+          exerciseTotal => (exerciseTotal.count <= 0)
         ),
         onClick
           .map(_ => -exercise.repsPerSet)
@@ -193,30 +194,33 @@ object Components {
 
 class ServerBackedExerciseCounter(
   exercise: Exercise,
-  postFunc: (Increment, Exercise) => Future[Int]
+  postFunc: (Increment, Exercise) => Future[PersistentDailyTotal]
 ) {
   private val exerciseSubmissions = new EventBus[Increment]
   val submissionsWriter: WriteBus[Increment] = exerciseSubmissions.writer
 
-  private val exerciseServerResultsBus = new EventBus[Int]
-  val exerciseServerResultsBusEvents: EventStream[Int] = exerciseServerResultsBus.events
+  private val exerciseServerResultsBus = new EventBus[PersistentDailyTotal]
 
-  private val exerciseServerResults: EventStream[Int] =
+  val exerciseServerResultsBusEvents: EventStream[PersistentDailyTotal] =
+    exerciseServerResultsBus.events
+
+  private val exerciseServerResults: EventStream[PersistentDailyTotal] =
     exerciseSubmissions.events
       .map(submission => EventStream.fromFuture(postFunc(submission, exercise)))
       .flatten
 
-  val $exerciseTotal: Signal[Int] =
-    exerciseServerResultsBus.events.foldLeft(0)((acc, next) => next)
+  val $exerciseTotal: Signal[PersistentDailyTotal] =
+    // The initial value is _not_ persistent, so I'm starting with a lie.
+    exerciseServerResultsBus.events.foldLeft(PersistentDailyTotal(0))((acc, next) => next)
 
   private def percentageComplete(current: Int, goal: Int) =
     ((current.toFloat / goal.toFloat) * 100).toInt
 
   val $percentageComplete: Signal[Int] =
-    $exerciseTotal.map(exerciseTotal => percentageComplete(exerciseTotal, exercise.dailyGoal))
+    $exerciseTotal.map(exerciseTotal => percentageComplete(exerciseTotal.count, exercise.dailyGoal))
 
   val $complete: Signal[Boolean] =
-    $exerciseTotal.map(_ >= exercise.dailyGoal)
+    $exerciseTotal.map(exercisetotal => exercisetotal.count >= exercise.dailyGoal)
 
   private val weirdExerciseCounterCycle
     : Binder[Base] = exerciseServerResults --> exerciseServerResultsBus
