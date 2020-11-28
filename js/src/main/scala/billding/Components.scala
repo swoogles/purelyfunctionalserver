@@ -143,7 +143,8 @@ object Components {
         cls := "button is-link is-rounded is-size-3 mx-2 my-2",
         disabled <--
         exerciseCounter.$exerciseTotal.map(
-          exerciseTotal => (exerciseTotal.count <= 0)
+          exerciseTotal =>
+            (exerciseTotal.count <= 0) // TODO should this comparison be part of the total?
         ),
         onClick
           .map(_ => -exercise.repsPerSet)
