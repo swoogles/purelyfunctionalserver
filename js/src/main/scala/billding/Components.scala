@@ -1,7 +1,12 @@
 package billding
 
 import billding.ExerciseSessionComponent.{Firing, Relaxed, TriggerState}
-import com.billding.exercises.{Exercise, ExerciseGenericWithReps, PersistentDailyTotal}
+import com.billding.exercises.{
+  Exercise,
+  ExerciseGenericWithReps,
+  ExerciseHistory,
+  PersistentDailyTotal
+}
 import com.raquo.airstream.eventbus.{EventBus, WriteBus}
 import com.raquo.airstream.eventstream.EventStream
 import com.raquo.airstream.signal.Signal
@@ -55,13 +60,13 @@ object Components {
       div()
 
   private def ExerciseHistory(
-    quadsets: List[DailyQuantizedExercise]
+    exerciseHistory: ExerciseHistory
   ): ReactiveHtmlElement[html.Div] =
     div(
       cls := "is-size-5",
-      quadsets
+      exerciseHistory.exercises
         .map(
-          quadSet => div(span(quadSet.day + ": "), span(quadSet.count.toString))
+          exercise => div(span(exercise.day + ": "), span(exercise.count.toString))
         )
     )
 

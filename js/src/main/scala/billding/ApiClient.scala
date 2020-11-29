@@ -2,7 +2,7 @@ package billding
 
 import java.time.LocalDate
 
-import com.billding.exercises.{Exercise, PersistentDailyTotal}
+import com.billding.exercises.{Exercise, ExerciseHistory, PersistentDailyTotal}
 import com.billding.settings.{Setting, SettingWithValue, UserSettingWithValue}
 import exercises.DailyQuantizedExercise
 import org.scalajs.dom.raw.Storage
@@ -24,7 +24,7 @@ class ApiClient(host: String,
   implicit val backend = FetchBackend()
   implicit val ec = global
 
-  def getHistory(storage: Storage, exercise: Exercise): Future[List[DailyQuantizedExercise]] = {
+  def getHistory(storage: Storage, exercise: Exercise): Future[ExerciseHistory] = {
     val historyUri: Uri = uri"${host}/exercises/${exercise.id}"
 
     val request = {
@@ -52,12 +52,12 @@ class ApiClient(host: String,
         case Right(jsonBody) => {
           circe.deserializeJson[List[DailyQuantizedExercise]].apply(jsonBody) match {
             case Right(value) =>
-              value
-            case Left(failure) => List()
+              ExerciseHistory(value)
+            case Left(failure) => ExerciseHistory(List())
           }
         }
         case Left(failure) =>
-          List()
+          ExerciseHistory(List())
       }
     }
 
