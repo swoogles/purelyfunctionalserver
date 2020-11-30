@@ -1,5 +1,6 @@
 package exercises
 
+import com.billding.exercises.ExerciseHistory
 import fs2.Stream
 import zio.Task
 
@@ -10,6 +11,12 @@ class ExerciseLogic(exerciseRepository: ExerciseRepository) {
     exerciseRepository
       .getExerciseHistoryForUser(name, userIdOpt)
       .drop(1) // Drop today's record. It will be displayed elsewhere.
+
+  def getExerciseHistoryListFor(name: String, userIdOpt: String) =
+    exerciseRepository
+      .getExerciseHistoryListForUser(name, userIdOpt)
+      .map(_.drop(1))
+      .map(ExerciseHistory)
 
   def createOrUpdate(
     dailyQuantizedExercise: DailyQuantizedExercise

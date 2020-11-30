@@ -2,6 +2,8 @@ package exercises
 
 import java.time.LocalDate
 
+import cats._, cats.data._, cats.implicits._
+import doobie._
 import doobie.implicits._
 import doobie.util.transactor.Transactor
 import fs2.Stream
@@ -16,6 +18,12 @@ trait ExerciseRepository {
   ): Task[Option[DailyQuantizedExercise]]
   def deleteEmptyExerciseRecords(exercise: DailyQuantizedExercise): Task[Int]
   def getExerciseHistoryForUser(name: String, userId: String): Stream[Task, DailyQuantizedExercise]
+
+  def getExerciseHistoryListForUser(
+    name: String,
+    userId: String
+  ): Task[List[exercises.DailyQuantizedExercise]]
+
   def createExercise(exercise: DailyQuantizedExercise): Task[DailyQuantizedExercise]
 
   def updateQuantizedExercise(
@@ -35,6 +43,18 @@ class ExerciseRepositoryImpl(transactor: Transactor[Task]) extends ExerciseRepos
           LIMIT 15"""
       .query[DailyQuantizedExercise]
       .stream
+      .transact(transactor)
+
+  def getExerciseHistoryListForUser(
+    name: String,
+    userId: String
+  ): Task[List[exercises.DailyQuantizedExercise]] =
+    sql"""SELECT id, name, day, count, user_id FROM daily_quantized_exercises
+          WHERE name = $name AND user_id = ${userId}
+          ORDER BY day DESC
+          LIMIT 15"""
+      .query[DailyQuantizedExercise]
+      .to[List]
       .transact(transactor)
 
   def getExercise(

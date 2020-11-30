@@ -50,9 +50,9 @@ class ApiClient(host: String,
     } yield {
       response.body match {
         case Right(jsonBody) => {
-          circe.deserializeJson[List[DailyQuantizedExercise]].apply(jsonBody) match {
+          circe.deserializeJson[ExerciseHistory].apply(jsonBody) match {
             case Right(value) =>
-              ExerciseHistory(value)
+              value
             case Left(failure) => ExerciseHistory(List())
           }
         }

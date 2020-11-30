@@ -1,6 +1,7 @@
 package exercises
 
 import auth.AuthLogic
+import com.billding.exercises.ExerciseHistory
 import fs2.Stream
 import io.circe.generic.auto._
 import io.circe.syntax._
@@ -21,14 +22,21 @@ class ExerciseService(
 
     case request @ GET -> Root / exerciseName => {
       val user = authLogic.getUserFromRequest(request)
-      Ok(
-        Stream("[") ++
-        exerciseLogic
-          .getExerciseHistoriesFor(exerciseName, user.id)
-          .map(_.asJson.noSpaces)
-          .intersperse(",") ++ Stream("]"),
-        `Content-Type`(MediaType.application.json)
-      )
+
+      for {
+        result <- exerciseLogic
+          .getExerciseHistoryListFor(exerciseName, user.id)
+          .map(
+            exerciseHistory =>
+              Ok(
+                exerciseHistory.asJson.noSpaces,
+                `Content-Type`(MediaType.application.json)
+              )
+          )
+        bigResult <- result
+      } yield {
+        bigResult
+      }
     }
 
     case req @ POST -> Root => {
