@@ -10,10 +10,13 @@ import com.billding.exercises.{
 import com.raquo.airstream.eventbus.{EventBus, WriteBus}
 import com.raquo.airstream.eventstream.EventStream
 import com.raquo.airstream.signal.Signal
+import com.raquo.domtypes.jsdom.defs.events.TypedTargetMouseEvent
 import com.raquo.laminar.api.L._
+import com.raquo.laminar.modifiers.EventPropBinder
 import com.raquo.laminar.nodes.ReactiveElement.Base
 import com.raquo.laminar.nodes.ReactiveHtmlElement
 import exercises.DailyQuantizedExercise
+import org.scalajs.dom
 import org.scalajs.dom.raw.Storage
 import org.scalajs.dom.{html, Storage}
 
@@ -76,6 +79,13 @@ object Components {
     EventStream
       .fromFuture(apiClient.getHistory(storage, exercise))
       .map(ExerciseHistory)
+
+  def ResetButton(
+    x: EventPropBinder[TypedTargetMouseEvent[dom.Element]]
+  ): ReactiveHtmlElement[html.Div] =
+    div(
+      button("Reset", cls := "button is-warning is-rounded is-size-4 my-1", x)
+    )
 
   def BlinkyBox($countT: Signal[Counter],
                 $counterState: Signal[TriggerState]): ReactiveHtmlElement[html.Div] = {

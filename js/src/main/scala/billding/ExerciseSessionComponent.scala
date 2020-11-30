@@ -4,8 +4,11 @@ import com.billding.exercises.{Exercise, ExerciseGenericWithReps, PersistentDail
 import com.billding.{FULL, SoundStatus}
 import com.raquo.airstream.eventbus.EventBus
 import com.raquo.airstream.signal.Signal
+import com.raquo.domtypes.jsdom.defs.events.TypedTargetMouseEvent
 import com.raquo.laminar.api.L._
+import com.raquo.laminar.modifiers.EventPropBinder
 import com.raquo.laminar.nodes.ReactiveHtmlElement
+import org.scalajs.dom
 import org.scalajs.dom.html
 import org.scalajs.dom.raw.Storage
 
@@ -229,11 +232,7 @@ object ExerciseSessionComponent {
         div(
           Components.ExerciseHeader(exercise.humanFriendlyName),
           Components.BlinkyBox($countT, $triggerState),
-          div(
-            button("Reset",
-                   cls := "button is-warning is-rounded is-size-4 my-1",
-                   onClick.mapTo(ResetCount) --> resetButtonCounterUpdates)
-          ),
+          Components.ResetButton(onClick.mapTo(ResetCount) --> resetButtonCounterUpdates),
           div(
             button(
               "Submit",
