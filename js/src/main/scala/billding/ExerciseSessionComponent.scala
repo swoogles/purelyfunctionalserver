@@ -243,7 +243,9 @@ object ExerciseSessionComponent {
         div(
           cls("is-size-3 has-text-centered"),
           div("Daily Total:"),
-          child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
+          child <-- exerciseCounter.$exerciseTotal.map(
+            persistentDailyTotal => div(persistentDailyTotal.count.toString)
+          )
         ),
         Components.ProgressBar(exerciseCounter.$percentageComplete),
         Components.FullyLoadedHistory(exercise, storage, apiClient),

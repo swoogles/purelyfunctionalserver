@@ -48,7 +48,8 @@ object Components {
       ),
       ExerciseHeader(exercise.humanFriendlyName),
       child <-- $exerciseTotal.map(
-        count => div(cls("has-text-centered is-size-1"), count.toString)
+        persistentDailyTotal =>
+          div(cls("has-text-centered is-size-1"), persistentDailyTotal.count.toString)
       )
     )
 
