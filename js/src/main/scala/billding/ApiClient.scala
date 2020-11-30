@@ -48,19 +48,18 @@ class ApiClient(host: String,
     for {
       response: Response[Either[String, String]] <- request.send()
     } yield {
-      response.body match {
-        case Right(jsonBody) => {
-          circe.deserializeJson[ExerciseHistory].apply(jsonBody) match {
-            case Right(value) =>
-              value
-            case Left(failure) => ExerciseHistory(List())
+      response.body
+        .map { jsonBody =>
+          {
+            circe.deserializeJson[ExerciseHistory].apply(jsonBody) match {
+              case Right(value) =>
+                value
+              case Left(failure) => throw new RuntimeException("Deserialization error: " + failure)
+            }
           }
         }
-        case Left(failure) =>
-          ExerciseHistory(List())
-      }
+        .getOrElse(throw new RuntimeException("unknown failure"))
     }
-
   }
 
   def getUserSetting(setting: Setting): Future[UserSettingWithValue] = {

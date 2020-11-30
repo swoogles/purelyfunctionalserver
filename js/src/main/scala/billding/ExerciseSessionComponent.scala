@@ -160,11 +160,27 @@ object ExerciseSessionComponent {
         (counterState, _) => if (counterState == Relaxed) Firing else Relaxed
       )
 
-    private val counterActionBus = new EventBus[CounterAction]()
+    val resetActions = new EventBus[CounterAction]
+
+    /*
+      This is a HUGE improvement on the weird bus manipulation I was doing within the dom structure below.
+      I've got 3 sources of updates for my counter, and now that's very explicit and cohesive here.
+     */
+    val counterUpdates: EventStream[CounterAction] =
+      EventStream.merge(
+        // Updates counter based on ticking
+        $triggerState.map[CounterAction](
+          counterState => if (counterState == Relaxed) Increment(1) else DoNotUpdate
+        ).changes,
+        // Updates counter based user-initiated reset events
+        exerciseCounter.exerciseServerResultsBusEvents
+          .map[CounterAction](result => if (result.count != 0) ResetCount else DoNotUpdate),
+        resetActions.events
+      )
 
     // Doing this to get the initial count
     private val $countT: Signal[Counter] =
-      counterActionBus.events.withCurrentValueOf($selectedComponent).foldLeft(Counter(0)) {
+      counterUpdates.withCurrentValueOf($selectedComponent).foldLeft(Counter(0)) {
         case (acc, (next, selectedComponent)) =>
           if (selectedComponent == exercise)
             CounterAction.update(next, acc)
@@ -206,15 +222,13 @@ object ExerciseSessionComponent {
         conditionallyDisplay(exercise, $selectedComponent),
         Components.BrokenLoginPrompt(storage),
         exerciseCounter.behavior,
-        exerciseCounter.exerciseServerResultsBusEvents
-          .map[CounterAction](result => if (result.count != 0) ResetCount else DoNotUpdate) --> counterActionBus,
         div(
           Components.ExerciseHeader(exercise.humanFriendlyName),
           Components.BlinkyBox($countT, $triggerState),
           div(
             button("Reset",
                    cls := "button is-warning is-rounded is-size-4 my-1",
-                   onClick.mapTo(ResetCount) --> counterActionBus)
+                   onClick.mapTo(ResetCount) --> resetActions)
           ),
           div(
             button(
@@ -238,10 +252,7 @@ object ExerciseSessionComponent {
           RepeatingElement().repeatWithInterval(
             1,
             duration
-          ) --> clockTicks,
-          $triggerState.map[CounterAction](
-            counterState => if (counterState == Relaxed) Increment(1) else DoNotUpdate
-          ).changes --> counterActionBus
+          ) --> clockTicks
         )
       )
 
