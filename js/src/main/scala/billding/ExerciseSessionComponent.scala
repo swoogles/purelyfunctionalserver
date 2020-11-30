@@ -160,22 +160,26 @@ object ExerciseSessionComponent {
         (counterState, _) => if (counterState == Relaxed) Firing else Relaxed
       )
 
-    val resetActions = new EventBus[CounterAction]
+    private val resetButtonCounterUpdates = new EventBus[CounterAction]
+
+    private val tickBasedCounterUpdates =
+      $triggerState.map[CounterAction](
+        counterState => if (counterState == Relaxed) Increment(1) else DoNotUpdate
+      ).changes
+
+    private val serverResponseCounterUpdates =
+      exerciseCounter.exerciseServerResultsBusEvents
+        .map[CounterAction](result => if (result.count != 0) ResetCount else DoNotUpdate)
 
     /*
       This is a HUGE improvement on the weird bus manipulation I was doing within the dom structure below.
       I've got 3 sources of updates for my counter, and now that's very explicit and cohesive here.
      */
-    val counterUpdates: EventStream[CounterAction] =
+    private val counterUpdates: EventStream[CounterAction] =
       EventStream.merge(
-        // Updates counter based on ticking
-        $triggerState.map[CounterAction](
-          counterState => if (counterState == Relaxed) Increment(1) else DoNotUpdate
-        ).changes,
-        // Updates counter based user-initiated reset events
-        exerciseCounter.exerciseServerResultsBusEvents
-          .map[CounterAction](result => if (result.count != 0) ResetCount else DoNotUpdate),
-        resetActions.events
+        tickBasedCounterUpdates,
+        serverResponseCounterUpdates,
+        resetButtonCounterUpdates.events
       )
 
     // Doing this to get the initial count
@@ -191,7 +195,7 @@ object ExerciseSessionComponent {
     private val $countVar: Var[Counter] = Var(Counter(0))
 
     // TODO See if this triggers unwanted noises when soundStatus changes
-    val counterAndSoundStatusObserver = Observer[(TriggerState, SoundStatus, Exercise)] {
+    private val counterAndSoundStatusObserver = Observer[(TriggerState, SoundStatus, Exercise)] {
       case (triggerState, soundStatus, selectedExercise) => {
         if (soundStatus == FULL && selectedExercise == exercise) {
           if (triggerState == Firing) soundCreator.startSound.play()
@@ -228,7 +232,7 @@ object ExerciseSessionComponent {
           div(
             button("Reset",
                    cls := "button is-warning is-rounded is-size-4 my-1",
-                   onClick.mapTo(ResetCount) --> resetActions)
+                   onClick.mapTo(ResetCount) --> resetButtonCounterUpdates)
           ),
           div(
             button(
