@@ -47,11 +47,13 @@ object Components {
           if (exerciseTotal.count >= exercise.dailyGoal) "has-background-success" else ""
       ),
       ExerciseHeader(exercise.humanFriendlyName),
-      child <-- $exerciseTotal.map(
-        persistentDailyTotal =>
-          div(cls("has-text-centered is-size-1"), persistentDailyTotal.count.toString)
+      child <-- $exerciseTotal.map(_.count).map(
+        CenteredNumber
       )
     )
+
+  def CenteredNumber(count: Int) =
+    div(cls("has-text-centered is-size-1"), count.toString)
 
   // Notice that this is the only class so far that uses an org.scalajs class
   def BrokenLoginPrompt(storage: Storage): ReactiveHtmlElement[html.Div] =
