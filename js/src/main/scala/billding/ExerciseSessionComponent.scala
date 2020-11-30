@@ -75,17 +75,13 @@ object ExerciseSessionComponent {
       exerciseCounter.$complete --> updateMonitor,
       conditionallyDisplay(exercise, $selectedComponent),
       Components.BrokenLoginPrompt(storage),
-      Components.HolyGrail(
-        Components.ReverseProgressBar(exerciseCounter.$percentageComplete),
-        Components.DescendingVerticalProgressBar(exerciseCounter.$percentageComplete),
-        Components.CounterDisplay(exerciseCounter.$exerciseTotal, exercise),
-        Components.AscendingVerticalProgressBar(exerciseCounter.$percentageComplete),
-        Components.ProgressBar(exerciseCounter.$percentageComplete)
-      ),
+      Components.SpiralingStatusBars(exerciseCounter.$percentageComplete,
+                                     exerciseCounter.$exerciseTotal,
+                                     exercise),
       Components.ControlCounterButtons(exerciseCounter, exercise),
       Components.GoalExplanation(exercise),
       Components.Kudos(exerciseCounter.$complete),
-      child <-- Components.FullyLoadedHistory(exercise, storage, apiClient)
+      Components.FullyLoadedHistory(exercise, storage, apiClient)
     )
   }
 
@@ -229,34 +225,32 @@ object ExerciseSessionComponent {
         conditionallyDisplay(exercise, $selectedComponent),
         Components.BrokenLoginPrompt(storage),
         exerciseCounter.behavior,
+        Components.ExerciseHeader(exercise.humanFriendlyName),
+        Components.BlinkyBox($countT, $triggerState),
+        Components.ResetButton(onClick.mapTo(ResetCount) --> resetButtonCounterUpdates),
+        $countT --> $countVar.writer,
         div(
-          Components.ExerciseHeader(exercise.humanFriendlyName),
-          Components.BlinkyBox($countT, $triggerState),
-          Components.ResetButton(onClick.mapTo(ResetCount) --> resetButtonCounterUpdates),
-          div(
-            button(
-              "Submit",
-              cls := "button is-link is-rounded is-size-2 my-1",
-              $countT --> $countVar.writer,
-              onClick
-                .map(
-                  _ => $countVar.now().value
-                )
-                .map(Increment) --> exerciseCounter.submissionsWriter
-            )
-          ),
-          div(
-            cls("is-size-3 has-text-centered"),
-            div("Daily Total:"),
-            child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
-          ),
-          Components.ProgressBar(exerciseCounter.$percentageComplete),
-          child <-- Components.FullyLoadedHistory(exercise, storage, apiClient),
-          RepeatingElement().repeatWithInterval(
-            1,
-            duration
-          ) --> clockTicks
-        )
+          button(
+            "Submit",
+            cls := "button is-link is-rounded is-size-2 my-1",
+            onClick
+              .map(
+                _ => $countVar.now().value
+              )
+              .map(Increment) --> exerciseCounter.submissionsWriter
+          )
+        ),
+        div(
+          cls("is-size-3 has-text-centered"),
+          div("Daily Total:"),
+          child <-- exerciseCounter.$exerciseTotal.map(count => div(count.toString))
+        ),
+        Components.ProgressBar(exerciseCounter.$percentageComplete),
+        Components.FullyLoadedHistory(exercise, storage, apiClient),
+        RepeatingElement().repeatWithInterval(
+          1,
+          duration
+        ) --> clockTicks
       )
 
   }

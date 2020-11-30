@@ -75,10 +75,12 @@ object Components {
 
   def FullyLoadedHistory(exercise: Exercise,
                          storage: Storage,
-                         apiClient: ApiClient): EventStream[ReactiveHtmlElement[html.Div]] =
-    EventStream
-      .fromFuture(apiClient.getHistory(storage, exercise))
-      .map(ExerciseHistory)
+                         apiClient: ApiClient): ReactiveHtmlElement[html.Div] =
+    div(
+      child <-- EventStream
+        .fromFuture(apiClient.getHistory(storage, exercise))
+        .map(ExerciseHistory)
+    )
 
   def ResetButton(
     x: EventPropBinder[TypedTargetMouseEvent[dom.Element]]
@@ -214,6 +216,18 @@ object Components {
       div(cls := "right-sidebar", rightContent),
       div(cls := "holy-footer", footerContent)
     )
+
+  def SpiralingStatusBars($percentageComplete: Signal[Int],
+                          $exerciseTotal: Signal[PersistentDailyTotal],
+                          exercise: ExerciseGenericWithReps) =
+    HolyGrail(
+      ReverseProgressBar($percentageComplete),
+      DescendingVerticalProgressBar($percentageComplete),
+      CounterDisplay($exerciseTotal, exercise),
+      AscendingVerticalProgressBar($percentageComplete),
+      ProgressBar($percentageComplete)
+    )
+
 }
 
 class ServerBackedExerciseCounter(
