@@ -112,6 +112,13 @@ object Exercises {
       sessionDailyGoal = 2
     ),
     ExerciseGenericWithReps(
+      id = "incline_push_ups",
+      humanFriendlyName = "Incline Push Ups",
+      repsPerSet = 10,
+      setsPerSession = 3,
+      sessionDailyGoal = 2
+    ),
+    ExerciseGenericWithReps(
       id = "wax_on_wax_off",
       humanFriendlyName = "Wax-On Wax-Off (w/ towel)",
       repsPerSet = 20,

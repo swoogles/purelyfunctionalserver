@@ -220,6 +220,7 @@ object Components {
       div(cls := "holy-footer", footerContent)
     )
 
+  // TODO Get rid of 1 one of these parameters by leveraging the others
   def SpiralingStatusBars($percentageComplete: Signal[Int],
                           $exerciseTotal: Signal[PersistentDailyTotal],
                           exercise: ExerciseGenericWithReps) =
