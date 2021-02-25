@@ -36,7 +36,16 @@ object Exercises {
       humanFriendlyName = "Lying External Rotation with aid",
       repsPerSet = 10,
       setsPerSession = 1,
-      sessionDailyGoal = 2
+      sessionDailyGoal = 1
+    )
+
+  val kickCounter =
+    ExerciseGenericWithReps(
+      id = "kick_counter",
+      humanFriendlyName = "Count Laser blasts!",
+      repsPerSet = 1,
+      setsPerSession = 10,
+      sessionDailyGoal = 1
     )
 
   val manuallyCountedExercises: Seq[ExerciseGenericWithReps] = List(

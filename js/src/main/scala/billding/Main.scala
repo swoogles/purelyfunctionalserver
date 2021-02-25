@@ -2,7 +2,8 @@ package billding
 
 import billding.ExerciseSessionComponent.{
   ExerciseSessionComponentWithExternalStatus,
-  TickingExerciseCounterComponent
+  TickingExerciseCounterComponent,
+  TickingManualExerciseComponent
 }
 import com.billding.{FULL, OFF, SoundStatus}
 import com.billding.exercises.{Exercise, Exercises}
@@ -70,7 +71,7 @@ object Main {
     val componentSelections = new EventBus[Exercise]
     val $selectedComponent: Signal[Exercise] =
       componentSelections.events
-        .foldLeft[Exercise](Exercises.supineShoulderExternalRotation)((_, selection) => selection)
+        .foldLeft[Exercise](Exercises.kickCounter)((_, selection) => selection)
 
     val soundStatusEventBus = new EventBus[SoundStatus]
     val $soundStatus =
@@ -102,7 +103,16 @@ object Main {
                                              storage,
                                              new SoundCreator,
                                              $soundStatus,
-                                             apiClient)
+                                             apiClient) :+ TickingManualExerciseComponent(
+        componentSelections.writer,
+        Exercises.kickCounter,
+        $selectedComponent,
+        apiClient.postExerciseSession,
+        storage,
+        new SoundCreator,
+        $soundStatus,
+        apiClient
+      )
 
     allExerciseCounters.set(betterExerciseComponents.map((_, false)))
 

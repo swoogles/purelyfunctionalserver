@@ -138,6 +138,107 @@ object ExerciseSessionComponent {
 
   case object Relaxed extends TriggerState
 
+  case class TickingManualExerciseComponent(
+    componentSelections: WriteBus[Exercise],
+    exercise: ExerciseGenericWithReps,
+    $selectedComponent: Signal[Exercise],
+    postFunc: (Increment, Exercise) => Future[PersistentDailyTotal],
+    storage: Storage,
+    soundCreator: SoundCreator,
+    $soundStatus: Signal[SoundStatus],
+    apiClient: ApiClient
+  ) extends ExerciseSessionComponent {
+
+    // TODO DRY?
+    private val exerciseCounter =
+      new ServerBackedExerciseCounter(exercise, postFunc)
+
+    // TODO See if this triggers unwanted noises when soundStatus changes
+    private val $countVar: Var[Counter] = Var(Counter(0))
+
+    private val counterAndSoundStatusObserver = Observer[(TriggerState, SoundStatus, Exercise)] {
+      case (triggerState, soundStatus, selectedExercise) => {
+        if (soundStatus == FULL && selectedExercise == exercise) {
+          if (triggerState == Firing) soundCreator.startSound.play()
+          else soundCreator.endSound.play()
+        }
+      }
+    }
+
+    val exerciseSelectButton: ReactiveHtmlElement[html.Div] =
+      Components.SelectorButton(
+        $selectedComponent,
+        exercise: Exercise,
+        componentSelections,
+        exerciseCounter.$exerciseTotal
+      )
+    private val clockTicks = new EventBus[Int]
+
+    private val $triggerState: Signal[TriggerState] =
+      clockTicks.events.foldLeft[TriggerState](Relaxed)(
+        (counterState, _) => if (counterState == Relaxed) Firing else Relaxed
+      )
+
+    private val tickBasedCounterUpdates =
+      $triggerState.map[CounterAction](
+        counterState => if (counterState == Relaxed) Increment(1) else DoNotUpdate
+      ).changes
+
+    private val resetButtonCounterUpdates = new EventBus[CounterAction]
+
+    private val serverResponseCounterUpdates =
+      exerciseCounter.exerciseServerResultsBusEvents
+        .map[CounterAction](result => if (result.count != 0) ResetCount else DoNotUpdate)
+
+    val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
+
+    /*
+      This is a HUGE improvement on the weird bus manipulation I was doing within the dom structure below.
+      I've got 3 sources of updates for my counter, and now that's very explicit and cohesive here.
+     */
+    private val counterUpdates: EventStream[CounterAction] =
+      EventStream.merge(
+        tickBasedCounterUpdates,
+        serverResponseCounterUpdates,
+        resetButtonCounterUpdates.events
+      )
+
+    // Doing this to get the initial count
+    private val $countT: Signal[Counter] =
+      counterUpdates.withCurrentValueOf($selectedComponent).foldLeft(Counter(0)) {
+        case (acc, (next, selectedComponent)) =>
+          if (selectedComponent == exercise)
+            CounterAction.update(next, acc)
+          else
+            acc
+      }
+
+    override val exerciseSessionComponent: ReactiveHtmlElement[html.Div] =
+      div(
+        $triggerState.changes
+          .withCurrentValueOf($soundStatus)
+          .withCurrentValueOf($selectedComponent)
+          .map {
+            case ((counter, soundStatus), selectedComponent) =>
+              (counter, soundStatus, selectedComponent)
+          } --> counterAndSoundStatusObserver,
+        conditionallyDisplay(exercise, $selectedComponent),
+        Components.BrokenLoginPrompt(storage),
+        exerciseCounter.behavior,
+        Components.ExerciseHeader(exercise.humanFriendlyName),
+        Components.BlinkyBox($countT, $triggerState),
+        Components.ResetButton(onClick.mapTo(ResetCount) --> resetButtonCounterUpdates),
+        $countT --> $countVar.writer,
+        Components.ControlCounterButtons(exerciseCounter, exercise),
+        Components.ProgressBar(exerciseCounter.$percentageComplete),
+        Components.FullyLoadedHistory(exercise, storage, apiClient),
+        RepeatingElement().repeatWithInterval(
+          1,
+          duration
+        ) --> clockTicks
+      )
+  }
+
   case class TickingExerciseCounterComponent(
     componentSelections: WriteBus[Exercise],
     exercise: Exercise,
@@ -203,6 +304,7 @@ object ExerciseSessionComponent {
       }
     }
 
+    // TODO DRY?
     val exerciseSelectButton: ReactiveHtmlElement[html.Div] =
       Components.SelectorButton(
         $selectedComponent,
