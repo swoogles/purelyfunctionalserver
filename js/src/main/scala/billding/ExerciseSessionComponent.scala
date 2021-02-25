@@ -174,15 +174,11 @@ object ExerciseSessionComponent {
       )
     private val clockTicks = new EventBus[Int]
 
+    // TODO Do I care?
     private val $triggerState: Signal[TriggerState] =
       clockTicks.events.foldLeft[TriggerState](Relaxed)(
-        (counterState, _) => if (counterState == Relaxed) Firing else Relaxed
+        (_, _) => Relaxed
       )
-
-    private val tickBasedCounterUpdates =
-      $triggerState.map[CounterAction](
-        counterState => if (counterState == Relaxed) Increment(1) else DoNotUpdate
-      ).changes
 
     private val resetButtonCounterUpdates = new EventBus[CounterAction]
 
@@ -190,7 +186,7 @@ object ExerciseSessionComponent {
       exerciseCounter.exerciseServerResultsBusEvents
         .map[CounterAction](result => if (result.count != 0) ResetCount else DoNotUpdate)
 
-    val duration = new FiniteDuration(10, scala.concurrent.duration.SECONDS)
+    val duration = new FiniteDuration(600, scala.concurrent.duration.SECONDS)
 
     /*
       This is a HUGE improvement on the weird bus manipulation I was doing within the dom structure below.
@@ -198,7 +194,6 @@ object ExerciseSessionComponent {
      */
     private val counterUpdates: EventStream[CounterAction] =
       EventStream.merge(
-        tickBasedCounterUpdates,
         serverResponseCounterUpdates,
         resetButtonCounterUpdates.events
       )
@@ -226,8 +221,6 @@ object ExerciseSessionComponent {
         Components.BrokenLoginPrompt(storage),
         exerciseCounter.behavior,
         Components.ExerciseHeader(exercise.humanFriendlyName),
-        Components.BlinkyBox($countT, $triggerState),
-        Components.ResetButton(onClick.mapTo(ResetCount) --> resetButtonCounterUpdates),
         $countT --> $countVar.writer,
         Components.ControlCounterButtons(exerciseCounter, exercise),
         Components.ProgressBar(exerciseCounter.$percentageComplete),
